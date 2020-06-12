@@ -12,6 +12,16 @@ A Utility class for creation and disposing of lists using the Csharp programming
 You can also:
   - Change default implementations of GameObject and Transform List pools
   - Create your own List Pool for a type of list that you use regulairly
+  
+### The Example Script
+
+The ListPoolingExample script can be found at
+
+```sh
+BWolf -> Examples -> ListPoolingExample.cs
+```
+
+It shows each use case of the list pool service and how to use it in your own code.
 
 ### Changing Default Implementations
 
