@@ -29,7 +29,7 @@ For Transform List Pool...
 BWolf -> Utilities -> ListPooling -> TransformListPool.cs
 ```
 
-The script will contain functions like this for the game object pool to create the actual list.
+The script will contain functions like this which can be edited if you would like to.
 
 ```csharp
 public override List<GameObject> Create(int capacity)
