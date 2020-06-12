@@ -51,7 +51,7 @@ public override List<GameObject> Create(int capacity)
 
 Creating a new list pool can be done in a few easy steps
 
-- Make sure your new List pool class derives from the abstract ListPool class, setting T to the type of list pool you want. (TransformListPool derives from ListPool<Transform> )
+- Make sure your new List pool class derives from the abstract ListPool class, setting T to the type of list pool you want. (TransformListPool derives from ListPool< Transform > )
 - Make sure you implement all methods using the bag given to you by the ListPool class for pooling. (You can look at Transform and GameObject list pools for the default implementation)
 - Add your new custom list pool to the ListPoolService its "pools" dictionary where the key is your new type and the value a new instance of your custom list pool class.
 
