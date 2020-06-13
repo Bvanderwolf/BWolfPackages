@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using BWolf.Utilities.ListPooling;
 
-namespace BWolf.Examples
+namespace BWolf.Examples.ListPooling
 {
     public class ListPoolingExample : MonoBehaviour
     {
