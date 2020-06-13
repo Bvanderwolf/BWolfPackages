@@ -13,9 +13,6 @@ namespace BWolf.Utilities.StatModification
         [SerializeField, Min(0)]
         private int max = 100;
 
-        [SerializeField, Min(0), Tooltip("Minimal value for max stat value (when decreasing max stat)")]
-        private int minimalMax = 10;
-
         private List<StatModifier> activeModifiers = new List<StatModifier>();
         private List<StatModifier> queuedModifiers = new List<StatModifier>();
 
@@ -133,12 +130,12 @@ namespace BWolf.Utilities.StatModification
                 {
                     max += value;
                 }
-                else if (value < 0 && max != minimalMax)
+                else if (value < 0)
                 {
                     max += value;
-                    if (max < minimalMax)
+                    if (max < 0)
                     {
-                        max = minimalMax;
+                        max = 0;
                     }
                     if (current > max)
                     {
@@ -179,7 +176,7 @@ namespace BWolf.Utilities.StatModification
             //clear queue so no new active modifiers enter the system
             queuedModifiers.Clear();
 
-            //remove all active modifiers in normal fashion to sure stop events are called on regen and decrease
+            //remove all active modifiers in normal fashion to make sure stop events are called on increase and decrease
             for (int i = activeModifiers.Count - 1; i >= 0; i--)
             {
                 RemoveActiveModifierInternal(activeModifiers[i], i);
