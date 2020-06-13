@@ -8,7 +8,7 @@ namespace BWolf.Utilities.StatModification
         [Tooltip("Identifier for stat modifier")]
         public string Name;
 
-        [Tooltip("Amount of value it will modify")]
+        [Min(0), Tooltip("Amount of value it will modify")]
         public int Value;
 
         [Tooltip("Can this modifier stack with modifiers with the same name?")]
@@ -23,6 +23,7 @@ namespace BWolf.Utilities.StatModification
         [Tooltip("Does this modifier, when max is modified, also modify current?")]
         public bool ModifiesCurrentWithMax;
 
+        /// <summary>Creates a new StatModifierInfo instance</summary>
         public static StatModifierInfo Create(string name, int value, bool increase)
         {
             StatModifierInfo info;
@@ -35,6 +36,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
+        /// <summary>Creates a new StatModifierInfo instance</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack)
         {
             StatModifierInfo info;
@@ -47,6 +49,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
+        /// <summary>Creates a new StatModifierInfo instance</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack, bool modifiesCurrent)
         {
             StatModifierInfo info;
@@ -59,6 +62,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
+        /// <summary>Creates a new StatModifierInfo instance</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack, bool modifiesCurrent, bool modifiesCurrentWithMax)
         {
             StatModifierInfo info;

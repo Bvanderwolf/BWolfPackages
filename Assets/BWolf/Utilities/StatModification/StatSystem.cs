@@ -11,7 +11,7 @@ namespace BWolf.Utilities.StatModification
     public class StatSystem
     {
         [SerializeField, Min(0)]
-        private int max = 100;
+        private int max = 1000;
 
         private List<StatModifier> activeModifiers = new List<StatModifier>();
         private List<StatModifier> queuedModifiers = new List<StatModifier>();
@@ -72,17 +72,11 @@ namespace BWolf.Utilities.StatModification
             CheckZeroMaxEvents(currentIsMax, currentIsZero);
         }
 
-        /// <summary>shows feedback of data on fillablebar and text if showable </summary>
+        /// <summary>shows feedback of data on fillablebar and text. Make sure these are not null before using this</summary>
         public void UpdateVisuals()
         {
-            if (fillableBar != null)
-            {
-                fillableBar.fillAmount = current / max;
-            }
-            if (displayText != null)
-            {
-                displayText.text = $"{Current}/{max}";
-            }
+            fillableBar.fillAmount = current / max;
+            displayText.text = $"{Current}/{max}";
         }
 
         /// <summary>Sets current to max without callbacks</summary>
@@ -265,56 +259,48 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
-        /// <summary>Adds modifier to system modifiers if it is valid and fires start events if condition is right. Returns added modifier if it succeeded, otherwise null</summary>
-        public StatModifier AddModifier(StatModifier modifier)
+        /// <summary>Adds a timed modifier to the stat system based on given info. time defaults to 0</summary>
+        public TimedStatModifier AddTimedModifier(StatModifierInfo info, float time = 0)
         {
-            bool validTimed = modifier is TimedStatModifier && ValidateTimed((TimedStatModifier)modifier);
-            bool validConditional = modifier is ConditionalStatModifier && ValidateConditional((ConditionalStatModifier)modifier);
-            if (validTimed || validConditional)
+            if (string.IsNullOrEmpty(info.Name))
             {
-                CheckStartEvents(modifier);
-                return AddModifierInternal(modifier);
-            }
-            return null;
-        }
-
-        /// <summary>Validates given timed stat modifier return whether it succeeded or not</summary>
-        private bool ValidateTimed(TimedStatModifier timed)
-        {
-            if (!timed.HasValidTime || !timed.HasValidValue)
-            {
-                Debug.LogWarning("Didn't add timed modifier to stat system :: time or value was invalid");
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>Validates given conditional stat modifier and returns whether is succeeded or not</summary>
-        private bool ValidateConditional(ConditionalStatModifier conditional)
-        {
-            if (!conditional.HasValidValuePerSecond || !conditional.HasValidCondition)
-            {
-                Debug.LogWarning($"Didn't add conditional modifier to stat system :: value per second or condition was invalid");
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>Adds validated modifier to system, adding it either to queued modifiers or active modifiers</summary>
-        private StatModifier AddModifierInternal(StatModifier modifier)
-        {
-            StatModifier clone = modifier.Clone;
-            if (!modifier.CanStack && activeModifiers.Any(m => m.Name == modifier.Name))
-            {
-                //insert clone of modifier so stored modifier members of classes won't be modified
-                queuedModifiers.Insert(0, clone);
+                return null;
             }
             else
             {
-                activeModifiers.Insert(0, clone);
+                TimedStatModifier modifier = new TimedStatModifier(info.Name, time, info.Value, info.Increase, info.ModifiesCurrent, info.ModifiesCurrentWithMax, info.CanStack);
+                InsertModifierInSystem(modifier);
+                return modifier;
             }
-            return clone;
+        }
+
+        /// <summary>Adds a conditional stat modifier to the system based on given info. stop conditoin defaults to null meaning it will never stop</summary>
+        public ConditionalStatModifier AddConditionalModifier(StatModifierInfo info, Func<bool> stopCondition = null)
+        {
+            if (string.IsNullOrEmpty(info.Name))
+            {
+                return null;
+            }
+            else
+            {
+                ConditionalStatModifier modifier = new ConditionalStatModifier(info.Name, info.Value, info.Increase, info.ModifiesCurrent, info.ModifiesCurrentWithMax, info.CanStack, stopCondition);
+                InsertModifierInSystem(modifier);
+                return modifier;
+            }
+        }
+
+        /// <summary>Inserts given modifier into the system either as active modifier or queued based on the can stack flag</summary>
+        private void InsertModifierInSystem(StatModifier modifier)
+        {
+            if (!modifier.CanStack && activeModifiers.Any(m => m.Name == modifier.Name))
+            {
+                //insert clone of modifier so stored modifier members of classes won't be modified
+                queuedModifiers.Insert(0, modifier);
+            }
+            else
+            {
+                activeModifiers.Insert(0, modifier);
+            }
         }
     }
 }

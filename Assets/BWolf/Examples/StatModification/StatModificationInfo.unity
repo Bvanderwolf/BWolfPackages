@@ -243,12 +243,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statModifier:
-    RemoveType: 0
-    Name: 
+    Name: test
+    Value: 5
     CanStack: 0
     Increase: 0
-    ModifiesCurrent: 0
+    ModifiesCurrent: 1
     ModifiesCurrentWithMax: 0
+  statSystem:
+    max: 1000
+  current: 0
 --- !u!4 &898192944
 Transform:
   m_ObjectHideFlags: 0

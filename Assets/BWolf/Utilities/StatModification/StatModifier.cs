@@ -5,23 +5,11 @@ namespace BWolf.Utilities.StatModification
     /// <summary>Base class for modifiers, defining all the generic members</summary>
     public abstract class StatModifier
     {
-        [SerializeField, Tooltip("Identifier for stat modifier")]
-        protected string name = "";
-
-        [SerializeField, Tooltip("Can this modifier stack with modifiers with the same name?")]
-        protected bool canStack = true;
-
-        [SerializeField, Tooltip("Will this modifier increase or subtract")]
-        protected bool increase = false;
-
-        [SerializeField, Tooltip("Will this modifier modify current value or max value?")]
-        protected bool modifiesCurrent = false;
-
-        [SerializeField, Tooltip("Does this modifier, when max is modified, also modify current?")]
-        protected bool modifiesCurrentWithMax = true;
-
-        public abstract bool Finished { get; }
-        public abstract StatModifier Clone { get; }
+        protected string name;
+        protected bool canStack;
+        protected bool increase;
+        protected bool modifiesCurrent;
+        protected bool modifiesCurrentWithMax;
 
         public string Name
         {
@@ -47,6 +35,8 @@ namespace BWolf.Utilities.StatModification
         {
             get { return modifiesCurrentWithMax; }
         }
+
+        public abstract bool Finished { get; }
 
         public abstract void Modify(StatSystem system);
     }
