@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace BWolf.Utilities.ListPooling
 {
-    /// <summary>abstract class to be derived from by custom list pools</summary>
+    /// <summary>Singleton class used for creating list pools</summary>
     public class ListPool<T> : IListPool<T>
     {
         public static readonly ListPool<T> Instance = new ListPool<T>();
 
-        protected ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
+        private ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
 
-        /// <summary>Creates an empty list with gameobjects.</summary>
+        /// <summary>Creates an empty list with objects of Type type.</summary>
         public List<T> Create()
         {
             List<T> list;
@@ -21,7 +21,7 @@ namespace BWolf.Utilities.ListPooling
             return list;
         }
 
-        /// <summary>Creates a list of given capacity with game objects.</summary>
+        /// <summary>Creates a list of given capacity with objects of Type type</summary>
         public List<T> Create(int capacity)
         {
             List<T> list;
@@ -36,7 +36,7 @@ namespace BWolf.Utilities.ListPooling
             return list;
         }
 
-        /// <summary>Creates a list using given collection with game objects.</summary>
+        /// <summary>Creates a list using given collection with objects of Type type.</summary>
         public List<T> Create(IEnumerable<T> collection)
         {
             List<T> list;
@@ -51,7 +51,7 @@ namespace BWolf.Utilities.ListPooling
             return list;
         }
 
-        /// <summary>Disposes of given game object list</summary>
+        /// <summary>Disposes of given objects of type type</summary>
         public void Dispose(List<T> list)
         {
             list.Clear();
