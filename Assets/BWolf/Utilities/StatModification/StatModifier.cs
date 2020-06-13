@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace BWolf.Utilities.StatModification
+﻿namespace BWolf.Utilities.StatModification
 {
     /// <summary>Base class for modifiers, defining all the generic members</summary>
     public abstract class StatModifier

@@ -22,9 +22,9 @@ namespace BWolf.Utilities.StatModification
 
         private float current;
 
-        public event Action OnRegenStart, OnRegenStop;
+        public event Action OnIncreaseStart, OnIncreaseStop;
 
-        public event Action OnIncreaseStart, OnDecreaseStart;
+        public event Action OnDecreaseStart, OnDecreaseStop;
 
         public event Action OnReachedMax, OnReachedZero;
 
@@ -221,12 +221,12 @@ namespace BWolf.Utilities.StatModification
             if (activeModifiers.Count(m => m.Increase) == 0 && modifier.Increase)
             {
                 //if there are no more regenerating over time modifiers and this one (which was removed) was, the regeneration has ended
-                OnRegenStop?.Invoke();
+                OnIncreaseStop?.Invoke();
             }
             else if (activeModifiers.Count(m => !m.Increase) == 0 && !modifier.Increase)
             {
                 //if there are no more decrease over time modifiers and this one (which was removed) was, the decreasing has ended
-                OnDecreaseStart?.Invoke();
+                OnDecreaseStop?.Invoke();
             }
         }
 
@@ -251,11 +251,11 @@ namespace BWolf.Utilities.StatModification
         {
             if (activeModifiers.Count(m => m.Increase) == 0 && modifier.Increase)
             {
-                OnRegenStart?.Invoke();
+                OnIncreaseStart?.Invoke();
             }
             else if (activeModifiers.Count(m => !m.Increase) == 0 && !modifier.Increase)
             {
-                OnIncreaseStart?.Invoke();
+                OnDecreaseStart?.Invoke();
             }
         }
 
