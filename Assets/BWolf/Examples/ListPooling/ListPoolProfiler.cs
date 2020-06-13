@@ -54,7 +54,7 @@ namespace BWolf.Examples.ListPooling
 
             for (int count = 0; count < listsCreatedEachInterval; count++)
             {
-                List<GameObject> gameObjects = usePooling ? ListPoolService.Create<GameObject>() : new List<GameObject>();
+                List<GameObject> gameObjects = usePooling ? ListPool<GameObject>.Instance.Create() : new List<GameObject>();
                 foreach (GameObject go in gameObjects)
                 {
                     //action
@@ -62,7 +62,21 @@ namespace BWolf.Examples.ListPooling
 
                 if (usePooling)
                 {
-                    ListPoolService.Dispose(gameObjects);
+                    ListPool<GameObject>.Instance.Dispose(gameObjects);
+                }
+            }
+
+            for (int count = 0; count < listsCreatedEachInterval; count++)
+            {
+                List<Transform> gameObjects = usePooling ? ListPool<Transform>.Instance.Create() : new List<Transform>();
+                foreach (Transform go in gameObjects)
+                {
+                    //action
+                }
+
+                if (usePooling)
+                {
+                    ListPool<Transform>.Instance.Dispose(gameObjects);
                 }
             }
 
