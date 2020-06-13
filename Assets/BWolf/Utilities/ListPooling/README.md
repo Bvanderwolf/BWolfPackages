@@ -18,7 +18,7 @@ You can also:
 The ListPoolingExample script can be found at
 
 ```sh
-BWolf -> Examples -> ListPoolingExample.cs
+BWolf -> Examples -> ListPooling -> ListPoolingExample.cs
 ```
 
 It shows each use case of the list pool service and how to use it in your own code.
