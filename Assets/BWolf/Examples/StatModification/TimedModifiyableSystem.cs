@@ -6,11 +6,6 @@ namespace BWolf.Examples.StatModification
     {
         private float time = 0;
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
         public override void OnValueChanged(string changedValue)
         {
             int value = int.Parse(changedValue);

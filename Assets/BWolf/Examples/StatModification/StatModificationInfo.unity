@@ -1209,7 +1209,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnStackModifierModifyCurrentToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &242751913
 GameObject:
@@ -2744,7 +2755,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnNonStackModifierModifyCurrentWithMaxToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &545229553
 GameObject:
@@ -3323,7 +3345,18 @@ MonoBehaviour:
   m_CharacterLimit: 4
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnTimeChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3645,7 +3678,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnStackModifierModifyCurrentWithMaxToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &676151967
 GameObject:
@@ -4312,7 +4356,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnNonStackModifierModifyCurrentToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &801891839
 GameObject:
@@ -4557,7 +4612,18 @@ MonoBehaviour:
   m_CharacterLimit: 3
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnValueChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4687,7 +4753,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnNonStackModifierIncreaseToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &845181026
 GameObject:
@@ -4902,6 +4979,7 @@ GameObject:
   - component: {fileID: 870796396}
   - component: {fileID: 870796399}
   - component: {fileID: 870796398}
+  - component: {fileID: 870796397}
   m_Layer: 5
   m_Name: ConditionalPanel
   m_TagString: Untagged
@@ -4935,6 +5013,44 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 540, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &870796397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870796395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0def037b18221d843a19ed37088ea246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackSystem:
+    max: 1000
+  stackModifier:
+    Name: 
+    Value: 0
+    CanStack: 1
+    Increase: 0
+    ModifiesCurrent: 0
+    ModifiesCurrentWithMax: 0
+  imgStackSystemFillable: {fileID: 563256577}
+  txtStackSystemDisplayText: {fileID: 1026930929}
+  txtStackSystemEventDisplay: {fileID: 68849750}
+  nonStackSystem:
+    max: 1000
+  nonStackModifier:
+    Name: 
+    Value: 0
+    CanStack: 0
+    Increase: 0
+    ModifiesCurrent: 0
+    ModifiesCurrentWithMax: 0
+  imgNonStackSystemFillable: {fileID: 958601089}
+  txtNonStackSystemDisplayText: {fileID: 938813390}
+  txtNonStackSystemEventDisplay: {fileID: 1552191265}
+  stopConditionDropdown: {fileID: 1644820366}
+  onSecondsPassedDropdown: {fileID: 925266512}
 --- !u!114 &870796398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8032,7 +8148,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1491433849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnAddNonStackModifierButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1491433849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8306,7 +8433,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnStackModifierIncreaseToggled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1608220622
 GameObject:
@@ -9857,7 +9995,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1851337452}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 870796397}
+        m_MethodName: OnAddStackModifierButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1851337452
 MonoBehaviour:
   m_ObjectHideFlags: 0
