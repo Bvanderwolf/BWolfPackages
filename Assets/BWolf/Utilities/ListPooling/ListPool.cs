@@ -1,28 +1,28 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BWolf.Utilities.ListPooling
 {
-    /// <summary>Singleton class used for creating list pools</summary>
-    public class ListPool<T> : IListPool<T>
+    /// <summary>static class used for creating list pools</summary>
+    public static class ListPool<T>
     {
-        public static readonly ListPool<T> Instance = new ListPool<T>();
-
-        private ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
+        private static ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
 
         /// <summary>Creates an empty list with objects of Type type.</summary>
-        public List<T> Create()
+        public static List<T> Create()
         {
             List<T> list;
             if (!bag.TryTake(out list))
             {
                 list = new List<T>();
             }
+
             return list;
         }
 
         /// <summary>Creates a list of given capacity with objects of Type type</summary>
-        public List<T> Create(int capacity)
+        public static List<T> Create(int capacity)
         {
             List<T> list;
             if (!bag.TryTake(out list))
@@ -37,7 +37,7 @@ namespace BWolf.Utilities.ListPooling
         }
 
         /// <summary>Creates a list using given collection with objects of Type type.</summary>
-        public List<T> Create(IEnumerable<T> collection)
+        public static List<T> Create(IEnumerable<T> collection)
         {
             List<T> list;
             if (!bag.TryTake(out list))
@@ -52,7 +52,7 @@ namespace BWolf.Utilities.ListPooling
         }
 
         /// <summary>Disposes of given objects of type type</summary>
-        public void Dispose(List<T> list)
+        public static void Dispose(List<T> list)
         {
             list.Clear();
             bag.Add(list);

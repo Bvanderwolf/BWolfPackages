@@ -22,78 +22,78 @@ namespace BWolf.Examples.ListPooling
 
         private void UseListOfGameObjects()
         {
-            List<GameObject> gameObjectList = ListPool<GameObject>.Instance.Create();
+            List<GameObject> gameObjectList = ListPool<GameObject>.Create();
 
             foreach (GameObject gameObject in gameObjectList)
             {
                 //apply action on gameobject
             }
 
-            ListPool<GameObject>.Instance.Dispose(gameObjectList);
+            ListPool<GameObject>.Dispose(gameObjectList);
         }
 
         private void UseListOfTransforms()
         {
-            List<Transform> transformList = ListPool<Transform>.Instance.Create();
+            List<Transform> transformList = ListPool<Transform>.Create();
 
             foreach (Transform _transform in transformList)
             {
                 //apply action on transform
             }
 
-            ListPool<Transform>.Instance.Dispose(transformList);
+            ListPool<Transform>.Dispose(transformList);
         }
 
         private void UseListOfGameObjectsWithCapacity()
         {
-            List<GameObject> gameObjectList = ListPool<GameObject>.Instance.Create(5);
+            List<GameObject> gameObjectList = ListPool<GameObject>.Create(5);
 
             foreach (GameObject gameObject in gameObjectList)
             {
                 //apply action on gameobject
             }
 
-            ListPool<GameObject>.Instance.Dispose(gameObjectList);
+            ListPool<GameObject>.Dispose(gameObjectList);
         }
 
         private void UseListOfTransformsWithCapacity()
         {
-            List<Transform> transformList = ListPool<Transform>.Instance.Create(5);
+            List<Transform> transformList = ListPool<Transform>.Create(5);
 
             foreach (Transform _transform in transformList)
             {
                 //apply action on gameobject
             }
 
-            ListPool<Transform>.Instance.Dispose(transformList);
+            ListPool<Transform>.Dispose(transformList);
         }
 
         private void UseListOfGameObjectsWithCollection()
         {
             //use collection of gameobjects found with tag using linq to queuery
             IEnumerable<GameObject> gameObjectCollection = GameObject.FindGameObjectsWithTag("MainCamera").Where(go => go.name == "Main Camera");
-            List<GameObject> gameObjectList = ListPool<GameObject>.Instance.Create(gameObjectCollection);
+            List<GameObject> gameObjectList = ListPool<GameObject>.Create(gameObjectCollection);
 
             foreach (GameObject gameObject in gameObjectList)
             {
                 //apply action on gameobject
             }
 
-            ListPool<GameObject>.Instance.Dispose(gameObjectList);
+            ListPool<GameObject>.Dispose(gameObjectList);
         }
 
         private void UseListOfTransformsWithCollection()
         {
             //use ienumerable interface of transform to get a collection of the children of this object
             IEnumerable<Transform> transformCollection = transform.Cast<Transform>();
-            List<Transform> transformList = ListPool<Transform>.Instance.Create(transformCollection);
+            List<Transform> transformList = ListPool<Transform>.Create(transformCollection);
 
             foreach (Transform _transform in transformList)
             {
                 //apply action on gameobject
             }
 
-            ListPool<Transform>.Instance.Dispose(transformList);
+            ListPool<Transform>.Dispose(transformList);
         }
     }
 }
