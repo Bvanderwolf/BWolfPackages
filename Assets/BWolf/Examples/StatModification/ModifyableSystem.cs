@@ -92,10 +92,6 @@ namespace BWolf.Examples.StatModification
         {
         }
 
-        public virtual void OnTimeChanged(string changedTime)
-        {
-        }
-
         public virtual void OnAddStackModifierButtonClick()
         {
         }

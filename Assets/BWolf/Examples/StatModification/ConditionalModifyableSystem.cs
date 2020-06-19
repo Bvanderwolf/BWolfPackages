@@ -13,19 +13,83 @@ namespace BWolf.Examples.StatModification
         [SerializeField]
         private Dropdown onSecondsPassedDropdown = null;
 
+        [SerializeField]
+        private InputField valueInput = null;
+
         private Func<bool> stopCondition;
         private Action<string, int> onSecondPassed;
 
+        [Header("Stored Values")]
+        [SerializeField]
+        private string storedValue;
+
+        [SerializeField]
+        private string storedStopCondition;
+
+        [SerializeField]
+        private string storedOnSecondsPassedCondition;
+
+        private string startValue;
+        private string startStopCondition;
+        private string startOnSecondsPassed;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            storedValue = valueInput.text;
+            storedStopCondition = stopConditionDropdown.captionText.text;
+            storedOnSecondsPassedCondition = onSecondsPassedDropdown.captionText.text;
+
+            OnStopConditionChange(0);
+            OnSecondPassedChanged(0);
+        }
+
         public override void OnValueChanged(string changedValue)
         {
+            if (!string.IsNullOrEmpty(changedValue))
+            {
+                int value = int.Parse(changedValue);
+                stackModifier.Value = value;
+                nonStackModifier.Value = value;
+                storedValue = changedValue;
+            }
         }
 
-        public override void OnTimeChanged(string changedTime)
+        public void OnStopConditionChange(int value)
         {
+            switch (stopConditionDropdown.captionText.text)
+            {
+                case "ValueEdited": stopCondition = () => valueInput.text != startValue; break;
+                case "StopConditionChanged": stopCondition = () => stopConditionDropdown.captionText.text != startStopCondition; break;
+                case "SecondPassedChanged": stopCondition = () => onSecondsPassedDropdown.captionText.text != startOnSecondsPassed; break;
+            }
         }
 
-        public override void OnAddStackModifierButtonClick() => stackSystem.AddConditionalModifier(stackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+        public void OnSecondPassedChanged(int value)
+        {
+            switch (onSecondsPassedDropdown.captionText.text)
+            {
+                case "ConsoleLog": onSecondPassed = (name, modifyValue) => Debug.Log($"Modifier {name} modified {modifyValue} value"); break;
+                case "ConsoleError": onSecondPassed = (name, modifyValue) => Debug.LogError($"Modifier {name} modified {modifyValue} value"); break;
+                case "ConsoleWarning": onSecondPassed = (name, modifyValue) => Debug.LogWarning($"Modifier {name} modified {modifyValue} value"); break;
+            }
+        }
 
-        public override void OnAddNonStackModifierButtonClick() => nonStackSystem.AddConditionalModifier(nonStackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+        public override void OnAddStackModifierButtonClick()
+        {
+            startValue = valueInput.text;
+            startStopCondition = stopConditionDropdown.captionText.text;
+            startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
+            stackSystem.AddConditionalModifier(stackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+        }
+
+        public override void OnAddNonStackModifierButtonClick()
+        {
+            startValue = valueInput.text;
+            startStopCondition = stopConditionDropdown.captionText.text;
+            startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
+            nonStackSystem.AddConditionalModifier(nonStackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace BWolf.Examples.StatModification
             nonStackModifier.Value = value;
         }
 
-        public override void OnTimeChanged(string changedTime)
+        public void OnTimeChanged(string changedTime)
         {
             float time = float.Parse(changedTime);
             if (time >= 0)
