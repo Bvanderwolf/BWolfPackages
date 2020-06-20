@@ -1,5 +1,5 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +10,10 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly CallbackHandler callbackHandler = new CallbackHandler();
         private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
 
-        public static bool IsConnected => PhotonNetwork.IsConnected;
+        public static bool IsConnected
+        {
+            get { return PhotonNetwork.IsConnected; }
+        }
 
         static NetworkingService()
         {
@@ -32,17 +35,57 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Connects to networking service using the default settings</summary>
-        public static void ConnectWithDefaultSettings()
+        public static void ConnectWithDefaultSettings(Action onConnecteToMaster = null, Action onConnected = null)
         {
             connectionHandler.StartDefaultConnection();
+            if (onConnecteToMaster != null)
+            {
+                callbackHandler.AddSingleCallback(CallbackEvent.ConnectedToMaster, onConnecteToMaster);
+            }
+            if (onConnected != null)
+            {
+                callbackHandler.AddSingleCallback(CallbackEvent.Connected, onConnected);
+            }
         }
 
-        public static void JoinLobby(string lobbyName)
+        public static void Disconnect(Action onDisconnect = null)
+        {
+            connectionHandler.Disconnect();
+            if (onDisconnect != null)
+            {
+                callbackHandler.AddSingleCallback(CallbackEvent.Disconnected, onDisconnect);
+            }
+        }
+
+        public static void JoinLobby(string lobbyName, Action onLobbyJoined = null)
         {
             string log = string.Empty;
             if (!connectionHandler.JoinLobby(lobbyName, ref log))
             {
                 Debug.LogWarningFormat("Failed Joining lobby {0} :: {1}", lobbyName, log);
+            }
+            else
+            {
+                if (onLobbyJoined != null)
+                {
+                    callbackHandler.AddSingleCallback(CallbackEvent.JoinedLobby, onLobbyJoined);
+                }
+            }
+        }
+
+        public static void LeaveLobby(Action onLeftLobby = null)
+        {
+            string log = string.Empty;
+            if (!connectionHandler.LeaveLobby(ref log))
+            {
+                Debug.LogWarningFormat("Failed leaving lobby :: {0}", log);
+            }
+            else
+            {
+                if (onLeftLobby != null)
+                {
+                    callbackHandler.AddSingleCallback(CallbackEvent.LeftLobby, onLeftLobby);
+                }
             }
         }
 

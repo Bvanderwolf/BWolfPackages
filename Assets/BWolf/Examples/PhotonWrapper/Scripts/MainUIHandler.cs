@@ -90,8 +90,19 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>Starts offline mode and switches to offline mode buttons</summary>
         private void OnOfflineButtonClick()
         {
-            ChangeGroupFocus("OfflineButtons");
-            NetworkingService.SetOffline(true);
+            if (!NetworkingService.IsConnected)
+            {
+                ChangeGroupFocus("OfflineButtons");
+                NetworkingService.SetOffline(true);
+            }
+            else
+            {
+                NetworkingService.Disconnect(() =>
+                {
+                    ChangeGroupFocus("OfflineButtons");
+                    NetworkingService.SetOffline(true);
+                });
+            }
         }
 
         // <summary>Called when connected to master, changes to rooms canvas group</summary>
@@ -137,7 +148,7 @@ namespace BWolf.Examples.PhotonWrapper
 
         public void StopRoomList()
         {
-            ChangeGroupFocus("Lobbys");
+            NetworkingService.LeaveLobby();
         }
 
         public void CreateRoom()

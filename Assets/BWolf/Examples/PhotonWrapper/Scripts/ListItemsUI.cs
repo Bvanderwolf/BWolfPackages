@@ -22,6 +22,11 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        public void ResetCurrentSelected()
+        {
+            CurrentSelected = ListItem.Empty;
+        }
+
         private void OnClickedItem(BaseEventData data)
         {
             foreach (ListItem item in listItems)

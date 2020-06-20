@@ -7,6 +7,26 @@ namespace BWolf.Wrappers.PhotonSDK
     public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks
     {
         private Dictionary<CallbackEvent, Action<string>> callbackEvents = new Dictionary<CallbackEvent, Action<string>>();
+        private Dictionary<CallbackEvent, Action> singleCallbackEvents = new Dictionary<CallbackEvent, Action>();
+
+        ~CallbackHandler()
+        {
+            callbackEvents.Clear();
+            singleCallbackEvents.Clear();
+        }
+
+        public void AddSingleCallback(CallbackEvent callbackEvent, Action callback)
+        {
+            if (singleCallbackEvents.ContainsKey(callbackEvent))
+            {
+                singleCallbackEvents[callbackEvent] += callback;
+            }
+            else
+            {
+                singleCallbackEvents.Add(callbackEvent, null);
+                singleCallbackEvents[callbackEvent] += callback;
+            }
+        }
 
         public void AddListener(CallbackEvent callbackEvent, Action<string> callback)
         {
@@ -33,7 +53,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.Connected))
             {
-                callbackEvents[CallbackEvent.Connected]?.Invoke(null);
+                callbackEvents[CallbackEvent.Connected](null);
+            }
+            if (singleCallbackEvents.ContainsKey(CallbackEvent.Connected))
+            {
+                singleCallbackEvents[CallbackEvent.Connected]();
+                singleCallbackEvents.Remove(CallbackEvent.Connected);
             }
         }
 
@@ -41,7 +66,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.ConnectedToMaster))
             {
-                callbackEvents[CallbackEvent.ConnectedToMaster]?.Invoke(null);
+                callbackEvents[CallbackEvent.ConnectedToMaster](null);
+            }
+            if (singleCallbackEvents.ContainsKey(CallbackEvent.ConnectedToMaster))
+            {
+                singleCallbackEvents[CallbackEvent.ConnectedToMaster]();
+                singleCallbackEvents.Remove(CallbackEvent.ConnectedToMaster);
             }
         }
 
@@ -57,7 +87,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.Disconnected))
             {
-                callbackEvents[CallbackEvent.Disconnected]?.Invoke(cause.ToString());
+                callbackEvents[CallbackEvent.Disconnected](cause.ToString());
+            }
+            if (singleCallbackEvents.ContainsKey(CallbackEvent.Disconnected))
+            {
+                singleCallbackEvents[CallbackEvent.Disconnected]();
+                singleCallbackEvents.Remove(CallbackEvent.Disconnected);
             }
         }
 
@@ -69,7 +104,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.JoinedLobby))
             {
-                callbackEvents[CallbackEvent.JoinedLobby]?.Invoke(null);
+                callbackEvents[CallbackEvent.JoinedLobby](null);
+            }
+            if (singleCallbackEvents.ContainsKey(CallbackEvent.JoinedLobby))
+            {
+                singleCallbackEvents[CallbackEvent.JoinedLobby]();
+                singleCallbackEvents.Remove(CallbackEvent.JoinedLobby);
             }
         }
 
@@ -77,7 +117,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.LeftLobby))
             {
-                callbackEvents[CallbackEvent.LeftLobby]?.Invoke(null);
+                callbackEvents[CallbackEvent.LeftLobby](null);
+            }
+            if (singleCallbackEvents.ContainsKey(CallbackEvent.LeftLobby))
+            {
+                singleCallbackEvents[CallbackEvent.LeftLobby]();
+                singleCallbackEvents.Remove(CallbackEvent.LeftLobby);
             }
         }
 

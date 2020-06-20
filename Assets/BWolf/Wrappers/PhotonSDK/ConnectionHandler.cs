@@ -14,6 +14,11 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.ConnectUsingSettings();
         }
 
+        public void Disconnect()
+        {
+            PhotonNetwork.Disconnect();
+        }
+
         public bool JoinLobby(string lobbyName, ref string log)
         {
             if (PhotonNetwork.InLobby)
@@ -30,6 +35,19 @@ namespace BWolf.Wrappers.PhotonSDK
             }
             log += "Not a falid lobby name";
             return false;
+        }
+
+        public bool LeaveLobby(ref string log)
+        {
+            if (!PhotonNetwork.InLobby)
+            {
+                log += "Can't leave lobby if not in one";
+                return false;
+            }
+            else
+            {
+                return PhotonNetwork.LeaveLobby();
+            }
         }
 
         /// <summary>Tries starting offline mode ouptutting any problems into the given log string</summary>
