@@ -9,6 +9,8 @@ namespace BWolf.Wrappers.PhotonSDK
         private Dictionary<CallbackEvent, Action<string>> callbackEvents = new Dictionary<CallbackEvent, Action<string>>();
         private Dictionary<CallbackEvent, Action> singleCallbackEvents = new Dictionary<CallbackEvent, Action>();
 
+        private event Action<List<LobbyInfo>> lobbyStatisticsUpdate;
+
         ~CallbackHandler()
         {
             callbackEvents.Clear();
@@ -41,12 +43,22 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        public void AddListener(Action<List<LobbyInfo>> action)
+        {
+            lobbyStatisticsUpdate += action;
+        }
+
         public void RemoveListener(CallbackEvent callbackEvent, Action<string> callback)
         {
             if (callbackEvents.ContainsKey(callbackEvent))
             {
                 callbackEvents[callbackEvent] -= callback;
             }
+        }
+
+        public void RemoveListener(Action<List<LobbyInfo>> action)
+        {
+            lobbyStatisticsUpdate -= action;
         }
 
         public void OnConnected()
@@ -132,6 +144,15 @@ namespace BWolf.Wrappers.PhotonSDK
 
         public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
+            if (lobbyStatisticsUpdate != null)
+            {
+                List<LobbyInfo> info = new List<LobbyInfo>();
+                foreach (TypedLobbyInfo lobbyInfo in lobbyStatistics)
+                {
+                    info.Add(LobbyInfo.Create(lobbyInfo.Name, lobbyInfo.PlayerCount, lobbyInfo.RoomCount));
+                }
+                lobbyStatisticsUpdate(info);
+            }
         }
     }
 }

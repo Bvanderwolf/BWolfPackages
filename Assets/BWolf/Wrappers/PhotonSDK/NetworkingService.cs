@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,9 +40,19 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.AddListener(callbackEvent, callback);
         }
 
+        public static void AddLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
+        {
+            callbackHandler.AddListener(onUpdate);
+        }
+
         public static void RemoveCallbackListener(CallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.RemoveListener(callbackEvent, callback);
+        }
+
+        public static void RemoveLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
+        {
+            callbackHandler.RemoveListener(onUpdate);
         }
 
         /// <summary>Connects to networking service using the default settings</summary>

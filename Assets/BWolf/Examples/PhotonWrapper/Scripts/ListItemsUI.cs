@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,75 +8,68 @@ namespace BWolf.Examples.PhotonWrapper
     public class ListItemsUI : MonoBehaviour
     {
         [SerializeField]
-        private List<ListItem> listItems = null;
+        private Button joinButton = null;
 
-        public ListItem CurrentSelected { get; private set; } = ListItem.Empty;
+        private event Action<bool> onSelect;
 
-        private void Awake()
+        public ListItem CurrentSelected { get; protected set; }
+
+        private void Update()
         {
-            foreach (ListItem item in listItems)
+            if (Input.GetMouseButtonDown(0) && CurrentSelected != null)
             {
-                var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick, callback = new EventTrigger.TriggerEvent() };
-                entry.callback.AddListener(OnClickedItem);
-                item.EventTriggers.triggers.Add(entry);
-            }
-        }
-
-        public void ResetCurrentSelected()
-        {
-            CurrentSelected = ListItem.Empty;
-        }
-
-        private void OnClickedItem(BaseEventData data)
-        {
-            foreach (ListItem item in listItems)
-            {
-                if (item.EventTriggers.gameObject == data.selectedObject)
+                GameObject current = EventSystem.current.currentSelectedGameObject;
+                if (current != CurrentSelected.EventTriggers.gameObject && current != joinButton.gameObject)
                 {
-                    CurrentSelected = item;
-                    break;
+                    CurrentSelected = null;
+                    OnSelect(false);
                 }
             }
         }
 
-        [System.Serializable]
-        public struct ListItem
+        public void OnSelect(bool value)
         {
-#pragma warning disable 0649
-            public Text TxtName;
-            public Text TxtCount;
-            public EventTrigger EventTriggers;
-#pragma warning restore 0649
+            onSelect?.Invoke(value);
+        }
+
+        public void AddListener(Action<bool> onSelect)
+        {
+            this.onSelect += onSelect;
+        }
+
+        public void RemoveListener(Action<bool> onSelect)
+        {
+            this.onSelect -= onSelect;
+        }
+
+        public void ResetCurrentSelected()
+        {
+            CurrentSelected = null;
+        }
+
+        public class ListItem
+        {
+            public Text TxtName = null;
+            public Text TxtPlayerCount = null;
+            public EventTrigger EventTriggers = null;
 
             public string PlayerCount
             {
                 get
                 {
-                    string s = TxtCount.text;
+                    string s = TxtPlayerCount.text;
                     return s.Substring(0, s.IndexOf('/'));
                 }
             }
 
-            public static ListItem Empty
+            public void SetPlayerCount(int playerCount)
             {
-                get
-                {
-                    ListItem item;
-                    item.TxtName = null;
-                    item.TxtCount = null;
-                    item.EventTriggers = null;
-                    return item;
-                }
-            }
-
-            public static bool IsEmpty(ListItem item)
-            {
-                return item.TxtName == null && item.TxtCount == null && item.EventTriggers == null;
+                TxtPlayerCount.text = string.Format("{0}/20", playerCount);
             }
 
             public override string ToString()
             {
-                return string.Format("name: {0}, count: {1}", TxtName.text, TxtCount.text);
+                return string.Format("name: {0}, count: {1}", TxtName.text, TxtPlayerCount.text);
             }
         }
     }

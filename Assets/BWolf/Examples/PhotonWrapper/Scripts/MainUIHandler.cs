@@ -9,7 +9,7 @@ namespace BWolf.Examples.PhotonWrapper
 
     public class MainUIHandler : MonoBehaviour
     {
-        [Header("References")]
+        [Header("Main Menu")]
         [SerializeField]
         private Text txtConnectionState = null;
 
@@ -22,8 +22,12 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private Button btnOffline = null;
 
+        [Header("Lobby")]
         [SerializeField]
-        private ListItemsUI lobbyListItems = null;
+        private LobbyItemsUI lobbyListItems = null;
+
+        [SerializeField]
+        private Button btnJoinLobby = null;
 
         private Dictionary<string, CanvasGroup> canvasGroupDictionary = new Dictionary<string, CanvasGroup>();
 
@@ -32,6 +36,7 @@ namespace BWolf.Examples.PhotonWrapper
             //add listeners
             btnMultiplayer.onClick.AddListener(OnMultiplayerButtonClick);
             btnOffline.onClick.AddListener(OnOfflineButtonClick);
+            lobbyListItems.AddListener(OnLobbyItemSelect);
 
             //create dictionary entries using group name as key
             foreach (CanvasGroup group in canvasGroups)
@@ -44,6 +49,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.AddCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.AddCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.AddCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.AddLobbyStatisticsListener(OnlobbyStatisticsUpdate);
 
             //change group focus to menu buttons
             ChangeGroupFocus("MenuButtons");
@@ -58,12 +64,14 @@ namespace BWolf.Examples.PhotonWrapper
         {
             btnMultiplayer.onClick.RemoveListener(OnMultiplayerButtonClick);
             btnOffline.onClick.RemoveListener(OnOfflineButtonClick);
+            lobbyListItems.RemoveListener(OnLobbyItemSelect);
 
             //remove listeners on destroy
             NetworkingService.RemoveCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.RemoveCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.RemoveCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.RemoveCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.RemoveLobbyStatisticsListener(OnlobbyStatisticsUpdate);
         }
 
         /// <summary>Uses canvas groups to only show the given group name in the ui</summary>
@@ -90,7 +98,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
             else
             {
-                ChangeGroupFocus("Lobbys");
+                SetLobbyFocus();
             }
         }
 
@@ -117,7 +125,7 @@ namespace BWolf.Examples.PhotonWrapper
         {
             if (!NetworkingService.InOfflineMode)
             {
-                ChangeGroupFocus("Lobbys");
+                SetLobbyFocus();
             }
         }
 
@@ -134,7 +142,17 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void OnLeftLobby(string message)
         {
-            ChangeGroupFocus("Lobbys");
+            SetLobbyFocus();
+        }
+
+        private void OnlobbyStatisticsUpdate(List<LobbyInfo> info)
+        {
+            lobbyListItems.UpdateItemsWithLobbyInfo(info);
+        }
+
+        private void OnLobbyItemSelect(bool value)
+        {
+            btnJoinLobby.interactable = value;
         }
 
         /// <summary>Starts a game in offline mode</summary>
@@ -169,10 +187,16 @@ namespace BWolf.Examples.PhotonWrapper
         {
         }
 
+        private void SetLobbyFocus()
+        {
+            ChangeGroupFocus("Lobbys");
+            btnJoinLobby.interactable = false;
+        }
+
         public void JoinSelectedLobby()
         {
             ListItem lobbyItem = lobbyListItems.CurrentSelected;
-            if (!ListItem.IsEmpty(lobbyItem))
+            if (lobbyItem != null)
             {
                 int count;
                 if (int.TryParse(lobbyItem.PlayerCount, out count) && count >= 0)
