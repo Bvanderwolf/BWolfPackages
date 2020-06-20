@@ -5,20 +5,22 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
-    using System;
     using ListItem = ListItemsUI.ListItem;
 
     public class MainUIHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField]
+        private Text txtConnectionState = null;
+
+        [SerializeField]
         private CanvasGroup[] canvasGroups = null;
 
         [SerializeField]
-        private Button multiplayerUIButton = null;
+        private Button btnMultiplayer = null;
 
         [SerializeField]
-        private Button offlineButton = null;
+        private Button btnOffline = null;
 
         [SerializeField]
         private ListItemsUI lobbyListItems = null;
@@ -28,8 +30,8 @@ namespace BWolf.Examples.PhotonWrapper
         private void Awake()
         {
             //add listeners
-            multiplayerUIButton.onClick.AddListener(OnMultiplayerButtonClick);
-            offlineButton.onClick.AddListener(OnOfflineButtonClick);
+            btnMultiplayer.onClick.AddListener(OnMultiplayerButtonClick);
+            btnOffline.onClick.AddListener(OnOfflineButtonClick);
 
             //create dictionary entries using group name as key
             foreach (CanvasGroup group in canvasGroups)
@@ -47,10 +49,15 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("MenuButtons");
         }
 
+        private void Update()
+        {
+            txtConnectionState.text = string.Format("ConnectionState: {0}", NetworkingService.ConnectionState);
+        }
+
         private void OnDestroy()
         {
-            multiplayerUIButton.onClick.RemoveListener(OnMultiplayerButtonClick);
-            offlineButton.onClick.RemoveListener(OnOfflineButtonClick);
+            btnMultiplayer.onClick.RemoveListener(OnMultiplayerButtonClick);
+            btnOffline.onClick.RemoveListener(OnOfflineButtonClick);
 
             //remove listeners on destroy
             NetworkingService.RemoveCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
@@ -108,7 +115,10 @@ namespace BWolf.Examples.PhotonWrapper
         // <summary>Called when connected to master, changes to rooms canvas group</summary>
         private void OnConnectedToServer(string message)
         {
-            ChangeGroupFocus("Lobbys");
+            if (!NetworkingService.InOfflineMode)
+            {
+                ChangeGroupFocus("Lobbys");
+            }
         }
 
         // <summary>Called when disconnected, changes to main menu buttons</summary>

@@ -15,6 +15,16 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return PhotonNetwork.IsConnected; }
         }
 
+        public static bool InOfflineMode
+        {
+            get { return PhotonNetwork.OfflineMode; }
+        }
+
+        public static string ConnectionState
+        {
+            get { return PhotonNetwork.NetworkClientState.ToString(); }
+        }
+
         static NetworkingService()
         {
 #if UNITY_EDITOR

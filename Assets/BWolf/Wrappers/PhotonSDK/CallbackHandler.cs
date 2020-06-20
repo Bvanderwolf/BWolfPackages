@@ -87,7 +87,7 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (callbackEvents.ContainsKey(CallbackEvent.Disconnected))
             {
-                callbackEvents[CallbackEvent.Disconnected](cause.ToString());
+                callbackEvents[CallbackEvent.Disconnected]?.Invoke(cause.ToString());
             }
             if (singleCallbackEvents.ContainsKey(CallbackEvent.Disconnected))
             {
