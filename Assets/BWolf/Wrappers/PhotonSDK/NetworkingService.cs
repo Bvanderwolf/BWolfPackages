@@ -10,6 +10,8 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly CallbackHandler callbackHandler = new CallbackHandler();
         private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
 
+        public static bool IsConnected => PhotonNetwork.IsConnected;
+
         static NetworkingService()
         {
 #if UNITY_EDITOR
@@ -33,6 +35,15 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void ConnectWithDefaultSettings()
         {
             connectionHandler.StartDefaultConnection();
+        }
+
+        public static void JoinLobby(string lobbyName)
+        {
+            string log = string.Empty;
+            if (!connectionHandler.JoinLobby(lobbyName, ref log))
+            {
+                Debug.LogWarningFormat("Failed Joining lobby {0} :: {1}", lobbyName, log);
+            }
         }
 
         /// <summary>Toggles the offline mode of the networking service to given value</summary>

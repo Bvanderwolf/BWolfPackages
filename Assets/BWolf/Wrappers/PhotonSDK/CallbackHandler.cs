@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
-    public class CallbackHandler : IConnectionCallbacks
+    public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks
     {
         private Dictionary<CallbackEvent, Action<string>> callbackEvents = new Dictionary<CallbackEvent, Action<string>>();
 
@@ -62,6 +62,30 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         public void OnRegionListReceived(RegionHandler regionHandler)
+        {
+        }
+
+        public void OnJoinedLobby()
+        {
+            if (callbackEvents.ContainsKey(CallbackEvent.JoinedLobby))
+            {
+                callbackEvents[CallbackEvent.JoinedLobby]?.Invoke(null);
+            }
+        }
+
+        public void OnLeftLobby()
+        {
+            if (callbackEvents.ContainsKey(CallbackEvent.LeftLobby))
+            {
+                callbackEvents[CallbackEvent.LeftLobby]?.Invoke(null);
+            }
+        }
+
+        public void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+        }
+
+        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
         }
     }

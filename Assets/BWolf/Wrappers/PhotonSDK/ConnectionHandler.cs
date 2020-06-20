@@ -1,13 +1,35 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
     public class ConnectionHandler
     {
+        private readonly TypedLobby alphaLobby = new TypedLobby("Alpha", LobbyType.Default);
+        private readonly TypedLobby betaLobby = new TypedLobby("Beta", LobbyType.Default);
+
         /// <summary>Starts the connection witbh photon using the default settings</summary>
         public void StartDefaultConnection()
         {
             PhotonNetwork.ConnectUsingSettings();
+        }
+
+        public bool JoinLobby(string lobbyName, ref string log)
+        {
+            if (PhotonNetwork.InLobby)
+            {
+                log += "Already in a lobby";
+                return false;
+            }
+
+            switch (lobbyName)
+            {
+                case "Default": return PhotonNetwork.JoinLobby(TypedLobby.Default);
+                case "Alpha": return PhotonNetwork.JoinLobby(alphaLobby);
+                case "Beta": return PhotonNetwork.JoinLobby(betaLobby);
+            }
+            log += "Not a falid lobby name";
+            return false;
         }
 
         /// <summary>Tries starting offline mode ouptutting any problems into the given log string</summary>

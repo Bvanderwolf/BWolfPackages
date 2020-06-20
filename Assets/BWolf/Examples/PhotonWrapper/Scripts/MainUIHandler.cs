@@ -1,11 +1,13 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
+    using System;
+    using ListItem = ListItemsUI.ListItem;
+
     public class MainUIHandler : MonoBehaviour
     {
         [Header("References")]
@@ -17,6 +19,9 @@ namespace BWolf.Examples.PhotonWrapper
 
         [SerializeField]
         private Button offlineButton = null;
+
+        [SerializeField]
+        private ListItemsUI lobbyListItems = null;
 
         private Dictionary<string, CanvasGroup> canvasGroupDictionary = new Dictionary<string, CanvasGroup>();
 
@@ -32,9 +37,11 @@ namespace BWolf.Examples.PhotonWrapper
                 canvasGroupDictionary.Add(group.name, group);
             }
 
-            //add listener for connected to master and disconnect callback
+            //add listeners for callbacks
             NetworkingService.AddCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.AddCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.AddCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.AddCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
 
             //change group focus to menu buttons
             ChangeGroupFocus("MenuButtons");
@@ -45,8 +52,11 @@ namespace BWolf.Examples.PhotonWrapper
             multiplayerUIButton.onClick.RemoveListener(OnMultiplayerButtonClick);
             offlineButton.onClick.RemoveListener(OnOfflineButtonClick);
 
+            //remove listeners on destroy
             NetworkingService.RemoveCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.RemoveCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.RemoveCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.RemoveCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
         }
 
         /// <summary>Uses canvas groups to only show the given group name in the ui</summary>
@@ -56,15 +66,25 @@ namespace BWolf.Examples.PhotonWrapper
             {
                 foreach (var groupEntry in canvasGroupDictionary)
                 {
-                    groupEntry.Value.alpha = groupEntry.Key == newFocusedGroupName ? 1 : 0;
+                    bool focused = groupEntry.Key == newFocusedGroupName;
+                    groupEntry.Value.alpha = focused ? 1 : 0;
+                    groupEntry.Value.blocksRaycasts = focused;
+                    groupEntry.Value.interactable = focused;
                 }
             }
         }
 
-        /// <summary>Starts connection using the default settings</summary>
+        /// <summary>Starts connection using the default settings if no connection is already established</summary>
         private void OnMultiplayerButtonClick()
         {
-            NetworkingService.ConnectWithDefaultSettings();
+            if (!NetworkingService.IsConnected)
+            {
+                NetworkingService.ConnectWithDefaultSettings();
+            }
+            else
+            {
+                ChangeGroupFocus("Lobbys");
+            }
         }
 
         /// <summary>Starts offline mode and switches to offline mode buttons</summary>
@@ -77,13 +97,23 @@ namespace BWolf.Examples.PhotonWrapper
         // <summary>Called when connected to master, changes to rooms canvas group</summary>
         private void OnConnectedToServer(string message)
         {
-            ChangeGroupFocus("Rooms");
+            ChangeGroupFocus("Lobbys");
         }
 
         // <summary>Called when disconnected, changes to main menu buttons</summary>
         private void OnDisconnected(string cause)
         {
             ChangeGroupFocus("MenuButtons");
+        }
+
+        private void OnJoinedLobby(string message)
+        {
+            ChangeGroupFocus("Rooms");
+        }
+
+        private void OnLeftLobby(string message)
+        {
+            ChangeGroupFocus("Lobbys");
         }
 
         /// <summary>Starts a game in offline mode</summary>
@@ -100,9 +130,35 @@ namespace BWolf.Examples.PhotonWrapper
         }
 
         /// <summary>Stops multiplayer mode and returns to main menu buttons</summary>
-        public void StopMultiplayerMode()
+        public void StopLobbyList()
         {
             ChangeGroupFocus("MenuButtons");
+        }
+
+        public void StopRoomList()
+        {
+            ChangeGroupFocus("Lobbys");
+        }
+
+        public void CreateRoom()
+        {
+        }
+
+        public void JoinSelectedRoom()
+        {
+        }
+
+        public void JoinSelectedLobby()
+        {
+            ListItem lobbyItem = lobbyListItems.CurrentSelected;
+            if (!ListItem.IsEmpty(lobbyItem))
+            {
+                int count;
+                if (int.TryParse(lobbyItem.PlayerCount, out count) && count >= 0)
+                {
+                    NetworkingService.JoinLobby(lobbyItem.TxtName.text);
+                }
+            }
         }
     }
 }
