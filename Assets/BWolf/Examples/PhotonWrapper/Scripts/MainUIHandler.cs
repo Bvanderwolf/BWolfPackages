@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
+    using System;
     using ListItem = ListItemsUI.ListItem;
 
     public class MainUIHandler : MonoBehaviour
@@ -22,6 +23,9 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private Button btnOffline = null;
 
+        [SerializeField]
+        private Button btnSettings = null;
+
         [Header("Lobby")]
         [SerializeField]
         private LobbyItemsUI lobbyListItems = null;
@@ -36,6 +40,7 @@ namespace BWolf.Examples.PhotonWrapper
             //add listeners
             btnMultiplayer.onClick.AddListener(OnMultiplayerButtonClick);
             btnOffline.onClick.AddListener(OnOfflineButtonClick);
+            btnSettings.onClick.AddListener(OnSettingsButtonClick);
             lobbyListItems.AddListener(OnLobbyItemSelect);
 
             //create dictionary entries using group name as key
@@ -64,6 +69,7 @@ namespace BWolf.Examples.PhotonWrapper
         {
             btnMultiplayer.onClick.RemoveListener(OnMultiplayerButtonClick);
             btnOffline.onClick.RemoveListener(OnOfflineButtonClick);
+            btnSettings.onClick.RemoveListener(OnSettingsButtonClick);
             lobbyListItems.RemoveListener(OnLobbyItemSelect);
 
             //remove listeners on destroy
@@ -118,6 +124,11 @@ namespace BWolf.Examples.PhotonWrapper
                     NetworkingService.SetOffline(true);
                 });
             }
+        }
+
+        private void OnSettingsButtonClick()
+        {
+            ChangeGroupFocus("Settings");
         }
 
         // <summary>Called when connected to master, changes to rooms canvas group</summary>
@@ -177,6 +188,11 @@ namespace BWolf.Examples.PhotonWrapper
         public void StopRoomList()
         {
             NetworkingService.LeaveLobby();
+        }
+
+        public void CloseSettings()
+        {
+            ChangeGroupFocus("MenuButtons");
         }
 
         public void CreateRoom()
