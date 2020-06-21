@@ -54,8 +54,8 @@ namespace BWolf.Examples.PhotonWrapper
             for (int i = 0; i < data.Count; i++)
             {
                 listItems[i].SetLobbyName(data[i].Name);
-                listItems[i].SetPlayerCount(data[i].PlayerCount);
-                listItems[i].SetRoomCount(data[i].RoomCount);
+                listItems[i].SetPlayerCount(data[i].PlayerCount, NetworkingService.MaxPlayersOnServer);
+                listItems[i].SetRoomCount(data[i].RoomCount, NetworkingService.MaxPlayersOnServer);
             }
         }
 
@@ -70,7 +70,7 @@ namespace BWolf.Examples.PhotonWrapper
                 TxtName.text = string.IsNullOrEmpty(name) ? "Default" : name;
             }
 
-            public void SetRoomCount(int roomCount)
+            public void SetRoomCount(int roomCount, int maxPlayers)
             {
                 TxtRoomCount.text = string.Format("{0}/10", roomCount);
             }

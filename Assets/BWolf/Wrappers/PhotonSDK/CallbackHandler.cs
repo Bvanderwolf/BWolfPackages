@@ -1,10 +1,11 @@
 ﻿using Photon.Realtime;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
-    public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks
+    public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks
     {
         private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();
         private Dictionary<SimpleCallbackEvent, Action> singleSimpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action>();
@@ -162,6 +163,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called rooms have been created or deleted, it fires an event with room info if there are subscribers</summary>
         public void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             if (roomListUpdate != null)
@@ -169,8 +171,9 @@ namespace BWolf.Wrappers.PhotonSDK
                 List<RoomData> data = new List<RoomData>();
                 foreach (RoomInfo info in roomList)
                 {
-                    string key = (string)info.CustomProperties[RoomData.PasswordPropertyKey];
-                    data.Add(RoomData.Create(info.RemovedFromList, info.Name, info.PlayerCount, info.MaxPlayers, key));
+                    string roomKey = (string)info.CustomProperties[RoomData.PasswordPropertyKey];
+                    Debug.Log(roomKey);
+                    data.Add(RoomData.Create(info.RemovedFromList, info.Name, info.PlayerCount, info.MaxPlayers, roomKey));
                 }
                 roomListUpdate(data);
             }
@@ -187,6 +190,76 @@ namespace BWolf.Wrappers.PhotonSDK
                     data.Add(LobbyData.Create(info.Name, info.PlayerCount, info.RoomCount));
                 }
                 lobbyStatisticsUpdate(data);
+            }
+        }
+
+        public void OnFriendListUpdate(List<FriendInfo> friendList)
+        {
+        }
+
+        public void OnCreatedRoom()
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreatedRoom))
+            {
+                simpleCallbackEvents[SimpleCallbackEvent.CreatedRoom](null);
+            }
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreatedRoom))
+            {
+                singleSimpleCallbackEvents[SimpleCallbackEvent.CreatedRoom]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.CreatedRoom);
+            }
+        }
+
+        public void OnCreateRoomFailed(short returnCode, string message)
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreateRoomFailed))
+            {
+                string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
+                simpleCallbackEvents[SimpleCallbackEvent.CreateRoomFailed](info);
+            }
+        }
+
+        public void OnJoinedRoom()
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
+            {
+                simpleCallbackEvents[SimpleCallbackEvent.JoinedRoom](null);
+            }
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
+            {
+                singleSimpleCallbackEvents[SimpleCallbackEvent.JoinedRoom]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.JoinedRoom);
+            }
+        }
+
+        public void OnJoinRoomFailed(short returnCode, string message)
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRoomFailed))
+            {
+                string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
+                simpleCallbackEvents[SimpleCallbackEvent.JoinRoomFailed](info);
+            }
+        }
+
+        public void OnJoinRandomFailed(short returnCode, string message)
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRandomRoomFailed))
+            {
+                string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
+                simpleCallbackEvents[SimpleCallbackEvent.JoinRandomRoomFailed](info);
+            }
+        }
+
+        public void OnLeftRoom()
+        {
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
+            {
+                simpleCallbackEvents[SimpleCallbackEvent.LeftRoom](null);
+            }
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
+            {
+                singleSimpleCallbackEvents[SimpleCallbackEvent.LeftRoom]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.LeftRoom);
             }
         }
     }

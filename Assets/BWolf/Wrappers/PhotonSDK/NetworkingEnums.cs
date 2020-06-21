@@ -12,6 +12,7 @@
         CreateRoomFailed,
         JoinedRoom,
         JoinRoomFailed,
+        JoinRandomRoomFailed,
         LeftRoom
     }
 }

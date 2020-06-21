@@ -77,7 +77,7 @@
 
         public bool HasKey
         {
-            get { return string.IsNullOrEmpty(key); }
+            get { return !string.IsNullOrEmpty(key); }
         }
 
         public const string PasswordPropertyKey = "RoomPassword";
@@ -91,6 +91,15 @@
             data.maxPlayers = maxPlayers;
             data.key = key;
             return data;
+        }
+
+        public void Override(RoomData newData)
+        {
+            removedFromList = newData.removedFromList;
+            name = newData.name;
+            playerCount = newData.playerCount;
+            maxPlayers = newData.maxPlayers;
+            key = newData.key;
         }
 
         public override string ToString()

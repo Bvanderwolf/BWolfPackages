@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
@@ -18,6 +19,25 @@ namespace BWolf.Wrappers.PhotonSDK
         public void Disconnect()
         {
             PhotonNetwork.Disconnect();
+        }
+
+        /// <summary>Tries creating a room using given information, returning whether it was succesfull or not, updating given log with info</summary>
+        public bool CreateRoom(string name, int maxPlayers, string key, ref string log)
+        {
+            if (PhotonNetwork.OfflineMode)
+            {
+                log += "can't create a new room in offine mode";
+                return false;
+            }
+
+            if (PhotonNetwork.InRoom && !PhotonNetwork.OfflineMode)
+            {
+                log += "can't create a new room when already inside a room online";
+                return false;
+            }
+
+            RoomOptions options = CreateRoomOptions((byte)maxPlayers, new Hashtable { { RoomData.PasswordPropertyKey, key } }, RoomData.PasswordPropertyKey);
+            return PhotonNetwork.CreateRoom(name, options);
         }
 
         /// <summary>Tries joining a lobby returning whether it was succesfull or not, updating given log with info</summary>
@@ -86,6 +106,12 @@ namespace BWolf.Wrappers.PhotonSDK
                 PhotonNetwork.OfflineMode = false;
                 return true;
             }
+        }
+
+        /// <summary>Creates room options with max players, room properties and the keys of room properties to show in the lobby (room list update)</summary>
+        private RoomOptions CreateRoomOptions(byte maxPlayers, Hashtable roomProperties, params string[] keysOfPropertiesShownInLobby)
+        {
+            return new RoomOptions { MaxPlayers = maxPlayers, CustomRoomProperties = roomProperties, CustomRoomPropertiesForLobby = keysOfPropertiesShownInLobby };
         }
     }
 }

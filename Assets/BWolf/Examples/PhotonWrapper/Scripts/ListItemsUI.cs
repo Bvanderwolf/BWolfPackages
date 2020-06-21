@@ -80,9 +80,9 @@ namespace BWolf.Examples.PhotonWrapper
             }
 
             /// <summary>Sets the player count text for this list item</summary>
-            public void SetPlayerCount(int playerCount)
+            public void SetPlayerCount(int playerCount, int maxPlayers)
             {
-                TxtPlayerCount.text = string.Format("{0}/20", playerCount);
+                TxtPlayerCount.text = string.Format("{0}/{1}", playerCount, maxPlayers);
             }
 
             public override string ToString()

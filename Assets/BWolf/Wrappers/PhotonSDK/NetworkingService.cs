@@ -11,6 +11,8 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly CallbackHandler callbackHandler = new CallbackHandler();
         private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
 
+        public const int MaxPlayersOnServer = 20; //value is according to photon's free account maximum
+
         /// <summary>Returns whether this client is connected to the server or not</summary>
         public static bool IsConnected
         {
@@ -95,6 +97,23 @@ namespace BWolf.Wrappers.PhotonSDK
             if (onDisconnect != null)
             {
                 callbackHandler.AddSingleCallback(SimpleCallbackEvent.Disconnected, onDisconnect);
+            }
+        }
+
+        /// <summary>Creates rooom with given options. Set onc created callback if you want to execute some function when creation has finished</summary>
+        public static void CreateRoom(string name, int maxPlayers, string key, Action onCreated = null)
+        {
+            string log = string.Empty;
+            if (!connectionHandler.CreateRoom(name, maxPlayers, key, ref log))
+            {
+                Debug.LogWarningFormat("Failed creating room {0} :: {1}", name, log);
+            }
+            else
+            {
+                if (onCreated != null)
+                {
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.CreatedRoom, onCreated);
+                }
             }
         }
 
