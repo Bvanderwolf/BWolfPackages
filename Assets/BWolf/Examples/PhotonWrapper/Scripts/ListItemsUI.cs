@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
-    public class ListItemsUI : MonoBehaviour
+    public abstract class ListItemsUI : MonoBehaviour
     {
         [SerializeField]
         private Button joinButton = null;
@@ -13,6 +13,11 @@ namespace BWolf.Examples.PhotonWrapper
         private event Action<bool> onSelect;
 
         public ListItem CurrentSelected { get; protected set; }
+
+        private void Awake()
+        {
+            SetupListItemTriggers();
+        }
 
         private void Update()
         {
@@ -26,6 +31,12 @@ namespace BWolf.Examples.PhotonWrapper
                 }
             }
         }
+
+        /// <summary>override to setup list items triggers with on clicked item implementation</summary>
+        protected abstract void SetupListItemTriggers();
+
+        /// <summary>Call when an item has been clicked to set the current selected reference and invoke the OnSelect event</summary>
+        protected abstract void OnClickedItem(BaseEventData data);
 
         /// <summary>Fires the OnSelect event with given value as argument</summary>
         public void OnSelect(bool value)

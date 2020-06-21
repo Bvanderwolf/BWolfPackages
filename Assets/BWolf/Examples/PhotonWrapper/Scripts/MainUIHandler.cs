@@ -32,6 +32,13 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private Button btnJoinLobby = null;
 
+        [Header("Room")]
+        [SerializeField]
+        private RoomItemsUI roomListItems = null;
+
+        [SerializeField]
+        private Button btnJoinRoom = null;
+
         private Dictionary<string, CanvasGroup> canvasGroupDictionary = new Dictionary<string, CanvasGroup>();
 
         private void Awake()
@@ -41,6 +48,7 @@ namespace BWolf.Examples.PhotonWrapper
             btnOffline.onClick.AddListener(OnOfflineButtonClick);
             btnSettings.onClick.AddListener(OnSettingsButtonClick);
             lobbyListItems.AddListener(OnLobbyItemSelect);
+            roomListItems.AddListener(OnRoomItemSelect);
 
             //create dictionary entries using group name as key
             foreach (CanvasGroup group in canvasGroups)
@@ -70,6 +78,7 @@ namespace BWolf.Examples.PhotonWrapper
             btnOffline.onClick.RemoveListener(OnOfflineButtonClick);
             btnSettings.onClick.RemoveListener(OnSettingsButtonClick);
             lobbyListItems.RemoveListener(OnLobbyItemSelect);
+            roomListItems.RemoveListener(OnRoomItemSelect);
 
             //remove listeners on destroy
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
@@ -163,6 +172,11 @@ namespace BWolf.Examples.PhotonWrapper
         private void OnLobbyItemSelect(bool value)
         {
             btnJoinLobby.interactable = value;
+        }
+
+        private void OnRoomItemSelect(bool value)
+        {
+            btnJoinRoom.interactable = value;
         }
 
         /// <summary>Starts a game in offline mode</summary>

@@ -13,7 +13,8 @@ namespace BWolf.Examples.PhotonWrapper
 
         private List<LobbyInfo> lobbyInfo = new List<LobbyInfo>();
 
-        private void Awake()
+        /// <summary>Called on awake to setup lobby list item trigger events</summary>
+        protected override void SetupListItemTriggers()
         {
             foreach (LobbyListItem item in listItems)
             {
@@ -24,7 +25,7 @@ namespace BWolf.Examples.PhotonWrapper
         }
 
         /// <summary>Called when an item has been clicked to set the current selected reference and invoke the OnSelect event</summary>
-        private void OnClickedItem(BaseEventData data)
+        protected override void OnClickedItem(BaseEventData data)
         {
             foreach (ListItem item in listItems)
             {

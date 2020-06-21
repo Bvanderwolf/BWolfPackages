@@ -629,6 +629,8 @@ MonoBehaviour:
   btnSettings: {fileID: 1267168715}
   lobbyListItems: {fileID: 564851506}
   btnJoinLobby: {fileID: 1048006254}
+  roomListItems: {fileID: 1972976820}
+  btnJoinRoom: {fileID: 1552301531}
 --- !u!1 &147955561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2099,18 @@ MonoBehaviour:
     TxtPlayerCount: {fileID: 1263240323}
     EventTriggers: {fileID: 1263240320}
     TxtRoomCount: {fileID: 1263240321}
+--- !u!114 &581099905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2500664853135099767, guid: e7c4502e7f7380b4eacafa795c0439db,
+    type: 3}
+  m_PrefabInstance: {fileID: 2500664852708402106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619426738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5838,6 +5852,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1766061772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2500664851987595436, guid: e7c4502e7f7380b4eacafa795c0439db,
+    type: 3}
+  m_PrefabInstance: {fileID: 2500664852708402106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1787144411
 GameObject:
   m_ObjectHideFlags: 0
@@ -6430,6 +6456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1972976818}
   - component: {fileID: 1972976819}
+  - component: {fileID: 1972976820}
   m_Layer: 5
   m_Name: Layout
   m_TagString: Untagged
@@ -6483,6 +6510,24 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &1972976820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972976817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f2877022fc03341b3c4af7d4c91a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joinButton: {fileID: 1552301531}
+  listItems:
+  - TxtName: {fileID: 1766061772}
+    TxtPlayerCount: {fileID: 581099905}
+    EventTriggers: {fileID: 2500664852708402107}
+    LockImage: {fileID: 2500664852708402108}
 --- !u!1 &2007433912
 GameObject:
   m_ObjectHideFlags: 0
@@ -7028,3 +7073,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7c4502e7f7380b4eacafa795c0439db, type: 3}
+--- !u!114 &2500664852708402107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8732688789886283430, guid: e7c4502e7f7380b4eacafa795c0439db,
+    type: 3}
+  m_PrefabInstance: {fileID: 2500664852708402106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2500664852708402108 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 688608392792076885, guid: e7c4502e7f7380b4eacafa795c0439db,
+    type: 3}
+  m_PrefabInstance: {fileID: 2500664852708402106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
