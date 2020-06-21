@@ -49,10 +49,10 @@ namespace BWolf.Examples.PhotonWrapper
             }
 
             //add listeners for callbacks
-            NetworkingService.AddCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
-            NetworkingService.AddCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
-            NetworkingService.AddCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
-            NetworkingService.AddCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.AddLobbyStatisticsListener(OnlobbyStatisticsUpdate);
 
             //change group focus to menu buttons
@@ -72,10 +72,10 @@ namespace BWolf.Examples.PhotonWrapper
             lobbyListItems.RemoveListener(OnLobbyItemSelect);
 
             //remove listeners on destroy
-            NetworkingService.RemoveCallbackListener(CallbackEvent.ConnectedToMaster, OnConnectedToServer);
-            NetworkingService.RemoveCallbackListener(CallbackEvent.Disconnected, OnDisconnected);
-            NetworkingService.RemoveCallbackListener(CallbackEvent.JoinedLobby, OnJoinedLobby);
-            NetworkingService.RemoveCallbackListener(CallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.RemoveLobbyStatisticsListener(OnlobbyStatisticsUpdate);
         }
 

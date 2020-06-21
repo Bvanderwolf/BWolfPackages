@@ -1,6 +1,7 @@
 ﻿namespace BWolf.Wrappers.PhotonSDK
 {
-    public enum CallbackEvent
+    /// <summary>Defines callbacks with either no arguments or a message string </summary>
+    public enum SimpleCallbackEvent
     {
         Connected,
         ConnectedToMaster,

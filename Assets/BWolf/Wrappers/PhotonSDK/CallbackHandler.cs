@@ -1,89 +1,96 @@
-﻿using System;
-using Photon.Realtime;
+﻿using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
     public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks
     {
-        private Dictionary<CallbackEvent, Action<string>> callbackEvents = new Dictionary<CallbackEvent, Action<string>>();
-        private Dictionary<CallbackEvent, Action> singleCallbackEvents = new Dictionary<CallbackEvent, Action>();
+        private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();
+        private Dictionary<SimpleCallbackEvent, Action> singleSimpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action>();
 
         private event Action<List<LobbyInfo>> lobbyStatisticsUpdate;
 
         ~CallbackHandler()
         {
-            callbackEvents.Clear();
-            singleCallbackEvents.Clear();
+            simpleCallbackEvents.Clear();
+            singleSimpleCallbackEvents.Clear();
         }
 
-        public void AddSingleCallback(CallbackEvent callbackEvent, Action callback)
+        /// <summary>Adds single callback event to singlecallback events dictionary</summary>
+        public void AddSingleCallback(SimpleCallbackEvent callbackEvent, Action callback)
         {
-            if (singleCallbackEvents.ContainsKey(callbackEvent))
+            if (singleSimpleCallbackEvents.ContainsKey(callbackEvent))
             {
-                singleCallbackEvents[callbackEvent] += callback;
+                singleSimpleCallbackEvents[callbackEvent] += callback;
             }
             else
             {
-                singleCallbackEvents.Add(callbackEvent, null);
-                singleCallbackEvents[callbackEvent] += callback;
+                singleSimpleCallbackEvents.Add(callbackEvent, null);
+                singleSimpleCallbackEvents[callbackEvent] += callback;
             }
         }
 
-        public void AddListener(CallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>Adds callback event to callback events dictionary</summary>
+        public void AddListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
-            if (callbackEvents.ContainsKey(callbackEvent))
+            if (simpleCallbackEvents.ContainsKey(callbackEvent))
             {
-                callbackEvents[callbackEvent] += callback;
+                simpleCallbackEvents[callbackEvent] += callback;
             }
             else
             {
-                callbackEvents.Add(callbackEvent, null);
-                callbackEvents[callbackEvent] += callback;
+                simpleCallbackEvents.Add(callbackEvent, null);
+                simpleCallbackEvents[callbackEvent] += callback;
             }
         }
 
+        /// <summary>Adds lobby info statistics update  callback event to lobby statistics update event invocation list</summary>
         public void AddListener(Action<List<LobbyInfo>> action)
         {
             lobbyStatisticsUpdate += action;
         }
 
-        public void RemoveListener(CallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>removes callback event from callback events dictionary</summary>
+        public void RemoveListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
-            if (callbackEvents.ContainsKey(callbackEvent))
+            if (simpleCallbackEvents.ContainsKey(callbackEvent))
             {
-                callbackEvents[callbackEvent] -= callback;
+                simpleCallbackEvents[callbackEvent] -= callback;
             }
         }
 
+        /// <summary>Remove single callback event from singlecallback events dictionary</summary>
         public void RemoveListener(Action<List<LobbyInfo>> action)
         {
             lobbyStatisticsUpdate -= action;
         }
 
+        /// <summary>Called when connected initialily with the server it fires events if there are subscribers</summary>
         public void OnConnected()
         {
-            if (callbackEvents.ContainsKey(CallbackEvent.Connected))
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Connected))
             {
-                callbackEvents[CallbackEvent.Connected](null);
+                simpleCallbackEvents[SimpleCallbackEvent.Connected](null);
             }
-            if (singleCallbackEvents.ContainsKey(CallbackEvent.Connected))
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Connected))
             {
-                singleCallbackEvents[CallbackEvent.Connected]();
-                singleCallbackEvents.Remove(CallbackEvent.Connected);
+                singleSimpleCallbackEvents[SimpleCallbackEvent.Connected]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.Connected);
             }
         }
 
+        /// <summary>Called when connected with the master server it fires events if there are subscribers</summary>
         public void OnConnectedToMaster()
         {
-            if (callbackEvents.ContainsKey(CallbackEvent.ConnectedToMaster))
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.ConnectedToMaster))
             {
-                callbackEvents[CallbackEvent.ConnectedToMaster](null);
+                simpleCallbackEvents[SimpleCallbackEvent.ConnectedToMaster](null);
             }
-            if (singleCallbackEvents.ContainsKey(CallbackEvent.ConnectedToMaster))
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.ConnectedToMaster))
             {
-                singleCallbackEvents[CallbackEvent.ConnectedToMaster]();
-                singleCallbackEvents.Remove(CallbackEvent.ConnectedToMaster);
+                singleSimpleCallbackEvents[SimpleCallbackEvent.ConnectedToMaster]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.ConnectedToMaster);
             }
         }
 
@@ -95,16 +102,17 @@ namespace BWolf.Wrappers.PhotonSDK
         {
         }
 
+        /// <summary>Called when disconnected from the server it fires events if there are subscribers</summary>
         public void OnDisconnected(DisconnectCause cause)
         {
-            if (callbackEvents.ContainsKey(CallbackEvent.Disconnected))
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Disconnected))
             {
-                callbackEvents[CallbackEvent.Disconnected]?.Invoke(cause.ToString());
+                simpleCallbackEvents[SimpleCallbackEvent.Disconnected]?.Invoke(cause.ToString());
             }
-            if (singleCallbackEvents.ContainsKey(CallbackEvent.Disconnected))
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Disconnected))
             {
-                singleCallbackEvents[CallbackEvent.Disconnected]();
-                singleCallbackEvents.Remove(CallbackEvent.Disconnected);
+                singleSimpleCallbackEvents[SimpleCallbackEvent.Disconnected]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.Disconnected);
             }
         }
 
@@ -112,29 +120,31 @@ namespace BWolf.Wrappers.PhotonSDK
         {
         }
 
+        /// <summary>Called when having joined a lobby it fires events if there are subscribers</summary>
         public void OnJoinedLobby()
         {
-            if (callbackEvents.ContainsKey(CallbackEvent.JoinedLobby))
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedLobby))
             {
-                callbackEvents[CallbackEvent.JoinedLobby](null);
+                simpleCallbackEvents[SimpleCallbackEvent.JoinedLobby](null);
             }
-            if (singleCallbackEvents.ContainsKey(CallbackEvent.JoinedLobby))
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedLobby))
             {
-                singleCallbackEvents[CallbackEvent.JoinedLobby]();
-                singleCallbackEvents.Remove(CallbackEvent.JoinedLobby);
+                singleSimpleCallbackEvents[SimpleCallbackEvent.JoinedLobby]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.JoinedLobby);
             }
         }
 
+        /// <summary>Called when having left a lobby it fires events if there are subscribers</summary>
         public void OnLeftLobby()
         {
-            if (callbackEvents.ContainsKey(CallbackEvent.LeftLobby))
+            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftLobby))
             {
-                callbackEvents[CallbackEvent.LeftLobby](null);
+                simpleCallbackEvents[SimpleCallbackEvent.LeftLobby](null);
             }
-            if (singleCallbackEvents.ContainsKey(CallbackEvent.LeftLobby))
+            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftLobby))
             {
-                singleCallbackEvents[CallbackEvent.LeftLobby]();
-                singleCallbackEvents.Remove(CallbackEvent.LeftLobby);
+                singleSimpleCallbackEvents[SimpleCallbackEvent.LeftLobby]();
+                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.LeftLobby);
             }
         }
 
@@ -142,6 +152,7 @@ namespace BWolf.Wrappers.PhotonSDK
         {
         }
 
+        /// <summary>Called when lobby statistics have been updated it fires an event with lobby info if there are subscribers</summary>
         public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
             if (lobbyStatisticsUpdate != null)

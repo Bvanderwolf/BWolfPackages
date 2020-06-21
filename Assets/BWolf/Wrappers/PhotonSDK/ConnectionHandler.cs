@@ -14,11 +14,13 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.ConnectUsingSettings();
         }
 
+        /// <summary>Disconnects the client</summary>
         public void Disconnect()
         {
             PhotonNetwork.Disconnect();
         }
 
+        /// <summary>Tries joining a lobby returning whether it was succesfull or not, updating given log with info</summary>
         public bool JoinLobby(string lobbyName, ref string log)
         {
             if (PhotonNetwork.InLobby)
@@ -37,6 +39,7 @@ namespace BWolf.Wrappers.PhotonSDK
             return false;
         }
 
+        /// <summary>Tries leaving a lobby returning whether it was succesfull or not, updating given log with info</summary>
         public bool LeaveLobby(ref string log)
         {
             if (!PhotonNetwork.InLobby)

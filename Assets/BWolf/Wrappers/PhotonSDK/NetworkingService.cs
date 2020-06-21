@@ -11,16 +11,19 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly CallbackHandler callbackHandler = new CallbackHandler();
         private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
 
+        /// <summary>Returns whether this client is connected to the server or not</summary>
         public static bool IsConnected
         {
             get { return PhotonNetwork.IsConnected; }
         }
 
+        /// <summary>Returns whether this client is in offline mode</summary>
         public static bool InOfflineMode
         {
             get { return PhotonNetwork.OfflineMode; }
         }
 
+        /// <summary>Returns the connection state of the client formatted to a string</summary>
         public static string ConnectionState
         {
             get { return PhotonNetwork.NetworkClientState.ToString(); }
@@ -35,49 +38,55 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }
 
-        public static void AddCallbackListener(CallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>Adds a callback listener for events that either return no value or a string value</summary>
+        public static void AddCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.AddListener(callbackEvent, callback);
         }
 
+        /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
         public static void AddLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
         {
             callbackHandler.AddListener(onUpdate);
         }
 
-        public static void RemoveCallbackListener(CallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>Removes callback listener for events that either return no value or a string value</summary>
+        public static void RemoveCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.RemoveListener(callbackEvent, callback);
         }
 
+        /// <summary>Removes callback listener from the lobby statistics update event</summary>
         public static void RemoveLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
         {
             callbackHandler.RemoveListener(onUpdate);
         }
 
-        /// <summary>Connects to networking service using the default settings</summary>
+        /// <summary>Connects to networking service using the default settings. Set onConnected callback if you want some function to execute when connected</summary>
         public static void ConnectWithDefaultSettings(Action onConnecteToMaster = null, Action onConnected = null)
         {
             connectionHandler.StartDefaultConnection();
             if (onConnecteToMaster != null)
             {
-                callbackHandler.AddSingleCallback(CallbackEvent.ConnectedToMaster, onConnecteToMaster);
+                callbackHandler.AddSingleCallback(SimpleCallbackEvent.ConnectedToMaster, onConnecteToMaster);
             }
             if (onConnected != null)
             {
-                callbackHandler.AddSingleCallback(CallbackEvent.Connected, onConnected);
+                callbackHandler.AddSingleCallback(SimpleCallbackEvent.Connected, onConnected);
             }
         }
 
+        /// <summary>Disconnects the client from the server. Set onDisconnect callback if you want some function to execute when disconnected</summary>
         public static void Disconnect(Action onDisconnect = null)
         {
             connectionHandler.Disconnect();
             if (onDisconnect != null)
             {
-                callbackHandler.AddSingleCallback(CallbackEvent.Disconnected, onDisconnect);
+                callbackHandler.AddSingleCallback(SimpleCallbackEvent.Disconnected, onDisconnect);
             }
         }
 
+        /// <summary>Joins lobby with given name, Set on lobby joined callback if you want to execute some function when joined</summary>
         public static void JoinLobby(string lobbyName, Action onLobbyJoined = null)
         {
             string log = string.Empty;
@@ -89,11 +98,12 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLobbyJoined != null)
                 {
-                    callbackHandler.AddSingleCallback(CallbackEvent.JoinedLobby, onLobbyJoined);
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.JoinedLobby, onLobbyJoined);
                 }
             }
         }
 
+        /// <summary>Leaves the current lobby the client is in. Set onLeftLobby callback if you want to execute some function when left</summary>
         public static void LeaveLobby(Action onLeftLobby = null)
         {
             string log = string.Empty;
@@ -105,7 +115,7 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLeftLobby != null)
                 {
-                    callbackHandler.AddSingleCallback(CallbackEvent.LeftLobby, onLeftLobby);
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftLobby, onLeftLobby);
                 }
             }
         }
