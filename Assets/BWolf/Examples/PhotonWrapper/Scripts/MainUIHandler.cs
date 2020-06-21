@@ -69,6 +69,11 @@ namespace BWolf.Examples.PhotonWrapper
         private void Update()
         {
             txtConnectionState.text = string.Format("ConnectionState: {0}", NetworkingService.ConnectionState);
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                NetworkingService.CreateRoom("Testroom", 2, "password", () => Debug.Log("created room"));
+            }
         }
 
         private void OnDestroy()
@@ -154,7 +159,7 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void OnJoinedLobby(string message)
         {
-            ChangeGroupFocus("Rooms");
+            SetRoomFocus();
         }
 
         private void OnLeftLobby(string message)
@@ -201,12 +206,22 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("MenuButtons");
         }
 
-        public void CreateRoom()
+        public void CreateRoom(string name, int maxPlayers, string password)
         {
+            if (!string.IsNullOrEmpty(name))
+            {
+                NetworkingService.CreateRoom(name, maxPlayers, password);
+            }
         }
 
         public void JoinSelectedRoom()
         {
+        }
+
+        private void SetRoomFocus()
+        {
+            ChangeGroupFocus("Rooms");
+            btnJoinRoom.interactable = false;
         }
 
         private void SetLobbyFocus()

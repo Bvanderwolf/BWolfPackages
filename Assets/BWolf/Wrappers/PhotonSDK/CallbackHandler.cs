@@ -172,7 +172,6 @@ namespace BWolf.Wrappers.PhotonSDK
                 foreach (RoomInfo info in roomList)
                 {
                     string roomKey = (string)info.CustomProperties[RoomData.PasswordPropertyKey];
-                    Debug.Log(roomKey);
                     data.Add(RoomData.Create(info.RemovedFromList, info.Name, info.PlayerCount, info.MaxPlayers, roomKey));
                 }
                 roomListUpdate(data);

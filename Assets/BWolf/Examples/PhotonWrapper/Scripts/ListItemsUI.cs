@@ -7,6 +7,7 @@ namespace BWolf.Examples.PhotonWrapper
 {
     public abstract class ListItemsUI : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField]
         private Button joinButton = null;
 

@@ -1,6 +1,7 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -12,23 +13,24 @@ namespace BWolf.Examples.PhotonWrapper
         private GameObject prefabRoomListItem = null;
 
         [SerializeField]
+        private CreateRoomForm createRoomForm = null;
+
+        [Header("Settings")]
+        [SerializeField]
         private List<RoomListItem> listItems = null;
+
+        [Header("Events")]
+        [SerializeField]
+        private OnCreateRoomFinished onCreateRoomFinished = null;
 
         private List<RoomData> dataShowing = new List<RoomData>();
 
-        private int demoGameMaxPlayers = 2;
+        private const int demoGameMaxPlayers = 2;
 
         private void Start()
         {
+            ToggleCreateRoomForm();
             NetworkingService.AddRoomListListener(UpdateListItemsWithRoomData);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                NetworkingService.CreateRoom("Testroom", demoGameMaxPlayers, "password", () => Debug.Log("created room"));
-            }
         }
 
         private void OnDestroy()
@@ -53,10 +55,17 @@ namespace BWolf.Examples.PhotonWrapper
                 if (item.EventTriggers.gameObject == data.selectedObject)
                 {
                     CurrentSelected = item;
+                    print(CurrentSelected.EventTriggers.gameObject);
                     OnSelect(true);
                     break;
                 }
             }
+        }
+
+        public void ToggleCreateRoomForm()
+        {
+            GameObject form = createRoomForm.gameObject;
+            form.SetActive(!form.activeInHierarchy);
         }
 
         private void UpdateListItemsWithRoomData(List<RoomData> data)
@@ -70,6 +79,8 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>destroys all room item ui objects except for head</summary>
         private void ClearListItemGameObjects()
         {
+            listItems.Clear();
+
             for (int i = transform.childCount - 1; i >= 1; i--)
             {
                 Destroy(transform.GetChild(i).gameObject);
@@ -122,6 +133,7 @@ namespace BWolf.Examples.PhotonWrapper
                 listItem.TxtName.text = item.Name;
                 listItem.SetPlayerCount(item.PlayerCount, demoGameMaxPlayers);
                 listItem.KeyImage.enabled = item.HasKey;
+                listItems.Add(listItem);
             }
         }
 
@@ -136,5 +148,8 @@ namespace BWolf.Examples.PhotonWrapper
                 get { return KeyImage.enabled; }
             }
         }
+
+        [System.Serializable]
+        public class OnCreateRoomFinished : UnityEvent<string, int, string> { }
     }
 }
