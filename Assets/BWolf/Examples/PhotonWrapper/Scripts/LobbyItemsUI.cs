@@ -11,7 +11,17 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private List<LobbyListItem> listItems = null;
 
-        private List<LobbyInfo> lobbyInfo = new List<LobbyInfo>();
+        private List<LobbyData> lobbyInfo = new List<LobbyData>();
+
+        private void Start()
+        {
+            NetworkingService.AddLobbyStatisticsListener(UpdateItemsWithLobbyData);
+        }
+
+        private void OnDestroy()
+        {
+            NetworkingService.RemoveLobbyStatisticsListener(UpdateItemsWithLobbyData);
+        }
 
         /// <summary>Called on awake to setup lobby list item trigger events</summary>
         protected override void SetupListItemTriggers()
@@ -38,14 +48,14 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
-        /// <summary>Updates lobby list items with given lobby info </summary>
-        public void UpdateItemsWithLobbyInfo(List<LobbyInfo> info)
+        /// <summary>Updates lobby list items with given lobby data </summary>
+        private void UpdateItemsWithLobbyData(List<LobbyData> data)
         {
-            for (int i = 0; i < info.Count; i++)
+            for (int i = 0; i < data.Count; i++)
             {
-                listItems[i].SetLobbyName(info[i].Name);
-                listItems[i].SetPlayerCount(info[i].PlayerCount);
-                listItems[i].SetRoomCount(info[i].RoomCount);
+                listItems[i].SetLobbyName(data[i].Name);
+                listItems[i].SetPlayerCount(data[i].PlayerCount);
+                listItems[i].SetRoomCount(data[i].RoomCount);
             }
         }
 

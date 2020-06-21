@@ -45,7 +45,13 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
-        public static void AddLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
+        public static void AddLobbyStatisticsListener(Action<List<LobbyData>> onUpdate)
+        {
+            callbackHandler.AddListener(onUpdate);
+        }
+
+        /// <summary>Adds a callback listener to the room list event to be called when room list is updated</summary>
+        public static void AddRoomListListener(Action<List<RoomData>> onUpdate)
         {
             callbackHandler.AddListener(onUpdate);
         }
@@ -57,7 +63,13 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Removes callback listener from the lobby statistics update event</summary>
-        public static void RemoveLobbyStatisticsListener(Action<List<LobbyInfo>> onUpdate)
+        public static void RemoveLobbyStatisticsListener(Action<List<LobbyData>> onUpdate)
+        {
+            callbackHandler.RemoveListener(onUpdate);
+        }
+
+        /// <summary>Removes callback listener from the room list update event</summary>
+        public static void RemoveRoomListListener(Action<List<RoomData>> onUpdate)
         {
             callbackHandler.RemoveListener(onUpdate);
         }

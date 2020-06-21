@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Wrappers.PhotonSDK;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,6 +10,16 @@ namespace BWolf.Examples.PhotonWrapper
     {
         [SerializeField]
         private List<RoomListItem> listItems = null;
+
+        private void Start()
+        {
+            NetworkingService.AddRoomListListener(UpdateListItemsWithRoomData);
+        }
+
+        private void OnDestroy()
+        {
+            NetworkingService.RemoveRoomListListener(UpdateListItemsWithRoomData);
+        }
 
         protected override void SetupListItemTriggers()
         {
@@ -30,6 +41,14 @@ namespace BWolf.Examples.PhotonWrapper
                     OnSelect(true);
                     break;
                 }
+            }
+        }
+
+        private void UpdateListItemsWithRoomData(List<RoomData> data)
+        {
+            foreach (RoomData item in data)
+            {
+                print(item);
             }
         }
 

@@ -61,7 +61,6 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
-            NetworkingService.AddLobbyStatisticsListener(OnlobbyStatisticsUpdate);
 
             //change group focus to menu buttons
             ChangeGroupFocus("MenuButtons");
@@ -85,7 +84,6 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
-            NetworkingService.RemoveLobbyStatisticsListener(OnlobbyStatisticsUpdate);
         }
 
         /// <summary>Uses canvas groups to only show the given group name in the ui</summary>
@@ -162,11 +160,6 @@ namespace BWolf.Examples.PhotonWrapper
         private void OnLeftLobby(string message)
         {
             SetLobbyFocus();
-        }
-
-        private void OnlobbyStatisticsUpdate(List<LobbyInfo> info)
-        {
-            lobbyListItems.UpdateItemsWithLobbyInfo(info);
         }
 
         private void OnLobbyItemSelect(bool value)

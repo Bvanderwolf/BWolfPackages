@@ -9,7 +9,9 @@ namespace BWolf.Wrappers.PhotonSDK
         private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();
         private Dictionary<SimpleCallbackEvent, Action> singleSimpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action>();
 
-        private event Action<List<LobbyInfo>> lobbyStatisticsUpdate;
+        private event Action<List<LobbyData>> lobbyStatisticsUpdate;
+
+        private event Action<List<RoomData>> roomListUpdate;
 
         ~CallbackHandler()
         {
@@ -46,9 +48,15 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Adds lobby info statistics update  callback event to lobby statistics update event invocation list</summary>
-        public void AddListener(Action<List<LobbyInfo>> action)
+        public void AddListener(Action<List<LobbyData>> action)
         {
             lobbyStatisticsUpdate += action;
+        }
+
+        /// <summary>Adds room list update  callback event to room list update event invocation list</summary>
+        public void AddListener(Action<List<RoomData>> action)
+        {
+            roomListUpdate += action;
         }
 
         /// <summary>removes callback event from callback events dictionary</summary>
@@ -60,10 +68,16 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
-        /// <summary>Remove single callback event from singlecallback events dictionary</summary>
-        public void RemoveListener(Action<List<LobbyInfo>> action)
+        /// <summary>Removes lobby statistics update callback event from invocation list</summary>
+        public void RemoveListener(Action<List<LobbyData>> action)
         {
             lobbyStatisticsUpdate -= action;
+        }
+
+        /// <summary>Removes room list update callback event from invocation list</summary>
+        public void RemoveListener(Action<List<RoomData>> action)
+        {
+            roomListUpdate -= action;
         }
 
         /// <summary>Called when connected initialily with the server it fires events if there are subscribers</summary>
@@ -150,6 +164,16 @@ namespace BWolf.Wrappers.PhotonSDK
 
         public void OnRoomListUpdate(List<RoomInfo> roomList)
         {
+            if (roomListUpdate != null)
+            {
+                List<RoomData> data = new List<RoomData>();
+                foreach (RoomInfo info in roomList)
+                {
+                    string key = (string)info.CustomProperties[RoomData.PasswordPropertyKey];
+                    data.Add(RoomData.Create(info.RemovedFromList, info.Name, info.PlayerCount, info.MaxPlayers, key));
+                }
+                roomListUpdate(data);
+            }
         }
 
         /// <summary>Called when lobby statistics have been updated it fires an event with lobby info if there are subscribers</summary>
@@ -157,12 +181,12 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             if (lobbyStatisticsUpdate != null)
             {
-                List<LobbyInfo> info = new List<LobbyInfo>();
-                foreach (TypedLobbyInfo lobbyInfo in lobbyStatistics)
+                List<LobbyData> data = new List<LobbyData>();
+                foreach (TypedLobbyInfo info in lobbyStatistics)
                 {
-                    info.Add(LobbyInfo.Create(lobbyInfo.Name, lobbyInfo.PlayerCount, lobbyInfo.RoomCount));
+                    data.Add(LobbyData.Create(info.Name, info.PlayerCount, info.RoomCount));
                 }
-                lobbyStatisticsUpdate(info);
+                lobbyStatisticsUpdate(data);
             }
         }
     }
