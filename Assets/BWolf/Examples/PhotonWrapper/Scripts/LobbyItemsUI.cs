@@ -23,6 +23,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Called when an item has been clicked to set the current selected reference and invoke the OnSelect event</summary>
         private void OnClickedItem(BaseEventData data)
         {
             foreach (ListItem item in listItems)
@@ -36,6 +37,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Updates lobby list items with given lobby info </summary>
         public void UpdateItemsWithLobbyInfo(List<LobbyInfo> info)
         {
             for (int i = 0; i < info.Count; i++)
@@ -46,6 +48,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Lobby is a list item with some additional properties and functionalities</summary>
         [System.Serializable]
         public class LobbyListItem : ListItem
         {

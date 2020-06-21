@@ -27,32 +27,38 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Fires the OnSelect event with given value as argument</summary>
         public void OnSelect(bool value)
         {
             onSelect?.Invoke(value);
         }
 
+        /// <summary>Adds a listener to the OnSelect event</summary>
         public void AddListener(Action<bool> onSelect)
         {
             this.onSelect += onSelect;
         }
 
+        /// <summary>removes listener from the ONSelect event</summary>
         public void RemoveListener(Action<bool> onSelect)
         {
             this.onSelect -= onSelect;
         }
 
+        /// <summary>Resets current selected value</summary>
         public void ResetCurrentSelected()
         {
             CurrentSelected = null;
         }
 
+        /// <summary>List item is used to reference ui items containing a name a playercount and a trigger event to see if they are selected or not</summary>
         public class ListItem
         {
             public Text TxtName = null;
             public Text TxtPlayerCount = null;
             public EventTrigger EventTriggers = null;
 
+            /// <summary>Returns the playercount number as string</summary>
             public string PlayerCount
             {
                 get
@@ -62,6 +68,7 @@ namespace BWolf.Examples.PhotonWrapper
                 }
             }
 
+            /// <summary>Sets the player count text for this list item</summary>
             public void SetPlayerCount(int playerCount)
             {
                 TxtPlayerCount.text = string.Format("{0}/20", playerCount);
