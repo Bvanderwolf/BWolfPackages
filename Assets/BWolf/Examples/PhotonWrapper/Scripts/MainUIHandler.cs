@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
-    using System;
     using ListItem = ListItemsUI.ListItem;
 
     public class MainUIHandler : MonoBehaviour
@@ -220,6 +219,14 @@ namespace BWolf.Examples.PhotonWrapper
                     NetworkingService.JoinLobby(lobbyItem.TxtName.text);
                 }
             }
+        }
+
+        public void ExitApplication()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#endif
+            Application.Quit();
         }
     }
 }
