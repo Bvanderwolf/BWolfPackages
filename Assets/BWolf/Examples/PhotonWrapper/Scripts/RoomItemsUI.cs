@@ -70,6 +70,7 @@ namespace BWolf.Examples.PhotonWrapper
 
         public void CreateRoomFinish(string nameEntered, string passwordEntered)
         {
+            ToggleCreateRoomForm();
             onCreateRoomFinished.Invoke(nameEntered, demoGameMaxPlayers, passwordEntered);
         }
 
