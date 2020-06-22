@@ -1,18 +1,21 @@
-﻿using Photon.Realtime;
+﻿using ExitGames.Client.Photon;
+using Photon.Realtime;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
-    public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks
+    public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
     {
         private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();
+        private Dictionary<InRoomCallbackEvent, Action<Client>> inRoomCallbackEvents = new Dictionary<InRoomCallbackEvent, Action<Client>>();
         private Dictionary<SimpleCallbackEvent, Action> singleSimpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action>();
 
         private event Action<List<LobbyData>> lobbyStatisticsUpdate;
 
         private event Action<List<RoomData>> roomListUpdate;
+
+        private event Action<Client, Dictionary<string, object>> clientPropertyUpdate;
 
         ~CallbackHandler()
         {
@@ -48,6 +51,20 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Adds callback event to in room callback events dictionary</summary>
+        public void AddListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
+        {
+            if (inRoomCallbackEvents.ContainsKey(callbackEvent))
+            {
+                inRoomCallbackEvents[callbackEvent] += callback;
+            }
+            else
+            {
+                inRoomCallbackEvents.Add(callbackEvent, null);
+                inRoomCallbackEvents[callbackEvent] += callback;
+            }
+        }
+
         /// <summary>Adds lobby info statistics update  callback event to lobby statistics update event invocation list</summary>
         public void AddListener(Action<List<LobbyData>> action)
         {
@@ -60,12 +77,27 @@ namespace BWolf.Wrappers.PhotonSDK
             roomListUpdate += action;
         }
 
+        /// <summary>Adds client property update callback to client property update event invocation list</summary>
+        public void AddListener(Action<Client, Dictionary<string, object>> action)
+        {
+            clientPropertyUpdate += action;
+        }
+
         /// <summary>removes callback event from callback events dictionary</summary>
         public void RemoveListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
             if (simpleCallbackEvents.ContainsKey(callbackEvent))
             {
                 simpleCallbackEvents[callbackEvent] -= callback;
+            }
+        }
+
+        /// <summary>removes callback event from in room callback events dictionary</summary>
+        public void RemoveListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
+        {
+            if (inRoomCallbackEvents.ContainsKey(callbackEvent))
+            {
+                inRoomCallbackEvents[callbackEvent] -= callback;
             }
         }
 
@@ -79,6 +111,12 @@ namespace BWolf.Wrappers.PhotonSDK
         public void RemoveListener(Action<List<RoomData>> action)
         {
             roomListUpdate -= action;
+        }
+
+        /// <summary>Removes client property update callback from client property update event invocation list</summary>
+        public void RemoveListener(Action<Client, Dictionary<string, object>> action)
+        {
+            clientPropertyUpdate -= action;
         }
 
         /// <summary>Called when connected initialily with the server it fires events if there are subscribers</summary>
@@ -265,6 +303,41 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 singleSimpleCallbackEvents[SimpleCallbackEvent.LeftRoom]();
                 singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.LeftRoom);
+            }
+        }
+
+        /// <summary>Called when a player has entered a room it fires events if there are subscribers</summary>
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
+            {
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientJoined]((Client)newPlayer);
+            }
+        }
+
+        /// <summary>Called when a player has left a room it fires events if there are subscribers</summary>
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
+            {
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientLeft]((Client)otherPlayer);
+            }
+        }
+
+        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+        }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+        }
+
+        /// <summary>Called when the host in the room has been switched it fires events if there are subscribers</summary>
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
+            {
+                inRoomCallbackEvents[InRoomCallbackEvent.HostChanged]((Client)newMasterClient);
             }
         }
     }

@@ -15,4 +15,12 @@
         JoinRandomRoomFailed,
         LeftRoom
     }
+
+    /// <summary>Defines callbacks gained inside a room returning a client as argument</summary>
+    public enum InRoomCallbackEvent
+    {
+        ClientJoined,
+        ClientLeft,
+        HostChanged
+    }
 }

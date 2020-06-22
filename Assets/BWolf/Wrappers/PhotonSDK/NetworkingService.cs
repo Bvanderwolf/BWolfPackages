@@ -8,9 +8,9 @@ namespace BWolf.Wrappers.PhotonSDK
 {
     public static class NetworkingService
     {
-        private static readonly CallbackHandler callbackHandler = new CallbackHandler();
-        private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
-        private static readonly ClientHandler clientHandler = new ClientHandler();
+        private static readonly CallbackHandler callbackHandler;
+        private static readonly ConnectionHandler connectionHandler;
+        private static readonly ClientHandler clientHandler;
 
         public const int MaxPlayersOnServer = 20; //value is according to photon's free account maximum
 
@@ -38,13 +38,22 @@ namespace BWolf.Wrappers.PhotonSDK
             if (!EditorApplication.isPlaying) return;
 #endif
 
+            callbackHandler = new CallbackHandler();
+            connectionHandler = new ConnectionHandler();
+            clientHandler = new ClientHandler(callbackHandler);
+
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }
 
-        /// <summary>Adds a callback listener for events that either return no value or a string value</summary>
+        /// <summary>Adds a callback listener for events that either contain no value or a string value</summary>
         public static void AddCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.AddListener(callbackEvent, callback);
+        }
+
+        /// <summary>Adds a callback listener for events in a room that contain a client value</summary>
+        public static void AddCallbackListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
+        {
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
@@ -59,8 +68,20 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.AddListener(onUpdate);
         }
 
+        /// <summary>Adds the callback listener to the client property update event</summary>
+        public static void AddClientPropertyUpdateListener(Action<Client, Dictionary<string, object>> onUpdate)
+        {
+            callbackHandler.AddListener(onUpdate);
+        }
+
         /// <summary>Removes callback listener for events that either return no value or a string value</summary>
         public static void RemoveCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
+        {
+            callbackHandler.RemoveListener(callbackEvent, callback);
+        }
+
+        /// <summary>Removes a callback listener for events in a room that contain a client value</summary>
+        public static void RemoveCallbackListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
         {
             callbackHandler.RemoveListener(callbackEvent, callback);
         }
@@ -73,6 +94,12 @@ namespace BWolf.Wrappers.PhotonSDK
 
         /// <summary>Removes callback listener from the room list update event</summary>
         public static void RemoveRoomListListener(Action<List<RoomData>> onUpdate)
+        {
+            callbackHandler.RemoveListener(onUpdate);
+        }
+
+        /// <summary>Adds the callback listener to the client property update event</summary>
+        public static void RemoveClientPropertyUpdateListener(Action<Client, Dictionary<string, object>> onUpdate)
         {
             callbackHandler.RemoveListener(onUpdate);
         }
