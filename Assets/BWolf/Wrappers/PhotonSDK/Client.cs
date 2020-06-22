@@ -38,5 +38,15 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             Properties.Merge(properties);
         }
+
+        public static explicit operator Client(Player player)
+        {
+            Client client = new Client(player.IsLocal);
+            client.SetNickname(player.NickName);
+            client.SetActorNumber(player.ActorNumber);
+            client.SetIsHost(player.IsMasterClient);
+            client.SetProperties(player.CustomProperties);
+            return client;
+        }
     }
 }
