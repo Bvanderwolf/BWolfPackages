@@ -102,7 +102,7 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>Updates the lits items based on given room data</summary>
         private void UpdateListItemsWithRoomData(List<RoomData> data)
         {
-            ClearListItemGameObjects();
+            ClearListItemUI();
             UpdateDataShowing(data);
             CreateItemsBasedOnShowingData();
             SetupListItemTriggers();
@@ -110,10 +110,19 @@ namespace BWolf.Examples.PhotonWrapper
         }
 
         /// <summary>destroys all room item ui objects except for head</summary>
-        private void ClearListItemGameObjects()
+        private void ClearListItemUI()
         {
+            //clear list items
             listItems.Clear();
 
+            //reset current selected if an item was selected
+            if (CurrentSelected != null)
+            {
+                CurrentSelected = null;
+                OnSelect(false);
+            }
+
+            //destroy all list item game objects
             for (int i = transform.childCount - 1; i >= 1; i--)
             {
                 Destroy(transform.GetChild(i).gameObject);
