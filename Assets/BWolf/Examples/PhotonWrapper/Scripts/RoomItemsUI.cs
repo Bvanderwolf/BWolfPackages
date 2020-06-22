@@ -13,6 +13,9 @@ namespace BWolf.Examples.PhotonWrapper
         private GameObject prefabRoomListItem = null;
 
         [SerializeField]
+        private Button btnCreate = null;
+
+        [SerializeField]
         private CreateRoomForm createRoomForm = null;
 
         [Header("Settings")]
@@ -26,15 +29,18 @@ namespace BWolf.Examples.PhotonWrapper
         private List<RoomData> dataShowing = new List<RoomData>();
 
         private const int demoGameMaxPlayers = 2;
+        private const int demoMaxRoomsInLobby = 5;
 
         private void Start()
         {
             ToggleCreateRoomForm();
+            btnCreate.onClick.AddListener(ToggleCreateRoomForm);
             NetworkingService.AddRoomListListener(UpdateListItemsWithRoomData);
         }
 
         private void OnDestroy()
         {
+            btnCreate.onClick.RemoveListener(ToggleCreateRoomForm);
             NetworkingService.RemoveRoomListListener(UpdateListItemsWithRoomData);
         }
 
@@ -95,6 +101,7 @@ namespace BWolf.Examples.PhotonWrapper
             UpdateDataShowing(data);
             CreateItemsBasedOnShowingData();
             SetupListItemTriggers();
+            CheckCreateRoomAbility();
         }
 
         /// <summary>destroys all room item ui objects except for head</summary>
@@ -156,6 +163,11 @@ namespace BWolf.Examples.PhotonWrapper
                 listItem.KeyImage.enabled = item.HasKey;
                 listItems.Add(listItem);
             }
+        }
+
+        private void CheckCreateRoomAbility()
+        {
+            btnCreate.interactable = dataShowing.Count < demoMaxRoomsInLobby;
         }
 
         /// <summary>Lobby is a list item with some additional properties and functionalities</summary>

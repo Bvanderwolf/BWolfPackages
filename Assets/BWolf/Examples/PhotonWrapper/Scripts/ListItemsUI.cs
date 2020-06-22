@@ -9,7 +9,7 @@ namespace BWolf.Examples.PhotonWrapper
     {
         [Header("References")]
         [SerializeField]
-        private Button joinButton = null;
+        private Button btnJoin = null;
 
         private event Action<bool> onSelect;
 
@@ -25,7 +25,7 @@ namespace BWolf.Examples.PhotonWrapper
             if (Input.GetMouseButtonDown(0) && CurrentSelected != null)
             {
                 GameObject current = EventSystem.current.currentSelectedGameObject;
-                if (current != CurrentSelected.EventTriggers.gameObject && current != joinButton.gameObject)
+                if (current != CurrentSelected.EventTriggers.gameObject && current != btnJoin.gameObject)
                 {
                     CurrentSelected = null;
                     OnSelect(false);

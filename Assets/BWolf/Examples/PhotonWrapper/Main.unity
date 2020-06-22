@@ -2486,7 +2486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bff43c7f3957c04f90b75f411cb0476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinButton: {fileID: 1048006254}
+  btnJoin: {fileID: 1048006254}
   listItems:
   - TxtName: {fileID: 629737826}
     TxtPlayerCount: {fileID: 278289753473164282}
@@ -7595,9 +7595,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f2877022fc03341b3c4af7d4c91a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinButton: {fileID: 1552301531}
+  btnJoin: {fileID: 1552301531}
   prefabRoomListItem: {fileID: 2500664852453056017, guid: e7c4502e7f7380b4eacafa795c0439db,
     type: 3}
+  btnCreate: {fileID: 2072389652}
   createRoomForm: {fileID: 1544930449}
   listItems: []
   onCreateRoomFinished:
@@ -7750,7 +7751,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.44705883, g: 0.4392157, b: 0.44313726, a: 0.9019608}
     m_PressedColor: {r: 0.44705883, g: 0.4392157, b: 0.44313726, a: 1}
     m_SelectedColor: {r: 0.44705883, g: 0.4392157, b: 0.44313726, a: 0.5882353}
-    m_DisabledColor: {r: 0.44705883, g: 0.4392157, b: 0.44313726, a: 0.39215687}
+    m_DisabledColor: {r: 0.44705883, g: 0.4392157, b: 0.44313726, a: 0.09803922}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7768,18 +7769,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2072389653}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1972976820}
-        m_MethodName: ToggleCreateRoomForm
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2072389653
 MonoBehaviour:
   m_ObjectHideFlags: 0
