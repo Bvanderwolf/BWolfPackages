@@ -330,6 +330,15 @@ namespace BWolf.Wrappers.PhotonSDK
 
         public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
+            if (clientPropertyUpdate != null)
+            {
+                Dictionary<string, object> props = new Dictionary<string, object>();
+                foreach (var prop in changedProps)
+                {
+                    props.Add((string)prop.Key, prop.Value);
+                }
+                clientPropertyUpdate((Client)targetPlayer, props);
+            }
         }
 
         /// <summary>Called when the host in the room has been switched it fires events if there are subscribers</summary>
