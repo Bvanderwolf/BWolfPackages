@@ -56,6 +56,7 @@ namespace BWolf.Examples.PhotonWrapper
                 listItems[i].SetLobbyName(data[i].Name);
                 listItems[i].SetPlayerCount(data[i].PlayerCount, NetworkingService.MaxPlayersOnServer);
                 listItems[i].SetRoomCount(data[i].RoomCount, NetworkingService.MaxPlayersOnServer);
+                listItems[i].EventTriggers.GetComponent<Selectable>().interactable = !data[i].IsFull;
             }
         }
 

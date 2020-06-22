@@ -23,6 +23,11 @@
             get { return roomCount; }
         }
 
+        public bool IsFull
+        {
+            get { return playerCount == NetworkingService.MaxPlayersOnServer; }
+        }
+
         /// <summary>Creates a new Lobby Data object without calling a constructor</summary>
         public static LobbyData Create(string name, int playerCount, int roomCount)
         {
