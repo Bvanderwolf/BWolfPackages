@@ -181,6 +181,12 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("Players");
         }
 
+        /// <summary>Called when having left a room, changes to room list focus</summary>
+        private void OnLeftRoom()
+        {
+            ChangeGroupFocus("Rooms");
+        }
+
         // <summary>Called when a lobby item has been selected or not making the join lobby button interactable based on the boolean value</summary>
         private void OnLobbyItemSelect(bool value)
         {
@@ -216,6 +222,12 @@ namespace BWolf.Examples.PhotonWrapper
         public void StopRoomList()
         {
             NetworkingService.LeaveLobby();
+        }
+
+        /// <summary>Stops the game setup by leaving the room and returning to room list</summary>
+        public void StopGameSetup()
+        {
+            NetworkingService.LeaveRoom();
         }
 
         // <summary>Closes settings ui by changing canvas group focus to menu buttons</summary>

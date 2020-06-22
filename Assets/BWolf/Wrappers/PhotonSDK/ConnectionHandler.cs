@@ -45,6 +45,20 @@ namespace BWolf.Wrappers.PhotonSDK
             return PhotonNetwork.JoinRoom(name);
         }
 
+        /// <summary>Tries leaving a room returning whether it was succesfull or not, updating given log with info</summary>
+        public bool LeaveRoom(ref string log)
+        {
+            if (!PhotonNetwork.InRoom)
+            {
+                log += "Can't leave room if not in one";
+                return false;
+            }
+            else
+            {
+                return PhotonNetwork.LeaveRoom();
+            }
+        }
+
         /// <summary>Tries joining a lobby returning whether it was succesfull or not, updating given log with info</summary>
         public bool JoinLobby(string lobbyName, ref string log)
         {

@@ -10,6 +10,7 @@ namespace BWolf.Wrappers.PhotonSDK
     {
         private static readonly CallbackHandler callbackHandler = new CallbackHandler();
         private static readonly ConnectionHandler connectionHandler = new ConnectionHandler();
+        private static readonly ClientHandler clientHandler = new ClientHandler();
 
         public const int MaxPlayersOnServer = 20; //value is according to photon's free account maximum
 
@@ -130,6 +131,23 @@ namespace BWolf.Wrappers.PhotonSDK
                 if (onJoined != null)
                 {
                     callbackHandler.AddSingleCallback(SimpleCallbackEvent.JoinedRoom, onJoined);
+                }
+            }
+        }
+
+        /// <summary>Makes client leave the current room it is in</summary>
+        public static void LeaveRoom(Action onLefRoom = null)
+        {
+            string log = string.Empty;
+            if (!connectionHandler.LeaveRoom(ref log))
+            {
+                Debug.LogWarningFormat("Failed leaving room :: {0}", log);
+            }
+            else
+            {
+                if (onLefRoom != null)
+                {
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftLobby, onLefRoom);
                 }
             }
         }
