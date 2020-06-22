@@ -165,6 +165,7 @@ namespace BWolf.Examples.PhotonWrapper
 
                 listItem.TxtName.text = item.Name;
                 listItem.SetPlayerCount(item.PlayerCount, demoGameMaxPlayers);
+                listItem.EventTriggers.GetComponent<Selectable>().interactable = !item.IsFull;
                 listItem.KeyImage.enabled = item.HasKey;
                 listItems.Add(listItem);
             }

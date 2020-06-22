@@ -81,6 +81,11 @@
             get { return !string.IsNullOrEmpty(key); }
         }
 
+        public bool IsFull
+        {
+            get { return playerCount == maxPlayers; }
+        }
+
         public const string PasswordPropertyKey = "RoomPassword";
 
         /// <summary>Creates a new RoomData object without calling a constructor</summary>
