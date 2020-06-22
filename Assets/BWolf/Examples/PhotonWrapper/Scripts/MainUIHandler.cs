@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
+    using System;
     using ListItem = ListItemsUI.ListItem;
 
     public class MainUIHandler : MonoBehaviour
@@ -60,6 +61,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
 
@@ -84,6 +86,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
         }
@@ -169,6 +172,11 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("Players");
         }
 
+        private void OnJoinedRoom(string message)
+        {
+            ChangeGroupFocus("Players");
+        }
+
         private void OnLobbyItemSelect(bool value)
         {
             btnJoinLobby.interactable = value;
@@ -218,6 +226,20 @@ namespace BWolf.Examples.PhotonWrapper
 
         public void JoinSelectedRoom()
         {
+            ListItem roomItem = roomListItems.CurrentSelected;
+            if (roomItem != null)
+            {
+                NetworkingService.JoinRoom(roomItem.TxtName.text);
+            }
+        }
+
+        public void JoinSelectedLobby()
+        {
+            ListItem lobbyItem = lobbyListItems.CurrentSelected;
+            if (lobbyItem != null)
+            {
+                NetworkingService.JoinLobby(lobbyItem.TxtName.text);
+            }
         }
 
         private void SetRoomFocus()
@@ -230,19 +252,6 @@ namespace BWolf.Examples.PhotonWrapper
         {
             ChangeGroupFocus("Lobbys");
             btnJoinLobby.interactable = false;
-        }
-
-        public void JoinSelectedLobby()
-        {
-            ListItem lobbyItem = lobbyListItems.CurrentSelected;
-            if (lobbyItem != null)
-            {
-                int count;
-                if (int.TryParse(lobbyItem.PlayerCount, out count) && count >= 0)
-                {
-                    NetworkingService.JoinLobby(lobbyItem.TxtName.text);
-                }
-            }
         }
 
         public void ExitApplication()

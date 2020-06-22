@@ -131,7 +131,7 @@ namespace BWolf.Examples.PhotonWrapper
                         }
                         else
                         {
-                            dataShowing[j].Override(newData[i]);
+                            dataShowing[j] = newData[i];
                         }
 
                         wasListed = true;

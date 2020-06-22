@@ -93,15 +93,6 @@
             return data;
         }
 
-        public void Override(RoomData newData)
-        {
-            removedFromList = newData.removedFromList;
-            name = newData.name;
-            playerCount = newData.playerCount;
-            maxPlayers = newData.maxPlayers;
-            key = newData.key;
-        }
-
         public override string ToString()
         {
             return string.Format("Removed: {0}, Name: {1}, PlayerCount: {2}, MaxPlayers: {3}, key: {4}", removedFromList, name, playerCount, maxPlayers, key);

@@ -117,6 +117,22 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        public static void JoinRoom(string name, Action onJoined = null)
+        {
+            string log = string.Empty;
+            if (!connectionHandler.JoinRoom(name, ref log))
+            {
+                Debug.LogWarningFormat("Failed joining room {0} :: {1}", name, log);
+            }
+            else
+            {
+                if (onJoined != null)
+                {
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.JoinedRoom, onJoined);
+                }
+            }
+        }
+
         /// <summary>Joins lobby with given name, Set on lobby joined callback if you want to execute some function when joined</summary>
         public static void JoinLobby(string lobbyName, Action onLobbyJoined = null)
         {

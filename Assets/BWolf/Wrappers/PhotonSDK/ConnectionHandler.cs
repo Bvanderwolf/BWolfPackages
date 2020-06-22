@@ -24,12 +24,6 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Tries creating a room using given information, returning whether it was succesfull or not, updating given log with info</summary>
         public bool CreateRoom(string name, int maxPlayers, string key, ref string log)
         {
-            if (PhotonNetwork.OfflineMode)
-            {
-                log += "can't create a new room in offine mode";
-                return false;
-            }
-
             if (PhotonNetwork.InRoom && !PhotonNetwork.OfflineMode)
             {
                 log += "can't create a new room when already inside a room online";
@@ -38,6 +32,16 @@ namespace BWolf.Wrappers.PhotonSDK
 
             RoomOptions options = CreateRoomOptions((byte)maxPlayers, new Hashtable { { RoomData.PasswordPropertyKey, key } }, RoomData.PasswordPropertyKey);
             return PhotonNetwork.CreateRoom(name, options);
+        }
+
+        public bool JoinRoom(string name, ref string log)
+        {
+            if (PhotonNetwork.InRoom && !PhotonNetwork.OfflineMode)
+            {
+                log += "can't join a new room when already inside a room online";
+                return false;
+            }
+            return PhotonNetwork.JoinRoom(name);
         }
 
         /// <summary>Tries joining a lobby returning whether it was succesfull or not, updating given log with info</summary>
