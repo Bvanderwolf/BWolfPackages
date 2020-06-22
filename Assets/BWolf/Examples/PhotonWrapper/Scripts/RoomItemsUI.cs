@@ -68,6 +68,26 @@ namespace BWolf.Examples.PhotonWrapper
             form.SetActive(!form.activeInHierarchy);
         }
 
+        public void CreateRoomFinish(string nameEntered, string passwordEntered)
+        {
+            onCreateRoomFinished.Invoke(nameEntered, demoGameMaxPlayers, passwordEntered);
+        }
+
+        public bool IsListedRoom(string roomName)
+        {
+            if (dataShowing.Count == 0) { return false; }
+
+            for (int i = 0; i < dataShowing.Count; i++)
+            {
+                if (dataShowing[i].Name == roomName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void UpdateListItemsWithRoomData(List<RoomData> data)
         {
             ClearListItemGameObjects();

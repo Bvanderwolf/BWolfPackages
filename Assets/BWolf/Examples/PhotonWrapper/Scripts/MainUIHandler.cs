@@ -69,11 +69,6 @@ namespace BWolf.Examples.PhotonWrapper
         private void Update()
         {
             txtConnectionState.text = string.Format("ConnectionState: {0}", NetworkingService.ConnectionState);
-
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                NetworkingService.CreateRoom("Testroom", 2, "password", () => Debug.Log("created room"));
-            }
         }
 
         private void OnDestroy()
