@@ -34,6 +34,7 @@ namespace BWolf.Wrappers.PhotonSDK
             return PhotonNetwork.CreateRoom(name, options);
         }
 
+        /// <summary>Tries joining a room using given information, returning whether it was succesfull or not, updating given log with info</summary>
         public bool JoinRoom(string name, ref string log)
         {
             if (PhotonNetwork.InRoom && !PhotonNetwork.OfflineMode)

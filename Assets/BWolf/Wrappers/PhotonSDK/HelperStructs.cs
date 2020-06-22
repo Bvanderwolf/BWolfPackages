@@ -23,6 +23,7 @@
             get { return roomCount; }
         }
 
+        /// <summary>Creates a new Lobby Data object without calling a constructor</summary>
         public static LobbyData Create(string name, int playerCount, int roomCount)
         {
             LobbyData data;
@@ -82,6 +83,7 @@
 
         public const string PasswordPropertyKey = "RoomPassword";
 
+        /// <summary>Creates a new RoomData object without calling a constructor</summary>
         public static RoomData Create(bool removedFromList, string name, int playerCount, int maxPlayers, string key)
         {
             RoomData data;

@@ -100,7 +100,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
-        /// <summary>Creates rooom with given options. Set onc created callback if you want to execute some function when creation has finished</summary>
+        /// <summary>Creates rooom with given options. Set on created callback if you want to execute some function when creation has finished</summary>
         public static void CreateRoom(string name, int maxPlayers, string key, Action onCreated = null)
         {
             string log = string.Empty;
@@ -117,6 +117,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Joins a room with given name, Set on joined to excecute some function when the client has joined the room</summary>
         public static void JoinRoom(string name, Action onJoined = null)
         {
             string log = string.Empty;

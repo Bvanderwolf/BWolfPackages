@@ -115,7 +115,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
             else
             {
-                SetLobbyFocus();
+                SetLobbyListFocus();
             }
         }
 
@@ -147,7 +147,7 @@ namespace BWolf.Examples.PhotonWrapper
         {
             if (!NetworkingService.InOfflineMode)
             {
-                SetLobbyFocus();
+                SetLobbyListFocus();
             }
         }
 
@@ -157,31 +157,37 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("MenuButtons");
         }
 
+        // <summary>Called when having joined a lobby with rooms, changes to room list focus</summary>
         private void OnJoinedLobby(string message)
         {
-            SetRoomFocus();
+            SetRoomListFocus();
         }
 
+        // <summary>Called when having left a lobby with rooms, changes to lobby list focus</summary>
         private void OnLeftLobby(string message)
         {
-            SetLobbyFocus();
+            SetLobbyListFocus();
         }
 
+        // <summary>Called when having created a room, changes to players list focus</summary>
         private void OnCreatedRoom(string message)
         {
             ChangeGroupFocus("Players");
         }
 
+        // <summary>Called when having joined a room, changes to players list focus/summary>
         private void OnJoinedRoom(string message)
         {
             ChangeGroupFocus("Players");
         }
 
+        // <summary>Called when a lobby item has been selected or not making the join lobby button interactable based on the boolean value</summary>
         private void OnLobbyItemSelect(bool value)
         {
             btnJoinLobby.interactable = value;
         }
 
+        // <summary>Called when a room item has been selected or not making the join room button interactabel based on the boolean value</summary>
         private void OnRoomItemSelect(bool value)
         {
             btnJoinRoom.interactable = value;
@@ -206,16 +212,19 @@ namespace BWolf.Examples.PhotonWrapper
             ChangeGroupFocus("MenuButtons");
         }
 
+        // <summary>Stops the room list ui by leaving the lobby</summary>
         public void StopRoomList()
         {
             NetworkingService.LeaveLobby();
         }
 
+        // <summary>Closes settings ui by changing canvas group focus to menu buttons</summary>
         public void CloseSettings()
         {
             ChangeGroupFocus("MenuButtons");
         }
 
+        // <summary>Called when a room can be created to use the networking service to create a room with given room info</summary>
         public void CreateRoom(string name, int maxPlayers, string password)
         {
             if (!string.IsNullOrEmpty(name))
@@ -224,6 +233,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        // <summary>Called when the join room button is pressed to jon the currently selected room</summary>
         public void JoinSelectedRoom()
         {
             ListItem roomItem = roomListItems.CurrentSelected;
@@ -233,6 +243,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        // <summary>Called when the join lobby button is pressed to jon the currently selected lobby</summary>
         public void JoinSelectedLobby()
         {
             ListItem lobbyItem = lobbyListItems.CurrentSelected;
@@ -242,18 +253,21 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
-        private void SetRoomFocus()
+        // <summary>Sets the focus to rooms resetting related ui settings in the process</summary>
+        private void SetRoomListFocus()
         {
             ChangeGroupFocus("Rooms");
             btnJoinRoom.interactable = false;
         }
 
-        private void SetLobbyFocus()
+        // <summary>Sets the focus to lobbys resetting related ui settings in the process</summary>
+        private void SetLobbyListFocus()
         {
             ChangeGroupFocus("Lobbys");
             btnJoinLobby.interactable = false;
         }
 
+        // <summary>Exits the application</summary>
         public void ExitApplication()
         {
 #if UNITY_EDITOR

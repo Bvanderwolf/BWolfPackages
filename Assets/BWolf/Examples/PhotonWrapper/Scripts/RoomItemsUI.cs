@@ -44,6 +44,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.RemoveRoomListListener(UpdateListItemsWithRoomData);
         }
 
+        /// <summary>Sets up the room list event tirggers</summary>
         protected override void SetupListItemTriggers()
         {
             foreach (RoomListItem item in listItems)
@@ -54,6 +55,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Called when a room item has been clicked to set current selected and fire the on select event</summary>
         protected override void OnClickedItem(BaseEventData data)
         {
             foreach (ListItem item in listItems)
@@ -61,25 +63,27 @@ namespace BWolf.Examples.PhotonWrapper
                 if (item.EventTriggers.gameObject == data.selectedObject)
                 {
                     CurrentSelected = item;
-                    print(CurrentSelected.EventTriggers.gameObject);
                     OnSelect(true);
                     break;
                 }
             }
         }
 
+        /// <summary>Toggles the active state of the create room form</summary>
         public void ToggleCreateRoomForm()
         {
             GameObject form = createRoomForm.gameObject;
             form.SetActive(!form.activeInHierarchy);
         }
 
+        /// <summary>called when the finish button has been pressed on the create room form to start creating the room with given information</summary>
         public void CreateRoomFinish(string nameEntered, string passwordEntered)
         {
             ToggleCreateRoomForm();
             onCreateRoomFinished.Invoke(nameEntered, demoGameMaxPlayers, passwordEntered);
         }
 
+        /// <summary>Returns whether given roomname is already a listed room's name</summary>
         public bool IsListedRoom(string roomName)
         {
             if (dataShowing.Count == 0) { return false; }
@@ -95,6 +99,7 @@ namespace BWolf.Examples.PhotonWrapper
             return false;
         }
 
+        /// <summary>Updates the lits items based on given room data</summary>
         private void UpdateListItemsWithRoomData(List<RoomData> data)
         {
             ClearListItemGameObjects();
@@ -165,6 +170,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Sets the interactability of the create button based on ammount of room data showing right now</summary>
         private void CheckCreateRoomAbility()
         {
             btnCreate.interactable = dataShowing.Count < demoMaxRoomsInLobby;

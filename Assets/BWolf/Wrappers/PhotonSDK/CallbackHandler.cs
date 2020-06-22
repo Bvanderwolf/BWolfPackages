@@ -196,6 +196,7 @@ namespace BWolf.Wrappers.PhotonSDK
         {
         }
 
+        /// <summary>Called when having created a room it fires events if there are subscribers</summary>
         public void OnCreatedRoom()
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreatedRoom))
@@ -209,6 +210,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called when having failed creating a room it fires events if there are subscribers</summary>
         public void OnCreateRoomFailed(short returnCode, string message)
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreateRoomFailed))
@@ -218,6 +220,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called when having joined a room it fires events if there are subscribers</summary>
         public void OnJoinedRoom()
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
@@ -231,6 +234,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called when having failed joining a room it fires events if there are subscribers</summary>
         public void OnJoinRoomFailed(short returnCode, string message)
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRoomFailed))
@@ -240,6 +244,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called when having failed joining a random room it fires events if there are subscribers</summary>
         public void OnJoinRandomFailed(short returnCode, string message)
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRandomRoomFailed))
@@ -249,6 +254,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Called when having left a room it fires events if there are subscribers</summary>
         public void OnLeftRoom()
         {
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
