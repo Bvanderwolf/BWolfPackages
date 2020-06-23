@@ -8,31 +8,23 @@ namespace BWolf.Wrappers.PhotonSDK
     {
         public Client LocalClient { get; private set; }
 
-        public ClientHandler(CallbackHandler callbackHandler)
-        {
-            Player localPlayer = PhotonNetwork.LocalPlayer;
-            LocalClient = new Client(true, localPlayer.ActorNumber);
-            UpdateLocalClient(localPlayer);
-
-            callbackHandler.AddListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
-            callbackHandler.AddListener(SimpleCallbackEvent.LeftRoom, Reset);
-            callbackHandler.AddListener(SimpleCallbackEvent.Disconnected, Reset);
-
-            callbackHandler.AddListener(InRoomCallbackEvent.HostChanged, OnHostChanged);
-
-            callbackHandler.AddListener(OnClientPropertyUpdate);
-        }
-
-        /// <summary>Called when having joined a room, it updates the local client</summary>
-        private void OnJoinedRoom(string message)
+        public ClientHandler()
         {
             Player localPlayer = PhotonNetwork.LocalPlayer;
             LocalClient = new Client(true, localPlayer.ActorNumber);
             UpdateLocalClient(localPlayer);
         }
 
-        /// <summary>Called when having left a room or disconnected it updates the local client</summary>
-        private void Reset(string message)
+        /// <summary>Called when having joined a room, it creates a new local client</summary>
+        public void OnJoinedRoom()
+        {
+            Player localPlayer = PhotonNetwork.LocalPlayer;
+            LocalClient = new Client(true, localPlayer.ActorNumber);
+            UpdateLocalClient(localPlayer);
+        }
+
+        /// <summary>Called when having left a room or disconnected it creates a new local client</summary>
+        public void Reset()
         {
             Player localPlayer = PhotonNetwork.LocalPlayer;
             LocalClient = new Client(true, localPlayer.ActorNumber);
@@ -40,7 +32,7 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Called when the host in a room has been changed it updates the local client if he is the new host</summary>
-        private void OnHostChanged(Client newHost)
+        public void OnHostChanged(Client newHost)
         {
             if (newHost.IsLocal)
             {
@@ -49,7 +41,7 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Called when a clients properties in a room have been changed, it updates the local clients properties if the client is our local client</summary>
-        private void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
+        public void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
         {
             if (client.IsLocal)
             {

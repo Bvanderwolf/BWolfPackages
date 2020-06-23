@@ -1,7 +1,9 @@
 ﻿using ExitGames.Client.Photon;
+using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
@@ -16,6 +18,15 @@ namespace BWolf.Wrappers.PhotonSDK
         private event Action<List<RoomData>> roomListUpdate;
 
         private event Action<Client, Dictionary<string, object>> clientPropertyUpdate;
+
+        private ClientHandler clientHandler;
+        private RoomHandler roomHandler;
+
+        public CallbackHandler(ClientHandler clientHandler, RoomHandler roomHandler)
+        {
+            this.clientHandler = clientHandler;
+            this.roomHandler = roomHandler;
+        }
 
         ~CallbackHandler()
         {
@@ -158,6 +169,9 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Called when disconnected from the server it fires events if there are subscribers</summary>
         public void OnDisconnected(DisconnectCause cause)
         {
+            clientHandler.Reset();
+            roomHandler.Reset();
+
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Disconnected))
             {
                 simpleCallbackEvents[SimpleCallbackEvent.Disconnected]?.Invoke(cause.ToString());
@@ -261,6 +275,9 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Called when having joined a room it fires events if there are subscribers</summary>
         public void OnJoinedRoom()
         {
+            clientHandler.OnJoinedRoom();
+            roomHandler.OnJoinedRoom();
+
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
             {
                 simpleCallbackEvents[SimpleCallbackEvent.JoinedRoom](null);
@@ -295,6 +312,9 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Called when having left a room it fires events if there are subscribers</summary>
         public void OnLeftRoom()
         {
+            clientHandler.Reset();
+            roomHandler.Reset();
+
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
             {
                 simpleCallbackEvents[SimpleCallbackEvent.LeftRoom](null);
@@ -309,18 +329,22 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Called when a player has entered a room it fires events if there are subscribers</summary>
         public void OnPlayerEnteredRoom(Player newPlayer)
         {
+            Client client = (Client)newPlayer;
+            roomHandler.OnClientJoined(client);
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.ClientJoined]((Client)newPlayer);
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientJoined](client);
             }
         }
 
         /// <summary>Called when a player has left a room it fires events if there are subscribers</summary>
         public void OnPlayerLeftRoom(Player otherPlayer)
         {
+            Client client = (Client)otherPlayer;
+            roomHandler.OnClientLeft(client);
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.ClientLeft]((Client)otherPlayer);
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientLeft](client);
             }
         }
 
@@ -330,23 +354,28 @@ namespace BWolf.Wrappers.PhotonSDK
 
         public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (clientPropertyUpdate != null)
+            Client client = (Client)targetPlayer;
+            Dictionary<string, object> props = new Dictionary<string, object>();
+            foreach (var prop in changedProps)
             {
-                Dictionary<string, object> props = new Dictionary<string, object>();
-                foreach (var prop in changedProps)
-                {
-                    props.Add((string)prop.Key, prop.Value);
-                }
-                clientPropertyUpdate((Client)targetPlayer, props);
+                props.Add((string)prop.Key, prop.Value);
             }
+
+            clientHandler.OnClientPropertyUpdate(client, props);
+            roomHandler.OnClientPropertyUpdate(client, props);
+            clientPropertyUpdate?.Invoke(client, props);
         }
 
         /// <summary>Called when the host in the room has been switched it fires events if there are subscribers</summary>
         public void OnMasterClientSwitched(Player newMasterClient)
         {
+            Client client = (Client)newMasterClient;
+            clientHandler.OnHostChanged(client);
+            roomHandler.OnHostChanged(client);
+
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.HostChanged]((Client)newMasterClient);
+                inRoomCallbackEvents[InRoomCallbackEvent.HostChanged](client);
             }
         }
     }

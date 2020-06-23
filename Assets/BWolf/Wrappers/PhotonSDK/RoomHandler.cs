@@ -14,21 +14,33 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.MasterClientId : -1; }
         }
 
-        public RoomHandler(CallbackHandler callbackHandler)
+        /// <summary>Tries closing the current room you are in</summary>
+        public bool CloseRoom(ref string log)
         {
-            callbackHandler.AddListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
-            callbackHandler.AddListener(SimpleCallbackEvent.LeftRoom, Reset);
-            callbackHandler.AddListener(SimpleCallbackEvent.Disconnected, Reset);
+            if (!PhotonNetwork.InRoom)
+            {
+                log += "you can't close a room if you are not in one";
+                return false;
+            }
+            if (PhotonNetwork.OfflineMode)
+            {
+                log += "You can't close your room in offline mode";
+                return false;
+            }
 
-            callbackHandler.AddListener(InRoomCallbackEvent.ClientJoined, OnClientJoined);
-            callbackHandler.AddListener(InRoomCallbackEvent.ClientLeft, OnClientLeft);
-            callbackHandler.AddListener(InRoomCallbackEvent.HostChanged, OnHostChanged);
+            Room room = PhotonNetwork.CurrentRoom;
+            if (!room.IsOpen)
+            {
+                log += "the room is already closed";
+                return false;
+            }
 
-            callbackHandler.AddListener(OnClientPropertyUpdate);
+            room.IsOpen = false;
+            return true;
         }
 
         /// <summary>Called when having joined a room it adds all players in the room as clients to clients in room</summary>
-        private void OnJoinedRoom(string message)
+        public void OnJoinedRoom()
         {
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
@@ -38,7 +50,7 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Called when the host changes, it refreshes the clients in room dictionary</summary>
-        private void OnHostChanged(Client newHost)
+        public void OnHostChanged(Client newHost)
         {
             ClientsInRoom.Clear();
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
@@ -49,25 +61,25 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Called when having left a room or when disconnect it clears the clients in room dictionary</summary>
-        private void Reset(string message)
+        public void Reset()
         {
             ClientsInRoom.Clear();
         }
 
         /// <summary>Called when a client has joined the room, it adds it to the clients in room dictionary</summary>
-        private void OnClientJoined(Client client)
+        public void OnClientJoined(Client client)
         {
             ClientsInRoom.Add(client.ActorNumber, client);
         }
 
         /// <summary>Called when a client has left the room, it removes it from the clients in room dictionary</summary>
-        private void OnClientLeft(Client client)
+        public void OnClientLeft(Client client)
         {
             ClientsInRoom.Remove(client.ActorNumber);
         }
 
         /// <summary>Called when a client's properties have been changed, it merges them with the client's stored properties in the clients in room dictionary</summary>
-        private void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
+        public void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
         {
             ClientsInRoom[client.ActorNumber].Properties.Merge(properties);
         }
