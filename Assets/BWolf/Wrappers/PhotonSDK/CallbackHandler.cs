@@ -1,12 +1,11 @@
 ﻿using ExitGames.Client.Photon;
-using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>Helper class to handle callbacks and manage callback events</summary>
     public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
     {
         private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();

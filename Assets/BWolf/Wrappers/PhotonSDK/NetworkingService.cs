@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>the main class to be used for accessing all functionalities regarding networking. this class is static</summary>
     public static class NetworkingService
     {
         private static readonly CallbackHandler callbackHandler;

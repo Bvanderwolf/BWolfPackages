@@ -4,6 +4,7 @@ using ExitGames.Client.Photon;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>Helper class for manaaging connections with the server and interactions</summary>
     public class ConnectionHandler
     {
         private readonly TypedLobby alphaLobby = new TypedLobby("Alpha", LobbyType.Default);

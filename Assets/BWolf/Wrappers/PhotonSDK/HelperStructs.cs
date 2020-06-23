@@ -1,5 +1,6 @@
 ﻿namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>structure containing data about a lobby on the server</summary>
     public struct LobbyData
     {
         private string name;
@@ -44,6 +45,7 @@
         }
     }
 
+    /// <summary>structure containing information about a room on the server</summary>
     public struct RoomData
     {
         private bool removedFromList;

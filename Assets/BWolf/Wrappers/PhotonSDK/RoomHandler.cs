@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>Helper class to be used to manage and store room related data</summary>
     public class RoomHandler
     {
         public readonly Dictionary<int, Client> ClientsInRoom = new Dictionary<int, Client>();

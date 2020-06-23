@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>Helper class managing everything regarding local client data and client properties</summary>
     public class ClientHandler
     {
         public Client LocalClient { get; private set; }

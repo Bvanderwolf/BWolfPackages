@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>The wrapper class representing a player</summary>
     public class Client
     {
         public string Nickname { get; private set; }
