@@ -3,4 +3,4 @@
 ## Timed Stat Modifier
 
 using time = 0;
-![TimedStatModifier](Assets/BWolf/Examples/StatModification/Gifs/TimedInstant.gif)
+![Timed](Gifs/TimedInstant.gif)
