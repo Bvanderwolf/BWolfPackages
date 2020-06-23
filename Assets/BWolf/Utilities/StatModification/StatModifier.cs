@@ -1,4 +1,8 @@
-﻿namespace BWolf.Utilities.StatModification
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Utilities.StatModification
 {
     /// <summary>Base class for modifiers to derive from to modify a stat system</summary>
     public abstract class StatModifier

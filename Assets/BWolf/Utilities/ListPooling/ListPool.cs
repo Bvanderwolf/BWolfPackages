@@ -1,6 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace BWolf.Utilities.ListPooling
 {
