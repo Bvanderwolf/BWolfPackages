@@ -28,7 +28,7 @@ namespace BWolf.Examples.PhotonWrapper
 
         private List<RoomData> dataShowing = new List<RoomData>();
 
-        private const int demoGameMaxPlayers = 2;
+        public const int DemoGameMaxPlayers = 2;
         private const int demoMaxRoomsInLobby = 5;
 
         private void Start()
@@ -80,7 +80,7 @@ namespace BWolf.Examples.PhotonWrapper
         public void CreateRoomFinish(string nameEntered, string passwordEntered)
         {
             ToggleCreateRoomForm();
-            onCreateRoomFinished.Invoke(nameEntered, demoGameMaxPlayers, passwordEntered);
+            onCreateRoomFinished.Invoke(nameEntered, DemoGameMaxPlayers, passwordEntered);
         }
 
         /// <summary>Returns whether given roomname is already a listed room's name</summary>
@@ -173,7 +173,7 @@ namespace BWolf.Examples.PhotonWrapper
                 listItem.KeyImage = members.MemberDictionary["KeyImage"].GetComponent<Image>();
 
                 listItem.TxtName.text = item.Name;
-                listItem.SetPlayerCount(item.PlayerCount, demoGameMaxPlayers);
+                listItem.SetPlayerCount(item.PlayerCount, DemoGameMaxPlayers);
                 listItem.EventTriggers.GetComponent<Selectable>().interactable = !item.IsFull;
                 listItem.KeyImage.enabled = item.HasKey;
                 listItems.Add(listItem);

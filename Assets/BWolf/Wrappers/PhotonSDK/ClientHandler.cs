@@ -8,61 +8,53 @@ namespace BWolf.Wrappers.PhotonSDK
     {
         public readonly Client LocalClient;
 
-        public readonly Dictionary<int, Client> ClientsInRoom = new Dictionary<int, Client>();
-
         public ClientHandler(CallbackHandler callbackHandler)
         {
             LocalClient = new Client(true);
-            UpdateClientPlayerData(LocalClient, PhotonNetwork.LocalPlayer);
+            UpdateLocalClient();
 
             callbackHandler.AddListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             callbackHandler.AddListener(SimpleCallbackEvent.LeftRoom, Reset);
             callbackHandler.AddListener(SimpleCallbackEvent.Disconnected, Reset);
 
-            callbackHandler.AddListener(InRoomCallbackEvent.ClientJoined, OnClientJoined);
-            callbackHandler.AddListener(InRoomCallbackEvent.ClientLeft, OnClientLeft);
+            callbackHandler.AddListener(InRoomCallbackEvent.HostChanged, OnHostChanged);
 
             callbackHandler.AddListener(OnClientPropertyUpdate);
         }
 
         private void OnJoinedRoom(string message)
         {
-            UpdateClientPlayerData(LocalClient, PhotonNetwork.LocalPlayer);
-
-            foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
-            {
-                Client client = (Client)player;
-                ClientsInRoom.Add(client.ActorNumber, client);
-            }
+            UpdateLocalClient();
         }
 
         private void Reset(string message)
         {
-            UpdateClientPlayerData(LocalClient, PhotonNetwork.LocalPlayer);
-            ClientsInRoom.Clear();
+            UpdateLocalClient();
         }
 
-        private void OnClientJoined(Client client)
+        private void OnHostChanged(Client newHost)
         {
-            ClientsInRoom.Add(client.ActorNumber, client);
-        }
-
-        private void OnClientLeft(Client client)
-        {
-            ClientsInRoom.Remove(client.ActorNumber);
+            if (newHost.IsLocal)
+            {
+                UpdateLocalClient();
+            }
         }
 
         private void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
         {
-            ClientsInRoom[client.ActorNumber].Properties.Merge(properties);
+            if (client.IsLocal)
+            {
+                LocalClient.Properties.Merge(properties);
+            }
         }
 
-        private void UpdateClientPlayerData(Client client, Player player)
+        private void UpdateLocalClient()
         {
-            client.SetNickname(player.NickName);
-            client.SetActorNumber(player.ActorNumber);
-            client.SetIsHost(player.IsMasterClient);
-            client.SetProperties(player.CustomProperties);
+            Player p = PhotonNetwork.LocalPlayer;
+            LocalClient.SetNickname(p.NickName);
+            LocalClient.SetActorNumber(p.ActorNumber);
+            LocalClient.SetIsHost(p.IsMasterClient);
+            LocalClient.SetProperties(p.CustomProperties);
         }
     }
 }

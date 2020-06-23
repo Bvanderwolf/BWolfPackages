@@ -11,6 +11,7 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly CallbackHandler callbackHandler;
         private static readonly ConnectionHandler connectionHandler;
         private static readonly ClientHandler clientHandler;
+        private static readonly RoomHandler roomHandler;
 
         public const int MaxPlayersOnServer = 20; //value is according to photon's free account maximum
 
@@ -32,6 +33,16 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return PhotonNetwork.NetworkClientState.ToString(); }
         }
 
+        public static Dictionary<int, Client> ClientsInRoom
+        {
+            get { return roomHandler.ClientsInRoom; }
+        }
+
+        public static int ActorNumberOfHost
+        {
+            get { return roomHandler.ActorNumberOfHost; }
+        }
+
         static NetworkingService()
         {
 #if UNITY_EDITOR
@@ -41,6 +52,7 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler = new CallbackHandler();
             connectionHandler = new ConnectionHandler();
             clientHandler = new ClientHandler(callbackHandler);
+            roomHandler = new RoomHandler(callbackHandler);
 
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }

@@ -230,6 +230,10 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.LeaveRoom();
         }
 
+        public void StartGame()
+        {
+        }
+
         // <summary>Closes settings ui by changing canvas group focus to menu buttons</summary>
         public void CloseSettings()
         {
