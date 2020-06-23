@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.StatModification
 {
-    /// <summary>A stat modifier used for increasing/decreasing stat until a given condition has been met</summary>
+    /// <summary>A stat modifier used for increasing/decreasing a stat until a given condition has been met</summary>
     [Serializable]
     public class ConditionalStatModifier : StatModifier
     {
@@ -17,9 +17,10 @@ namespace BWolf.Utilities.StatModification
         private int currentValue;
         private int valueModified;
 
+        /// <summary>Called each second the system has been modified, providing the name of this modifier as a string and the value modified as an integer</summary>
         public Action<string, int> OnSecondPassed;
 
-        /// <summary>Returns whether the condition has been met</summary>
+        /// <summary>Returns whether the stopcondition has been met</summary>
         public override bool Finished
         {
             get { return stopCondition(); }
@@ -59,7 +60,7 @@ namespace BWolf.Utilities.StatModification
             this.stopCondition = stopCondition;
         }
 
-        /// <summary>Modifies system by regenerating or decaying given value each second</summary>
+        /// <summary>Modifies system by regenerating or decaying given value, resseting and calling on second passed each second</summary>
         public override void Modify(StatSystem system)
         {
             timePassed += Time.deltaTime;
@@ -89,6 +90,7 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
+        /// <summary>Returns the string representation of this conditional stat modifier</summary>
         public override string ToString()
         {
             return $"ConditionalStatModifier[name: {name}, valuePerSecond: {valuePerSecond}, increase: {increase}, modifiesCurrent: {modifiesCurrent}, canStack: {canStack}]";

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace BWolf.Utilities.StatModification
 {
-    /// <summary>Can be used to show specific stats e.g. hitpoints or energy and modify its state</summary>
+    /// <summary>the main class to be used to show specific stats e.g. hitpoints or energy and modify its state by modifying a current or a max value</summary>
     [Serializable]
     public class StatSystem
     {
@@ -22,11 +22,23 @@ namespace BWolf.Utilities.StatModification
 
         private float current;
 
-        public event Action OnIncreaseStart, OnIncreaseStop;
+        /// <summary>Fired once when current or max has started increasing</summary>
+        public event Action OnIncreaseStart;
 
-        public event Action OnDecreaseStart, OnDecreaseStop;
+        /// <summary>Fired once when current or max has stopped increasing</summary>
+        public event Action OnIncreaseStop;
 
-        public event Action OnReachedMax, OnReachedZero;
+        /// <summary>Fired once when current or max has started decreasing</summary>
+        public event Action OnDecreaseStart;
+
+        /// <summary>Fired once when current or max has stopped decreasing</summary>
+        public event Action OnDecreaseStop;
+
+        /// <summary>Fired once when current has reached the max value</summary>
+        public event Action OnReachedMax;
+
+        /// <summary>Fired once when current has reached zero</summary>
+        public event Action OnReachedZero;
 
         /// <summary>Returns current state value rounded to nearest integer value</summary>
         public int Current
@@ -190,6 +202,19 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
+        /// <summary>Removes first or all occurences of modifier with given name from the systems queued modifiers list</summary>
+        public void RemoveQueuedModifier(string modifierName, bool allOccurences)
+        {
+            for (int i = queuedModifiers.Count - 1; i >= 0; i--)
+            {
+                if (queuedModifiers[i].Name == modifierName)
+                {
+                    queuedModifiers.RemoveAt(i);
+                    if (!allOccurences) { break; }
+                }
+            }
+        }
+
         /// <summary>Updates queued modifiers based on given finished modifier at given index</summary>
         private void RemoveActiveModifierInternal(StatModifier modifier, int indexOfModifier)
         {
@@ -292,9 +317,9 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Inserts given modifier into the system either as active modifier or queued based on the can stack flag</summary>
         private void InsertModifierInSystem(StatModifier modifier)
         {
+            //insert at index zero to make sure when removing a modifier by name, the first instance of this modifier inside the system is being removed
             if (!modifier.CanStack && activeModifiers.Any(m => m.Name == modifier.Name))
             {
-                //insert clone of modifier so stored modifier members of classes won't be modified
                 queuedModifiers.Insert(0, modifier);
             }
             else

@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.StatModification
 {
+    /// <summary>serializable strcuture used to wrap all generic information about a modifier to be added into a stat system</summary>
     [System.Serializable]
     public struct StatModifierInfo
     {
@@ -23,7 +24,7 @@ namespace BWolf.Utilities.StatModification
         [Tooltip("Does this modifier, when max is modified, also modify current?")]
         public bool ModifiesCurrentWithMax;
 
-        /// <summary>Creates a new StatModifierInfo instance</summary>
+        /// <summary>Creates a new StatModifierInfo instance using only name, value and an increase flag</summary>
         public static StatModifierInfo Create(string name, int value, bool increase)
         {
             StatModifierInfo info;
@@ -36,7 +37,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
-        /// <summary>Creates a new StatModifierInfo instance</summary>
+        /// <summary>Creates a new StatModifierInfo instance using name, value, an increase flag and an canstack flag</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack)
         {
             StatModifierInfo info;
@@ -49,7 +50,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
-        /// <summary>Creates a new StatModifierInfo instance</summary>
+        /// <summary>Creates a new StatModifierInfo instance using name, value, an increase flag, an can stack flag and an modifies current flag</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack, bool modifiesCurrent)
         {
             StatModifierInfo info;
@@ -62,7 +63,7 @@ namespace BWolf.Utilities.StatModification
             return info;
         }
 
-        /// <summary>Creates a new StatModifierInfo instance</summary>
+        /// <summary>Creates a new StatModifierInfo instance setting all members using given arguments</summary>
         public static StatModifierInfo Create(string name, int value, bool increase, bool canStack, bool modifiesCurrent, bool modifiesCurrentWithMax)
         {
             StatModifierInfo info;

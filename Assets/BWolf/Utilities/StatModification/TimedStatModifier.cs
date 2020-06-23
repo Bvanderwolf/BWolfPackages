@@ -2,7 +2,7 @@
 
 namespace BWolf.Utilities.StatModification
 {
-    /// <summary>A stat modifier than, over a given amount of time, increase/decrease given amount of value</summary>
+    /// <summary>A stat modifier that, over a given amount of time, increase/decreases given amount of value</summary>
     public class TimedStatModifier : StatModifier
     {
         [Min(0)]
@@ -40,7 +40,7 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
-        /// <summary>Returns whether the given time has been reached</summary>
+        /// <summary>Returns whether all time for this modifier has been passed</summary>
         public override bool Finished
         {
             get { return timePassed >= time; }
@@ -103,7 +103,7 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
-        /// <summary>Returns identifaction string for this timed stat modifier instance</summary>
+        /// <summary>Returns a string representation of this TimedStatModifier</summary>
         public override string ToString()
         {
             return $"TimedStatModifier[name: {name}, time: {time}, valuePerSecond: {value}, increase: {increase}, modifiesCurrent: {modifiesCurrent}, modifiesCurrentWithMax: {modifiesCurrentWithMax}, canStack: {canStack}]";
