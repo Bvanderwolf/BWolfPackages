@@ -20,8 +20,6 @@ namespace BWolf.Utilities.StatModification
 
         private Text displayText;
 
-        private float current;
-
         /// <summary>Fired once when current or max has started increasing</summary>
         public event Action OnIncreaseStart;
 
@@ -41,15 +39,18 @@ namespace BWolf.Utilities.StatModification
         public event Action OnReachedZero;
 
         /// <summary>Returns current value</summary>
-        public int Current
-        {
-            get { return (int)current; }
-        }
+        public int Current { get; private set; }
 
         /// <summary>Returns max value for this system</summary>
         public int Max
         {
             get { return max; }
+        }
+
+        /// <summary>Returns percentage of current and max</summary>
+        public float Perc
+        {
+            get { return (float)Current / max; }
         }
 
         /// <summary>Returns whether current is equal to max value</summary>
@@ -67,8 +68,8 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Updates systems state based on modifiers stored</summary>
         public void UpdateModifiers()
         {
-            bool currentIsMax = current == max;
-            bool currentIsZero = current == 0f;
+            bool currentIsMax = Current == max;
+            bool currentIsZero = Current == 0f;
 
             //let each modifier modify this system and remove it if it is finished giving callbacks if the condition is right
             for (int i = activeModifiers.Count - 1; i >= 0; i--)
@@ -87,20 +88,20 @@ namespace BWolf.Utilities.StatModification
         /// <summary>shows feedback of data on fillablebar and text. Make sure these are not null before using this</summary>
         public void UpdateVisuals()
         {
-            fillableBar.fillAmount = current / max;
+            fillableBar.fillAmount = Perc;
             displayText.text = $"{Current}/{max}";
         }
 
         /// <summary>Sets current to max without callbacks</summary>
         public void SetCurrentToMax()
         {
-            current = max;
+            Current = max;
         }
 
         /// <summary>Sets current to zero without callbacks</summary>
         public void SetCurrentToZero()
         {
-            current = 0;
+            Current = 0;
         }
 
         /// <summary>Lets a modifier that is in the list of modifiers modify current</summary>
@@ -108,20 +109,20 @@ namespace BWolf.Utilities.StatModification
         {
             if (activeModifiers.Contains(modifier))
             {
-                if (value > 0 && current != max)
+                if (value > 0 && Current != max)
                 {
-                    current += value;
-                    if (current > max)
+                    Current += value;
+                    if (Current > max)
                     {
-                        current = max;
+                        Current = max;
                     }
                 }
-                else if (value < 0 && current != 0)
+                else if (value < 0 && Current != 0)
                 {
-                    current += value;
-                    if (current < 0)
+                    Current += value;
+                    if (Current < 0)
                     {
-                        current = 0;
+                        Current = 0;
                     }
                 }
             }
@@ -143,9 +144,9 @@ namespace BWolf.Utilities.StatModification
                     {
                         max = 0;
                     }
-                    if (current > max)
+                    if (Current > max)
                     {
-                        current = max;
+                        Current = max;
                     }
                 }
             }
@@ -259,13 +260,13 @@ namespace BWolf.Utilities.StatModification
         private void CheckZeroMaxEvents(bool currentIsMax, bool currentIsZero)
         {
             //if current was not equal to max before modification but is now equal after modification, on reached max is called
-            if (!currentIsMax && current == max)
+            if (!currentIsMax && Current == max)
             {
                 OnReachedMax?.Invoke();
             }
 
             //if current was not equal to zero before modification but is now equal after modification, on reached zero is called
-            if (!currentIsZero && current == 0f)
+            if (!currentIsZero && Current == 0f)
             {
                 OnReachedZero?.Invoke();
             }

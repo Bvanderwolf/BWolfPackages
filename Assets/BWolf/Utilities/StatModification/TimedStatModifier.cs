@@ -71,6 +71,7 @@ namespace BWolf.Utilities.StatModification
         {
             if (time == 0f)
             {
+                //if time is 0 no calculations have to be done and value can just modify the system once
                 if (modifiesCurrent)
                 {
                     system.ModifyCurrent(this, increase ? value : -value);
@@ -88,6 +89,14 @@ namespace BWolf.Utilities.StatModification
             {
                 int difference = Mathf.Abs(currentValue - valueModified);
                 valueModified += difference;
+
+                if (currentValue > value)
+                {
+                    //handle overshot with large numbers and short times
+                    int overShot = currentValue - value;
+                    difference -= overShot;
+                }
+
                 if (modifiesCurrent)
                 {
                     system.ModifyCurrent(this, increase ? difference : -difference);

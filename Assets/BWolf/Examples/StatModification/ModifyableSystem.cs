@@ -57,12 +57,12 @@ namespace BWolf.Examples.StatModification
             nonStackSystem.AttachFillableBar(imgNonStackSystemFillable);
             nonStackSystem.AttachDisplayText(txtNonStackSystemDisplayText);
 
-            nonStackSystem.OnDecreaseStart += () => txtNonStackSystemEventDisplay.text = "Decrease Started";
-            nonStackSystem.OnDecreaseStop += () => txtNonStackSystemEventDisplay.text = "Decrease Stopped";
-            nonStackSystem.OnReachedMax += () => txtNonStackSystemEventDisplay.text = "Reached Max";
-            nonStackSystem.OnReachedZero += () => txtNonStackSystemEventDisplay.text = "Reached Zero";
-            nonStackSystem.OnIncreaseStart += () => txtNonStackSystemEventDisplay.text = "Increase Started";
-            nonStackSystem.OnIncreaseStop += () => txtNonStackSystemEventDisplay.text = "Increase Stopped";
+            nonStackSystem.OnDecreaseStart += () => ShowNonStackEventTextWithFade("Decrease Started");
+            nonStackSystem.OnDecreaseStop += () => ShowNonStackEventTextWithFade("Decrease Stopped");
+            nonStackSystem.OnReachedMax += () => ShowNonStackEventTextWithFade("Reached Max");
+            nonStackSystem.OnReachedZero += () => ShowNonStackEventTextWithFade("Reached Zero");
+            nonStackSystem.OnIncreaseStart += () => ShowNonStackEventTextWithFade("Increase Started");
+            nonStackSystem.OnIncreaseStop += () => ShowNonStackEventTextWithFade("Increase Stopped");
         }
 
         private void Update()
