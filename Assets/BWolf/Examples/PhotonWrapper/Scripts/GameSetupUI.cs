@@ -32,16 +32,19 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);
         }
 
+        /// <summary>Called when having joined a room, it updates the ui elements accordingly</summary>
         private void OnJoinedRoom(string message)
         {
             UpdateUIElements();
         }
 
+        /// <summary>Called when an update inside the room happens, it updates the ui elements accordingly</summary>
         private void OnRoomUpdate(Client client)
         {
             UpdateUIElements();
         }
 
+        /// <summary>Updates player one text and player two text based on who is the host and sets interactive state of start button</summary>
         private void UpdateUIElements()
         {
             //since there can only be 2 players in a room this foreach loop is feasable
