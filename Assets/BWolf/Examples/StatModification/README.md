@@ -2,5 +2,5 @@
 
 ## Timed Stat Modifier
 
-using time = 0;
-![Timed](Gifs/TimedInstant.gif)
+
+![](Gifs/TimedInstant.gif)
