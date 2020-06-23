@@ -36,6 +36,10 @@ namespace BWolf.Examples.PhotonWrapper
         {
             //set focus on input name when enabling this form
             EventSystem.current.SetSelectedGameObject(inputName.gameObject);
+
+            //make sure inputs are clean
+            inputName.text = string.Empty;
+            inputPassword.text = string.Empty;
         }
 
         private void Update()
