@@ -40,10 +40,10 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Fired once when current has reached zero</summary>
         public event Action OnReachedZero;
 
-        /// <summary>Returns current state value rounded to nearest integer value</summary>
+        /// <summary>Returns current value</summary>
         public int Current
         {
-            get { return Mathf.RoundToInt(current); }
+            get { return (int)current; }
         }
 
         /// <summary>Returns max value for this system</summary>
