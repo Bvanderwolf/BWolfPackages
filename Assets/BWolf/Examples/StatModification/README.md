@@ -3,4 +3,4 @@
 ## Timed Stat Modifier
 
 using time = 0;
-![](Gifs/TimedInstant.gif)
+![Timed](Gifs/TimedInstant.gif)
