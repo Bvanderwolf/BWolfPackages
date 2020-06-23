@@ -58,10 +58,10 @@ namespace BWolf.Examples.PhotonWrapper
             }
 
             //add listeners for callbacks
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftRoom, OnLeftRoom);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
 
@@ -83,10 +83,10 @@ namespace BWolf.Examples.PhotonWrapper
             roomListItems.RemoveListener(OnRoomItemSelect);
 
             //remove listeners on destroy
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.ConnectedToMaster, OnConnectedToServer);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftRoom, OnLeftRoom);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
         }
@@ -111,7 +111,10 @@ namespace BWolf.Examples.PhotonWrapper
         {
             if (!NetworkingService.IsConnected)
             {
-                NetworkingService.ConnectWithDefaultSettings();
+                NetworkingService.ConnectWithDefaultSettings(() =>
+                {
+                    SetLobbyListFocus();
+                });
             }
             else
             {
@@ -140,15 +143,6 @@ namespace BWolf.Examples.PhotonWrapper
         private void OnSettingsButtonClick()
         {
             ChangeGroupFocus("Settings");
-        }
-
-        // <summary>Called when connected to master, changes to rooms canvas group</summary>
-        private void OnConnectedToServer(string message)
-        {
-            if (!NetworkingService.InOfflineMode)
-            {
-                SetLobbyListFocus();
-            }
         }
 
         // <summary>Called when disconnected, changes to main menu buttons</summary>
@@ -182,7 +176,7 @@ namespace BWolf.Examples.PhotonWrapper
         }
 
         /// <summary>Called when having left a room, changes to room list focus</summary>
-        private void OnLeftRoom()
+        private void OnLeftRoom(string message)
         {
             ChangeGroupFocus("Rooms");
         }
@@ -227,11 +221,13 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>Stops the game setup by leaving the room and returning to room list</summary>
         public void StopGameSetup()
         {
-            NetworkingService.LeaveRoom();
+            NetworkingService.LeaveRoom(true);
         }
 
+        /// <summary>Starts the demo game</summary>
         public void StartGame()
         {
+            NetworkingService.CloseRoom();
         }
 
         // <summary>Closes settings ui by changing canvas group focus to menu buttons</summary>

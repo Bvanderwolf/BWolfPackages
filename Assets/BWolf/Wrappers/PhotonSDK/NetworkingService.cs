@@ -49,10 +49,10 @@ namespace BWolf.Wrappers.PhotonSDK
             if (!EditorApplication.isPlaying) return;
 #endif
 
-            callbackHandler = new CallbackHandler();
             connectionHandler = new ConnectionHandler();
-            clientHandler = new ClientHandler(callbackHandler);
-            roomHandler = new RoomHandler(callbackHandler);
+            clientHandler = new ClientHandler();
+            roomHandler = new RoomHandler();
+            callbackHandler = new CallbackHandler(clientHandler, roomHandler);
 
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }
@@ -66,6 +66,7 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Adds a callback listener for events in a room that contain a client value</summary>
         public static void AddCallbackListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
         {
+            callbackHandler.AddListener(callbackEvent, callback);
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
@@ -174,8 +175,8 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
-        /// <summary>Makes client leave the current room it is in</summary>
-        public static void LeaveRoom(Action onLefRoom = null)
+        /// <summary>Makes client leave the current room it is in. return to lobby indicates whether the client should return to the lobby it was in before joining the room</summary>
+        public static void LeaveRoom(bool returnToLobby, Action onLefRoom = null)
         {
             string log = string.Empty;
             if (!connectionHandler.LeaveRoom(ref log))
@@ -186,8 +187,22 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLefRoom != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftLobby, onLefRoom);
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftRoom, onLefRoom);
                 }
+                if (returnToLobby)
+                {
+                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.ConnectedToMaster, () => PhotonNetwork.JoinLobby(PhotonNetwork.CurrentLobby));
+                }
+            }
+        }
+
+        /// <summary>Closes the current room the client is in so no other player can join. Make sure this is only called on one client (preferably the host's client)</summary>
+        public static void CloseRoom()
+        {
+            string log = string.Empty;
+            if (!roomHandler.CloseRoom(ref log))
+            {
+                Debug.LogWarningFormat("Failed Closing room :: {0}", log);
             }
         }
 
