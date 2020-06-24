@@ -180,7 +180,6 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>updates data showing using given new data</summary>
         private void UpdateDataShowing(List<RoomData> newData)
         {
-            foreach (RoomData data in newData) { print(data); }
             for (int i = 0; i < newData.Count; i++)
             {
                 bool wasListed = false;

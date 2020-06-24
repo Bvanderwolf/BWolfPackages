@@ -71,7 +71,6 @@ namespace BWolf.Examples.PhotonWrapper
         private void CheckPasswordInput()
         {
             string input = inputPassword.text;
-            print(input);
             if (input == requiredKey)
             {
                 OnFinished(true, nameOfRoom);
