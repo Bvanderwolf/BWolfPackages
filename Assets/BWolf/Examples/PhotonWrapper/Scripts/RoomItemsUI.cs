@@ -245,7 +245,7 @@ namespace BWolf.Examples.PhotonWrapper
             {
                 if (item.TxtName.text == dataShowing[i].Name)
                 {
-                    joinRoomForm.AddRequirement(dataShowing[i].Key);
+                    joinRoomForm.AddRequiredKey(dataShowing[i].Key);
                     joinRoomForm.AddNameOfRoom(dataShowing[i].Name);
                     break;
                 }

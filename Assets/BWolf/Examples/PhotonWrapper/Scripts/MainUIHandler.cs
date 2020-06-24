@@ -244,7 +244,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
-        // <summary>Called when the join room button is pressed to jon the currently selected room</summary>
+        // <summary>Calls upon the networking service to join a room with given name</summary>
         public void JoinRoom(string roomName)
         {
             NetworkingService.JoinRoom(roomName);

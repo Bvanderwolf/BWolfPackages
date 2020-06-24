@@ -30,45 +30,53 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void Update()
         {
+            //using the return key you can also finish the join room form
             if (Input.GetKeyDown(KeyCode.Return) && passwordWasFocused)
             {
-                CheckPasswordInput();
+                FinishWithPasswordInput();
             }
 
             passwordWasFocused = inputPassword.isFocused;
         }
 
+        /// <summary>Adds listener to on finished event</summary>
         public void AddListener(Action<bool, string> onFinished)
         {
             OnFinished += onFinished;
         }
 
+        /// <summary>removes listener to on finished event</summary>
         public void RemoveListener(Action<bool, string> onFinished)
         {
             OnFinished -= onFinished;
         }
 
-        public void AddRequirement(string key)
+        /// <summary>Adds the required key to be stored and checked by this form</summary>
+        public void AddRequiredKey(string key)
         {
             requiredKey = key;
         }
 
+        /// <summary>Adds the name of the room to be send back on finish</summary>
         public void AddNameOfRoom(string name)
         {
             nameOfRoom = name;
         }
 
+        /// <summary>Called when the finish button has been clicked to finish with password input</summary>
         public void OnFinishButtonClick()
         {
-            CheckPasswordInput();
+            FinishWithPasswordInput();
         }
 
+        /// <summary>called when the cancel button is clicked to cancel this form</summary>
         public void OnCancel()
         {
             OnFinished(false, nameOfRoom);
         }
 
-        private void CheckPasswordInput()
+        /// <summary>Either fires on finish event to finish succesfully or resets password input based on current password input</summary>
+        private void FinishWithPasswordInput()
         {
             string input = inputPassword.text;
             if (input == requiredKey)

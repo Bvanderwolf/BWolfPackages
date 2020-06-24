@@ -75,16 +75,19 @@ namespace BWolf.Examples.PhotonWrapper
             CheckFinishability();
         }
 
+        /// <summary>Called when the password has been edited, it updates the stored value</summary>
         public void OnPasswordEntered(string edit)
         {
             passwordEntered = edit;
         }
 
+        /// <summary>Called when the finish button has been clicked it calls upon the controller to finish creating the room</summary>
         public void OnFinishButtonClick()
         {
             controller.CreateRoomFinish(nameEntered, passwordEntered);
         }
 
+        /// <summary>finishes up creating the room if the current room name input is valid</summary>
         private void TryReturnInputFinish()
         {
             if (!string.IsNullOrEmpty(inputName.text))
@@ -93,6 +96,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>checks whether creating a room can actually be finished</summary>
         private void CheckFinishability()
         {
             btnFinish.interactable = !string.IsNullOrEmpty(nameEntered) && !controller.IsListedRoom(nameEntered);
