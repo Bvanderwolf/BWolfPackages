@@ -9,7 +9,7 @@ namespace BWolf.Examples.PhotonWrapper
     {
         [Header("References")]
         [SerializeField]
-        private Button btnJoin = null;
+        protected Button btnJoin = null;
 
         private event Action<bool> onSelect;
 

@@ -18,6 +18,9 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private CreateRoomForm createRoomForm = null;
 
+        [SerializeField]
+        private JoinRoomForm joinRoomForm = null;
+
         [Header("Settings")]
         [SerializeField]
         private List<RoomListItem> listItems = null;
@@ -25,6 +28,9 @@ namespace BWolf.Examples.PhotonWrapper
         [Header("Events")]
         [SerializeField]
         private OnCreateRoomFinished onCreateRoomFinished = null;
+
+        [SerializeField]
+        private OnJoinProtocolFinished JoinProtocolFinished = null;
 
         private List<RoomData> dataShowing = new List<RoomData>();
 
@@ -34,13 +40,23 @@ namespace BWolf.Examples.PhotonWrapper
         private void Start()
         {
             ToggleCreateRoomForm();
+            ToggleJoinRoomForm();
+
             btnCreate.onClick.AddListener(ToggleCreateRoomForm);
+            btnJoin.onClick.AddListener(OnJoinbuttonClick);
+
+            joinRoomForm.AddListener(OnJoinRoomFinish);
+
             NetworkingService.AddRoomListListener(UpdateListItemsWithRoomData);
         }
 
         private void OnDestroy()
         {
             btnCreate.onClick.RemoveListener(ToggleCreateRoomForm);
+            btnJoin.onClick.RemoveListener(OnJoinbuttonClick);
+
+            joinRoomForm.RemoveListener(OnJoinRoomFinish);
+
             NetworkingService.RemoveRoomListListener(UpdateListItemsWithRoomData);
         }
 
@@ -69,10 +85,33 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Called when the join butotn has been click, it either starts password form or fires joinprotocol finished event based on whether the room has a password  or not</summary>
+        private void OnJoinbuttonClick()
+        {
+            RoomListItem selectedItem = ((RoomListItem)CurrentSelected);
+            if (selectedItem.HasKey)
+            {
+                ToggleJoinRoomForm();
+                btnJoin.interactable = false;
+                SetupJoinRoomFormWithItem(selectedItem);
+            }
+            else
+            {
+                JoinProtocolFinished.Invoke(selectedItem.TxtName.text);
+            }
+        }
+
         /// <summary>Toggles the active state of the create room form</summary>
         public void ToggleCreateRoomForm()
         {
             GameObject form = createRoomForm.gameObject;
+            form.SetActive(!form.activeInHierarchy);
+        }
+
+        /// <summary>Toggles the active state of the join room form</summary>
+        public void ToggleJoinRoomForm()
+        {
+            GameObject form = joinRoomForm.gameObject;
             form.SetActive(!form.activeInHierarchy);
         }
 
@@ -81,6 +120,15 @@ namespace BWolf.Examples.PhotonWrapper
         {
             ToggleCreateRoomForm();
             onCreateRoomFinished.Invoke(nameEntered, DemoGameMaxPlayers, passwordEntered);
+        }
+
+        public void OnJoinRoomFinish(bool value, string nameOfRoom)
+        {
+            ToggleJoinRoomForm();
+            if (value)
+            {
+                JoinProtocolFinished.Invoke(nameOfRoom);
+            }
         }
 
         /// <summary>Returns whether given roomname is already a listed room's name</summary>
@@ -192,6 +240,19 @@ namespace BWolf.Examples.PhotonWrapper
             btnCreate.interactable = dataShowing.Count < demoMaxRoomsInLobby;
         }
 
+        private void SetupJoinRoomFormWithItem(RoomListItem item)
+        {
+            for (int i = 0; i < dataShowing.Count; i++)
+            {
+                if (item.TxtName.text == dataShowing[i].Name)
+                {
+                    joinRoomForm.AddRequirement(dataShowing[i].Key);
+                    joinRoomForm.AddNameOfRoom(dataShowing[i].Name);
+                    break;
+                }
+            }
+        }
+
         /// <summary>Lobby is a list item with some additional properties and functionalities</summary>
         [System.Serializable]
         public class RoomListItem : ListItem
@@ -206,5 +267,8 @@ namespace BWolf.Examples.PhotonWrapper
 
         [System.Serializable]
         public class OnCreateRoomFinished : UnityEvent<string, int, string> { }
+
+        [System.Serializable]
+        public class OnJoinProtocolFinished : UnityEvent<string> { }
     }
 }

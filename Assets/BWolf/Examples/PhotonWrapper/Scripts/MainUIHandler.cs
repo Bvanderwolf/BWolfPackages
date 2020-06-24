@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
-    using System;
     using ListItem = ListItemsUI.ListItem;
 
     public class MainUIHandler : MonoBehaviour
@@ -246,13 +245,9 @@ namespace BWolf.Examples.PhotonWrapper
         }
 
         // <summary>Called when the join room button is pressed to jon the currently selected room</summary>
-        public void JoinSelectedRoom()
+        public void JoinRoom(string roomName)
         {
-            ListItem roomItem = roomListItems.CurrentSelected;
-            if (roomItem != null)
-            {
-                NetworkingService.JoinRoom(roomItem.TxtName.text);
-            }
+            NetworkingService.JoinRoom(roomName);
         }
 
         // <summary>Called when the join lobby button is pressed to jon the currently selected lobby</summary>

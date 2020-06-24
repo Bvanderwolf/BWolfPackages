@@ -316,7 +316,7 @@ namespace BWolf.Wrappers.PhotonSDK
 
             if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.LeftRoom](null);
+                simpleCallbackEvents[SimpleCallbackEvent.LeftRoom]?.Invoke(null);
             }
             if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
             {
