@@ -39,9 +39,16 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return roomHandler.ClientsInRoom; }
         }
 
+        /// <summary>Returns the actor number of the host when inside a room, if not inside a room returns -1</summary>
         public static int ActorNumberOfHost
         {
             get { return roomHandler.ActorNumberOfHost; }
+        }
+
+        /// <summary>Returns whether this client is the host client in the current room he is in</summary>
+        public static bool IsHost
+        {
+            get { return roomHandler.IsHost; }
         }
 
         static NetworkingService()

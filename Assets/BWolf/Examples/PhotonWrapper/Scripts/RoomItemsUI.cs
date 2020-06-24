@@ -132,28 +132,34 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>updates data showing using given new data</summary>
         private void UpdateDataShowing(List<RoomData> newData)
         {
+            foreach (RoomData data in newData) { print(data); }
             for (int i = 0; i < newData.Count; i++)
             {
                 bool wasListed = false;
                 for (int j = dataShowing.Count - 1; j >= 0; j--)
                 {
+                    //if the room is already in data showing...
                     if (newData[i].Name == dataShowing[j].Name)
                     {
-                        if (newData[i].RemovedFromList)
+                        if (newData[i].RemovedFromList || !newData[i].IsOpen)
                         {
+                            //remove deleted and closed rooms from data showing
                             dataShowing.RemoveAt(j);
                         }
                         else
                         {
+                            //update data showing with open and not deleted rooms
                             dataShowing[j] = newData[i];
                         }
 
+                        //set was listed to true
                         wasListed = true;
                         break;
                     }
                 }
 
-                if (!wasListed && !newData[i].RemovedFromList)
+                //if a room wasn't listed in data showing and it isn't removed and is open, add it to data showing
+                if (!wasListed && !newData[i].RemovedFromList && newData[i].IsOpen)
                 {
                     dataShowing.Add(newData[i]);
                 }

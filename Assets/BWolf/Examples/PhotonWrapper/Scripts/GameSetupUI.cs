@@ -62,7 +62,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
 
             //set start butotn interactable state based on whether room is filled
-            btnStart.interactable = clients.Count == RoomItemsUI.DemoGameMaxPlayers;
+            btnStart.interactable = clients.Count == RoomItemsUI.DemoGameMaxPlayers && NetworkingService.IsHost;
         }
     }
 }

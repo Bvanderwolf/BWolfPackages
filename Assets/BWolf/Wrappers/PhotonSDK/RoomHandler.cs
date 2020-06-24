@@ -15,6 +15,12 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.MasterClientId : -1; }
         }
 
+        /// <summary>Returns whether this client is the host client in the room</summary>
+        public bool IsHost
+        {
+            get { return PhotonNetwork.IsMasterClient; }
+        }
+
         /// <summary>Tries closing the current room you are in</summary>
         public bool CloseRoom(ref string log)
         {

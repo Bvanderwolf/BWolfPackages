@@ -83,6 +83,20 @@
             get { return key; }
         }
 
+        private bool isOpen;
+
+        public bool IsOpen
+        {
+            get { return isOpen; }
+        }
+
+        private bool isVisible;
+
+        public bool IsVisible
+        {
+            get { return isVisible; }
+        }
+
         public bool HasKey
         {
             get { return !string.IsNullOrEmpty(key); }
@@ -96,13 +110,15 @@
         public const string PasswordPropertyKey = "RoomPassword";
 
         /// <summary>Creates a new RoomData object without calling a constructor</summary>
-        public static RoomData Create(bool removedFromList, string name, int playerCount, int maxPlayers, string key)
+        public static RoomData Create(bool removedFromList, string name, int playerCount, int maxPlayers, bool isOpen, bool isVisibile, string key)
         {
             RoomData data;
             data.removedFromList = removedFromList;
             data.name = name;
             data.playerCount = playerCount;
             data.maxPlayers = maxPlayers;
+            data.isOpen = isOpen;
+            data.isVisible = isVisibile;
             data.key = key;
             return data;
         }
