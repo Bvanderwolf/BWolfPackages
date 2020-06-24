@@ -25,6 +25,9 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private Button btnSettings = null;
 
+        [SerializeField]
+        private NicknameForm nicknameForm = null;
+
         [Header("Lobby")]
         [SerializeField]
         private LobbyItemsUI lobbyListItems = null;
@@ -110,15 +113,36 @@ namespace BWolf.Examples.PhotonWrapper
         {
             if (!NetworkingService.IsConnected)
             {
-                NetworkingService.ConnectWithDefaultSettings(() =>
+                if (string.IsNullOrEmpty(NetworkingService.LocalClient.Nickname))
                 {
-                    SetLobbyListFocus();
-                });
+                    if (!nicknameForm.gameObject.activeInHierarchy)
+                    {
+                        nicknameForm.Activate(StartConnectionWithNickname);
+                    }
+                }
+                else
+                {
+                    StartConnection();
+                }
             }
             else
             {
                 SetLobbyListFocus();
             }
+        }
+
+        private void StartConnectionWithNickname(string nickname)
+        {
+            NetworkingService.LocalClient.SetNickname(nickname);
+            StartConnection();
+        }
+
+        private void StartConnection()
+        {
+            NetworkingService.ConnectWithDefaultSettings(() =>
+            {
+                SetLobbyListFocus();
+            });
         }
 
         /// <summary>Starts offline mode and switches to offline mode buttons</summary>

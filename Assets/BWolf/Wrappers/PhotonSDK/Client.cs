@@ -1,4 +1,5 @@
 ﻿using ExitGames.Client.Photon;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 
@@ -25,7 +26,18 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>sets the nickname for this client</summary>
         public void SetNickname(string nickname)
         {
+            if (!string.IsNullOrEmpty(Nickname) && Nickname.Equals(nickname))
+            {
+                return;
+            }
+
             Nickname = nickname;
+
+            if (IsLocal)
+            {
+                //update photon local player aswell if this is our local client
+                PhotonNetwork.LocalPlayer.NickName = nickname;
+            }
         }
 
         /// <summary>Sets the host status for this client</summary>

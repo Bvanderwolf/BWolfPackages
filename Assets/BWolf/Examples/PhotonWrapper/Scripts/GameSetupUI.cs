@@ -47,6 +47,9 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>Updates player one text and player two text based on who is the host and sets interactive state of start button</summary>
         private void UpdateUIElements()
         {
+            txtPlayerOne.text = string.Empty;
+            txtPlayerTwo.text = string.Empty;
+
             //since there can only be 2 players in a room this foreach loop is feasable
             Dictionary<int, Client> clients = NetworkingService.ClientsInRoom;
             foreach (var client in clients)

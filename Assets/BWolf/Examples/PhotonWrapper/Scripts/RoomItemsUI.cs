@@ -52,10 +52,10 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void OnDestroy()
         {
+            joinRoomForm.RemoveListener(OnJoinRoomFinish);
+
             btnCreate.onClick.RemoveListener(ToggleCreateRoomForm);
             btnJoin.onClick.RemoveListener(OnJoinbuttonClick);
-
-            joinRoomForm.RemoveListener(OnJoinRoomFinish);
 
             NetworkingService.RemoveRoomListListener(UpdateListItemsWithRoomData);
         }
