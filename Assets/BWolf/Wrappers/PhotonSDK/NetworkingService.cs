@@ -56,6 +56,13 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return roomHandler.IsHost; }
         }
 
+        /// <summary>gets or sets the nickname of the local client</summary>
+        public static string Nickname
+        {
+            get { return clientHandler.LocalClient.Nickname; }
+            set { clientHandler.LocalClient.SetNickname(value); }
+        }
+
         static NetworkingService()
         {
 #if UNITY_EDITOR
