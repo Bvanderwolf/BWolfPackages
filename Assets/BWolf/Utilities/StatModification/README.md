@@ -26,5 +26,4 @@ The demo scene and demo scripts can be found inside:
 BWolf -> Examples -> StatModification
 ```
 
-And on github:
-https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/StatModification
+The UnityPackage can be downloaded here: https://drive.google.com/file/d/1LG_Wq6-ijekM0jXxx4myFpzrD_MajY2I/view?usp=sharing
