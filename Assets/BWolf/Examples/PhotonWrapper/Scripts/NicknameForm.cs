@@ -14,6 +14,11 @@ namespace BWolf.Examples.PhotonWrapper
 
         private bool nicknameWasFocused;
 
+        private void Awake()
+        {
+            gameObject.SetActive(false);
+        }
+
         private void OnDisable()
         {
             finishAction = null;

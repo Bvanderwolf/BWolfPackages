@@ -7,17 +7,31 @@ namespace BWolf.Examples.PhotonWrapper
 {
     public class GameSetupUI : MonoBehaviour
     {
+        [Header("General")]
         [SerializeField]
         private Button btnStart = null;
 
         [SerializeField]
+        private PlayerColorPicker playerColorPicker = null;
+
+        [Header("PlayerOne")]
+        [SerializeField]
         private Text txtPlayerOne = null;
 
         [SerializeField]
+        private Button btnPlayerOneColor = null;
+
+        [Header("PlayerTwo")]
+        [SerializeField]
         private Text txtPlayerTwo = null;
+
+        [SerializeField]
+        private Button btnPlayerTwoColor = null;
 
         private void Awake()
         {
+            btnPlayerOneColor.onClick.AddListener(OnPlayerOneColorButtonClick);
+            btnPlayerTwoColor.onClick.AddListener(OnPlayerTwoColorButtonClick);
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
@@ -26,10 +40,24 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void OnDestroy()
         {
+            btnPlayerOneColor.onClick.RemoveListener(OnPlayerOneColorButtonClick);
+            btnPlayerTwoColor.onClick.RemoveListener(OnPlayerTwoColorButtonClick);
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);
+        }
+
+        private void OnPlayerOneColorButtonClick()
+        {
+            playerColorPicker.gameObject.SetActive(true);
+            playerColorPicker.SetColorButtonToModify(btnPlayerOneColor);
+        }
+
+        private void OnPlayerTwoColorButtonClick()
+        {
+            playerColorPicker.gameObject.SetActive(true);
+            playerColorPicker.SetColorButtonToModify(btnPlayerTwoColor);
         }
 
         /// <summary>Called when having joined a room, it updates the ui elements accordingly</summary>
