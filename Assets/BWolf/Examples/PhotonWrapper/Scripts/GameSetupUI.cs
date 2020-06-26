@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
+    /// <summary>Component class for setting up the game before starting the game</summary>
     public class GameSetupUI : MonoBehaviour
     {
         [Header("General")]
@@ -54,6 +55,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.RemoveClientPropertyUpdateListener(OnClientPropertyUpdate);
         }
 
+        /// <summary>Setsup player color picking and shares the first available color as this clients player color property</summary>
         private void SetupPlayerColorButton()
         {
             RefreshPlayerColorButtonListeners();
@@ -64,6 +66,7 @@ namespace BWolf.Examples.PhotonWrapper
             NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, playerColorPicker.FirstAvailableColor);
         }
 
+        /// <summary>Refreshes player color butotn listeners by removing current from both and assigning one based on whether this client is the hos or not</summary>
         private void RefreshPlayerColorButtonListeners()
         {
             //clear up all listeners
@@ -75,18 +78,21 @@ namespace BWolf.Examples.PhotonWrapper
             playerColorButton.onClick.AddListener(OnPlayerColorButtonClick);
         }
 
+        /// <summary>Called when the player's player color button has been clicked to active the player color picker</summary>
         private void OnPlayerColorButtonClick()
         {
             playerColorPicker.gameObject.SetActive(true);
             ToggleInteractabilityOfColorButton();
         }
 
+        /// <summary>Called when a color has been picked to share this new color as player property with other clients in the room</summary>
         private void OnColorPicked(Color col)
         {
             ToggleInteractabilityOfColorButton();
             NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, col);
         }
 
+        /// <summary>Updates the color of the player color buttons based on whether the client is the host or not</summary>
         private void UpdatePlayerColorButtons()
         {
             foreach (Client client in NetworkingService.ClientsInRoom.Values)
@@ -105,6 +111,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Toggles the interactablity of the player's player color button</summary>
         private void ToggleInteractabilityOfColorButton()
         {
             playerColorButton.interactable = !playerColorButton.interactable;

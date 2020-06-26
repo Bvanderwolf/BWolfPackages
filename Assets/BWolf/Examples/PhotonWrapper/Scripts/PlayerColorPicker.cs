@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace BWolf.Examples.PhotonWrapper
 {
+    /// <summary>Component for handling the picking of a player color</summary>
     public class PlayerColorPicker : MonoBehaviour
     {
         [Header("Color Palette")]
@@ -39,6 +39,7 @@ namespace BWolf.Examples.PhotonWrapper
 
         private Dictionary<Color, bool> availableColors = new Dictionary<Color, bool>();
 
+        /// <summary>Returns the first found available color in the availablecolors dictionary</summary>
         public Color FirstAvailableColor
         {
             get
@@ -72,6 +73,7 @@ namespace BWolf.Examples.PhotonWrapper
         {
             if (Input.GetMouseButtonDown(0))
             {
+                //when a mouse butotn has been pressed it we check whether to close having picked a color or not
                 bool picked = false;
                 GameObject selectedGameObject = EventSystem.current.currentSelectedGameObject;
                 for (int i = 0; i < selectableColors.Length; i++)
@@ -86,6 +88,7 @@ namespace BWolf.Examples.PhotonWrapper
 
                 if (!picked)
                 {
+                    //if no color was picked we fire the cancel event
                     OnCancel();
                 }
 
@@ -93,6 +96,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Rereshes the available colors dictionary with player color property information and makes pickable colors interactable based on that information</summary>
         public void UpdateAvailableColors()
         {
             Dictionary<int, Color> clientColors = NetworkingService.GetPropertiesOfClientsInRoom<Color>(ClientHandler.PlayerColorKey);
@@ -117,6 +121,7 @@ namespace BWolf.Examples.PhotonWrapper
             }
         }
 
+        /// <summary>Creates a new color block structure given a single color</summary>
         public ColorBlock CreateColorBlock(Color c)
         {
             return new ColorBlock

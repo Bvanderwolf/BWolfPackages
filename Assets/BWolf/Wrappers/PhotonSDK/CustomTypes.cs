@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
+    /// <summary>static class for registering the default custom types for this wrapper</summary>
     internal static class CustomTypes
     {
         internal static void Register()
