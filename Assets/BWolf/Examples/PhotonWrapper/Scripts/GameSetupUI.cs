@@ -56,6 +56,16 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void SetupPlayerColorButton()
         {
+            RefreshPlayerColorButtonListeners();
+
+            playerColorPicker.UpdateAvailableColors();
+
+            //set first available color from color picker as player color property
+            NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, playerColorPicker.FirstAvailableColor);
+        }
+
+        private void RefreshPlayerColorButtonListeners()
+        {
             //clear up all listeners
             btnPlayerOneColor.onClick.RemoveListener(OnPlayerColorButtonClick);
             btnPlayerTwoColor.onClick.RemoveListener(OnPlayerColorButtonClick);
@@ -63,11 +73,6 @@ namespace BWolf.Examples.PhotonWrapper
             //assign player color button based on who is the host
             playerColorButton = NetworkingService.IsHost ? btnPlayerOneColor : btnPlayerTwoColor;
             playerColorButton.onClick.AddListener(OnPlayerColorButtonClick);
-
-            playerColorPicker.UpdateAvailableColors();
-
-            //set first available color from color picker as player color property
-            NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, playerColorPicker.FirstAvailableColor);
         }
 
         private void OnPlayerColorButtonClick()
@@ -115,6 +120,8 @@ namespace BWolf.Examples.PhotonWrapper
         /// <summary>Called when an update inside the room happens, it updates the ui elements accordingly</summary>
         private void OnRoomUpdate(Client client)
         {
+            RefreshPlayerColorButtonListeners();
+            playerColorPicker.UpdateAvailableColors();
             UpdateUIElements();
         }
 
