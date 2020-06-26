@@ -137,6 +137,42 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.RemoveListener(onUpdate);
         }
 
+        /// <summary>
+        /// Updates your client property and synchronizes it with other client if you are in a room
+        /// </summary>
+        /// <typeparam name="T">Type of value (this needs to be a serializable type)</typeparam>
+        /// <param name="key">property key</param>
+        /// <param name="value">new value you want your property to have</param>
+        public static void UpdateClientProperty<T>(string key, T value)
+        {
+            if (!string.IsNullOrEmpty(key) && PhotonNetwork.InRoom)
+            {
+                clientHandler.UpdateProperty(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Returns your client property based on given key. Make sure the type matches the key
+        /// </summary>
+        /// <typeparam name="T">Type of value the property has</typeparam>
+        /// <param name="key">Key to search for</param>
+        /// <returns></returns>
+        public static T GetClientProperty<T>(string key)
+        {
+            return !string.IsNullOrEmpty(key) ? clientHandler.GetProperty<T>(key) : default;
+        }
+
+        /// <summary>
+        /// Returns a dictionary containing for each client their properties value based on given key.
+        /// </summary>
+        /// <typeparam name="T">Type of value the property has</typeparam>
+        /// <param name="key">Key to search for</param>
+        /// <returns></returns>
+        public static Dictionary<int, T> GetPropertiesOfClientsInRoom<T>(string key)
+        {
+            return !string.IsNullOrEmpty(key) ? clientHandler.GetPropertiesOfPlayersInRoom<T>(key) : default;
+        }
+
         /// <summary>Connects to networking service using the default settings. Set onConnected callback if you want some function to execute when connected</summary>
         public static void ConnectWithDefaultSettings(Action onConnecteToMaster = null, Action onConnected = null)
         {

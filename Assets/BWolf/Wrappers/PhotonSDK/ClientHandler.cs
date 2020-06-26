@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 
@@ -9,11 +10,48 @@ namespace BWolf.Wrappers.PhotonSDK
     {
         public Client LocalClient { get; private set; }
 
+        public const string PlayerColorKey = "PlayerColor";
+
         public ClientHandler()
         {
             Player localPlayer = PhotonNetwork.LocalPlayer;
             LocalClient = new Client(true, localPlayer.ActorNumber);
             UpdateLocalClient(localPlayer);
+        }
+
+        /// <summary>Updates property with given key with given value</summary>
+        public void UpdateProperty<T>(string key, T value)
+        {
+            Hashtable table = PhotonNetwork.LocalPlayer.CustomProperties;
+            if (table.ContainsKey(key))
+            {
+                table[key] = value;
+            }
+            else
+            {
+                table.Add(key, value);
+            }
+            PhotonNetwork.SetPlayerCustomProperties(table);
+        }
+
+        /// <summary>Returns property of given given based on key</summary>
+        public T GetProperty<T>(string key)
+        {
+            Hashtable table = PhotonNetwork.LocalPlayer.CustomProperties;
+            return table.ContainsKey(key) ? (T)table[key] : default;
+        }
+
+        /// <summary>Returns a dictionary containing for each actor key, the property value</summary>
+        public Dictionary<int, T> GetPropertiesOfPlayersInRoom<T>(string key)
+        {
+            Dictionary<int, T> properties = new Dictionary<int, T>();
+            Hashtable table;
+            foreach (var player in PhotonNetwork.CurrentRoom.Players)
+            {
+                table = player.Value.CustomProperties;
+                properties.Add(player.Key, table.ContainsKey(key) ? (T)table[key] : default);
+            }
+            return properties;
         }
 
         /// <summary>Called when having joined a room, it creates a new local client</summary>
