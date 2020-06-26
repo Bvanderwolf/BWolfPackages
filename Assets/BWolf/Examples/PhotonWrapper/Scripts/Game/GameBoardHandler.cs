@@ -2,7 +2,7 @@
 
 namespace BWolf.Examples.PhotonWrapper.Game
 {
-    public class GameAssetHandler : MonoBehaviour
+    public class GameBoardHandler : MonoBehaviour
     {
         [SerializeField]
         private Material diskMaterial = null;
