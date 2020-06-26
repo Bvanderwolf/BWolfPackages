@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -26,11 +29,14 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private float disabledAlpha = 0f;
 
+        public Action<Color> OnColorPicked;
+        public Action OnCancel;
+
         private const int colorButtonCount = 9;
 
         private Selectable[] selectableColors = new Selectable[colorButtonCount];
 
-        private Button colorButtonToModify = null;
+        private List<Color> avaialableColors = new List<Color>();
 
         private void Awake()
         {
@@ -40,12 +46,9 @@ namespace BWolf.Examples.PhotonWrapper
             {
                 selectableColors[i] = transform.GetChild(i).GetComponent<Selectable>();
                 selectableColors[i].colors = CreateColorBlock(palette[i]);
-            }
-        }
 
-        private void OnDisable()
-        {
-            colorButtonToModify = null;
+                avaialableColors.Add(palette[i]);
+            }
         }
 
         private void Update()
@@ -58,7 +61,7 @@ namespace BWolf.Examples.PhotonWrapper
                 {
                     if (selectedGameObject == selectableColors[i].gameObject)
                     {
-                        OnColorPicked(selectableColors[i].colors);
+                        OnColorPicked(palette[i]);
                         picked = true;
                         break;
                     }
@@ -66,24 +69,14 @@ namespace BWolf.Examples.PhotonWrapper
 
                 if (!picked)
                 {
-                    Cancel();
+                    OnCancel();
                 }
+
+                gameObject.SetActive(false);
             }
         }
 
-        private void OnColorPicked(ColorBlock colors)
-        {
-            colorButtonToModify.colors = colors;
-            Cancel();
-        }
-
-        private void Cancel()
-        {
-            colorButtonToModify.interactable = true;
-            gameObject.SetActive(false);
-        }
-
-        private ColorBlock CreateColorBlock(Color c)
+        public ColorBlock CreateColorBlock(Color c)
         {
             return new ColorBlock
             {
@@ -95,12 +88,6 @@ namespace BWolf.Examples.PhotonWrapper
                 colorMultiplier = 1,
                 fadeDuration = 0.1f
             };
-        }
-
-        public void SetColorButtonToModify(Button colorButton)
-        {
-            colorButtonToModify = colorButton;
-            colorButtonToModify.interactable = false;
         }
     }
 }

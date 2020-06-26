@@ -28,41 +28,64 @@ namespace BWolf.Examples.PhotonWrapper
         [SerializeField]
         private Button btnPlayerTwoColor = null;
 
+        private Button playerColorButton = null;
+
         private void Awake()
         {
-            btnPlayerOneColor.onClick.AddListener(OnPlayerOneColorButtonClick);
-            btnPlayerTwoColor.onClick.AddListener(OnPlayerTwoColorButtonClick);
+            playerColorPicker.OnColorPicked += OnColorPicked;
+            playerColorPicker.OnCancel += ToggleInteractabilityOfColorButton;
+
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);
+            NetworkingService.AddClientPropertyUpdateListener(OnClientPropertyUpdate);
         }
 
         private void OnDestroy()
         {
-            btnPlayerOneColor.onClick.RemoveListener(OnPlayerOneColorButtonClick);
-            btnPlayerTwoColor.onClick.RemoveListener(OnPlayerTwoColorButtonClick);
+            playerColorPicker.OnColorPicked -= OnColorPicked;
+            playerColorPicker.OnCancel -= ToggleInteractabilityOfColorButton;
+
             NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);
+            NetworkingService.RemoveClientPropertyUpdateListener(OnClientPropertyUpdate);
         }
 
-        private void OnPlayerOneColorButtonClick()
+        private void SetupPlayerColorButton()
         {
-            playerColorPicker.gameObject.SetActive(true);
-            playerColorPicker.SetColorButtonToModify(btnPlayerOneColor);
+            //clear up all listeners
+            btnPlayerOneColor.onClick.RemoveListener(OnPlayerColorButtonClick);
+            btnPlayerTwoColor.onClick.RemoveListener(OnPlayerColorButtonClick);
+
+            //assign player color button based on who is the host
+            playerColorButton = NetworkingService.IsHost ? btnPlayerOneColor : btnPlayerTwoColor;
+            playerColorButton.onClick.AddListener(OnPlayerColorButtonClick);
         }
 
-        private void OnPlayerTwoColorButtonClick()
+        private void OnPlayerColorButtonClick()
         {
             playerColorPicker.gameObject.SetActive(true);
-            playerColorPicker.SetColorButtonToModify(btnPlayerTwoColor);
+            ToggleInteractabilityOfColorButton();
+        }
+
+        private void OnColorPicked(Color col)
+        {
+            ToggleInteractabilityOfColorButton();
+            playerColorButton.colors = playerColorPicker.CreateColorBlock(col);
+        }
+
+        private void ToggleInteractabilityOfColorButton()
+        {
+            playerColorButton.interactable = !playerColorButton.interactable;
         }
 
         /// <summary>Called when having joined a room, it updates the ui elements accordingly</summary>
         private void OnJoinedRoom(string message)
         {
+            SetupPlayerColorButton();
             UpdateUIElements();
         }
 
@@ -70,6 +93,10 @@ namespace BWolf.Examples.PhotonWrapper
         private void OnRoomUpdate(Client client)
         {
             UpdateUIElements();
+        }
+
+        private void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
+        {
         }
 
         /// <summary>Updates player one text and player two text based on who is the host and sets interactive state of start button</summary>
