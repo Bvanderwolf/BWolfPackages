@@ -1632,6 +1632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1140626996}
+  - component: {fileID: 1140626997}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -1656,6 +1657,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1140626997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140626995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a503e5c0381be4bb8264bf8cb42173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diskMaterial: {fileID: 2100000, guid: 94e43935c0a01924eb537f74ef65ed39, type: 2}
+  crossMaterial: {fileID: 2100000, guid: 708074db30779ec42ae9d81ef7e66468, type: 2}
 --- !u!1 &1179999790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,7 +2072,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1593267567}
-  - component: {fileID: 1593267568}
   m_Layer: 0
   m_Name: Lineups
   m_TagString: Untagged
@@ -2081,21 +2095,6 @@ Transform:
   m_Father: {fileID: 1140626996}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1593267568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1593267566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40a503e5c0381be4bb8264bf8cb42173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backdropRenderer: {fileID: 1735968275}
-  playerOneLineup: {fileID: 1459070537}
-  playerTwoLineup: {fileID: 338307118}
 --- !u!1001 &1650771660
 PrefabInstance:
   m_ObjectHideFlags: 0
