@@ -62,6 +62,7 @@ namespace BWolf.Examples.PhotonWrapper
             {
                 selectableColors[i] = transform.GetChild(i).GetComponent<Selectable>();
                 selectableColors[i].colors = CreateColorBlock(palette[i]);
+                selectableColors[i].targetGraphic.color = palette[i];
 
                 availableColors.Add(palette[i], true);
             }
@@ -104,9 +105,15 @@ namespace BWolf.Examples.PhotonWrapper
                 }
             }
 
-            foreach (Color unAvailableColor in unAvailableColors)
+            availableColors.Clear();
+            for (int i = 0; i < palette.Length; i++)
             {
-                availableColors[unAvailableColor] = false;
+                availableColors.Add(palette[i], !unAvailableColors.Contains(palette[i]));
+            }
+
+            for (int i = 0; i < selectableColors.Length; i++)
+            {
+                selectableColors[i].interactable = availableColors[selectableColors[i].targetGraphic.color];
             }
         }
 
