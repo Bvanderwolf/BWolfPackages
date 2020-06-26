@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BWolf.Wrappers.PhotonSDK;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -36,7 +37,22 @@ namespace BWolf.Examples.PhotonWrapper
 
         private Selectable[] selectableColors = new Selectable[colorButtonCount];
 
-        private List<Color> avaialableColors = new List<Color>();
+        private Dictionary<Color, bool> availableColors = new Dictionary<Color, bool>();
+
+        public Color FirstAvailableColor
+        {
+            get
+            {
+                foreach (Color col in palette)
+                {
+                    if (availableColors[col])
+                    {
+                        return col;
+                    }
+                }
+                return default;
+            }
+        }
 
         private void Awake()
         {
@@ -47,7 +63,7 @@ namespace BWolf.Examples.PhotonWrapper
                 selectableColors[i] = transform.GetChild(i).GetComponent<Selectable>();
                 selectableColors[i].colors = CreateColorBlock(palette[i]);
 
-                avaialableColors.Add(palette[i]);
+                availableColors.Add(palette[i], true);
             }
         }
 
@@ -73,6 +89,24 @@ namespace BWolf.Examples.PhotonWrapper
                 }
 
                 gameObject.SetActive(false);
+            }
+        }
+
+        public void UpdateAvailableColors()
+        {
+            Dictionary<int, Color> clientColors = NetworkingService.GetPropertiesOfClientsInRoom<Color>(ClientHandler.PlayerColorKey);
+            List<Color> unAvailableColors = new List<Color>();
+            foreach (Color color in availableColors.Keys)
+            {
+                if (clientColors.ContainsValue(color))
+                {
+                    unAvailableColors.Add(color);
+                }
+            }
+
+            foreach (Color unAvailableColor in unAvailableColors)
+            {
+                availableColors[unAvailableColor] = false;
             }
         }
 

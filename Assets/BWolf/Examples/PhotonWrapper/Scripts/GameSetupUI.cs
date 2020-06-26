@@ -63,6 +63,11 @@ namespace BWolf.Examples.PhotonWrapper
             //assign player color button based on who is the host
             playerColorButton = NetworkingService.IsHost ? btnPlayerOneColor : btnPlayerTwoColor;
             playerColorButton.onClick.AddListener(OnPlayerColorButtonClick);
+
+            playerColorPicker.UpdateAvailableColors();
+
+            //set first available color from color picker as player color property
+            NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, playerColorPicker.FirstAvailableColor);
         }
 
         private void OnPlayerColorButtonClick()
@@ -74,7 +79,25 @@ namespace BWolf.Examples.PhotonWrapper
         private void OnColorPicked(Color col)
         {
             ToggleInteractabilityOfColorButton();
-            playerColorButton.colors = playerColorPicker.CreateColorBlock(col);
+            NetworkingService.UpdateClientProperty(ClientHandler.PlayerColorKey, col);
+        }
+
+        private void UpdatePlayerColorButtons()
+        {
+            foreach (Client client in NetworkingService.ClientsInRoom.Values)
+            {
+                Color color = (Color)client.Properties[ClientHandler.PlayerColorKey];
+                if (client.IsHost)
+                {
+                    btnPlayerOneColor.targetGraphic.color = color;
+                    btnPlayerOneColor.colors = playerColorPicker.CreateColorBlock(color);
+                }
+                else
+                {
+                    btnPlayerTwoColor.targetGraphic.color = color;
+                    btnPlayerTwoColor.colors = playerColorPicker.CreateColorBlock(color);
+                }
+            }
         }
 
         private void ToggleInteractabilityOfColorButton()
@@ -97,6 +120,11 @@ namespace BWolf.Examples.PhotonWrapper
 
         private void OnClientPropertyUpdate(Client client, Dictionary<string, object> properties)
         {
+            if (properties.ContainsKey(ClientHandler.PlayerColorKey))
+            {
+                UpdatePlayerColorButtons();
+                playerColorPicker.UpdateAvailableColors();
+            }
         }
 
         /// <summary>Updates player one text and player two text based on who is the host and sets interactive state of start button</summary>

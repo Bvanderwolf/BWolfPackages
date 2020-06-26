@@ -74,6 +74,8 @@ namespace BWolf.Wrappers.PhotonSDK
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
 
+            CustomTypes.Register();
+
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }
 
