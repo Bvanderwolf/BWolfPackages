@@ -55,6 +55,14 @@ namespace BWolf.Examples.PhotonWrapper.Main
             NetworkingService.RemoveClientPropertyUpdateListener(OnClientPropertyUpdate);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                NetworkingService.LoadScene(1);
+            }
+        }
+
         /// <summary>Setsup player color picking and shares the first available color as this clients player color property</summary>
         private void SetupPlayerColorButton()
         {

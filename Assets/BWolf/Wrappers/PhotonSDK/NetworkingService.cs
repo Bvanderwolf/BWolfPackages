@@ -14,6 +14,8 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly ClientHandler clientHandler;
         private static readonly RoomHandler roomHandler;
 
+        private static NetworkingSettings settings;
+
         public const int MaxPlayersOnServer = 20; //value is according to photon's free account maximum
 
         /// <summary>Returns whether this client is connected to the server or not</summary>
@@ -74,8 +76,13 @@ namespace BWolf.Wrappers.PhotonSDK
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
 
+            settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
+
             CustomTypes.Register();
 
+            PhotonNetwork.SerializationRate = settings.SerializationRate;
+            PhotonNetwork.SendRate = settings.SendRate;
+            PhotonNetwork.AutomaticallySyncScene = settings.SynchronizeClientScenes;
             PhotonNetwork.AddCallbackTarget(callbackHandler);
         }
 
@@ -137,6 +144,28 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void RemoveClientPropertyUpdateListener(Action<Client, Dictionary<string, object>> onUpdate)
         {
             callbackHandler.RemoveListener(onUpdate);
+        }
+
+        public static void LoadScene(int sceneBuildIndex)
+        {
+            if (settings.SynchronizeClientScenes && !IsHost)
+            {
+                Debug.LogWarning("Only the host can load a scene with the synchronize client scenes flag set");
+                return;
+            }
+
+            PhotonNetwork.LoadLevel(sceneBuildIndex);
+        }
+
+        public static void LoadScene(string sceneName)
+        {
+            if (settings.SynchronizeClientScenes && !IsHost)
+            {
+                Debug.LogWarning("Only the host can load a scene with the synchronize client scenes flag set");
+                return;
+            }
+
+            PhotonNetwork.LoadLevel(sceneName);
         }
 
         /// <summary>

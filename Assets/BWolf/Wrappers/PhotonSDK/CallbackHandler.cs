@@ -374,7 +374,7 @@ namespace BWolf.Wrappers.PhotonSDK
 
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.HostChanged](client);
+                inRoomCallbackEvents[InRoomCallbackEvent.HostChanged]?.Invoke(client);
             }
         }
     }
