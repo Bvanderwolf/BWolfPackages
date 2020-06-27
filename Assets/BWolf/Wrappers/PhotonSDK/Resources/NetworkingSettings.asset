@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda911f84f7a1c94c9f91521c42d7ca4, type: 3}
   m_Name: NetworkingSettings
   m_EditorClassIdentifier: 
+  serializationRate: 20
+  sendRate: 40
+  synchronizeClientScenes: 1
+  sceneNames:
+  - Main
+  - Game

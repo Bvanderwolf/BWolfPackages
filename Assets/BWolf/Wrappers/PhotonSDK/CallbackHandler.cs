@@ -2,6 +2,10 @@
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
@@ -18,6 +22,8 @@ namespace BWolf.Wrappers.PhotonSDK
 
         private event Action<Client, Dictionary<string, object>> clientPropertyUpdate;
 
+        private event Action<Scene> onAllClientsLoadedScene;
+
         private ClientHandler clientHandler;
         private RoomHandler roomHandler;
 
@@ -25,12 +31,16 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             this.clientHandler = clientHandler;
             this.roomHandler = roomHandler;
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         ~CallbackHandler()
         {
             simpleCallbackEvents.Clear();
             singleSimpleCallbackEvents.Clear();
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         /// <summary>Adds single callback event to singlecallback events dictionary</summary>
@@ -93,6 +103,12 @@ namespace BWolf.Wrappers.PhotonSDK
             clientPropertyUpdate += action;
         }
 
+        /// <summary>Adds listener to the all clients loaded scene event</summary>
+        public void AddListener(Action<Scene> callback)
+        {
+            onAllClientsLoadedScene += callback;
+        }
+
         /// <summary>removes callback event from callback events dictionary</summary>
         public void RemoveListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
@@ -127,6 +143,27 @@ namespace BWolf.Wrappers.PhotonSDK
         public void RemoveListener(Action<Client, Dictionary<string, object>> action)
         {
             clientPropertyUpdate -= action;
+        }
+
+        /// <summary>removes listener to the all clients loaded scene event</summary>
+        public void RemoveListener(Action<Scene> callback)
+        {
+            onAllClientsLoadedScene += callback;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (NetworkingService.InRoom)
+            {
+                WaitForAllClientsToLoadScene(scene);
+            }
+        }
+
+        private async void WaitForAllClientsToLoadScene(Scene scene)
+        {
+            var values = NetworkingService.ClientsInRoom.Values;
+            await TaskHelper.WaitUntil(() => values.All(c => (string)c.Properties[ClientHandler.PlayerSceneLoaded] == scene.name), 20);
+            onAllClientsLoadedScene?.Invoke(scene);
         }
 
         /// <summary>Called when connected initialily with the server it fires events if there are subscribers</summary>
@@ -332,7 +369,7 @@ namespace BWolf.Wrappers.PhotonSDK
             roomHandler.OnClientJoined(client);
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.ClientJoined](client);
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientJoined]?.Invoke(client);
             }
         }
 
@@ -343,7 +380,7 @@ namespace BWolf.Wrappers.PhotonSDK
             roomHandler.OnClientLeft(client);
             if (inRoomCallbackEvents.ContainsKey(InRoomCallbackEvent.ClientJoined))
             {
-                inRoomCallbackEvents[InRoomCallbackEvent.ClientLeft](client);
+                inRoomCallbackEvents[InRoomCallbackEvent.ClientLeft]?.Invoke(client);
             }
         }
 
@@ -351,6 +388,7 @@ namespace BWolf.Wrappers.PhotonSDK
         {
         }
 
+        /// <summary>Called when a players properties have been changed and callbacks need to be handled</summary>
         public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
             Client client = (Client)targetPlayer;

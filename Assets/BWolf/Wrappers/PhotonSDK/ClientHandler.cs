@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
@@ -11,6 +12,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public Client LocalClient { get; private set; }
 
         public const string PlayerColorKey = "PlayerColor";
+        public const string PlayerSceneLoaded = "SceneLoaded";
 
         public ClientHandler()
         {
@@ -60,6 +62,7 @@ namespace BWolf.Wrappers.PhotonSDK
             Player localPlayer = PhotonNetwork.LocalPlayer;
             LocalClient = new Client(true, localPlayer.ActorNumber);
             UpdateLocalClient(localPlayer);
+            UpdateProperty(PlayerSceneLoaded, SceneManager.GetActiveScene().name);
         }
 
         /// <summary>Called when having left a room or disconnected it creates a new local client</summary>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
@@ -22,6 +23,12 @@ namespace BWolf.Wrappers.PhotonSDK
         public static bool IsConnected
         {
             get { return PhotonNetwork.IsConnected; }
+        }
+
+        /// <summary>Returns whether the client is in a room at the moment</summary>
+        public static bool InRoom
+        {
+            get { return PhotonNetwork.InRoom; }
         }
 
         /// <summary>Returns whether this client is in offline mode</summary>
@@ -116,6 +123,12 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.AddListener(onUpdate);
         }
 
+        /// <summary>Adds listener to the clients loaded scene event which is fired when ALL clients have loaded a scene</summary>
+        public static void AddClientsLoadedSceneListener(Action<Scene> onClientsLoadedScene)
+        {
+            callbackHandler.AddListener(onClientsLoadedScene);
+        }
+
         /// <summary>Removes callback listener for events that either return no value or a string value</summary>
         public static void RemoveCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
         {
@@ -144,6 +157,12 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void RemoveClientPropertyUpdateListener(Action<Client, Dictionary<string, object>> onUpdate)
         {
             callbackHandler.RemoveListener(onUpdate);
+        }
+
+        /// <summary>removes listener from the clients loaded scene event which is fired when ALL clients have loaded a scene</summary>
+        public static void RemoveClientsLoadedSceneListener(Action<Scene> onClientsLoadedScene)
+        {
+            callbackHandler.RemoveListener(onClientsLoadedScene);
         }
 
         /// <summary>Loads a scene using given build index. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>
