@@ -43,11 +43,13 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return PhotonNetwork.NetworkClientState.ToString(); }
         }
 
+        /// <summary>A dictionary containing the clients that are in the room at the moment, where the key is a client's actornumber</summary>
         public static Dictionary<int, Client> ClientsInRoom
         {
             get { return roomHandler.ClientsInRoom; }
         }
 
+        /// <summary>The players local client instance</summary>
         public static Client LocalClient
         {
             get { return clientHandler.LocalClient; }

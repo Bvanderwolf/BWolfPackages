@@ -3,8 +3,6 @@ using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK
@@ -151,6 +149,7 @@ namespace BWolf.Wrappers.PhotonSDK
             onAllClientsLoadedScene += callback;
         }
 
+        /// <summary>Called when a scene has been loaded, it when in a room start waiting for other clients to also load this scene</summary>
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (NetworkingService.InRoom)
@@ -159,6 +158,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Starts a waiting task going through clients in the room their properties to see if everyone has loaded</summary>
         private async void WaitForAllClientsToLoadScene(Scene scene)
         {
             var values = NetworkingService.ClientsInRoom.Values;

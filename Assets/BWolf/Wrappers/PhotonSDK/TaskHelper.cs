@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace BWolf.Wrappers.PhotonSDK
 {
+    /// <summary>Utility class used to help the networking service with some asynchronous waiting tasks</summary>
     public static class TaskHelper
     {
         /// <summary>
