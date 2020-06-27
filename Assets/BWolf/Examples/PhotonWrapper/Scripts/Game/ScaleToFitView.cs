@@ -7,6 +7,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
         [SerializeField]
         private Camera cam = null;
 
+        /// <summary>Clamps this scale</summary>
         public void ClampToView()
         {
             float distance = (transform.position - cam.transform.position).magnitude;
