@@ -146,6 +146,7 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.RemoveListener(onUpdate);
         }
 
+        /// <summary>Loads a scene using given build index. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>
         public static void LoadScene(int sceneBuildIndex)
         {
             if (settings.SynchronizeClientScenes && !IsHost)
@@ -157,6 +158,7 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.LoadLevel(sceneBuildIndex);
         }
 
+        /// <summary>Loads a scene using given scene name. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>
         public static void LoadScene(string sceneName)
         {
             if (settings.SynchronizeClientScenes && !IsHost)
