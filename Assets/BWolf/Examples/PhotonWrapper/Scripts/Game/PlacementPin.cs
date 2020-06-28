@@ -2,16 +2,19 @@
 
 namespace BWolf.Examples.PhotonWrapper.Game
 {
+    /// <summary>Component for interaction with player pawns to be placed on the board</summary>
     public class PlacementPin : MonoBehaviour
     {
         private PlayerPawn pawnHolding;
 
+        /// <summary>Returns whether this placement pin holds a pawn or not</summary>
         public bool HasPawn
         {
             get { return pawnHolding != null; }
         }
 
-        public void AttachPlayerPawn(PlayerPawn pawn)
+        /// <summary>Stores the pawn as holding pawn</summary>
+        public void SetHoldingPawn(PlayerPawn pawn)
         {
             pawnHolding = pawn;
         }
@@ -22,11 +25,10 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private void OnTriggerExit(Collider other)
         {
+            //reset the pawn holding reference if the pawn being held has been taken out of trigger range
             PlayerPawn pawn = other.GetComponentInParent<PlayerPawn>();
-            print(pawn);
             if (pawn != null && pawn == pawnHolding)
             {
-                print("test");
                 pawnHolding = null;
             }
         }

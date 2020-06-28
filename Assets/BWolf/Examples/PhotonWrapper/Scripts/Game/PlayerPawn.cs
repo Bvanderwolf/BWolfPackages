@@ -2,6 +2,7 @@
 
 namespace BWolf.Examples.PhotonWrapper.Game
 {
+    /// <summary>Component for the player to drag and drop a pawn on the board</summary>
     public class PlayerPawn : MonoBehaviour, IDraggable
     {
         private PlacementPin collidingPin;
@@ -12,10 +13,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             startPosition = transform.position;
         }
 
-        public void StartDrag()
-        {
-        }
-
+        /// <summary>Called when this pawn is being dragged by the player it sets x and y positions according to given board position</summary>
         public void Drag(Vector3 boardPosition)
         {
             Vector3 position = transform.position;
@@ -24,12 +22,13 @@ namespace BWolf.Examples.PhotonWrapper.Game
             transform.position = position;
         }
 
+        /// <summary>Called when this pawn is release by the player, if this pawn is still colliding with a pin, return to that pin, else resets to start position</summary>
         public void Release()
         {
             if (collidingPin != null)
             {
                 transform.position = collidingPin.transform.position;
-                collidingPin.AttachPlayerPawn(this);
+                collidingPin.SetHoldingPawn(this);
             }
             else
             {

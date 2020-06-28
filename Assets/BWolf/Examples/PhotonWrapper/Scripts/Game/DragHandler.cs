@@ -18,6 +18,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
             if (Input.GetMouseButtonDown(0))
             {
+                //set draggable if player clicked on it
                 if (draggable == null)
                 {
                     Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -31,6 +32,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
             if (Input.GetMouseButton(0) && draggable != null)
             {
+                //drag draggable if the player is holding the left mouse button down and has a draggable
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("GameBoard")))
@@ -41,6 +43,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
             if (Input.GetMouseButtonUp(0) && draggable != null)
             {
+                //release and reset the draggable member if the mouse button is up and there was a draggable stored
                 draggable.Release();
                 draggable = null;
             }
