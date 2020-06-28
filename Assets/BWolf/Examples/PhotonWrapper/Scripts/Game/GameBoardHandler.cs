@@ -6,11 +6,19 @@ namespace BWolf.Examples.PhotonWrapper.Game
 {
     public class GameBoardHandler : MonoBehaviour
     {
+        [Header("Player Distinction")]
         [SerializeField]
         private Material diskMaterial = null;
 
         [SerializeField]
         private Material crossMaterial = null;
+
+        [Header("Lineups")]
+        [SerializeField]
+        private Transform playerOne = null;
+
+        [SerializeField]
+        private Transform playerTwo = null;
 
         private void Awake()
         {
