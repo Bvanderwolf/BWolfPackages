@@ -7,9 +7,6 @@ namespace BWolf.Examples.PhotonWrapper.Game
         [SerializeField]
         private Camera cam = null;
 
-        [SerializeField, Tooltip("Offset on y-axis for pawns when being dragged")]
-        private float draggOffset = 1f;
-
         private IDraggable draggable;
 
         private void Update()

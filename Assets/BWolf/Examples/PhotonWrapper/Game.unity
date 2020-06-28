@@ -1644,7 +1644,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 621018065}
-  draggOffset: 0.0025
 --- !u!114 &1140626999
 MonoBehaviour:
   m_ObjectHideFlags: 0
