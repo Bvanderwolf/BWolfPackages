@@ -523,7 +523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 301809677}
   m_Layer: 0
-  m_Name: Board
+  m_Name: TicTacToeSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,7 +1055,6 @@ GameObject:
   - component: {fileID: 664811971}
   - component: {fileID: 664811974}
   - component: {fileID: 664811973}
-  - component: {fileID: 664811972}
   m_Layer: 0
   m_Name: Line (1)
   m_TagString: Untagged
@@ -1077,19 +1076,6 @@ Transform:
   m_Father: {fileID: 1969790393}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &664811972
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664811970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &664811973
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1223,7 +1209,6 @@ GameObject:
   - component: {fileID: 792464275}
   - component: {fileID: 792464278}
   - component: {fileID: 792464277}
-  - component: {fileID: 792464276}
   m_Layer: 0
   m_Name: Line (1)
   m_TagString: Untagged
@@ -1245,19 +1230,6 @@ Transform:
   m_Father: {fileID: 1693063691}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &792464276
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792464274}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &792464277
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1466,7 +1438,6 @@ GameObject:
   - component: {fileID: 1007967449}
   - component: {fileID: 1007967452}
   - component: {fileID: 1007967451}
-  - component: {fileID: 1007967450}
   m_Layer: 0
   m_Name: Line (2)
   m_TagString: Untagged
@@ -1488,19 +1459,6 @@ Transform:
   m_Father: {fileID: 1693063691}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1007967450
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007967448}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1007967451
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1633,6 +1591,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1140626996}
   - component: {fileID: 1140626997}
+  - component: {fileID: 1140626998}
+  - component: {fileID: 1140626999}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -1671,6 +1631,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diskMaterial: {fileID: 2100000, guid: 94e43935c0a01924eb537f74ef65ed39, type: 2}
   crossMaterial: {fileID: 2100000, guid: 708074db30779ec42ae9d81ef7e66468, type: 2}
+--- !u!114 &1140626998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140626995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3c0add38018d242a097c763ce9a801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 621018065}
+  draggOffset: 0.0025
+--- !u!114 &1140626999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140626995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2221747d15a87a24e95e89d120280da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1179999790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,7 +1782,6 @@ GameObject:
   - component: {fileID: 1423513134}
   - component: {fileID: 1423513137}
   - component: {fileID: 1423513136}
-  - component: {fileID: 1423513135}
   m_Layer: 0
   m_Name: Line (2)
   m_TagString: Untagged
@@ -1818,19 +1803,6 @@ Transform:
   m_Father: {fileID: 1969790393}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1423513135
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1423513133}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1423513136
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1920,6 +1892,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1459070537}
     m_Modifications:
+    - target: {fileID: 1933071080998383245, guid: 1755d02675a2dc14db5a2a076c9f5323,
+        type: 3}
+      propertyPath: draggOffset
+      value: 0.002
+      objectReference: {fileID: 0}
     - target: {fileID: 8898007420640264272, guid: 1755d02675a2dc14db5a2a076c9f5323,
         type: 3}
       propertyPath: m_Name
@@ -2215,8 +2192,8 @@ GameObject:
   - component: {fileID: 1735968275}
   - component: {fileID: 1735968274}
   - component: {fileID: 1735968278}
-  m_Layer: 0
-  m_Name: BackDrop
+  m_Layer: 9
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2230,10 +2207,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735968273}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1735968275
