@@ -42,6 +42,10 @@ namespace BWolf.Examples.PhotonWrapper.Main
         [SerializeField]
         private Button btnJoinRoom = null;
 
+        [Header("GameSetup")]
+        [SerializeField]
+        private string nameOfGameScene = "Game";
+
         private Dictionary<string, CanvasGroup> canvasGroupDictionary = new Dictionary<string, CanvasGroup>();
 
         private void Awake()
@@ -251,6 +255,7 @@ namespace BWolf.Examples.PhotonWrapper.Main
         public void StartGame()
         {
             NetworkingService.CloseRoom();
+            NetworkingService.LoadScene(nameOfGameScene);
         }
 
         // <summary>Closes settings ui by changing canvas group focus to menu buttons</summary>
