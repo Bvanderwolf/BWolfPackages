@@ -167,6 +167,8 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
 
         private void OnSceneUnloaded(Scene scene)
         {
+            if (!settings.IsGameScene(scene.name)) { return; }
+
             CreatePoolParents();
 
             //empty queue for every prefab

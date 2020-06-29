@@ -16,6 +16,9 @@ namespace BWolf.Wrappers.PhotonSDK
         [SerializeField]
         private bool synchronizeClientScenes = true;
 
+        [SerializeField]
+        private string[] namesOfGameScenes = null;
+
         [Header("ObjectManagement")]
         [SerializeField]
         private GameObject[] movableNetworkedObjects = null;
@@ -41,6 +44,12 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return synchronizeClientScenes; }
         }
 
+        /// <summary>Names of developer defined game scenes</summary>
+        public string[] NamesOfGameScenes
+        {
+            get { return namesOfGameScenes; }
+        }
+
         /// <summary>The original prefabs for the static networked objects</summary>
         public GameObject[] StaticNetworkedObjects
         {
@@ -59,6 +68,19 @@ namespace BWolf.Wrappers.PhotonSDK
             for (int i = 0; i < staticNetworkedObjects.Length; i++)
             {
                 if (staticNetworkedObjects[i].name == prefabId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>Returns whether given name of scene corresponds to a game scene</summary>
+        public bool IsGameScene(string nameOfScene)
+        {
+            for (int i = 0; i < namesOfGameScenes.Length; i++)
+            {
+                if (namesOfGameScenes[i] == nameOfScene)
                 {
                     return true;
                 }
