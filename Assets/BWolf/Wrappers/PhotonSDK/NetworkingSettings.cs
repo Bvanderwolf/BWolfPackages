@@ -50,5 +50,18 @@ namespace BWolf.Wrappers.PhotonSDK
         {
             get { return movableNetworkedObjects; }
         }
+
+        /// <summary>Returns whether given prefabId corresponds to a static object</summary>
+        public bool IsStaticObject(string prefabId)
+        {
+            for (int i = 0; i < staticNetworkedObjects.Length; i++)
+            {
+                if (staticNetworkedObjects[i].name == prefabId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

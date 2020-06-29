@@ -25,13 +25,15 @@ GameObject:
   - component: {fileID: 8898007420640264273}
   - component: {fileID: 3098230580840275461}
   - component: {fileID: 1933071080998383245}
+  - component: {fileID: 6272772376926525239}
+  - component: {fileID: 3480705185247894507}
   m_Layer: 8
   m_Name: PlayerDisk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8898007420640264273
 Transform:
   m_ObjectHideFlags: 0
@@ -73,6 +75,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7487e8739bf23a43bae2c4f366c2f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6272772376926525239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898007420640264272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents:
+  - {fileID: 3480705185247894507}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3480705185247894507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898007420640264272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a03ec438ead23b4797adf871b8b8360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8898007418830219593

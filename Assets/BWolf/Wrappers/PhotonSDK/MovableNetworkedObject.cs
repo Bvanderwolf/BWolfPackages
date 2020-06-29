@@ -6,7 +6,7 @@ namespace BWolf.Wrappers.PhotonSDK
 {
     /// <summary>Handles streaming of gameobject transform properties like position, rotation and scale</summary>
     [RequireComponent(typeof(PhotonView))]
-    public class MovableNetworkedObject : NetworkedObject
+    public class MovableNetworkedObject : NetworkedObject, IPunObservable
     {
         public override bool IsMine
         {
@@ -35,6 +35,10 @@ namespace BWolf.Wrappers.PhotonSDK
             view = GetComponent<PhotonView>();
 
             transform.parent = ResourceHandler.GetPoolParent(true);
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
         }
     }
 }

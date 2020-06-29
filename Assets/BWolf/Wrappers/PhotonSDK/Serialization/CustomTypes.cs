@@ -1,4 +1,4 @@
-﻿namespace BWolf.Wrappers.PhotonSDK
+﻿namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
     using ExitGames.Client.Photon;
     using System;
@@ -11,6 +11,7 @@
         internal static void Register()
         {
             PhotonPeer.RegisterType(typeof(Color), (byte)'C', SerializeColor, DeserializeColor);
+            PhotonPeer.RegisterType(typeof(ObjectSpawnInfo), (byte)'S', ObjectSpawnInfo.Serialize, ObjectSpawnInfo.Deserialize);
         }
 
         public static byte[] SerializeColor(object obj)

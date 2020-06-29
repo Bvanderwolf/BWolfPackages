@@ -1,4 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK.Handlers;
+using BWolf.Wrappers.PhotonSDK.Serialization;
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
