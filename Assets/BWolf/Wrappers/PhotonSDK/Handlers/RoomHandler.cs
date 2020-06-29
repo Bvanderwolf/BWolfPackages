@@ -2,7 +2,7 @@
 using Photon.Realtime;
 using System.Collections.Generic;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
     /// <summary>Helper class to be used to manage and store room related data</summary>
     public class RoomHandler

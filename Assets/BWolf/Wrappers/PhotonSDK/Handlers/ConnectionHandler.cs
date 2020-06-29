@@ -2,7 +2,7 @@
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
     /// <summary>Helper class for manaaging connections with the server and interactions</summary>
     public class ConnectionHandler

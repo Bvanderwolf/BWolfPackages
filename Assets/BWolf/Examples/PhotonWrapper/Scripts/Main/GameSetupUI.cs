@@ -1,4 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
+using BWolf.Wrappers.PhotonSDK.Handlers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

@@ -4,7 +4,7 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
     /// <summary>Helper class managing everything regarding local client data and client properties</summary>
     public class ClientHandler

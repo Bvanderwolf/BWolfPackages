@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using BWolf.Wrappers.PhotonSDK.Handlers;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using UnityEditor;

@@ -1,4 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
+using BWolf.Wrappers.PhotonSDK.Handlers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

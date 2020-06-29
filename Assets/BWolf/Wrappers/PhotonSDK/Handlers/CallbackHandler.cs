@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
     /// <summary>Helper class to handle callbacks and manage callback events</summary>
     public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks, IInRoomCallbacks

@@ -1,4 +1,4 @@
-﻿namespace BWolf.Wrappers.PhotonSDK
+﻿namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
     public class ResourceHandler
     {
