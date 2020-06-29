@@ -41,11 +41,13 @@ namespace BWolf.Wrappers.PhotonSDK
             get { return synchronizeClientScenes; }
         }
 
+        /// <summary>The original prefabs for the static networked objects</summary>
         public GameObject[] StaticNetworkedObjects
         {
             get { return staticNetworkedObjects; }
         }
 
+        /// <summary>The original prefabs for the movable networked objects</summary>
         public GameObject[] MovableNetworkedObjects
         {
             get { return movableNetworkedObjects; }

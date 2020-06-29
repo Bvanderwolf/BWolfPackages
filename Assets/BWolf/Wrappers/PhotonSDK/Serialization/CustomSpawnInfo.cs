@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
-    public struct ObjectSpawnInfo
+    public struct CustomSpawnInfo
     {
         public string PrefabId;
         public Vector3 Position;
         public Quaternion Rotation;
 
-        public ObjectSpawnInfo(string prefabId, Vector3 position, Quaternion rotation)
+        public CustomSpawnInfo(string prefabId, Vector3 position, Quaternion rotation)
         {
             PrefabId = prefabId;
             Position = position;
@@ -20,7 +20,7 @@ namespace BWolf.Wrappers.PhotonSDK.Serialization
         /// <summary>Used for serializing this object to be send over the network</summary>
         public static byte[] Serialize(object obj)
         {
-            ObjectSpawnInfo info = (ObjectSpawnInfo)obj;
+            CustomSpawnInfo info = (CustomSpawnInfo)obj;
             List<byte> bytes = new List<byte>();
 
             //convert position
@@ -46,7 +46,7 @@ namespace BWolf.Wrappers.PhotonSDK.Serialization
         /// <summary>Used for Deserializing this object to be received from the network</summary>
         public static object Deserialize(byte[] data)
         {
-            ObjectSpawnInfo info;
+            CustomSpawnInfo info;
 
             //get position
             Vector3 position;

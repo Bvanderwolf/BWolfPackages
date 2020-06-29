@@ -20,9 +20,13 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
 
         private NetworkingSettings settings;
 
-        public ResourceHandler(NetworkingSettings settings)
+        public ResourceHandler(NetworkingSettings settings, MultiplayerEventHandler eventHandler)
         {
             this.settings = settings;
+
+            eventHandler.AddListener(InternalEvent.SceneObjectSpawn, OnSceneObjectSpawn);
+            eventHandler.AddListener(InternalEvent.StaticObjectSpawn, OnStaticObjectSpawn);
+            eventHandler.AddListener(InternalEvent.StaticObjectDestroy, OnStaticObjectDestroy);
 
             VerifyMovingObjects();
             VerifyStaticObjects();
@@ -32,11 +36,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             PhotonNetwork.PrefabPool = this;
         }
 
-        ~ResourceHandler()
-        {
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
-        }
-
+        /// <summary>creates pool parent in scene and make sure it doesn't get destroyed when loading new scenes </summary>
         private void CreatePoolParents()
         {
             if (PoolParent != null) { GameObject.Destroy(PoolParent.gameObject); }
@@ -97,7 +97,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                ObjectSpawnInfo info = (ObjectSpawnInfo)content;
+                CustomSpawnInfo info = (CustomSpawnInfo)content;
                 PhotonNetwork.InstantiateSceneObject(info.PrefabId, info.Position, info.Rotation);
             }
         }
@@ -105,7 +105,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         /// <summary>Called when an event has been raised to spawn a static object, it will create one using the given information</summary>
         private void OnStaticObjectSpawn(object content)
         {
-            ObjectSpawnInfo info = (ObjectSpawnInfo)content;
+            CustomSpawnInfo info = (CustomSpawnInfo)content;
 
             //try getting a new resource from the poolad game objects stored in the queue
             GameObject instance = null;
@@ -167,6 +167,8 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
 
         private void OnSceneUnloaded(Scene scene)
         {
+            CreatePoolParents();
+
             //empty queue for every prefab
             GameObject empty = null;
             foreach (var resource in resourcePoolDict)
@@ -181,6 +183,27 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         public static Transform GetPoolParent(bool movingObject)
         {
             return movingObject ? movingObjectParent : staticObjectParent;
+        }
+
+        /// <summary>Returns a gameobject that can be either be a moving object or static object, based on given viewid</summary>
+        public static GameObject Find(int viewId)
+        {
+            return viewId > StaticNetworkedObject.BaseIdNumber ? (staticObjectDict.ContainsKey(viewId) ? staticObjectDict[viewId] : null) : PhotonView.Find(viewId)?.gameObject;
+        }
+
+        /// <summary>Returns units owned by player with given actor number</summary>
+        public static List<GameObject> GetUnitsOfClient(int clientActorNr)
+        {
+            PhotonView[] views = PhotonNetwork.PhotonViews;
+            List<GameObject> units = new List<GameObject>();
+            for (int i = 0; i < views.Length; i++)
+            {
+                if (views[i].OwnerActorNr == clientActorNr)
+                {
+                    units.Add(views[i].gameObject);
+                }
+            }
+            return units;
         }
 
         /// <summary>Will either return an instantiated or pooled object</summary>

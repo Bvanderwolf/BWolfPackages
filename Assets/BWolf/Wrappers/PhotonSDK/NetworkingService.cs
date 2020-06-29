@@ -1,6 +1,7 @@
 ﻿using BWolf.Wrappers.PhotonSDK.Handlers;
 using BWolf.Wrappers.PhotonSDK.Serialization;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -13,10 +14,11 @@ namespace BWolf.Wrappers.PhotonSDK
     public static class NetworkingService
     {
         private static readonly CallbackHandler callbackHandler;
-        private static readonly ConnectionHandler connectionHandler;
+        private static readonly MatchmakingHandler matchmakingHandler;
         private static readonly ClientHandler clientHandler;
         private static readonly RoomHandler roomHandler;
         private static readonly ResourceHandler resourceHandler;
+        private static readonly MultiplayerEventHandler eventHandler;
 
         private static NetworkingSettings settings;
 
@@ -85,18 +87,21 @@ namespace BWolf.Wrappers.PhotonSDK
 
             settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
 
-            connectionHandler = new ConnectionHandler();
+            matchmakingHandler = new MatchmakingHandler();
+            eventHandler = new MultiplayerEventHandler();
             clientHandler = new ClientHandler();
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
-            resourceHandler = new ResourceHandler(settings);
+            resourceHandler = new ResourceHandler(settings, eventHandler);
 
             CustomTypes.Register();
 
             PhotonNetwork.SerializationRate = settings.SerializationRate;
             PhotonNetwork.SendRate = settings.SendRate;
             PhotonNetwork.AutomaticallySyncScene = settings.SynchronizeClientScenes;
+
             PhotonNetwork.AddCallbackTarget(callbackHandler);
+            PhotonNetwork.AddCallbackTarget(eventHandler);
         }
 
         /// <summary>Adds a callback listener for events that either contain no value or a string value</summary>
@@ -109,6 +114,12 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void AddCallbackListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
         {
             callbackHandler.AddListener(callbackEvent, callback);
+        }
+
+        /// <summary>Adds a callback listener for game events in the room that contains content based on the type of game event</summary>
+        public static void AddGameEventListener(GameEvent gameEvent, Action<object> callback)
+        {
+            eventHandler.AddListener(gameEvent, callback);
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
@@ -145,6 +156,12 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void RemoveCallbackListener(InRoomCallbackEvent callbackEvent, Action<Client> callback)
         {
             callbackHandler.RemoveListener(callbackEvent, callback);
+        }
+
+        /// <summary>Stops callback listener from listening to game events in the room that contains content based on the type of game event</summary>
+        public static void RemoveGameEventListener(GameEvent gameEvent, Action<object> callback)
+        {
+            eventHandler.RemoveListener(gameEvent, callback);
         }
 
         /// <summary>Removes callback listener from the lobby statistics update event</summary>
@@ -195,13 +212,63 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.LoadLevel(sceneName);
         }
 
-        public static void Instantiate(string prefabName, Vector3 position, Quaternion rotation)
+        /// <summary>Raises game event of given type, with given content, send at given eventreceivers.</summary>
+        public static void RaiseGameEvent(GameEvent type, object content, EventReceivers receivers, bool sendReliable = true)
         {
-            Debug.LogError(prefabName);
+            eventHandler.RaiseEvent((byte)type, content, (ReceiverGroup)receivers, sendReliable);
         }
 
-        public static void Destroy(GameObject gameObject)
+        /// <summary>Raises game event of given type, with given content, send with given eventOptions.</summary>
+        public static void RaiseGameEvent(GameEvent type, object content, int[] targetActorNumbers, bool sendReliable = true)
         {
+            eventHandler.RaiseEvent((byte)type, content, targetActorNumbers, sendReliable);
+        }
+
+        public static GameObject InstantiateOwnedObject(string prefabName, Vector3 position, Quaternion rotation)
+        {
+            if (!settings.IsStaticObject(prefabName))
+            {
+                return PhotonNetwork.Instantiate(prefabName, position, rotation);
+            }
+            else
+            {
+                Debug.LogError("Static objects are part of the scene and not owned :: use InstantiateSceneObject instead");
+                return null;
+            }
+        }
+
+        public static GameObject InstantiateSceneObject(string prefabName, Vector3 position, Quaternion rotation)
+        {
+            if (settings.IsStaticObject(prefabName))
+            {
+                //static objects are spawned using the static objects spawn event type.
+                CustomSpawnInfo info = new CustomSpawnInfo(prefabName, position, rotation);
+                eventHandler.RaiseEvent((byte)InternalEvent.StaticObjectSpawn, info, ReceiverGroup.All, true);
+                return null;
+            }
+            else if (!PhotonNetwork.IsMasterClient)
+            {
+                //objects spawned as scene object by a non host client will be converted into an event send to the host to spawn it instead
+                CustomSpawnInfo info = new CustomSpawnInfo(prefabName, position, rotation);
+                int[] targets = new int[] { PhotonNetwork.CurrentRoom.MasterClientId };
+                eventHandler.RaiseEvent((byte)InternalEvent.SceneObjectSpawn, info, targets, true);
+                return null;
+            }
+
+            return PhotonNetwork.InstantiateSceneObject(prefabName, position, rotation);
+        }
+
+        /// <summary>Destroys given networkedObject on all clients</summary>
+        public static void Destroy(NetworkedObject gameObject)
+        {
+            if (settings.IsStaticObject(gameObject.name))
+            {
+                eventHandler.RaiseEvent((byte)InternalEvent.StaticObjectDestroy, gameObject.ViewId, ReceiverGroup.All, true);
+            }
+            else
+            {
+                PhotonNetwork.Destroy(gameObject.gameObject);
+            }
         }
 
         /// <summary>
@@ -243,7 +310,7 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Connects to networking service using the default settings. Set onConnected callback if you want some function to execute when connected</summary>
         public static void ConnectWithDefaultSettings(Action onConnecteToMaster = null, Action onConnected = null)
         {
-            connectionHandler.StartDefaultConnection();
+            matchmakingHandler.StartDefaultConnection();
             if (onConnecteToMaster != null)
             {
                 callbackHandler.AddSingleCallback(SimpleCallbackEvent.ConnectedToMaster, onConnecteToMaster);
@@ -257,7 +324,7 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Disconnects the client from the server. Set onDisconnect callback if you want some function to execute when disconnected</summary>
         public static void Disconnect(Action onDisconnect = null)
         {
-            connectionHandler.Disconnect();
+            matchmakingHandler.Disconnect();
             if (onDisconnect != null)
             {
                 callbackHandler.AddSingleCallback(SimpleCallbackEvent.Disconnected, onDisconnect);
@@ -268,7 +335,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void CreateRoom(string name, int maxPlayers, string key, Action onCreated = null)
         {
             string log = string.Empty;
-            if (!connectionHandler.CreateRoom(name, maxPlayers, key, ref log))
+            if (!matchmakingHandler.CreateRoom(name, maxPlayers, key, ref log))
             {
                 Debug.LogWarningFormat("Failed creating room {0} :: {1}", name, log);
             }
@@ -285,7 +352,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void JoinRoom(string name, Action onJoined = null)
         {
             string log = string.Empty;
-            if (!connectionHandler.JoinRoom(name, ref log))
+            if (!matchmakingHandler.JoinRoom(name, ref log))
             {
                 Debug.LogWarningFormat("Failed joining room {0} :: {1}", name, log);
             }
@@ -302,7 +369,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void LeaveRoom(bool returnToLobby, Action onLefRoom = null)
         {
             string log = string.Empty;
-            if (!connectionHandler.LeaveRoom(ref log))
+            if (!matchmakingHandler.LeaveRoom(ref log))
             {
                 Debug.LogWarningFormat("Failed leaving room :: {0}", log);
             }
@@ -333,7 +400,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void JoinLobby(string lobbyName, Action onLobbyJoined = null)
         {
             string log = string.Empty;
-            if (!connectionHandler.JoinLobby(lobbyName, ref log))
+            if (!matchmakingHandler.JoinLobby(lobbyName, ref log))
             {
                 Debug.LogWarningFormat("Failed Joining lobby {0} :: {1}", lobbyName, log);
             }
@@ -350,7 +417,7 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void LeaveLobby(Action onLeftLobby = null)
         {
             string log = string.Empty;
-            if (!connectionHandler.LeaveLobby(ref log))
+            if (!matchmakingHandler.LeaveLobby(ref log))
             {
                 Debug.LogWarningFormat("Failed leaving lobby :: {0}", log);
             }
@@ -369,14 +436,14 @@ namespace BWolf.Wrappers.PhotonSDK
             string log = string.Empty;
             if (value)
             {
-                if (!connectionHandler.StartOffline(ref log))
+                if (!matchmakingHandler.StartOffline(ref log))
                 {
                     Debug.LogWarningFormat("Failed starting offline mode :: {0}", log);
                 }
             }
             else
             {
-                if (!connectionHandler.StopOffline(ref log))
+                if (!matchmakingHandler.StopOffline(ref log))
                 {
                     Debug.LogWarningFormat("Failed stopping offline mode :: {0}", log);
                 }

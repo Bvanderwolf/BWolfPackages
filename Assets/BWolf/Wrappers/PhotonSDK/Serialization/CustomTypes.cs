@@ -11,7 +11,7 @@
         internal static void Register()
         {
             PhotonPeer.RegisterType(typeof(Color), (byte)'C', SerializeColor, DeserializeColor);
-            PhotonPeer.RegisterType(typeof(ObjectSpawnInfo), (byte)'S', ObjectSpawnInfo.Serialize, ObjectSpawnInfo.Deserialize);
+            PhotonPeer.RegisterType(typeof(CustomSpawnInfo), (byte)'S', CustomSpawnInfo.Serialize, CustomSpawnInfo.Deserialize);
         }
 
         public static byte[] SerializeColor(object obj)

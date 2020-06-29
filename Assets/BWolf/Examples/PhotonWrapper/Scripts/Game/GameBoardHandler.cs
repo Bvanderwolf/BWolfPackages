@@ -77,7 +77,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
                 string nameOfPrefab = isPlayerOne ? nameOfDiskPrefab : nameOfCrossPrefab;
                 foreach (Transform child in lineup)
                 {
-                    NetworkingService.Instantiate(nameOfPrefab, child.position, Quaternion.identity);
+                    NetworkingService.InstantiateOwnedObject(nameOfPrefab, child.position, Quaternion.identity);
                 }
             }
         }
