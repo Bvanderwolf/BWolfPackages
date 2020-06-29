@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diskMaterial: {fileID: 2100000, guid: 94e43935c0a01924eb537f74ef65ed39, type: 2}
-  nameOfDiskPrefab: Disk
+  nameOfDiskPrefab: PlayerDisk
   crossMaterial: {fileID: 2100000, guid: 708074db30779ec42ae9d81ef7e66468, type: 2}
   nameOfCrossPrefab: PlayerCross
   playerOneSpawns: {fileID: 331964316}

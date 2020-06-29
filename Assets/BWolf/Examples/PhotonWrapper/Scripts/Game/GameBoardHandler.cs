@@ -71,13 +71,12 @@ namespace BWolf.Examples.PhotonWrapper.Game
         {
             if (scene == gameObject.scene)
             {
-                Debug.LogError("start game");
                 bool isPlayerOne = NetworkingService.IsHost;
                 Transform lineup = isPlayerOne ? playerOneSpawns : playerTwoSpawns;
                 string nameOfPrefab = isPlayerOne ? nameOfDiskPrefab : nameOfCrossPrefab;
                 foreach (Transform child in lineup)
                 {
-                    NetworkingService.InstantiateOwnedObject(nameOfPrefab, child.position, Quaternion.identity);
+                    NetworkingService.InstantiateOwnedObject(nameOfPrefab, child.position, child.rotation);
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BWolf.Wrappers.PhotonSDK;
+using UnityEngine;
 
 namespace BWolf.Examples.PhotonWrapper.Game
 {
@@ -8,9 +9,17 @@ namespace BWolf.Examples.PhotonWrapper.Game
         private PlacementPin collidingPin;
         private Vector3 startPosition;
 
+        private MovableNetworkedObject movable;
+
+        public bool IsDraggable
+        {
+            get { return movable.IsMine; }
+        }
+
         private void Awake()
         {
             startPosition = transform.position;
+            movable = GetComponent<MovableNetworkedObject>();
         }
 
         /// <summary>Called when this pawn is being dragged by the player it sets x and y positions according to given board position</summary>
