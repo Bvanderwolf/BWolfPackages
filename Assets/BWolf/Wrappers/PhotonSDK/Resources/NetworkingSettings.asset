@@ -15,6 +15,7 @@ MonoBehaviour:
   serializationRate: 20
   sendRate: 40
   synchronizeClientScenes: 1
-  sceneNames:
-  - Main
-  - Game
+  movableNetworkedObjects:
+  - {fileID: 5707537734115952722, guid: ed07d88303ede76408fad02fa96d78db, type: 3}
+  - {fileID: 8898007420640264272, guid: 1755d02675a2dc14db5a2a076c9f5323, type: 3}
+  staticNetworkedObjects: []

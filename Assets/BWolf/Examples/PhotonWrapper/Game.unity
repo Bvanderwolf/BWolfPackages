@@ -1515,9 +1515,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diskMaterial: {fileID: 2100000, guid: 94e43935c0a01924eb537f74ef65ed39, type: 2}
+  nameOfDiskPrefab: Disk
   crossMaterial: {fileID: 2100000, guid: 708074db30779ec42ae9d81ef7e66468, type: 2}
-  playerOne: {fileID: 1459070537}
-  playerTwo: {fileID: 1963577588}
+  nameOfCrossPrefab: PlayerCross
+  playerOneSpawns: {fileID: 331964316}
+  playerOnePlayPositions: {fileID: 1253688465}
+  playerTwoSpawns: {fileID: 855307761}
+  playerTwoPlayPositions: {fileID: 1884021122}
 --- !u!114 &1140626998
 MonoBehaviour:
   m_ObjectHideFlags: 0

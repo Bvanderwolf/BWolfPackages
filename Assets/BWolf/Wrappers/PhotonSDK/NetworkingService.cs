@@ -14,6 +14,7 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly ConnectionHandler connectionHandler;
         private static readonly ClientHandler clientHandler;
         private static readonly RoomHandler roomHandler;
+        private static readonly ResourceHandler resourceHandler;
 
         private static NetworkingSettings settings;
 
@@ -80,12 +81,13 @@ namespace BWolf.Wrappers.PhotonSDK
             if (!EditorApplication.isPlaying) return;
 #endif
 
+            settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
+
             connectionHandler = new ConnectionHandler();
             clientHandler = new ClientHandler();
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
-
-            settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
+            resourceHandler = new ResourceHandler(settings);
 
             CustomTypes.Register();
 
@@ -189,6 +191,15 @@ namespace BWolf.Wrappers.PhotonSDK
             }
 
             PhotonNetwork.LoadLevel(sceneName);
+        }
+
+        public static void Instantiate(string prefabName, Vector3 position, Quaternion rotation)
+        {
+            Debug.LogError(prefabName);
+        }
+
+        public static void Destroy(GameObject gameObject)
+        {
         }
 
         /// <summary>

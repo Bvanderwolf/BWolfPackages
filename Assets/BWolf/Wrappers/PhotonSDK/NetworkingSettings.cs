@@ -5,14 +5,23 @@ namespace BWolf.Wrappers.PhotonSDK
     [CreateAssetMenu(menuName = "NetworkingService/Settings")]
     public class NetworkingSettings : ScriptableObject
     {
+        [Header("Speed")]
         [SerializeField]
         private int serializationRate = 20;
 
         [SerializeField]
         private int sendRate = 40;
 
+        [Header("SceneLoading")]
         [SerializeField]
         private bool synchronizeClientScenes = true;
+
+        [Header("ObjectManagement")]
+        [SerializeField]
+        private GameObject[] movableNetworkedObjects = null;
+
+        [SerializeField]
+        private GameObject[] staticNetworkedObjects = null;
 
         /// <summary>Defines how many times per second streaming is done (tick time = 1/SerializationRate)</summary>
         public int SerializationRate

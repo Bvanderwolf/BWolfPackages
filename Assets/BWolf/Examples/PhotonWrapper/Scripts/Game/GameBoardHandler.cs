@@ -11,14 +11,26 @@ namespace BWolf.Examples.PhotonWrapper.Game
         private Material diskMaterial = null;
 
         [SerializeField]
+        private string nameOfDiskPrefab = "PlayerDisk";
+
+        [SerializeField]
         private Material crossMaterial = null;
+
+        [SerializeField]
+        private string nameOfCrossPrefab = "PlayerCross";
 
         [Header("Lineups")]
         [SerializeField]
-        private Transform playerOne = null;
+        private Transform playerOneSpawns = null;
 
         [SerializeField]
-        private Transform playerTwo = null;
+        private Transform playerOnePlayPositions = null;
+
+        [SerializeField]
+        private Transform playerTwoSpawns = null;
+
+        [SerializeField]
+        private Transform playerTwoPlayPositions = null;
 
         private void Awake()
         {
@@ -59,6 +71,13 @@ namespace BWolf.Examples.PhotonWrapper.Game
             if (scene == gameObject.scene)
             {
                 Debug.LogError("start game");
+                bool isPlayerOne = NetworkingService.IsHost;
+                Transform lineup = isPlayerOne ? playerOneSpawns : playerTwoSpawns;
+                string nameOfPrefab = isPlayerOne ? nameOfDiskPrefab : nameOfCrossPrefab;
+                foreach (Transform child in lineup)
+                {
+                    NetworkingService.Instantiate(nameOfPrefab, child.position, Quaternion.identity);
+                }
             }
         }
     }
