@@ -8,20 +8,18 @@ namespace BWolf.Examples.PhotonWrapper.Game
     {
         public GameState State { get; private set; }
 
-        private GameBoardHandler gameBoard;
-
         private void Awake()
         {
             State = GameState.WaitingForPlayers;
-            gameBoard = GetComponent<GameBoardHandler>();
-            gameBoard.OnSetupFinished += OnGameBoardSetupFinish;
+
+            GameBoardHandler.OnSetupFinished += OnGameBoardSetupFinish;
 
             NetworkingService.AddClientsLoadedSceneListener(OnAllClientsLoadedScene);
         }
 
         private void OnDestroy()
         {
-            gameBoard.OnSetupFinished -= OnGameBoardSetupFinish;
+            GameBoardHandler.OnSetupFinished -= OnGameBoardSetupFinish;
 
             NetworkingService.RemoveClientsLoadedSceneListener(OnAllClientsLoadedScene);
         }

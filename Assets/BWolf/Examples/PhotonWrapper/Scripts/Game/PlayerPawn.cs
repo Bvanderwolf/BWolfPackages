@@ -18,8 +18,13 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private void Awake()
         {
-            startPosition = transform.position;
             movable = GetComponent<MovableNetworkedObject>();
+            GameBoardHandler.OnSetupFinished += StoreStartPosition;
+        }
+
+        private void OnDestroy()
+        {
+            GameBoardHandler.OnSetupFinished -= StoreStartPosition;
         }
 
         /// <summary>Called when this pawn is being dragged by the player it sets x and y positions according to given board position</summary>
@@ -61,6 +66,11 @@ namespace BWolf.Examples.PhotonWrapper.Game
             {
                 collidingPin = null;
             }
+        }
+
+        private void StoreStartPosition()
+        {
+            startPosition = transform.position;
         }
     }
 }

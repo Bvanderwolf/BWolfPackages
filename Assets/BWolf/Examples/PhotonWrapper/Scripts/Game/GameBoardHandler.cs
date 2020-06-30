@@ -53,7 +53,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private WaitForFixedUpdate waitForRenderFrame = new WaitForFixedUpdate();
 
-        public event Action OnSetupFinished;
+        public static event Action OnSetupFinished;
 
         private void Awake()
         {
@@ -70,10 +70,12 @@ namespace BWolf.Examples.PhotonWrapper.Game
                 if (client.IsHost)
                 {
                     diskMaterial.color = color;
+                    playerOneHead.text = client.Nickname;
                 }
                 else
                 {
                     crossMaterial.color = color;
+                    playerTwoHead.text = client.Nickname;
                 }
             }
 
