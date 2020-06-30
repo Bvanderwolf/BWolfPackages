@@ -18,7 +18,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private void Update()
         {
-            if (gameStateManager.State != GameState.Playing) { return; }
+            if (gameStateManager.State != GameState.Playing || !TurnManager.HasTurn) { return; }
 
             if (Input.GetMouseButtonDown(0))
             {

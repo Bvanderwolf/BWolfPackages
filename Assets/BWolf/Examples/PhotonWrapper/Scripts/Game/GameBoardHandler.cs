@@ -70,12 +70,12 @@ namespace BWolf.Examples.PhotonWrapper.Game
                 if (client.IsHost)
                 {
                     diskMaterial.color = color;
-                    playerOneHead.text = client.Nickname;
+                    playerOneHead.text = string.Format("[{0}]", client.Nickname);
                 }
                 else
                 {
                     crossMaterial.color = color;
-                    playerTwoHead.text = client.Nickname;
+                    playerTwoHead.text = string.Format("[{0}]", client.Nickname);
                 }
             }
 

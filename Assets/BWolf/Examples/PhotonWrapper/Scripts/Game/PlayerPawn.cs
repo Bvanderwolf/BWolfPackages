@@ -43,6 +43,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             {
                 transform.position = collidingPin.transform.position;
                 collidingPin.SetHoldingPawn(this);
+                TurnManager.FinishTurn();
             }
             else
             {
@@ -52,6 +53,8 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!movable.IsMine) { return; }
+
             PlacementPin pin = other.GetComponentInParent<PlacementPin>();
             if (pin != null && !pin.HasPawn)
             {
@@ -61,6 +64,8 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private void OnTriggerExit(Collider other)
         {
+            if (!movable.IsMine) { return; }
+
             PlacementPin pin = other.GetComponentInParent<PlacementPin>();
             if (pin != null && pin == collidingPin)
             {

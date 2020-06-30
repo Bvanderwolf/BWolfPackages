@@ -1,4 +1,4 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.Serialization
+﻿namespace BWolf.Wrappers.PhotonSDK.Editables
 {
     using ExitGames.Client.Photon;
     using System;

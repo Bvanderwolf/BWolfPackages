@@ -51,7 +51,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             if (other.gameObject.layer != LayerMask.NameToLayer("Pawn")) { return; }
 
             PlayerPawn pawn = other.GetComponentInParent<PlayerPawn>();
-            if (pawn != null && pawnHolding == null)
+            if (pawn != null && pawn.IsDraggable && pawnHolding == null)
             {
                 foreach (Material mat in materials)
                 {
@@ -66,7 +66,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
             //reset the pawn holding reference if the pawn being held has been taken out of trigger range
             PlayerPawn pawn = other.GetComponentInParent<PlayerPawn>();
-            if (pawn != null)
+            if (pawn != null && pawn.IsDraggable)
             {
                 foreach (Material mat in materials)
                 {

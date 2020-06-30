@@ -1,4 +1,4 @@
-﻿using BWolf.Wrappers.PhotonSDK.Serialization;
+﻿using BWolf.Wrappers.PhotonSDK.Editables;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Concurrent;
