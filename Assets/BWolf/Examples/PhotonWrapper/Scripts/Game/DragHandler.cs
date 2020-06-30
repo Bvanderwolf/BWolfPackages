@@ -9,9 +9,16 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private IDraggable currentDraggable;
 
+        private GameStateManager gameStateManager;
+
+        private void Awake()
+        {
+            gameStateManager = GetComponent<GameStateManager>();
+        }
+
         private void Update()
         {
-            if (GameStateManager.Instance.State != GameState.Playing) { return; }
+            if (gameStateManager.State != GameState.Playing) { return; }
 
             if (Input.GetMouseButtonDown(0))
             {

@@ -6,28 +6,36 @@ namespace BWolf.Examples.PhotonWrapper.Game
 {
     public class GameStateManager : MonoBehaviour
     {
-        public static GameStateManager Instance { get; private set; }
-
         public GameState State { get; private set; }
+
+        private GameBoardHandler gameBoard;
 
         private void Awake()
         {
-            Instance = this;
             State = GameState.WaitingForPlayers;
+            gameBoard = GetComponent<GameBoardHandler>();
+            gameBoard.OnSetupFinished += OnGameBoardSetupFinish;
 
             NetworkingService.AddClientsLoadedSceneListener(OnAllClientsLoadedScene);
         }
 
         private void OnDestroy()
         {
+            gameBoard.OnSetupFinished -= OnGameBoardSetupFinish;
+
             NetworkingService.RemoveClientsLoadedSceneListener(OnAllClientsLoadedScene);
+        }
+
+        private void OnGameBoardSetupFinish()
+        {
+            State = GameState.Playing;
         }
 
         private void OnAllClientsLoadedScene(Scene scene)
         {
             if (scene == gameObject.scene)
             {
-                State = GameState.Playing;
+                State = GameState.Setup;
             }
         }
     }
@@ -35,6 +43,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
     public enum GameState
     {
         WaitingForPlayers,
+        Setup,
         Playing,
         GameEnded
     }
