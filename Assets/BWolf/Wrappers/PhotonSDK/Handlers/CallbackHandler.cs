@@ -1,4 +1,5 @@
-﻿using ExitGames.Client.Photon;
+﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
+using ExitGames.Client.Photon;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace BWolf.Wrappers.PhotonSDK
+﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     /// <summary>Defines callbacks with either no arguments or a message string </summary>
     public enum SimpleCallbackEvent

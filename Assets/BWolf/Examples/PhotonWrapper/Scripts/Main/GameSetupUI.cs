@@ -1,4 +1,6 @@
-﻿using BWolf.Wrappers.PhotonSDK;
+﻿using BWolf.Examples.PhotonWrapper.Game;
+using BWolf.Wrappers.PhotonSDK;
+using BWolf.Wrappers.PhotonSDK.DataContainers;
 using BWolf.Wrappers.PhotonSDK.Handlers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +38,8 @@ namespace BWolf.Examples.PhotonWrapper.Main
         {
             playerColorPicker.OnColorPicked += OnColorPicked;
             playerColorPicker.OnCancel += ToggleInteractabilityOfColorButton;
+
+            MultiplayerRegistrations.Register();
 
             NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);

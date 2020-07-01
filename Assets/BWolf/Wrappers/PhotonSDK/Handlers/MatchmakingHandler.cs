@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using BWolf.Wrappers.PhotonSDK.DataContainers;
 
 namespace BWolf.Wrappers.PhotonSDK.Handlers
 {

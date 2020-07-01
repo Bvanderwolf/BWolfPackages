@@ -1,6 +1,8 @@
-﻿using BWolf.Wrappers.PhotonSDK.Handlers;
+﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
+using BWolf.Wrappers.PhotonSDK.Handlers;
 using BWolf.Wrappers.PhotonSDK.Serialiazation;
 using BWolf.Wrappers.PhotonSDK.Synchronization;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -20,6 +22,7 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly RoomHandler roomHandler;
         private static readonly ResourceHandler resourceHandler;
         private static readonly MultiplayerEventHandler eventHandler;
+        private static readonly SerializableTypes serializableTypes;
 
         private static NetworkingSettings settings;
 
@@ -89,13 +92,14 @@ namespace BWolf.Wrappers.PhotonSDK
             settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
 
             matchmakingHandler = new MatchmakingHandler();
+            serializableTypes = new SerializableTypes();
             eventHandler = new MultiplayerEventHandler();
             clientHandler = new ClientHandler();
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
             resourceHandler = new ResourceHandler(settings, eventHandler);
 
-            CustomTypes.Register();
+            serializableTypes.RegisterInternal();
 
             PhotonNetwork.SerializationRate = settings.SerializationRate;
             PhotonNetwork.SendRate = settings.SendRate;
@@ -187,6 +191,15 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void RemoveClientsLoadedSceneListener(Action<Scene> onClientsLoadedScene)
         {
             callbackHandler.RemoveListener(onClientsLoadedScene);
+        }
+
+        public static void RegisterCustomSerializable(Type type, char charCode, SerializeMethod serialize, DeserializeMethod deserialize)
+        {
+            serializableTypes.RegisterCustomType(type, charCode, serialize, deserialize);
+        }
+
+        public static void RegisterGameEvent(string nameOfEvent, Type contentType)
+        {
         }
 
         /// <summary>Loads a scene using given build index. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>

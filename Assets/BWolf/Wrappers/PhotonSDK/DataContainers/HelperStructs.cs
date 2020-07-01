@@ -1,4 +1,4 @@
-﻿namespace BWolf.Wrappers.PhotonSDK
+﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     /// <summary>structure containing data about a lobby on the server</summary>
     public struct LobbyData

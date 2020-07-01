@@ -1,5 +1,6 @@
 ﻿using System;
 using BWolf.Wrappers.PhotonSDK;
+using BWolf.Wrappers.PhotonSDK.DataContainers;
 using BWolf.Wrappers.PhotonSDK.Serialiazation;
 using TMPro;
 using UnityEngine;

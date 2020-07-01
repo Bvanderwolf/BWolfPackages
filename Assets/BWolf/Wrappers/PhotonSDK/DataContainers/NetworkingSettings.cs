@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     [CreateAssetMenu(menuName = "NetworkingService/Settings")]
     public class NetworkingSettings : ScriptableObject
