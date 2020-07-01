@@ -13,8 +13,14 @@ namespace BWolf.Examples.PhotonWrapper.Game
             State = GameState.WaitingForPlayers;
 
             GameBoardHandler.OnSetupFinished += OnGameBoardSetupFinish;
+            GameBoardHandler.OnGameFinished += OnGameFinished;
 
             NetworkingService.AddClientsLoadedSceneListener(OnAllClientsLoadedScene);
+        }
+
+        private void OnGameFinished(Client winningClient)
+        {
+            State = GameState.GameEnded;
         }
 
         private void OnDestroy()

@@ -56,6 +56,8 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         public static event Action OnSetupFinished;
 
+        public static event Action<Client> OnGameFinished;
+
         private Dictionary<int, Client> gridState = new Dictionary<int, Client>();
         private List<WinningStrip> winningStrips = new List<WinningStrip>();
 
@@ -108,26 +110,48 @@ namespace BWolf.Examples.PhotonWrapper.Game
             if (gridState.ContainsKey(info.GridIndex))
             {
                 gridState[info.GridIndex] = finishedClient;
-                CheckForEndCondition(finishedClient);
+                CheckForWinCondition(finishedClient);
             }
         }
 
-        private void CheckForEndCondition(Client client)
+        private void CheckForWinCondition(Client client)
         {
             int length = 0;
             foreach (WinningStrip strip in winningStrips)
             {
                 if (TryStrip(strip.StartIndex, strip.Exponent, client, ref length))
                 {
-                    OnCompletedWinningStrip(strip);
+                    OnCompletedWinningStrip(strip, client);
                     break;
                 }
                 length = 0;
             }
         }
 
-        private void OnCompletedWinningStrip(WinningStrip strip)
+        private void CheckForDraw()
         {
+            int count = 0;
+            foreach (var entry in gridState)
+            {
+                if (entry.Value != null) { count++; }
+            }
+
+            if (count == gridSize * gridSize)
+            {
+                //show draw ui
+            }
+        }
+
+        private void OnCompletedWinningStrip(WinningStrip strip, Client client)
+        {
+            if (client.IsLocal)
+            {
+                //show win ui
+            }
+            else
+            {
+                //show lose ui
+            }
         }
 
         private bool TryStrip(int index, int exponent, Client client, ref int length)
