@@ -12,6 +12,7 @@
         {
             PhotonPeer.RegisterType(typeof(Color), (byte)'C', SerializeColor, DeserializeColor);
             PhotonPeer.RegisterType(typeof(CustomSpawnInfo), (byte)'S', CustomSpawnInfo.Serialize, CustomSpawnInfo.Deserialize);
+            PhotonPeer.RegisterType(typeof(TurnFinishedInfo), (byte)'T', TurnFinishedInfo.Serialize, TurnFinishedInfo.Deserialize);
         }
 
         public static byte[] SerializeColor(object obj)

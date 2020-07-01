@@ -40,22 +40,23 @@ namespace BWolf.Examples.PhotonWrapper.Game
         {
             if (!NetworkingService.IsHost)
             {
-                FinishTurn();
+                FinishTurn(-1);
             }
         }
 
         private void OnTurnFinished(object obj)
         {
-            int actorNr = (int)obj;
-            Client finishedClient = NetworkingService.ClientsInRoom[actorNr];
+            TurnFinishedInfo info = (TurnFinishedInfo)obj;
+            Client finishedClient = NetworkingService.ClientsInRoom[info.ActorNrOfFinishedClient];
             HasTurn = !finishedClient.IsLocal;
             playerOneHead.outlineWidth = finishedClient.IsHost ? defaultOutlineWidth : playerTurnOutlineWidth;
             playerTwoHead.outlineWidth = !finishedClient.IsHost ? defaultOutlineWidth : playerTurnOutlineWidth;
         }
 
-        public static void FinishTurn()
+        public static void FinishTurn(int gridIndex)
         {
-            NetworkingService.RaiseGameEvent(GameEvent.TurnFinished, NetworkingService.LocalClient.ActorNumber, EventReceivers.All);
+            TurnFinishedInfo info = new TurnFinishedInfo(NetworkingService.LocalClient.ActorNumber, gridIndex);
+            NetworkingService.RaiseGameEvent(GameEvent.TurnFinished, info, EventReceivers.All);
         }
     }
 }

@@ -43,7 +43,8 @@ namespace BWolf.Examples.PhotonWrapper.Game
             {
                 transform.position = collidingPin.transform.position;
                 collidingPin.SetHoldingPawn(this);
-                TurnManager.FinishTurn();
+                Debug.LogError(collidingPin.transform.GetSiblingIndex());
+                TurnManager.FinishTurn(collidingPin.transform.GetSiblingIndex());
             }
             else
             {
