@@ -2,7 +2,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Synchronization
 {
     /// <summary>Handles streaming of gameobject transform properties like position, rotation and scale</summary>
     [RequireComponent(typeof(PhotonView))]

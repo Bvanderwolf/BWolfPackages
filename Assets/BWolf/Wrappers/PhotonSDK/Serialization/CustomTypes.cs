@@ -1,5 +1,6 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.Editables
+﻿namespace BWolf.Wrappers.PhotonSDK.Serialiazation
 {
+    using BWolf.Examples.PhotonWrapper.Game;
     using ExitGames.Client.Photon;
     using System;
     using System.Collections.Generic;

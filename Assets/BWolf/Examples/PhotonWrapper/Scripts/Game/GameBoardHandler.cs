@@ -1,5 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
-using BWolf.Wrappers.PhotonSDK.Editables;
+using BWolf.Wrappers.PhotonSDK.Serialiazation;
 using BWolf.Wrappers.PhotonSDK.Handlers;
 using System;
 using System.Collections;

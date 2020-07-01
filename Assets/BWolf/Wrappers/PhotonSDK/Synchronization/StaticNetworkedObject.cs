@@ -1,6 +1,6 @@
 ﻿using BWolf.Wrappers.PhotonSDK.Handlers;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Synchronization
 {
     /// <summary>Used by static objects in scene to be manageable</summary>
     public class StaticNetworkedObject : NetworkedObject

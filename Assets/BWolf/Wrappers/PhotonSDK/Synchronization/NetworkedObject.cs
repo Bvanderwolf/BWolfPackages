@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Wrappers.PhotonSDK
+namespace BWolf.Wrappers.PhotonSDK.Synchronization
 {
     /// <summary>Base class for moving and static object components</summary>
     [DisallowMultipleComponent]

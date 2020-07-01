@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BWolf.Wrappers.PhotonSDK.Editables
+namespace BWolf.Examples.PhotonWrapper.Game
 {
     public struct TurnFinishedInfo
     {

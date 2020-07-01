@@ -1,4 +1,4 @@
-﻿using BWolf.Wrappers.PhotonSDK.Editables;
+﻿using BWolf.Wrappers.PhotonSDK.Serialiazation;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;

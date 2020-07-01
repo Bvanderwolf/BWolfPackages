@@ -1,5 +1,4 @@
-﻿using System;
-using BWolf.Wrappers.PhotonSDK;
+﻿using BWolf.Wrappers.PhotonSDK;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;

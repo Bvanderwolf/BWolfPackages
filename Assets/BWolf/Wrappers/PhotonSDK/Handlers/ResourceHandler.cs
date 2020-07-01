@@ -1,4 +1,5 @@
-﻿using BWolf.Wrappers.PhotonSDK.Editables;
+﻿using BWolf.Wrappers.PhotonSDK.Serialiazation;
+using BWolf.Wrappers.PhotonSDK.Synchronization;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Concurrent;

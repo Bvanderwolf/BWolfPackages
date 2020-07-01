@@ -1,4 +1,4 @@
-﻿using BWolf.Wrappers.PhotonSDK;
+﻿using BWolf.Wrappers.PhotonSDK.Synchronization;
 using UnityEngine;
 
 namespace BWolf.Examples.PhotonWrapper.Game
