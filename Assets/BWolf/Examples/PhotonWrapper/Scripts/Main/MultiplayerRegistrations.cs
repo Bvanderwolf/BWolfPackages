@@ -12,6 +12,7 @@ namespace BWolf.Examples.PhotonWrapper.Main
             if (registered) { return; }
 
             NetworkingService.RegisterCustomSerializable(typeof(TurnFinishedInfo), 'T', TurnFinishedInfo.Serialize, TurnFinishedInfo.Deserialize);
+            NetworkingService.RegisterGameEvent(TurnManager.NameOfTurnFinishedEvent, typeof(TurnFinishedInfo));
             registered = true;
         }
     }

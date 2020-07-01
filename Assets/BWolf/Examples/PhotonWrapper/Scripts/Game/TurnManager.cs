@@ -1,7 +1,5 @@
-﻿using System;
-using BWolf.Wrappers.PhotonSDK;
+﻿using BWolf.Wrappers.PhotonSDK;
 using BWolf.Wrappers.PhotonSDK.DataContainers;
-using BWolf.Wrappers.PhotonSDK.Serialiazation;
 using TMPro;
 using UnityEngine;
 
@@ -22,19 +20,21 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
         private float defaultOutlineWidth;
 
+        public const string NameOfTurnFinishedEvent = "TurnFinished";
+
         private void Awake()
         {
             defaultOutlineWidth = playerOneHead.outlineWidth;
             playerOneHead.outlineWidth = playerTurnOutlineWidth;
 
             GameBoardHandler.OnSetupFinished += OnSetupFinished;
-            NetworkingService.AddGameEventListener(GameEvent.TurnFinished, OnTurnFinished);
+            NetworkingService.AddGameEventListener(NameOfTurnFinishedEvent, OnTurnFinished);
         }
 
         private void OnDestroy()
         {
             GameBoardHandler.OnSetupFinished -= OnSetupFinished;
-            NetworkingService.RemoveGameEventListener(GameEvent.TurnFinished, OnTurnFinished);
+            NetworkingService.RemoveGameEventListener(NameOfTurnFinishedEvent, OnTurnFinished);
         }
 
         private void OnSetupFinished()
@@ -57,7 +57,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
         public static void FinishTurn(int gridIndex)
         {
             TurnFinishedInfo info = new TurnFinishedInfo(NetworkingService.LocalClient.ActorNumber, gridIndex);
-            NetworkingService.RaiseGameEvent(GameEvent.TurnFinished, info, EventReceivers.All);
+            NetworkingService.RaiseGameEvent(NameOfTurnFinishedEvent, info, EventReceivers.All);
         }
     }
 }

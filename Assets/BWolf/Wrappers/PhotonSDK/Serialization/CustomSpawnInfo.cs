@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Wrappers.PhotonSDK.Serialiazation
+namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
     public struct CustomSpawnInfo
     {

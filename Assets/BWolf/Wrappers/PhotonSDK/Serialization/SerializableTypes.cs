@@ -1,7 +1,8 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.Serialiazation
+﻿namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
     using BWolf.Examples.PhotonWrapper.Game;
     using ExitGames.Client.Photon;
+    using Photon.Realtime;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -9,21 +10,17 @@
     /// <summary>static class for registering the default custom types for this wrapper</summary>
     internal class SerializableTypes
     {
-        private List<char> usedCodes = new List<char> { 'W', 'V', 'Q', 'P' };
+        private readonly List<char> usedCodes = new List<char> { 'W', 'V', 'Q', 'P' };
 
-        private List<Type> serialiableTyeps = new List<Type>()
+        internal readonly List<Type> SerializedTypes = new List<Type>
         {
-            typeof(byte),
-            typeof(bool),
-            typeof(short),
-            typeof(int),
-            typeof(long),
-            typeof(float),
-            typeof(double),
-            typeof(string)
+            typeof(Player),
+            typeof(Vector2),
+            typeof(Vector3),
+            typeof(Quaternion)
         };
 
-        internal void RegisterInternal()
+        internal void RegisterCustomTypesInternal()
         {
             RegisterCustomType(typeof(Color), 'C', SerializeColor, DeserializeColor);
             RegisterCustomType(typeof(CustomSpawnInfo), 'S', CustomSpawnInfo.Serialize, CustomSpawnInfo.Deserialize);
@@ -37,6 +34,12 @@
                 return;
             }
 
+            if (SerializedTypes.Contains(t))
+            {
+                Debug.LogWarningFormat("Failed registering serializable type {0}:: type is already registered", t);
+                return;
+            }
+
             if (!PhotonPeer.RegisterType(t, (byte)c, s, d))
             {
                 Debug.LogWarningFormat("Failed registering serializable type with code {0}::  check photon requirements for serialization", c);
@@ -44,10 +47,7 @@
             }
 
             usedCodes.Add(c);
-        }
-
-        internal void RegisterGameEvent(string nameOfEvent, Type contentType)
-        {
+            SerializedTypes.Add(t);
         }
 
         public static byte[] SerializeColor(object obj)

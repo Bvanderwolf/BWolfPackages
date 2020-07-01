@@ -1,5 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
-using BWolf.Wrappers.PhotonSDK.Serialiazation;
+using BWolf.Wrappers.PhotonSDK.Serialization;
 using BWolf.Wrappers.PhotonSDK.Synchronization;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
-    public class ResourceHandler : IPunPrefabPool
+    internal class ResourceHandler : IPunPrefabPool
     {
         private static Dictionary<int, GameObject> staticObjectDict = new Dictionary<int, GameObject>();
 

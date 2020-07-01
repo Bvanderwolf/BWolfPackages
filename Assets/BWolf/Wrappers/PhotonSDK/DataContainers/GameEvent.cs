@@ -1,8 +1,28 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
+﻿using System;
+
+namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
-    /// <summary>Defines game events to be used inside a room which can be added to</summary>
-    public enum GameEvent : byte
+    public class GameEvent
     {
-        TurnFinished,
+        public readonly string Name;
+        public readonly byte Code;
+        public Action<object> Callback;
+
+        public GameEvent(string name, byte code)
+        {
+            Name = name;
+            Code = code;
+            Callback = null;
+        }
+
+        public void AddListener(Action<object> action)
+        {
+            Callback += action;
+        }
+
+        public void RemoveListener(Action<object> action)
+        {
+            Callback -= action;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
 using BWolf.Wrappers.PhotonSDK.Handlers;
-using BWolf.Wrappers.PhotonSDK.Serialiazation;
+using BWolf.Wrappers.PhotonSDK.Serialization;
 using BWolf.Wrappers.PhotonSDK.Synchronization;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -22,7 +22,7 @@ namespace BWolf.Wrappers.PhotonSDK
         private static readonly RoomHandler roomHandler;
         private static readonly ResourceHandler resourceHandler;
         private static readonly MultiplayerEventHandler eventHandler;
-        private static readonly SerializableTypes serializableTypes;
+        private static readonly SerializableTypes serialization;
 
         private static NetworkingSettings settings;
 
@@ -92,14 +92,14 @@ namespace BWolf.Wrappers.PhotonSDK
             settings = Resources.Load<NetworkingSettings>("NetworkingSettings");
 
             matchmakingHandler = new MatchmakingHandler();
-            serializableTypes = new SerializableTypes();
-            eventHandler = new MultiplayerEventHandler();
+            serialization = new SerializableTypes();
+            eventHandler = new MultiplayerEventHandler(serialization);
             clientHandler = new ClientHandler();
             roomHandler = new RoomHandler();
             callbackHandler = new CallbackHandler(clientHandler, roomHandler);
             resourceHandler = new ResourceHandler(settings, eventHandler);
 
-            serializableTypes.RegisterInternal();
+            serialization.RegisterCustomTypesInternal();
 
             PhotonNetwork.SerializationRate = settings.SerializationRate;
             PhotonNetwork.SendRate = settings.SendRate;
@@ -122,9 +122,9 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Adds a callback listener for game events in the room that contains content based on the type of game event</summary>
-        public static void AddGameEventListener(GameEvent gameEvent, Action<object> callback)
+        public static void AddGameEventListener(string nameOfEvent, Action<object> callback)
         {
-            eventHandler.AddListener(gameEvent, callback);
+            eventHandler.AddListener(nameOfEvent, callback);
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
@@ -164,9 +164,9 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Stops callback listener from listening to game events in the room that contains content based on the type of game event</summary>
-        public static void RemoveGameEventListener(GameEvent gameEvent, Action<object> callback)
+        public static void RemoveGameEventListener(string nameOfEvent, Action<object> callback)
         {
-            eventHandler.RemoveListener(gameEvent, callback);
+            eventHandler.RemoveListener(nameOfEvent, callback);
         }
 
         /// <summary>Removes callback listener from the lobby statistics update event</summary>
@@ -195,11 +195,15 @@ namespace BWolf.Wrappers.PhotonSDK
 
         public static void RegisterCustomSerializable(Type type, char charCode, SerializeMethod serialize, DeserializeMethod deserialize)
         {
-            serializableTypes.RegisterCustomType(type, charCode, serialize, deserialize);
+            serialization.RegisterCustomType(type, charCode, serialize, deserialize);
         }
 
         public static void RegisterGameEvent(string nameOfEvent, Type contentType)
         {
+            if (!string.IsNullOrEmpty(nameOfEvent))
+            {
+                eventHandler.RegisterGameEvent(nameOfEvent, contentType);
+            }
         }
 
         /// <summary>Loads a scene using given build index. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>
@@ -227,15 +231,15 @@ namespace BWolf.Wrappers.PhotonSDK
         }
 
         /// <summary>Raises game event of given type, with given content, send at given eventreceivers.</summary>
-        public static void RaiseGameEvent(GameEvent type, object content, EventReceivers receivers, bool sendReliable = true)
+        public static void RaiseGameEvent(string nameOfEvent, object content, EventReceivers receivers, bool sendReliable = true)
         {
-            eventHandler.RaiseEvent((byte)type, content, (ReceiverGroup)receivers, sendReliable);
+            eventHandler.RaiseGameEvent(nameOfEvent, content, (ReceiverGroup)receivers, sendReliable);
         }
 
         /// <summary>Raises game event of given type, with given content, send with given eventOptions.</summary>
-        public static void RaiseGameEvent(GameEvent type, object content, int[] targetActorNumbers, bool sendReliable = true)
+        public static void RaiseGameEvent(string nameOfEvent, object content, int[] targetActorNumbers, bool sendReliable = true)
         {
-            eventHandler.RaiseEvent((byte)type, content, targetActorNumbers, sendReliable);
+            eventHandler.RaiseGameEvent(nameOfEvent, content, targetActorNumbers, sendReliable);
         }
 
         public static GameObject InstantiateOwnedObject(string prefabName, Vector3 position, Quaternion rotation)

@@ -1,5 +1,5 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
-using BWolf.Wrappers.PhotonSDK.Serialiazation;
+using BWolf.Wrappers.PhotonSDK.Serialization;
 using BWolf.Wrappers.PhotonSDK.Handlers;
 using System;
 using System.Collections;
@@ -80,7 +80,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             playerTwoHead.alpha = 0f;
 
             NetworkingService.AddClientsLoadedSceneListener(OnAllClientsLoadedScene);
-            NetworkingService.AddGameEventListener(GameEvent.TurnFinished, OnTurnFinished);
+            NetworkingService.AddGameEventListener(TurnManager.NameOfTurnFinishedEvent, OnTurnFinished);
         }
 
         private void Start()
@@ -91,7 +91,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
         private void OnDestroy()
         {
             NetworkingService.RemoveClientsLoadedSceneListener(OnAllClientsLoadedScene);
-            NetworkingService.RemoveGameEventListener(GameEvent.TurnFinished, OnTurnFinished);
+            NetworkingService.RemoveGameEventListener(TurnManager.NameOfTurnFinishedEvent, OnTurnFinished);
         }
 
         private void OnAllClientsLoadedScene(Scene scene)
