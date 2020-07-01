@@ -146,7 +146,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         /// <summary>removes listener to the all clients loaded scene event</summary>
         public void RemoveListener(Action<Scene> callback)
         {
-            onAllClientsLoadedScene += callback;
+            onAllClientsLoadedScene -= callback;
         }
 
         /// <summary>Called when a scene has been loaded, it when in a room start waiting for other clients to also load this scene</summary>

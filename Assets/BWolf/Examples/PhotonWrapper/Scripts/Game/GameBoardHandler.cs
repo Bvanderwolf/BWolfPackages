@@ -111,6 +111,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             {
                 gridState[info.GridIndex] = finishedClient;
                 CheckForWinCondition(finishedClient);
+                CheckForDraw();
             }
         }
 
@@ -121,7 +122,7 @@ namespace BWolf.Examples.PhotonWrapper.Game
             {
                 if (TryStrip(strip.StartIndex, strip.Exponent, client, ref length))
                 {
-                    OnCompletedWinningStrip(strip, client);
+                    OnCompletedWinningStrip(client);
                     break;
                 }
                 length = 0;
@@ -138,20 +139,13 @@ namespace BWolf.Examples.PhotonWrapper.Game
 
             if (count == gridSize * gridSize)
             {
-                //show draw ui
+                OnGameFinished(null);
             }
         }
 
-        private void OnCompletedWinningStrip(WinningStrip strip, Client client)
+        private void OnCompletedWinningStrip(Client client)
         {
-            if (client.IsLocal)
-            {
-                //show win ui
-            }
-            else
-            {
-                //show lose ui
-            }
+            OnGameFinished(client);
         }
 
         private bool TryStrip(int index, int exponent, Client client, ref int length)

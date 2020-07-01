@@ -51,6 +51,19 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             GameObject.DontDestroyOnLoad(PoolParent.gameObject);
         }
 
+        private void CleanPoolParents()
+        {
+            foreach (Transform child in movingObjectParent)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in staticObjectParent)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
         private void VerifyStaticObjects()
         {
             foreach (GameObject prefab in settings.StaticNetworkedObjects)
@@ -169,7 +182,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         {
             if (!settings.IsGameScene(scene.name)) { return; }
 
-            CreatePoolParents();
+            CleanPoolParents();
 
             //empty queue for every prefab
             GameObject empty = null;
