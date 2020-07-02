@@ -35,7 +35,13 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             CreatePoolParents();
 
             SceneManager.sceneUnloaded += OnSceneUnloaded;
+            Application.quitting += OnAppQuitting;
             PhotonNetwork.PrefabPool = this;
+        }
+
+        private void OnAppQuitting()
+        {
+            CleanPoolParents();
         }
 
         /// <summary>creates pool parent in scene and make sure it doesn't get destroyed when loading new scenes </summary>
