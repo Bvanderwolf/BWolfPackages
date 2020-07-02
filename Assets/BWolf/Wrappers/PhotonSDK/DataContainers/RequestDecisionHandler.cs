@@ -1,5 +1,4 @@
 ﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
-using BWolf.Wrappers.PhotonSDK.Handlers;
 
 namespace BWolf.Wrappers.PhotonSDK
 {

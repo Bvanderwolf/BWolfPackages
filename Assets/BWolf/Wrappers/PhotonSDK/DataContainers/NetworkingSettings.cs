@@ -74,18 +74,5 @@ namespace BWolf.Wrappers.PhotonSDK.DataContainers
             }
             return false;
         }
-
-        /// <summary>Returns whether given name of scene corresponds to a game scene</summary>
-        public bool IsGameScene(string nameOfScene)
-        {
-            for (int i = 0; i < namesOfGameScenes.Length; i++)
-            {
-                if (namesOfGameScenes[i] == nameOfScene)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

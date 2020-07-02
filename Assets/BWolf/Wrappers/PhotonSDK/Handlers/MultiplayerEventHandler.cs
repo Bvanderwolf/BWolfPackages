@@ -72,6 +72,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             PhotonNetwork.RaiseEvent(eventCode, content, eventOptions, sendOptions);
         }
 
+        /// <summary>Raises a game request using given name and target view id</summary>
         public void RaiseGameRequest(string nameOfRequest, int targetViewId)
         {
             GameRequest request = gameRequests[nameOfRequest];
@@ -93,6 +94,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             PhotonNetwork.RaiseEvent(request.EventCode, content, eventOptions, SendOptions.SendReliable);
         }
 
+        /// <summary>Raises game request using only given name generating a non target view id instead of using a target view id</summary>
         public void RaiseGameRequest(string nameOfRequest)
         {
             int id;
@@ -104,6 +106,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             RaiseGameRequest(nameOfRequest, id);
         }
 
+        /// <summary>registers game event using given name of event and the type of content it needs to use</summary>
         internal void RegisterGameEvent(string nameOfEvent, Type contentType)
         {
             if (!contentType.IsSerializable && !serialization.SerializedTypes.Contains(contentType))
@@ -118,6 +121,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             }
         }
 
+        /// <summary>registers game request using given name, type of content, request delay, start handler and decision handler</summary>
         public void RegisterGameRequest(string nameOfRequest, Type contentType, int requestDelayMiliseconds, RequestStartHandler startHandler, RequestDecisiontHandler decisionHandler)
         {
             if (!contentType.IsSerializable && !serialization.SerializedTypes.Contains(contentType))
@@ -129,6 +133,8 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             if (!gameRequests.ContainsKey(nameOfRequest))
             {
                 gameRequests.Add(nameOfRequest, new GameRequest(nameOfRequest, (byte)(GameEvent.EventCodeBase + gameEvents.Count), requestDelayMiliseconds, startHandler, decisionHandler));
+
+                //add game event for request decision to be send
                 string nameOfDecisionEvent = nameOfRequest + "Decision";
                 gameEvents.Add(nameOfDecisionEvent, new GameEvent(nameOfDecisionEvent, (byte)(GameEvent.EventCodeBase + gameEvents.Count), true));
             }
@@ -219,6 +225,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             }
         }
 
+        /// <summary>handles game request using given event data, checking whether it is valid and run it if possible</summary>
         private void HandleGameRequest(EventData eventData)
         {
             GameRequest request = gameRequests.Values.FirstOrDefault(g => g.EventCode == eventData.Code);
@@ -238,7 +245,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
                 return;
             }
 
-            RunningRequest runningRequest = runningRequests.FirstOrDefault(r => r.targetViewId == targetViewId);
+            RunningRequest runningRequest = runningRequests.FirstOrDefault(r => r.Id == targetViewId);
             if (runningRequest == null)
             {
                 //if no request of this type and target is already in progress, add a new one to the list and start handling it
@@ -253,6 +260,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             }
         }
 
+        /// <summary>Runs game request by waiting for given delay to send request decision info afterwards</summary>
         private async void RunGameRequest(RunningRequest requestToRun, int delay)
         {
             await Task.Delay(delay);
@@ -276,6 +284,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             return gameEvents.Values.FirstOrDefault(g => g.EventCode == code)?.Callback;
         }
 
+        /// <summary>Fills non target ids bag with negative values starting from non target id count and upwards</summary>
         private void FillNonTargetIds()
         {
             for (int count = 1; count < nonTargetIdFillAmount + 1; count++)
@@ -286,6 +295,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             nonTargetIdCount += nonTargetIdFillAmount;
         }
 
+        /// <summary>Returns a game event based on given byte code. Returns null if no game event is found</summary>
         private GameEvent GetGameEventWithCode(byte code)
         {
             foreach (GameEvent gameEvent in gameEvents.Values)

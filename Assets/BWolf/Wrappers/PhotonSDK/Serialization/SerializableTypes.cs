@@ -1,6 +1,5 @@
 ﻿namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
-    using BWolf.Examples.PhotonWrapper.Game;
     using ExitGames.Client.Photon;
     using Photon.Realtime;
     using System;
@@ -14,18 +13,21 @@
 
         internal readonly List<Type> SerializedTypes = new List<Type>
         {
+            //types defined by photon
             typeof(Player),
             typeof(Vector2),
             typeof(Vector3),
             typeof(Quaternion)
         };
 
+        /// <summary>Registers the custom types internally defined by the wrapper</summary>
         internal void RegisterCustomTypesInternal()
         {
             RegisterCustomType(typeof(Color), 'C', SerializeColor, DeserializeColor);
             RegisterCustomType(typeof(CustomSpawnInfo), 'S', CustomSpawnInfo.Serialize, CustomSpawnInfo.Deserialize);
         }
 
+        /// <summary>registers a custom serializable type using type, a character and 2 methods for serialization and deserilialization</summary>
         internal void RegisterCustomType(Type t, char c, SerializeMethod s, DeserializeMethod d)
         {
             if (usedCodes.Contains(c))
@@ -50,6 +52,7 @@
             SerializedTypes.Add(t);
         }
 
+        /// <summary>Used for serializing color to be send over the network</summary>
         public static byte[] SerializeColor(object obj)
         {
             Color color = (Color)obj;
@@ -61,6 +64,7 @@
             return bytes.ToArray();
         }
 
+        /// <summary>Used for Deserializing color to be received from the network</summary>
         public static object DeserializeColor(byte[] data)
         {
             Color color;

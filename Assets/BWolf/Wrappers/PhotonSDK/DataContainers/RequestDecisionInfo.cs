@@ -1,5 +1,6 @@
 ﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
+    /// <summary>structure for storing information on a decision been made by the host</summary>
     public struct RequestDecisionInfo
     {
         public int Id;
@@ -11,8 +12,10 @@
             DecisionContent = decisionContent;
         }
 
+        /// <summary>operation of converting request decision info to an array of objects</summary>
         public static explicit operator object[] (RequestDecisionInfo i) => new object[] { i.Id, i.DecisionContent };
 
+        /// <summary>operation of converting an array of objects to a request decision info structure</summary>
         public static explicit operator RequestDecisionInfo(object[] objects)
         {
             RequestDecisionInfo info;

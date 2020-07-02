@@ -2,17 +2,17 @@
 
 namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
-    /// <summary>Nested class for storing request in progress information</summary>
+    /// <summary>class for storing information on request in progress </summary>
     public class RunningRequest
     {
         public readonly GameRequest request;
-        public readonly int targetViewId;
+        public readonly int Id;
         public readonly Dictionary<int, string> timeStamps;
 
-        public RunningRequest(GameRequest request, int targetViewId, int actorNumber, string timeStamp)
+        public RunningRequest(GameRequest request, int id, int actorNumber, string timeStamp)
         {
             this.request = request;
-            this.targetViewId = targetViewId;
+            this.Id = id;
             this.timeStamps = new Dictionary<int, string> { { actorNumber, timeStamp } };
         }
     }

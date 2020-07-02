@@ -205,11 +205,13 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.RemoveListener(onClientsLoadedScene);
         }
 
+        /// <summary>registers a custom serializable type using type, a character and 2 methods for serialization and deserilialization</summary>
         public static void RegisterCustomSerializable(Type type, char charCode, SerializeMethod serialize, DeserializeMethod deserialize)
         {
             serialization.RegisterCustomType(type, charCode, serialize, deserialize);
         }
 
+        /// <summary>registers game event using given name of event and the type of content it needs to use</summary>
         public static void RegisterGameEvent(string nameOfEvent, Type contentType)
         {
             if (!string.IsNullOrEmpty(nameOfEvent))
@@ -218,6 +220,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>registers game request using given name, type of content, request delay, start handler and decision handler</summary>
         public static void RegisterGameRequest(string nameOfRequest, Type contentType, int requestDelayMiliseconds, RequestStartHandler startHandler, RequestDecisiontHandler decisionHandler)
         {
             if (!string.IsNullOrEmpty(nameOfRequest))
@@ -262,16 +265,19 @@ namespace BWolf.Wrappers.PhotonSDK
             eventHandler.RaiseGameEvent(nameOfEvent, content, targetActorNumbers, sendReliable);
         }
 
+        /// <summary>Raises game request using the name of the request and a target view id of the object the request is about</summary>
         public static void RaiseGameRequest(string nameOfRequest, int targetViewId)
         {
             eventHandler.RaiseGameRequest(nameOfRequest, targetViewId);
         }
 
+        /// <summary>Raises game request using given name of request. Use when request doesn't involve an object in the scene</summary>
         public static void RaiseGameRequest(string nameOfRequest)
         {
             eventHandler.RaiseGameRequest(nameOfRequest);
         }
 
+        /// <summary>Instantiates an object that can be owned by a client accross the network using given prefabName, position and rotation. This can only be a movable networked object</summary>
         public static GameObject InstantiateOwnedObject(string prefabName, Vector3 position, Quaternion rotation)
         {
             if (!settings.IsStaticObject(prefabName))
@@ -285,6 +291,7 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        /// <summary>Instantiates an object owned by the scene accross the network using given prefabName, position and rotation. This can be a static or a movable networked object</summary>
         public static GameObject InstantiateSceneObject(string prefabName, Vector3 position, Quaternion rotation)
         {
             if (settings.IsStaticObject(prefabName))

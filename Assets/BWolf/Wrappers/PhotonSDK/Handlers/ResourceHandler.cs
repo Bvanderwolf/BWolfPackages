@@ -53,6 +53,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             GameObject.DontDestroyOnLoad(PoolParent.gameObject);
         }
 
+        /// <summary>Cleans up pool parents by destroying all its created children</summary>
         private void CleanPoolParents()
         {
             foreach (Transform child in movingObjectParent)
@@ -66,6 +67,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             }
         }
 
+        /// <summary>Verifies static networked object prefabs stored in the settings asset</summary>
         private void VerifyStaticObjects()
         {
             foreach (GameObject prefab in settings.StaticNetworkedObjects)
@@ -180,10 +182,9 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             }
         }
 
+        /// <summary>Called when a scene has been unloaded to reset pooling when leaving a scene</summary>
         private void OnSceneUnloaded(Scene scene)
         {
-            if (!settings.IsGameScene(scene.name)) { return; }
-
             CleanPoolParents();
 
             //empty queue for every prefab
