@@ -16,7 +16,7 @@
         public static explicit operator object[] (RequestDecisionInfo i) => new object[] { i.Id, i.DecisionContent };
 
         /// <summary>operation of converting an array of objects to a request decision info structure</summary>
-        public static explicit operator RequestDecisionInfo(object[] objects)
+        public static implicit operator RequestDecisionInfo(object[] objects)
         {
             RequestDecisionInfo info;
             info.Id = (int)objects[0];

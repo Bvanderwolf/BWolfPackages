@@ -16,6 +16,7 @@ namespace BWolf.Wrappers.PhotonSDK.DataContainers
         {
             Name = name;
             EventCode = eventCode;
+            IsRequestDecision = isRequestDecision;
             Callback = null;
         }
 
