@@ -109,8 +109,8 @@ namespace BWolf.Wrappers.PhotonSDK
             PhotonNetwork.AddCallbackTarget(eventHandler);
         }
 
-        /// <summary>Adds a callback listener for events that either contain no value or a string value</summary>
-        public static void AddCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>Adds a callback listener for matchmaking events</summary>
+        public static void AddCallbackListener(MatchmakingCallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.AddListener(callbackEvent, callback);
         }
@@ -157,8 +157,8 @@ namespace BWolf.Wrappers.PhotonSDK
             callbackHandler.AddListener(onClientsLoadedScene);
         }
 
-        /// <summary>Removes callback listener for events that either return no value or a string value</summary>
-        public static void RemoveCallbackListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
+        /// <summary>Removes callback listener for matchmaking events</summary>
+        public static void RemoveCallbackListener(MatchmakingCallbackEvent callbackEvent, Action<string> callback)
         {
             callbackHandler.RemoveListener(callbackEvent, callback);
         }
@@ -368,11 +368,11 @@ namespace BWolf.Wrappers.PhotonSDK
             matchmakingHandler.StartDefaultConnection();
             if (onConnecteToMaster != null)
             {
-                callbackHandler.AddSingleCallback(SimpleCallbackEvent.ConnectedToMaster, onConnecteToMaster);
+                callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.ConnectedToMaster, onConnecteToMaster);
             }
             if (onConnected != null)
             {
-                callbackHandler.AddSingleCallback(SimpleCallbackEvent.Connected, onConnected);
+                callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.Connected, onConnected);
             }
         }
 
@@ -382,7 +382,7 @@ namespace BWolf.Wrappers.PhotonSDK
             matchmakingHandler.Disconnect();
             if (onDisconnect != null)
             {
-                callbackHandler.AddSingleCallback(SimpleCallbackEvent.Disconnected, onDisconnect);
+                callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.Disconnected, onDisconnect);
             }
         }
 
@@ -398,7 +398,7 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onCreated != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.CreatedRoom, onCreated);
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.CreatedRoom, onCreated);
                 }
             }
         }
@@ -415,7 +415,7 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onJoined != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.JoinedRoom, onJoined);
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.JoinedRoom, onJoined);
                 }
             }
         }
@@ -432,11 +432,11 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLefRoom != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftRoom, onLefRoom);
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.LeftRoom, onLefRoom);
                 }
                 if (returnToLobby)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.ConnectedToMaster, () => PhotonNetwork.JoinLobby(PhotonNetwork.CurrentLobby));
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.ConnectedToMaster, () => PhotonNetwork.JoinLobby(PhotonNetwork.CurrentLobby));
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLobbyJoined != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.JoinedLobby, onLobbyJoined);
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.JoinedLobby, onLobbyJoined);
                 }
             }
         }
@@ -480,7 +480,7 @@ namespace BWolf.Wrappers.PhotonSDK
             {
                 if (onLeftLobby != null)
                 {
-                    callbackHandler.AddSingleCallback(SimpleCallbackEvent.LeftLobby, onLeftLobby);
+                    callbackHandler.AddSingleCallback(MatchmakingCallbackEvent.LeftLobby, onLeftLobby);
                 }
             }
         }

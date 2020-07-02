@@ -41,7 +41,7 @@ namespace BWolf.Examples.PhotonWrapper.Main
 
             MultiplayerRegistrations.Register();
 
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
             NetworkingService.AddCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);
@@ -53,7 +53,7 @@ namespace BWolf.Examples.PhotonWrapper.Main
             playerColorPicker.OnColorPicked -= OnColorPicked;
             playerColorPicker.OnCancel -= ToggleInteractabilityOfColorButton;
 
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.JoinedRoom, OnJoinedRoom);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientJoined, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.ClientLeft, OnRoomUpdate);
             NetworkingService.RemoveCallbackListener(InRoomCallbackEvent.HostChanged, OnRoomUpdate);

@@ -1,7 +1,7 @@
 ﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
-    /// <summary>Defines callbacks with either no arguments or a message string </summary>
-    public enum SimpleCallbackEvent
+    /// <summary>Defines callbacks with either no arguments or a message string used for matchmaking</summary>
+    public enum MatchmakingCallbackEvent
     {
         Connected,
         ConnectedToMaster,

@@ -65,12 +65,12 @@ namespace BWolf.Examples.PhotonWrapper.Main
             }
 
             //add listeners for callbacks
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftRoom, OnLeftRoom);
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
-            NetworkingService.AddCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.LeftRoom, OnLeftRoom);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.AddCallbackListener(MatchmakingCallbackEvent.CreatedRoom, OnCreatedRoom);
 
             //change group focus to menu buttons
             ChangeGroupFocus("MenuButtons");
@@ -90,12 +90,12 @@ namespace BWolf.Examples.PhotonWrapper.Main
             roomListItems.RemoveListener(OnRoomItemSelect);
 
             //remove listeners on destroy
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.Disconnected, OnDisconnected);
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedLobby, OnJoinedLobby);
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.JoinedRoom, OnJoinedRoom);
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftRoom, OnLeftRoom);
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.LeftLobby, OnLeftLobby);
-            NetworkingService.RemoveCallbackListener(SimpleCallbackEvent.CreatedRoom, OnCreatedRoom);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.Disconnected, OnDisconnected);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.JoinedLobby, OnJoinedLobby);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.JoinedRoom, OnJoinedRoom);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.LeftRoom, OnLeftRoom);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.LeftLobby, OnLeftLobby);
+            NetworkingService.RemoveCallbackListener(MatchmakingCallbackEvent.CreatedRoom, OnCreatedRoom);
         }
 
         /// <summary>Uses canvas groups to only show the given group name in the ui</summary>

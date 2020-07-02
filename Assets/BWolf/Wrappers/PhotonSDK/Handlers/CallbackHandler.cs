@@ -11,9 +11,9 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
     /// <summary>Helper class to handle callbacks and manage callback events</summary>
     public class CallbackHandler : IConnectionCallbacks, ILobbyCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
     {
-        private Dictionary<SimpleCallbackEvent, Action<string>> simpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action<string>>();
+        private Dictionary<MatchmakingCallbackEvent, Action<string>> matchmakingCallbackEvents = new Dictionary<MatchmakingCallbackEvent, Action<string>>();
         private Dictionary<InRoomCallbackEvent, Action<Client>> inRoomCallbackEvents = new Dictionary<InRoomCallbackEvent, Action<Client>>();
-        private Dictionary<SimpleCallbackEvent, Action> singleSimpleCallbackEvents = new Dictionary<SimpleCallbackEvent, Action>();
+        private Dictionary<MatchmakingCallbackEvent, Action> singleMatchmakingCallbackEvents = new Dictionary<MatchmakingCallbackEvent, Action>();
 
         private event Action<List<LobbyData>> lobbyStatisticsUpdate;
 
@@ -36,37 +36,37 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
 
         ~CallbackHandler()
         {
-            simpleCallbackEvents.Clear();
-            singleSimpleCallbackEvents.Clear();
+            matchmakingCallbackEvents.Clear();
+            singleMatchmakingCallbackEvents.Clear();
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         /// <summary>Adds single callback event to singlecallback events dictionary</summary>
-        public void AddSingleCallback(SimpleCallbackEvent callbackEvent, Action callback)
+        public void AddSingleCallback(MatchmakingCallbackEvent callbackEvent, Action callback)
         {
-            if (singleSimpleCallbackEvents.ContainsKey(callbackEvent))
+            if (singleMatchmakingCallbackEvents.ContainsKey(callbackEvent))
             {
-                singleSimpleCallbackEvents[callbackEvent] += callback;
+                singleMatchmakingCallbackEvents[callbackEvent] += callback;
             }
             else
             {
-                singleSimpleCallbackEvents.Add(callbackEvent, null);
-                singleSimpleCallbackEvents[callbackEvent] += callback;
+                singleMatchmakingCallbackEvents.Add(callbackEvent, null);
+                singleMatchmakingCallbackEvents[callbackEvent] += callback;
             }
         }
 
         /// <summary>Adds callback event to callback events dictionary</summary>
-        public void AddListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
+        public void AddListener(MatchmakingCallbackEvent callbackEvent, Action<string> callback)
         {
-            if (simpleCallbackEvents.ContainsKey(callbackEvent))
+            if (matchmakingCallbackEvents.ContainsKey(callbackEvent))
             {
-                simpleCallbackEvents[callbackEvent] += callback;
+                matchmakingCallbackEvents[callbackEvent] += callback;
             }
             else
             {
-                simpleCallbackEvents.Add(callbackEvent, null);
-                simpleCallbackEvents[callbackEvent] += callback;
+                matchmakingCallbackEvents.Add(callbackEvent, null);
+                matchmakingCallbackEvents[callbackEvent] += callback;
             }
         }
 
@@ -109,11 +109,11 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         }
 
         /// <summary>removes callback event from callback events dictionary</summary>
-        public void RemoveListener(SimpleCallbackEvent callbackEvent, Action<string> callback)
+        public void RemoveListener(MatchmakingCallbackEvent callbackEvent, Action<string> callback)
         {
-            if (simpleCallbackEvents.ContainsKey(callbackEvent))
+            if (matchmakingCallbackEvents.ContainsKey(callbackEvent))
             {
-                simpleCallbackEvents[callbackEvent] -= callback;
+                matchmakingCallbackEvents[callbackEvent] -= callback;
             }
         }
 
@@ -170,28 +170,28 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         /// <summary>Called when connected initialily with the server it fires events if there are subscribers</summary>
         public void OnConnected()
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Connected))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.Connected))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.Connected](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.Connected](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Connected))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.Connected))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.Connected]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.Connected);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.Connected]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.Connected);
             }
         }
 
         /// <summary>Called when connected with the master server it fires events if there are subscribers</summary>
         public void OnConnectedToMaster()
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.ConnectedToMaster))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.ConnectedToMaster))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.ConnectedToMaster](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.ConnectedToMaster](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.ConnectedToMaster))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.ConnectedToMaster))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.ConnectedToMaster]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.ConnectedToMaster);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.ConnectedToMaster]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.ConnectedToMaster);
             }
         }
 
@@ -209,14 +209,14 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             clientHandler.Reset();
             roomHandler.Reset();
 
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Disconnected))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.Disconnected))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.Disconnected]?.Invoke(cause.ToString());
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.Disconnected]?.Invoke(cause.ToString());
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.Disconnected))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.Disconnected))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.Disconnected]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.Disconnected);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.Disconnected]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.Disconnected);
             }
         }
 
@@ -227,28 +227,28 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         /// <summary>Called when having joined a lobby it fires events if there are subscribers</summary>
         public void OnJoinedLobby()
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedLobby))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinedLobby))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.JoinedLobby](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.JoinedLobby](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedLobby))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinedLobby))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.JoinedLobby]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.JoinedLobby);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.JoinedLobby]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.JoinedLobby);
             }
         }
 
         /// <summary>Called when having left a lobby it fires events if there are subscribers</summary>
         public void OnLeftLobby()
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftLobby))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.LeftLobby))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.LeftLobby](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.LeftLobby](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftLobby))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.LeftLobby))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.LeftLobby]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.LeftLobby);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.LeftLobby]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.LeftLobby);
             }
         }
 
@@ -288,24 +288,24 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         /// <summary>Called when having created a room it fires events if there are subscribers</summary>
         public void OnCreatedRoom()
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreatedRoom))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.CreatedRoom))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.CreatedRoom](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.CreatedRoom](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreatedRoom))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.CreatedRoom))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.CreatedRoom]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.CreatedRoom);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.CreatedRoom]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.CreatedRoom);
             }
         }
 
         /// <summary>Called when having failed creating a room it fires events if there are subscribers</summary>
         public void OnCreateRoomFailed(short returnCode, string message)
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.CreateRoomFailed))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.CreateRoomFailed))
             {
                 string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
-                simpleCallbackEvents[SimpleCallbackEvent.CreateRoomFailed](info);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.CreateRoomFailed](info);
             }
         }
 
@@ -315,34 +315,34 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             clientHandler.OnJoinedRoom();
             roomHandler.OnJoinedRoom();
 
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinedRoom))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.JoinedRoom](null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.JoinedRoom](null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinedRoom))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinedRoom))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.JoinedRoom]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.JoinedRoom);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.JoinedRoom]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.JoinedRoom);
             }
         }
 
         /// <summary>Called when having failed joining a room it fires events if there are subscribers</summary>
         public void OnJoinRoomFailed(short returnCode, string message)
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRoomFailed))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinRoomFailed))
             {
                 string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
-                simpleCallbackEvents[SimpleCallbackEvent.JoinRoomFailed](info);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.JoinRoomFailed](info);
             }
         }
 
         /// <summary>Called when having failed joining a random room it fires events if there are subscribers</summary>
         public void OnJoinRandomFailed(short returnCode, string message)
         {
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.JoinRandomRoomFailed))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.JoinRandomRoomFailed))
             {
                 string info = string.Format("ReturnCode: {0}, message: {1}", returnCode, message);
-                simpleCallbackEvents[SimpleCallbackEvent.JoinRandomRoomFailed](info);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.JoinRandomRoomFailed](info);
             }
         }
 
@@ -352,14 +352,14 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             clientHandler.Reset();
             roomHandler.Reset();
 
-            if (simpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
+            if (matchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.LeftRoom))
             {
-                simpleCallbackEvents[SimpleCallbackEvent.LeftRoom]?.Invoke(null);
+                matchmakingCallbackEvents[MatchmakingCallbackEvent.LeftRoom]?.Invoke(null);
             }
-            if (singleSimpleCallbackEvents.ContainsKey(SimpleCallbackEvent.LeftRoom))
+            if (singleMatchmakingCallbackEvents.ContainsKey(MatchmakingCallbackEvent.LeftRoom))
             {
-                singleSimpleCallbackEvents[SimpleCallbackEvent.LeftRoom]();
-                singleSimpleCallbackEvents.Remove(SimpleCallbackEvent.LeftRoom);
+                singleMatchmakingCallbackEvents[MatchmakingCallbackEvent.LeftRoom]();
+                singleMatchmakingCallbackEvents.Remove(MatchmakingCallbackEvent.LeftRoom);
             }
         }
 
