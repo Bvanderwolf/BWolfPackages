@@ -124,7 +124,13 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Adds a callback listener for game events in the room that contains content based on the type of game event</summary>
         public static void AddGameEventListener(string nameOfEvent, Action<object> callback)
         {
-            eventHandler.AddListener(nameOfEvent, callback);
+            eventHandler.AddGameEventListener(nameOfEvent, callback);
+        }
+
+        /// <summary>Adds a callback listener for game requests in the room that contains content based on the type of game request</summary>
+        public static void AddGameRequestListener(string nameOfRequest, Action<object> callback)
+        {
+            eventHandler.AddGameRequestListener(nameOfRequest, callback);
         }
 
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
@@ -166,7 +172,13 @@ namespace BWolf.Wrappers.PhotonSDK
         /// <summary>Stops callback listener from listening to game events in the room that contains content based on the type of game event</summary>
         public static void RemoveGameEventListener(string nameOfEvent, Action<object> callback)
         {
-            eventHandler.RemoveListener(nameOfEvent, callback);
+            eventHandler.RemoveGameEventListener(nameOfEvent, callback);
+        }
+
+        /// <summary>Stops callback listener from listening to game events in the room that contains content based on the type of game event</summary>
+        public static void RemoveGameRequestListener(string nameOfRequest, Action<object> callback)
+        {
+            eventHandler.RemoveGameRequestListener(nameOfRequest, callback);
         }
 
         /// <summary>Removes callback listener from the lobby statistics update event</summary>
@@ -206,6 +218,14 @@ namespace BWolf.Wrappers.PhotonSDK
             }
         }
 
+        public static void RegisterGameRequest(string nameOfRequest, Type contentType, int requestDelayMiliseconds, RequestStartHandler startHandler, RequestDecisiontHandler decisionHandler)
+        {
+            if (!string.IsNullOrEmpty(nameOfRequest))
+            {
+                eventHandler.RegisterGameRequest(nameOfRequest, contentType, requestDelayMiliseconds, startHandler, decisionHandler);
+            }
+        }
+
         /// <summary>Loads a scene using given build index. Makes use of NetworkingSettings's synchronizeclientscenes flag to make other clients also load this scene if set to true</summary>
         public static void LoadScene(int sceneBuildIndex)
         {
@@ -240,6 +260,16 @@ namespace BWolf.Wrappers.PhotonSDK
         public static void RaiseGameEvent(string nameOfEvent, object content, int[] targetActorNumbers, bool sendReliable = true)
         {
             eventHandler.RaiseGameEvent(nameOfEvent, content, targetActorNumbers, sendReliable);
+        }
+
+        public static void RaiseGameRequest(string nameOfRequest, int targetViewId)
+        {
+            eventHandler.RaiseGameRequest(nameOfRequest, targetViewId);
+        }
+
+        public static void RaiseGameRequest(string nameOfRequest)
+        {
+            eventHandler.RaiseGameRequest(nameOfRequest);
         }
 
         public static GameObject InstantiateOwnedObject(string prefabName, Vector3 position, Quaternion rotation)

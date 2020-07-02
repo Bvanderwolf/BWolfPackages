@@ -43,5 +43,6 @@
         StaticObjectSpawn = 1, //starts at one because zero is used as a wildcard for clearing the event cache
         StaticObjectDestroy,
         SceneObjectSpawn,
+        RequestDecisionFailed
     }
 }

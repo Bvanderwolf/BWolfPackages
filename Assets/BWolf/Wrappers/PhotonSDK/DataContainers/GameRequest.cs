@@ -2,19 +2,24 @@
 
 namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
-    public class GameEvent
+    public class GameRequest
     {
         public readonly string Name;
         public readonly byte EventCode;
-        public bool IsRequestDecision;
         public Action<object> Callback;
+        public RequestStartHandler StartaHandler;
+        public RequestDecisiontHandler DecisionHandler;
+        public int RequestDelay;
 
-        public const byte EventCodeBase = 5;
+        public const byte EventCodeBase = 50;
 
-        public GameEvent(string name, byte eventCode, bool isRequestDecision = false)
+        public GameRequest(string name, byte eventCode, int requestDelayMiliSeconds, RequestStartHandler startHandler, RequestDecisiontHandler decisionHandler)
         {
             Name = name;
             EventCode = eventCode;
+            RequestDelay = requestDelayMiliSeconds;
+            StartaHandler = startHandler;
+            DecisionHandler = decisionHandler;
             Callback = null;
         }
 

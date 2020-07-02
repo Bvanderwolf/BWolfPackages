@@ -208,8 +208,8 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
             return viewId > StaticNetworkedObject.BaseIdNumber ? (staticObjectDict.ContainsKey(viewId) ? staticObjectDict[viewId] : null) : PhotonView.Find(viewId)?.gameObject;
         }
 
-        /// <summary>Returns units owned by player with given actor number</summary>
-        public static List<GameObject> GetUnitsOfClient(int clientActorNr)
+        /// <summary>Returns game objects owned by player with given actor number</summary>
+        public static List<GameObject> GetObjectsOfClient(int clientActorNr)
         {
             PhotonView[] views = PhotonNetwork.PhotonViews;
             List<GameObject> units = new List<GameObject>();
