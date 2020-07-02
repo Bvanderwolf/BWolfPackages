@@ -133,6 +133,12 @@ namespace BWolf.Wrappers.PhotonSDK
             eventHandler.AddGameRequestListener(nameOfRequest, callback);
         }
 
+        /// <summary>Adds a callback listener for game requests decisions in the room that contains content based on the type of game request</summary>
+        public static void AddRequestDecisionListener(string nameOfRequest, Action<object> callback)
+        {
+            eventHandler.AddRequestDecisionListener(nameOfRequest, callback);
+        }
+
         /// <summary>Adds a callback listener to the statistics update event to be called when lobby statistics are updated</summary>
         public static void AddLobbyStatisticsListener(Action<List<LobbyData>> onUpdate)
         {
@@ -175,10 +181,16 @@ namespace BWolf.Wrappers.PhotonSDK
             eventHandler.RemoveGameEventListener(nameOfEvent, callback);
         }
 
-        /// <summary>Stops callback listener from listening to game events in the room that contains content based on the type of game event</summary>
+        /// <summary>Stops callback listener from listening to game requests in the room that contains content based on the type of game event</summary>
         public static void RemoveGameRequestListener(string nameOfRequest, Action<object> callback)
         {
             eventHandler.RemoveGameRequestListener(nameOfRequest, callback);
+        }
+
+        /// <summary>Stops callback listener from listening to game request decisions in the room that contains content based on the type of game event</summary>
+        public static void RemoveRequestDecisionListener(string nameOfRequest, Action<object> callback)
+        {
+            eventHandler.RemoveRequestDecisionListener(nameOfRequest, callback);
         }
 
         /// <summary>Removes callback listener from the lobby statistics update event</summary>

@@ -6,7 +6,7 @@
         public int Id;
         public object DecisionContent;
 
-        public RequestDecisionInfo(int id, int decisionContent)
+        public RequestDecisionInfo(int id, object decisionContent)
         {
             Id = id;
             DecisionContent = decisionContent;

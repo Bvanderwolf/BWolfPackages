@@ -38,6 +38,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         private bool IsInternalEvent(byte code) => Enum.IsDefined(typeof(InternalEvent), code);
 
         private SerializableTypes serialization;
+        private const string requestDecisionKey = "Decision";
 
         public MultiplayerEventHandler(SerializableTypes serialization)
         {
@@ -135,7 +136,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
                 gameRequests.Add(nameOfRequest, new GameRequest(nameOfRequest, (byte)(GameEvent.EventCodeBase + gameEvents.Count), requestDelayMiliseconds, startHandler, decisionHandler));
 
                 //add game event for request decision to be send
-                string nameOfDecisionEvent = nameOfRequest + "Decision";
+                string nameOfDecisionEvent = nameOfRequest + requestDecisionKey;
                 gameEvents.Add(nameOfDecisionEvent, new GameEvent(nameOfDecisionEvent, (byte)(GameEvent.EventCodeBase + gameEvents.Count), true));
             }
         }
@@ -150,6 +151,12 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         public void AddGameRequestListener(string nameOfGameRequest, Action<object> callback)
         {
             gameRequests[nameOfGameRequest].AddListener(callback);
+        }
+
+        /// <summary>Adds listener to given game request type</summary>
+        public void AddRequestDecisionListener(string nameOfGameRequest, Action<object> callback)
+        {
+            gameEvents[nameOfGameRequest + requestDecisionKey].AddListener(callback);
         }
 
         /// <summary>Adds listener to given internal event type</summary>
@@ -173,6 +180,12 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         public void RemoveGameRequestListener(string nameOfGameRequest, Action<object> callback)
         {
             gameRequests[nameOfGameRequest].RemoveListener(callback);
+        }
+
+        /// <summary>Removes listener from given game request decision type</summary>
+        public void RemoveRequestDecisionListener(string nameOfGameRequest, Action<object> callback)
+        {
+            gameEvents[nameOfGameRequest + requestDecisionKey].RemoveListener(callback);
         }
 
         /// <summary>Removes listener from given internal event type</summary>
@@ -265,7 +278,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         {
             await Task.Delay(delay);
 
-            GameEvent gameEvent = gameEvents[requestToRun.request.Name + "Decision"];
+            GameEvent gameEvent = gameEvents[requestToRun.request.Name + requestDecisionKey];
             RequestDecisionInfo info = requestToRun.request.DecisionHandler(requestToRun);
 
             RaiseEvent(gameEvent.EventCode, (object[])info, requestToRun.timeStamps.Keys.ToArray(), true);
