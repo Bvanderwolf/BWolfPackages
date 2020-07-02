@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
+    /// <summary>structure containing information about the spawning of a scene owned object or static networked object</summary>
     public struct CustomSpawnInfo
     {
         public string PrefabId;

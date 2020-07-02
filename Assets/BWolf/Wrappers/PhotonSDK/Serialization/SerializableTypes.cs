@@ -6,12 +6,12 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    /// <summary>static class for registering the default custom types for this wrapper</summary>
-    internal class SerializableTypes
+    /// <summary>class for registering the default custom types for this wrapper</summary>
+    public class SerializableTypes
     {
         private readonly List<char> usedCodes = new List<char> { 'W', 'V', 'Q', 'P' };
 
-        internal readonly List<Type> SerializedTypes = new List<Type>
+        public readonly List<Type> SerializedTypes = new List<Type>
         {
             //types defined by photon
             typeof(Player),
@@ -21,14 +21,14 @@
         };
 
         /// <summary>Registers the custom types internally defined by the wrapper</summary>
-        internal void RegisterCustomTypesInternal()
+        public void RegisterCustomTypesInternal()
         {
             RegisterCustomType(typeof(Color), 'C', SerializeColor, DeserializeColor);
             RegisterCustomType(typeof(CustomSpawnInfo), 'S', CustomSpawnInfo.Serialize, CustomSpawnInfo.Deserialize);
         }
 
         /// <summary>registers a custom serializable type using type, a character and 2 methods for serialization and deserilialization</summary>
-        internal void RegisterCustomType(Type t, char c, SerializeMethod s, DeserializeMethod d)
+        public void RegisterCustomType(Type t, char c, SerializeMethod s, DeserializeMethod d)
         {
             if (usedCodes.Contains(c))
             {

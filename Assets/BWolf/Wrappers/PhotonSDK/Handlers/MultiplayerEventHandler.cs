@@ -12,7 +12,8 @@ using UnityEngine;
 
 namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
-    internal class MultiplayerEventHandler : IOnEventCallback
+    /// <summary>Class to handle events during the game</summary>
+    public class MultiplayerEventHandler : IOnEventCallback
     {
         private Dictionary<string, GameEvent> gameEvents = new Dictionary<string, GameEvent>();
         private Dictionary<InternalEvent, Action<object>> internalEvents = new Dictionary<InternalEvent, Action<object>>();
@@ -108,7 +109,7 @@ namespace BWolf.Wrappers.PhotonSDK.Handlers
         }
 
         /// <summary>registers game event using given name of event and the type of content it needs to use</summary>
-        internal void RegisterGameEvent(string nameOfEvent, Type contentType)
+        public void RegisterGameEvent(string nameOfEvent, Type contentType)
         {
             if (!contentType.IsSerializable && !serialization.SerializedTypes.Contains(contentType))
             {

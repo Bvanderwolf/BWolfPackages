@@ -2,6 +2,7 @@
 
 namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
+    /// <summary>Scriptable object used to store settings to be used by the networking service</summary>
     [CreateAssetMenu(menuName = "NetworkingService/Settings")]
     public class NetworkingSettings : ScriptableObject
     {

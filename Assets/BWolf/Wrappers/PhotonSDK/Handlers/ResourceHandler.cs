@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 
 namespace BWolf.Wrappers.PhotonSDK.Handlers
 {
-    internal class ResourceHandler : IPunPrefabPool
+    /// <summary>Class for handling resources during gameplay</summary>
+    public class ResourceHandler : IPunPrefabPool
     {
         private static Dictionary<int, GameObject> staticObjectDict = new Dictionary<int, GameObject>();
 
