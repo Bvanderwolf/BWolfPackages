@@ -41,4 +41,7 @@ A library for networking using the Photon multiplayer SDK.
 - A client handler class managing local client and client properties
   
 
-
+### Demo Game
+- 1 demo scene in which the player can connect to a lobby and room
+- 1 demo scene where the player can play the game Tic-Tac Toe with another player
+- Multiple scripts using the Photon Wrapper functionalities
