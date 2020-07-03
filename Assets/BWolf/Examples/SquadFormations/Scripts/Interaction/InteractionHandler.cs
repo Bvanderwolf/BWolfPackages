@@ -1,5 +1,4 @@
 ﻿using BWolf.Examples.SquadFormations.Selection;
-using BWolf.Utilities.SquadFormations;
 using System.Collections.Generic;
 using UnityEngine;
 
