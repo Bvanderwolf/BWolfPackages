@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using BWolf.Examples.SquadFormations.Interactions;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace BWolf.Examples.SquadFormations.Selection
 {
@@ -13,6 +15,10 @@ namespace BWolf.Examples.SquadFormations.Selection
 
         [SerializeField]
         private Color decalColor = Color.white;
+
+        [Header("Events")]
+        [SerializeField]
+        private OnInteraction OnInteract = null;
 
         public bool IsSelectable { get; private set; }
         public bool IsHovered { get; private set; }
@@ -87,5 +93,13 @@ namespace BWolf.Examples.SquadFormations.Selection
             IsHovered = false;
             selectionDecal.OnHoverEnd();
         }
+
+        public void Interact(Interaction interaction)
+        {
+            OnInteract.Invoke(interaction);
+        }
+
+        [System.Serializable]
+        private class OnInteraction : UnityEvent<Interaction> { }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Examples.SquadFormations.Interactions;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -26,6 +27,7 @@ namespace BWolf.Examples.SquadFormations.Selection
         private float borderThickness = 2f;
 
         private SelectionDecalHandler decalHandler;
+        private InteractionHandler interactionHandler;
 
         private List<SelectableObject> selectableObjects = new List<SelectableObject>();
         private List<SelectableObject> selectedObjects = new List<SelectableObject>();
@@ -40,6 +42,7 @@ namespace BWolf.Examples.SquadFormations.Selection
         {
             Instance = this;
             decalHandler = GetComponent<SelectionDecalHandler>();
+            interactionHandler = GetComponent<InteractionHandler>();
         }
 
         private void Start()
@@ -205,6 +208,8 @@ namespace BWolf.Examples.SquadFormations.Selection
             {
                 selectable.Select();
             }
+
+            interactionHandler.StoreSelectedObjects(selectedObjects);
         }
 
         /// <summary>Return if given worldPosition is within selection box</summary>

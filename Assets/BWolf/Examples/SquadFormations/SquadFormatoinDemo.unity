@@ -132,8 +132,9 @@ GameObject:
   - component: {fileID: 541422314}
   - component: {fileID: 541422313}
   - component: {fileID: 541422315}
+  - component: {fileID: 541422316}
   m_Layer: 0
-  m_Name: SelectionHandler
+  m_Name: Handlers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,6 +185,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabSelectionDecal: {fileID: 2579323572698320524, guid: 39fd2d1142b8cf54aa8f24276fdacac5,
     type: 3}
+--- !u!114 &541422316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541422312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434e59d97f04b1843a7e49c5ec2e593d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &549801166
 GameObject:
   m_ObjectHideFlags: 0
