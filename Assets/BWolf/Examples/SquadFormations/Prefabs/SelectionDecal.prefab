@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectorHoverDecal: {fileID: 2579323573284524675}
   projectorSelectDecal: {fileID: 2579323573411658547}
+  hoverDecalRotateSpeed: 0.25
 --- !u!1 &2579323573284524702
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,10 @@ namespace BWolf.Examples.SquadFormations.Selection
         [SerializeField]
         private Projector projectorSelectDecal = null;
 
+        [Header("Settings")]
+        [SerializeField]
+        private float hoverDecalRotateSpeed = 0.25f;
+
         public SelectableObject AssignedSelectable { get; private set; }
 
         private void Update()
@@ -18,6 +22,10 @@ namespace BWolf.Examples.SquadFormations.Selection
             if (AssignedSelectable != null)
             {
                 transform.position = AssignedSelectable.transform.position;
+                if (AssignedSelectable.IsHovered)
+                {
+                    projectorHoverDecal.transform.Rotate(Vector3.up, (Time.deltaTime * 360f * hoverDecalRotateSpeed), Space.World);
+                }
             }
         }
 
