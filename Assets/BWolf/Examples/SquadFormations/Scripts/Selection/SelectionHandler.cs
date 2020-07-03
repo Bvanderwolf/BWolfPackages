@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BWolf.Examples.SquadFormations
+namespace BWolf.Examples.SquadFormations.Selection
 {
     public class SelectionHandler : MonoBehaviour
     {
@@ -25,6 +25,8 @@ namespace BWolf.Examples.SquadFormations
         [SerializeField]
         private float borderThickness = 2f;
 
+        private SelectionDecalHandler decalHandler;
+
         private List<SelectableObject> selectableObjects = new List<SelectableObject>();
         private List<SelectableObject> selectedObjects = new List<SelectableObject>();
 
@@ -37,6 +39,7 @@ namespace BWolf.Examples.SquadFormations
         private void Awake()
         {
             Instance = this;
+            decalHandler = GetComponent<SelectionDecalHandler>();
         }
 
         private void Start()
@@ -148,6 +151,7 @@ namespace BWolf.Examples.SquadFormations
             if (!selectableObjects.Contains(selectableObject))
             {
                 selectableObjects.Add(selectableObject);
+                decalHandler.AssignSelectionDecal(selectableObject);
             }
         }
 
@@ -157,6 +161,7 @@ namespace BWolf.Examples.SquadFormations
             if (selectableObjects.Contains(selectableObject))
             {
                 selectableObjects.Remove(selectableObject);
+                decalHandler.RetractSelectionDecal(selectableObject);
             }
         }
 

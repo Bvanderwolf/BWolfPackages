@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Examples.SquadFormations
+namespace BWolf.Examples.SquadFormations.Selection
 {
     public class SelectableObject : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField]
         private float hoverDecalSize = 1.1f;
 
         [SerializeField]
         private float selectDecalSize = 0.9f;
+
+        [SerializeField]
+        private Color decalColor = Color.white;
 
         public bool IsSelectable { get; private set; }
         public bool IsHovered { get; private set; }
@@ -23,6 +27,13 @@ namespace BWolf.Examples.SquadFormations
         {
             get { return selectDecalSize; }
         }
+
+        public Color DecalColor
+        {
+            get { return decalColor; }
+        }
+
+        private ISelectionCallbacks selectionDecal = null;
 
         private void Awake()
         {
@@ -39,32 +50,42 @@ namespace BWolf.Examples.SquadFormations
             SelectionHandler.Instance?.RemoveSelectableObject(this);
         }
 
+        public void AssignSelectionDecal(ISelectionCallbacks decalInterface)
+        {
+            selectionDecal = decalInterface;
+        }
+
+        public void RetractSelectionDecal()
+        {
+            selectionDecal = null;
+        }
+
         /// <summary>Set the selectable object to selected</summary>
         public void Select()
         {
             IsSelected = true;
-            print("selected " + name);
+            selectionDecal.OnSelect();
         }
 
         /// <summary>Set the selectable object to deselected</summary>
         public void Deselect()
         {
             IsSelected = false;
-            print("deselected " + name);
+            selectionDecal.OnDeselect();
         }
 
         /// <summary>Set the selectable object to hovered</summary>
         public void HoverStart()
         {
             IsHovered = true;
-            print("hovered " + name);
+            selectionDecal.OnHoverStart();
         }
 
         /// <summary>Set the selectable object to not hovered</summary>
         public void HoverEnd()
         {
             IsHovered = false;
-            print("stopped hovering " + name);
+            selectionDecal.OnHoverEnd();
         }
     }
 }
