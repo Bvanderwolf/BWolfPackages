@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 972075907135982881}
   - component: {fileID: 972075907135982880}
   - component: {fileID: 972075907135982879}
-  m_Layer: 0
+  - component: {fileID: 8395563004061569076}
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &8395563004061569076
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972075907135982877}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &972075907232781295
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dfbc3f6cee126d4bb0dfea5d8329000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverDecalSize: 1.1
+  selectDecalSize: 0.9
 --- !u!195 &1808195391663867057
 NavMeshAgent:
   m_ObjectHideFlags: 0

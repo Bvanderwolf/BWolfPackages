@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace BWolf.Examples.SquadFormations
 {
@@ -7,9 +8,14 @@ namespace BWolf.Examples.SquadFormations
     {
         public static SelectionHandler Instance { get; private set; }
 
+        [Header("References")]
         [SerializeField]
-        private Camera cam = null;
+        private Camera mainCamera = null;
 
+        [SerializeField]
+        private EventSystem mainEventSystem = null;
+
+        [Header("Settings")]
         [SerializeField]
         private Color innerColor = Color.clear;
 
@@ -21,6 +27,8 @@ namespace BWolf.Examples.SquadFormations
 
         private List<SelectableObject> selectableObjects = new List<SelectableObject>();
         private List<SelectableObject> selectedObjects = new List<SelectableObject>();
+
+        private SelectableObject hoveredObject;
 
         private Vector2 mousePositionStart;
         private Texture2D selectionBoxTex;
@@ -38,8 +46,39 @@ namespace BWolf.Examples.SquadFormations
             selectionBoxTex.Apply();
         }
 
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
         private void Update()
         {
+            //get whether the mouse was over a ui element
+            bool pointerOverUI = mainEventSystem != null && mainEventSystem.IsPointerOverGameObject();
+            HandleSelection(pointerOverUI);
+            HandleHovering(pointerOverUI);
+        }
+
+        private void OnGUI()
+        {
+            if (isSelecting)
+            {
+                DrawSelectionBox(mousePositionStart, Input.mousePosition);
+            }
+        }
+
+        private void HandleSelection(bool pointerOverUI)
+        {
+            if (pointerOverUI)
+            {
+                if (isSelecting)
+                {
+                    //if the user was selecting, finish the selection
+                    FinishSelection();
+                }
+                return;
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 mousePositionStart = Input.mousePosition;
@@ -52,12 +91,55 @@ namespace BWolf.Examples.SquadFormations
             }
         }
 
-        private void OnGUI()
+        private void HandleHovering(bool pointerOverUI)
         {
-            if (isSelecting)
+            if (pointerOverUI)
             {
-                DrawSelectionBox(mousePositionStart, Input.mousePosition);
+                //if pointer was over ui and hovered object isn't null, handle hover end
+                if (hoveredObject != null)
+                {
+                    EndHover();
+                }
+                return;
             }
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Entity")))
+            {
+                SelectableObject selectableObject = hit.collider.GetComponentInParent<SelectableObject>();
+
+                //exit if no selectable object component was found
+                if (selectableObject == null) { return; }
+
+                // exit if the selectable object is not in the selectable objects list
+                if (selectableObject != null && !selectableObjects.Contains(selectableObject))
+                {
+                    Debug.LogWarningFormat("selectable object {0} is not in the selectable objects list", selectableObject.name);
+                    return;
+                }
+
+                // setup hovered object if it wasn't assigned yet
+                if (hoveredObject == null)
+                {
+                    hoveredObject = selectableObject;
+                    hoveredObject.HoverStart();
+                }
+            }
+            else
+            {
+                if (hoveredObject != null)
+                {
+                    EndHover();
+                }
+            }
+        }
+
+        /// <summary>ends hovering of hovered object</summary>
+        private void EndHover()
+        {
+            hoveredObject.HoverEnd();
+            hoveredObject = null;
         }
 
         /// <summary>Add selectable object to list of selectable objects</summary>
@@ -84,7 +166,6 @@ namespace BWolf.Examples.SquadFormations
 
             foreach (SelectableObject selectable in selectableObjects)
             {
-                print(IsInSelectionBox(selectable.transform.position));
                 if ((IsInSelectionBox(selectable.transform.position) || selectable.IsHovered) && selectable.IsSelectable)
                 {
                     foundSelectableObjects.Add(selectable);
@@ -126,7 +207,7 @@ namespace BWolf.Examples.SquadFormations
         {
             Bounds viewportBounds = GetViewportBounds(mousePositionStart, Input.mousePosition);
 
-            Vector3 position = cam.WorldToViewportPoint(worldPosition);
+            Vector3 position = mainCamera.WorldToViewportPoint(worldPosition);
             bool contains = viewportBounds.Contains(position);
             return contains;
         }
@@ -134,12 +215,12 @@ namespace BWolf.Examples.SquadFormations
         /// <summary>Return viewport bounds from two given positions</summary>
         private Bounds GetViewportBounds(Vector3 screenPosition1, Vector3 screenPosition2)
         {
-            Vector3 v1 = cam.ScreenToViewportPoint(screenPosition1);
-            Vector3 v2 = cam.ScreenToViewportPoint(screenPosition2);
+            Vector3 v1 = mainCamera.ScreenToViewportPoint(screenPosition1);
+            Vector3 v2 = mainCamera.ScreenToViewportPoint(screenPosition2);
             Vector3 min = Vector3.Min(v1, v2);
             Vector3 max = Vector3.Max(v1, v2);
-            min.z = cam.nearClipPlane;
-            max.z = cam.farClipPlane;
+            min.z = mainCamera.nearClipPlane;
+            max.z = mainCamera.farClipPlane;
 
             Bounds bounds = new Bounds();
             bounds.SetMinMax(min, max);
