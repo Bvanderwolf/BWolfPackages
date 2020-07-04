@@ -38,31 +38,54 @@ namespace BWolf.Utilities.SquadFormations
             }
         }
 
-        public FormationPosition CenterPosition
+        public void AssignUnitPositions(List<Unit> units)
         {
-            get
+            for (int assignments = 0; assignments < units.Count; assignments++)
             {
-                Vector3 center = GetCenterOfPositions();
-                float closestSqrMagnitude = float.MaxValue;
-                FormationPosition closest = null;
-                foreach (FormationPosition formationPosition in formationPositions)
-                {
-                    if ((formationPosition.transform.position - center).sqrMagnitude < closestSqrMagnitude)
-                    {
-                        closest = formationPosition;
-                    }
-                }
+                FormationPosition closestToCenter = ClosestToCenterOfFormation(formationPositions.UnAssigned());
+                closestToCenter.SetAssigned(true);
 
-                return closest;
+                Unit closestUnit = ClosestUnitToFormationPosition(units.UnAssigned(), closestToCenter);
+                closestUnit.AssignPosition(closestToCenter);
             }
         }
 
-        public Vector3[] Positions
+        private FormationPosition ClosestToCenterOfFormation(List<FormationPosition> positions)
         {
-            get { return formationPositions.Select(f => f.transform.position).ToArray(); }
+            Vector3 center = GetCenterOfFormation();
+            float closestSqrMagnitude = float.MaxValue;
+            FormationPosition closest = null;
+            foreach (FormationPosition position in positions)
+            {
+                float sqrmagnitude = (position.transform.position - center).sqrMagnitude;
+                if (sqrmagnitude < closestSqrMagnitude)
+                {
+                    closest = position;
+                    closestSqrMagnitude = sqrmagnitude;
+                }
+            }
+
+            return closest;
         }
 
-        private Vector3 GetCenterOfPositions()
+        private Unit ClosestUnitToFormationPosition(List<Unit> units, FormationPosition position)
+        {
+            float closestSqrMagnitude = float.MaxValue;
+            Unit closest = null;
+            foreach (Unit unit in units)
+            {
+                float sqrmagnitude = (unit.transform.position - position.Point).sqrMagnitude;
+                if (sqrmagnitude < closestSqrMagnitude)
+                {
+                    closest = unit;
+                    closestSqrMagnitude = sqrmagnitude;
+                }
+            }
+
+            return closest;
+        }
+
+        private Vector3 GetCenterOfFormation()
         {
             Vector3 center = Vector3.zero;
             foreach (FormationPosition formationPosition in formationPositions)

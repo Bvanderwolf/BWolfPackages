@@ -9,6 +9,12 @@ namespace BWolf.Utilities.SquadFormations
     {
         private NavMeshAgent agent;
         private SelectableObject selectable;
+        private FormationPosition assignedPosition;
+
+        public bool AssignedPosition
+        {
+            get { return assignedPosition != null; }
+        }
 
         private void Awake()
         {
@@ -16,12 +22,10 @@ namespace BWolf.Utilities.SquadFormations
             selectable = GetComponent<SelectableObject>();
         }
 
-        private void Update()
+        public void AssignPosition(FormationPosition position)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && selectable.IsSelected)
-            {
-                UnitGroupManager.Instance.StartGroup(this);
-            }
+            assignedPosition = position;
+            agent.SetDestination(assignedPosition.Point);
         }
 
         public void OnInteract(Interaction interaction)

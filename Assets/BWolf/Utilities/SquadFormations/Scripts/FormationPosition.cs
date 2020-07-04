@@ -7,6 +7,18 @@ namespace BWolf.Utilities.SquadFormations
         private Color gizmoColor;
         private float gizmoRadius;
 
+        public bool Assigned { get; private set; }
+
+        public Vector3 Point
+        {
+            get { return transform.position; }
+        }
+
+        public void SetAssigned(bool value)
+        {
+            Assigned = value;
+        }
+
         public void SetGizmo(Color color, float radius)
         {
             gizmoColor = color;

@@ -1,35 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Examples.SquadFormations.Selection;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations
 {
     public class UnitGroupManager : MonoBehaviour
     {
-        public static UnitGroupManager Instance { get; private set; }
-
         [SerializeField]
         private GameObject prefabFormation = null;
 
         private List<UnitGroup> groups = new List<UnitGroup>();
-        private List<Unit> unitsStartingGroup = new List<Unit>();
-
-        private void Awake()
-        {
-            Instance = this;
-        }
-
-        public void StartGroup(Unit unit)
-        {
-            unitsStartingGroup.Add(unit);
-        }
 
         private void Update()
         {
-            if (unitsStartingGroup.Count != 0)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                groups.Add(new UnitGroup(unitsStartingGroup, Instantiate(prefabFormation).GetComponent<UnitFormation>()));
-                unitsStartingGroup.Clear();
+                List<Unit> units = new List<Unit>();
+                foreach (SelectableObject s in SelectionHandler.Instance.SelectedObjects)
+                {
+                    Unit unit = s.GetComponent<Unit>();
+                    if (unit != null)
+                    {
+                        units.Add(unit);
+                    }
+                }
+                StartGroup(units);
             }
+        }
+
+        private void StartGroup(List<Unit> units)
+        {
+            groups.Add(new UnitGroup(units, Instantiate(prefabFormation).GetComponent<UnitFormation>()));
         }
     }
 }

@@ -26,6 +26,11 @@ namespace BWolf.Examples.SquadFormations.Selection
         [SerializeField]
         private float borderThickness = 2f;
 
+        public List<SelectableObject> SelectedObjects
+        {
+            get { return new List<SelectableObject>(selectedObjects); }
+        }
+
         private SelectionDecalHandler decalHandler;
         private InteractionHandler interactionHandler;
 
