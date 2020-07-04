@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.SquadFormations
+namespace BWolf.Utilities.SquadFormations.Units
 {
     public class UnitGroup
     {
@@ -19,8 +19,22 @@ namespace BWolf.Utilities.SquadFormations
 
             commander = formation.AssignUnitPositions(enlistedUnits);
             commander.OnGroupOrder += OnGroupOrder;
+            Debug.Log("assigned postions");
+            this.formation = formation;
+        }
+
+        public UnitGroup(int id, Vector3 position, List<Unit> enlistedUnits, UnitFormation formation)
+        {
+            GroupId = id;
+
+            EnlistUnits(enlistedUnits);
+
+            commander = formation.AssignUnitPositions(enlistedUnits);
+            commander.OnGroupOrder += OnGroupOrder;
 
             this.formation = formation;
+            Debug.Log("assigned postions");
+            OnGroupOrder(position);
         }
 
         public void RemoveUnit(Unit unit)

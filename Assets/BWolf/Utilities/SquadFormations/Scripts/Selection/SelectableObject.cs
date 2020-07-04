@@ -1,8 +1,8 @@
-﻿using BWolf.Examples.SquadFormations.Interactions;
+﻿using BWolf.Utilities.SquadFormations.Interactions;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace BWolf.Examples.SquadFormations.Selection
+namespace BWolf.Utilities.SquadFormations.Selection
 {
     public class SelectableObject : MonoBehaviour
     {

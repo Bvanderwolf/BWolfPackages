@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Examples.SquadFormations.Selection
+namespace BWolf.Utilities.SquadFormations.Selection
 {
     public class DecalProjector : MonoBehaviour
     {

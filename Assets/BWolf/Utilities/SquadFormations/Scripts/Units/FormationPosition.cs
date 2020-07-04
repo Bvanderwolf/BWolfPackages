@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Utilities.SquadFormations
+namespace BWolf.Utilities.SquadFormations.Units
 {
     public class FormationPosition : MonoBehaviour
     {

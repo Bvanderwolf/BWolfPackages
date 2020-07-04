@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Utilities.SquadFormations.Selection;
+using System.Collections.Generic;
 
-namespace BWolf.Utilities.SquadFormations
+namespace BWolf.Utilities.SquadFormations.Units
 {
     public static class SquadFormationExtensions
     {
@@ -24,6 +25,21 @@ namespace BWolf.Utilities.SquadFormations
             }
 
             return unAssigned;
+        }
+
+        public static List<Unit> ToUnits(this List<SelectableObject> selectables)
+        {
+            List<Unit> units = new List<Unit>();
+            foreach (SelectableObject selectable in selectables)
+            {
+                Unit u = selectable.GetComponent<Unit>();
+                if (u != null)
+                {
+                    units.Add(u);
+                }
+            }
+
+            return units;
         }
     }
 }

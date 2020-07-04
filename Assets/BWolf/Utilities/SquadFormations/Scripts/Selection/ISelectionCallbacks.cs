@@ -1,4 +1,4 @@
-﻿namespace BWolf.Examples.SquadFormations.Selection
+﻿namespace BWolf.Utilities.SquadFormations.Selection
 {
     public interface ISelectionCallbacks
     {

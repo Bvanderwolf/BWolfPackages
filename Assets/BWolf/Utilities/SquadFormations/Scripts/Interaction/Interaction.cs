@@ -1,4 +1,4 @@
-﻿namespace BWolf.Examples.SquadFormations.Interactions
+﻿namespace BWolf.Utilities.SquadFormations.Interactions
 {
     public struct Interaction
     {

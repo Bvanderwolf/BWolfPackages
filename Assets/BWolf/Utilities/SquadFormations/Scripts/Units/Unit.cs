@@ -1,10 +1,10 @@
-﻿using BWolf.Examples.SquadFormations.Interactions;
-using BWolf.Examples.SquadFormations.Selection;
+﻿using BWolf.Utilities.SquadFormations.Interactions;
+using BWolf.Utilities.SquadFormations.Selection;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BWolf.Utilities.SquadFormations
+namespace BWolf.Utilities.SquadFormations.Units
 {
     public class Unit : MonoBehaviour
     {
@@ -43,7 +43,7 @@ namespace BWolf.Utilities.SquadFormations
         {
             if (!AssignedPosition) { return; }
 
-            CheckAssignedPosition();
+            CheckAtAssignedPosition();
             CheckRepath();
         }
 
@@ -59,7 +59,6 @@ namespace BWolf.Utilities.SquadFormations
         public void AssignPosition(FormationPosition position)
         {
             assignedPosition = position;
-            MoveTowardsAssignedPosition();
         }
 
         public void AssignGroupId(int id)
@@ -71,21 +70,21 @@ namespace BWolf.Utilities.SquadFormations
         {
             if (interaction.TypeOfInteraction == InteractionType.MoveOrder)
             {
-                Vector3 waypoint = (Vector3)interaction.InteractionContent;
-                if (!AssignedPosition)
+                MoveOrderContent content = (MoveOrderContent)interaction.InteractionContent;
+                if (!content.GroupMove)
                 {
-                    agent.SetDestination(waypoint);
+                    agent.SetDestination(content.WayPoint);
                 }
                 else
                 {
-                    OnGroupOrder?.Invoke(waypoint);
+                    OnGroupOrder?.Invoke(content.WayPoint);
+                    MoveTowardsAssignedPosition();
                     atAssignedPosition = false;
-                    CheckRepath();
                 }
             }
         }
 
-        private void CheckAssignedPosition()
+        private void CheckAtAssignedPosition()
         {
             if (!atAssignedPosition && !agent.pathPending)
             {

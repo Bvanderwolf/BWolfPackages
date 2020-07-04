@@ -1,21 +1,38 @@
-﻿using BWolf.Examples.SquadFormations.Selection;
+﻿using BWolf.Utilities.SquadFormations.Selection;
+using BWolf.Utilities.SquadFormations.Units;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Examples.SquadFormations.Interactions
+namespace BWolf.Utilities.SquadFormations.Interactions
 {
     public class InteractionHandler : MonoBehaviour
     {
+        private UnitGroupHandler unitGroupHandler = null;
+
         private List<SelectableObject> selectedObjects;
+
+        private void Awake()
+        {
+            unitGroupHandler = GetComponent<UnitGroupHandler>();
+        }
 
         private void Update()
         {
-            if (Input.GetMouseButton(1) && selectedObjects != null)
+            if (Input.GetMouseButtonDown(1) && selectedObjects != null)
             {
                 Vector3 terrainPosition;
                 if (RaycastTerrain(out terrainPosition))
                 {
-                    Interaction moveOrder = new Interaction(InteractionType.MoveOrder, terrainPosition);
+                    List<Unit> units = selectedObjects.ToUnits();
+                    bool isGroupMove = units.Count > 1;
+                    if (isGroupMove)
+                    {
+                        unitGroupHandler.StartGroup(units, terrainPosition);
+                    }
+
+                    MoveOrderContent content = new MoveOrderContent(terrainPosition, isGroupMove);
+                    Interaction moveOrder = new Interaction(InteractionType.MoveOrder, content);
+                    print("interacted");
                     foreach (SelectableObject selectable in selectedObjects)
                     {
                         selectable.Interact(moveOrder);
