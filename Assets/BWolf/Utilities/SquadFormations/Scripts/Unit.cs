@@ -18,7 +18,10 @@ namespace BWolf.Utilities.SquadFormations
 
         private NavMeshAgent agent;
         private SelectableObject selectable;
+
         private FormationPosition assignedPosition;
+
+        public int AssignedGroupId { get; private set; } = -1;
 
         public bool AssignedPosition
         {
@@ -31,6 +34,11 @@ namespace BWolf.Utilities.SquadFormations
             selectable = GetComponent<SelectableObject>();
         }
 
+        private void OnDisable()
+        {
+            ResetValues();
+        }
+
         private void Update()
         {
             if (!AssignedPosition) { return; }
@@ -39,10 +47,24 @@ namespace BWolf.Utilities.SquadFormations
             CheckRepath();
         }
 
+        public void ResetValues()
+        {
+            rePathTime = 0;
+            atAssignedPosition = false;
+            assignedPosition = null;
+            AssignedGroupId = -1;
+            OnGroupOrder = null;
+        }
+
         public void AssignPosition(FormationPosition position)
         {
             assignedPosition = position;
             MoveTowardsAssignedPosition();
+        }
+
+        public void AssignGroupId(int id)
+        {
+            AssignedGroupId = id;
         }
 
         public void OnInteract(Interaction interaction)

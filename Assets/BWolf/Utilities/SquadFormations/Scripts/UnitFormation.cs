@@ -14,13 +14,6 @@ namespace BWolf.Utilities.SquadFormations
         [SerializeField]
         private List<FormationPosition> formationPositions = null;
 
-        public List<FormationPosition> FormationPositions
-        {
-            get { return formationPositions; }
-        }
-
-        public FormationState State { get; private set; }
-
         private void OnValidate()
         {
             foreach (FormationPosition position in formationPositions)
@@ -100,13 +93,6 @@ namespace BWolf.Utilities.SquadFormations
                 center += formationPosition.transform.position;
             }
             return center / formationPositions.Count;
-        }
-
-        public enum FormationState
-        {
-            Broken,
-            Forming,
-            Formed
         }
     }
 }

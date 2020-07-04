@@ -1,5 +1,6 @@
 ﻿using BWolf.Examples.SquadFormations.Selection;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations
@@ -9,7 +10,7 @@ namespace BWolf.Utilities.SquadFormations
         [SerializeField]
         private GameObject prefabFormation = null;
 
-        private List<UnitGroup> groups = new List<UnitGroup>();
+        private Dictionary<int, UnitGroup> groups = new Dictionary<int, UnitGroup>();
 
         private void Update()
         {
@@ -32,8 +33,45 @@ namespace BWolf.Utilities.SquadFormations
         {
             if (units.Count > 1)
             {
-                groups.Add(new UnitGroup(units, Instantiate(prefabFormation).GetComponent<UnitFormation>()));
+                foreach (Unit unit in units)
+                {
+                    if (groups.ContainsKey(unit.AssignedGroupId))
+                    {
+                        groups[unit.AssignedGroupId].RemoveUnit(unit);
+                    }
+
+                    unit.ResetValues();
+                }
+
+                foreach (UnitGroup g in groups.Values)
+                {
+                    if (g.EnlistedUnits.Count == 1)
+                    {
+                        g.EnlistedUnits.RemoveAt(0);
+                    }
+                }
+
+                UnitGroup group;
+                if (!TryGetGroup(out group))
+                {
+                    int id = groups.Count;
+                    group = new UnitGroup(id, units, Instantiate(prefabFormation).GetComponent<UnitFormation>());
+                    groups.Add(id, group);
+                }
             }
+        }
+
+        private bool TryGetGroup(out UnitGroup group)
+        {
+            if (groups.Count == 0)
+            {
+                group = null;
+                return false;
+            }
+
+            group = groups.Values.FirstOrDefault(g => g.EnlistedUnits.Count == 0);
+
+            return group != null;
         }
     }
 }

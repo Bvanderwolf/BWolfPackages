@@ -362,7 +362,7 @@ MonoBehaviour:
   mainCamera: {fileID: 744047588}
   mainEventSystem: {fileID: 1714899149}
   innerColor: {r: 0, g: 0, b: 0, a: 0}
-  borderColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  borderColor: {r: 0.22988607, g: 0.7735849, b: 0.27467498, a: 1}
   borderThickness: 5
 --- !u!4 &541422314
 Transform:
