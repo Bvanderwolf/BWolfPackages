@@ -30,7 +30,10 @@ namespace BWolf.Utilities.SquadFormations
 
         private void StartGroup(List<Unit> units)
         {
-            groups.Add(new UnitGroup(units, Instantiate(prefabFormation).GetComponent<UnitFormation>()));
+            if (units.Count > 1)
+            {
+                groups.Add(new UnitGroup(units, Instantiate(prefabFormation).GetComponent<UnitFormation>()));
+            }
         }
     }
 }

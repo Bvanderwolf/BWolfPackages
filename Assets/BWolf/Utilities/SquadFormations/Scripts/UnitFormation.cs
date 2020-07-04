@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations
@@ -38,8 +37,9 @@ namespace BWolf.Utilities.SquadFormations
             }
         }
 
-        public void AssignUnitPositions(List<Unit> units)
+        public Unit AssignUnitPositions(List<Unit> units)
         {
+            Unit commander = null;
             for (int assignments = 0; assignments < units.Count; assignments++)
             {
                 FormationPosition closestToCenter = ClosestToCenterOfFormation(formationPositions.UnAssigned());
@@ -47,7 +47,14 @@ namespace BWolf.Utilities.SquadFormations
 
                 Unit closestUnit = ClosestUnitToFormationPosition(units.UnAssigned(), closestToCenter);
                 closestUnit.AssignPosition(closestToCenter);
+
+                if (assignments == 0)
+                {
+                    commander = closestUnit;
+                }
             }
+
+            return commander;
         }
 
         private FormationPosition ClosestToCenterOfFormation(List<FormationPosition> positions)
