@@ -39,11 +39,20 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 if (units[i].AssignedGroupId != id)
                 {
+                    //if any unit doesn't have the same id as the first, return false
                     return false;
                 }
             }
 
-            return true;
+            if (id == -1)
+            {
+                //if all units have an id of -1 it also isn't a group
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>Converts this list to a list of units by checking for unit components. will be empty when no unit has been found</summary>
