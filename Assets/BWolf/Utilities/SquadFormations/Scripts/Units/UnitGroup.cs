@@ -46,6 +46,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             EnlistedUnits.Remove(unit);
         }
 
+        /// <summary>ReAssigns enlisted units to formation positions</summary>
         public void ReAssignUnits()
         {
             //set asigned position to null

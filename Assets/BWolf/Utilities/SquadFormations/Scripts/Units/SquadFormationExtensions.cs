@@ -30,6 +30,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return unAssigned;
         }
 
+        /// <summary>Returns whether this list of units all belong to the same group</summary>
         public static bool IsAGroup(this List<Unit> units)
         {
             if (units.Count <= 1) { return false; }
