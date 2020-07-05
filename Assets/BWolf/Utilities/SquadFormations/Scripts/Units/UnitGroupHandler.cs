@@ -4,13 +4,24 @@ using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>class for handling the different groups that may be formed by the user</summary>
     public class UnitGroupHandler : MonoBehaviour
     {
         [SerializeField]
         private GameObject prefabFormation = null;
 
-        private Dictionary<int, UnitGroup> groups = new Dictionary<int, UnitGroup>();
+        private static readonly Dictionary<int, UnitGroup> groups = new Dictionary<int, UnitGroup>();
 
+        /// <summary>Makes given unit leave the group he is in</summary>
+        public static void LeaveFromGroup(Unit unit)
+        {
+            if (groups.ContainsKey(unit.AssignedGroupId))
+            {
+                groups[unit.AssignedGroupId].RemoveUnit(unit);
+            }
+        }
+
+        /// <summary>Starts a new group using given units</summary>
         public void StartGroup(List<Unit> units)
         {
             CleanActiveGroups(units);
@@ -19,12 +30,15 @@ namespace BWolf.Utilities.SquadFormations.Units
             if (!TryGetGroup(out group))
             {
                 int id = groups.Count;
-                group = new UnitGroup(id, units, Instantiate(prefabFormation).GetComponent<UnitFormation>());
+                group = new UnitGroup(id, Instantiate(prefabFormation).GetComponent<UnitFormation>());
                 groups.Add(id, group);
             }
+
+            group.AssignUnitsToGroup(units);
         }
 
-        public void StartGroup(List<Unit> units, Vector3 position)
+        /// <summary>Starts a new group using given units, also setting the formation position aswell</summary>
+        public void StartGroup(List<Unit> units, Vector3 formationPosition)
         {
             CleanActiveGroups(units);
 
@@ -32,13 +46,17 @@ namespace BWolf.Utilities.SquadFormations.Units
             if (!TryGetGroup(out group))
             {
                 int id = groups.Count;
-                group = new UnitGroup(id, position, units, Instantiate(prefabFormation).GetComponent<UnitFormation>());
+                group = new UnitGroup(id, Instantiate(prefabFormation).GetComponent<UnitFormation>());
                 groups.Add(id, group);
             }
+
+            group.AssignUnitsToGroup(units, formationPosition);
         }
 
+        /// <summary>Cleans the active groups of given units</summary>
         private void CleanActiveGroups(List<Unit> units)
         {
+            //remove units from active groups and reset their values
             foreach (Unit unit in units)
             {
                 if (groups.ContainsKey(unit.AssignedGroupId))
@@ -49,6 +67,7 @@ namespace BWolf.Utilities.SquadFormations.Units
                 unit.ResetValues();
             }
 
+            //clean groups with only 1 unit in them
             foreach (UnitGroup g in groups.Values)
             {
                 if (g.EnlistedUnits.Count == 1)
@@ -58,6 +77,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Tries outputting a group that is not used, returns whether it has succeeded or not</summary>
         private bool TryGetGroup(out UnitGroup group)
         {
             if (groups.Count == 0)

@@ -1,5 +1,6 @@
 ﻿namespace BWolf.Utilities.SquadFormations.Interactions
 {
+    /// <summary>structure for describing an interaction containg a type and content matching it</summary>
     public struct Interaction
     {
         public readonly InteractionType TypeOfInteraction;

@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>Component representing a unit which can be assigned to a group</summary>
     public class Unit : MonoBehaviour
     {
         [SerializeField]
@@ -47,6 +48,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             CheckRepath();
         }
 
+        /// <summary>Resets values related to pathfinding and group movement</summary>
         public void ResetValues()
         {
             rePathTime = 0;
@@ -56,16 +58,19 @@ namespace BWolf.Utilities.SquadFormations.Units
             OnGroupOrder = null;
         }
 
+        /// <summary>Assigns a formation position to this unit</summary>
         public void AssignPosition(FormationPosition position)
         {
             assignedPosition = position;
         }
 
+        /// <summary>Assigns a group id to this unit</summary>
         public void AssignGroupId(int id)
         {
             AssignedGroupId = id;
         }
 
+        /// <summary>Called when an interaction has been done, it checks for move orders</summary>
         public void OnInteract(Interaction interaction)
         {
             if (interaction.TypeOfInteraction == InteractionType.MoveOrder)
@@ -73,6 +78,11 @@ namespace BWolf.Utilities.SquadFormations.Units
                 MoveOrderContent content = (MoveOrderContent)interaction.InteractionContent;
                 if (!content.GroupMove)
                 {
+                    if (AssignedPosition)
+                    {
+                        UnitGroupHandler.LeaveFromGroup(this);
+                        ResetValues();
+                    }
                     agent.SetDestination(content.WayPoint);
                 }
                 else
@@ -84,6 +94,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Checks whether the unit has reached its assigned position</summary>
         private void CheckAtAssignedPosition()
         {
             if (!atAssignedPosition && !agent.pathPending)
@@ -98,6 +109,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Checks wether the agents destination can be re-set to the assigned position</summary>
         private void CheckRepath()
         {
             if (atAssignedPosition) { return; }
@@ -110,6 +122,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Sets the destination of the agent to move towards the assigned position</summary>
         private void MoveTowardsAssignedPosition()
         {
             agent.SetDestination(assignedPosition.Point);

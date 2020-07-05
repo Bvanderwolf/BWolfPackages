@@ -59,7 +59,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
 
         private void Update()
         {
-            //get whether the mouse was over a ui element
+            //get whether the mouse was over a ui element and handle selection and hovering based on it
             bool pointerOverUI = mainEventSystem != null && mainEventSystem.IsPointerOverGameObject();
             HandleSelection(pointerOverUI);
             HandleHovering(pointerOverUI);
@@ -69,10 +69,12 @@ namespace BWolf.Utilities.SquadFormations.Selection
         {
             if (isSelecting)
             {
+                //draw the selection box when the user is selecting
                 DrawSelectionBox(mousePositionStart, Input.mousePosition);
             }
         }
 
+        /// <summary>Starts and ends selection based on mouse input</summary>
         private void HandleSelection(bool pointerOverUI)
         {
             if (pointerOverUI)
@@ -97,6 +99,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
             }
         }
 
+        /// <summary>Checks whether the user is hovering over entities in the scene</summary>
         private void HandleHovering(bool pointerOverUI)
         {
             if (pointerOverUI)
@@ -168,6 +171,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
             }
         }
 
+        /// <summary>Finishes selection by checking which selectable objects are selected and selecting them</summary>
         private void FinishSelection()
         {
             List<SelectableObject> foundSelectableObjects = new List<SelectableObject>();

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>Class for containg all information on the formation to be used by a unit group</summary>
     public class UnitFormation : MonoBehaviour
     {
         [SerializeField]
@@ -30,8 +31,13 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Assigns given units a position in the formation, returning a commander for the group</summary>
         public Unit AssignUnitPositions(List<Unit> units)
         {
+            //make sure all positions in the formation are un assigned
+            UnAssign();
+
+            //assign each unassigned formation position a unit based on distance
             Unit commander = null;
             for (int assignments = 0; assignments < units.Count; assignments++)
             {
@@ -50,6 +56,16 @@ namespace BWolf.Utilities.SquadFormations.Units
             return commander;
         }
 
+        /// <summary>Unassigns this formations formation positions</summary>
+        private void UnAssign()
+        {
+            foreach (FormationPosition position in formationPositions)
+            {
+                position.SetAssigned(false);
+            }
+        }
+
+        /// <summary>Returns the closest formation position in given list to the center of the formation</summary>
         private FormationPosition ClosestToCenterOfFormation(List<FormationPosition> positions)
         {
             Vector3 center = GetCenterOfFormation();
@@ -68,6 +84,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return closest;
         }
 
+        /// <summary>Returns the unit in given unit list that is closest to the given formation position</summary>
         private Unit ClosestUnitToFormationPosition(List<Unit> units, FormationPosition position)
         {
             float closestSqrMagnitude = float.MaxValue;
@@ -85,6 +102,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return closest;
         }
 
+        /// <summary>Returns the center of all formation positions toghether</summary>
         private Vector3 GetCenterOfFormation()
         {
             Vector3 center = Vector3.zero;

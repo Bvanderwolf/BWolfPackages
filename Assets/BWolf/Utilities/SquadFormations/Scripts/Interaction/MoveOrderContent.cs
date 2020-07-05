@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.SquadFormations.Interactions
 {
+    /// <summary>Content describing a move order given by the user</summary>
     public struct MoveOrderContent
     {
         public readonly Vector3 WayPoint;

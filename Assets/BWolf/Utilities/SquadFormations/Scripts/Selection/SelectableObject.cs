@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
+    /// <summary>Component used by objects that need to be selected and interacted with</summary>
     public class SelectableObject : MonoBehaviour
     {
         [Header("Settings")]
@@ -56,11 +57,13 @@ namespace BWolf.Utilities.SquadFormations.Selection
             SelectionHandler.Instance?.RemoveSelectableObject(this);
         }
 
+        /// <summary>Assigns given decal interface to this selectable object</summary>
         public void AssignSelectionDecal(ISelectionCallbacks decalInterface)
         {
             selectionDecal = decalInterface;
         }
 
+        /// <summary>Removes given decal interface reference from this selectable object</summary>
         public void RetractSelectionDecal()
         {
             selectionDecal = null;
@@ -94,6 +97,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
             selectionDecal.OnHoverEnd();
         }
 
+        /// <summary>Fires the on interact event using the given interaction data</summary>
         public void Interact(Interaction interaction)
         {
             OnInteract.Invoke(interaction);
