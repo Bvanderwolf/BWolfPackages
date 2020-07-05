@@ -73,7 +73,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Called when a group order is given to the commander to move the formation to a new waypoint</summary>
         private void OnGroupOrder(Vector3 formationWayPoint)
         {
-            //ReAssignUnits();
+            ReAssignUnits();
 
             formation.transform.position = formationWayPoint;
             formation.transform.rotation = Quaternion.LookRotation(commander.transform.position - formationWayPoint);
