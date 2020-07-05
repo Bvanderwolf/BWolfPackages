@@ -30,30 +30,33 @@ namespace BWolf.Utilities.SquadFormations.Units
             return unAssigned;
         }
 
-        /// <summary>Returns whether this list of units all belong to the same group</summary>
-        public static bool IsAGroup(this List<Unit> units)
+        /// <summary>Returns whether this list of units all form a group</summary>
+        public static bool FormAGroup(this List<Unit> units)
         {
-            if (units.Count <= 1) { return false; }
-
-            int id = units[0].AssignedGroupId;
-            for (int i = 1; i < units.Count; i++)
+            if (units.Count <= 1)
             {
-                if (units[i].AssignedGroupId != id)
+                //return false if unit count is smaller than necessary count for making a group
+                return false;
+            }
+
+            UnitGroup group = UnitGroupHandler.GetGroup(units[0].AssignedGroupId);
+
+            if (group == null || group.EnlistedUnits.Count != units.Count)
+            {
+                //return false if group doesn't exit or enlisted unit count is not the same as given unit count
+                return false;
+            }
+
+            for (int i = 0; i < units.Count; i++)
+            {
+                if (units[i].AssignedGroupId != group.GroupId)
                 {
-                    //if any unit doesn't have the same id as the first, return false
+                    //if any units isn't it the group, return false
                     return false;
                 }
             }
 
-            if (id == -1)
-            {
-                //if all units have an id of -1 it also isn't a group
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         /// <summary>Converts this list to a list of units by checking for unit components. will be empty when no unit has been found</summary>

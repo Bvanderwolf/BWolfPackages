@@ -43,7 +43,22 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Removes given unit from the enlisted units  in this group</summary>
         public void RemoveUnit(Unit unit)
         {
+            unit.ResetValues();
             EnlistedUnits.Remove(unit);
+        }
+
+        /// <summary>Tries removing the last unit in the group if there is only one, returns whether it was succesfull or not</summary>
+        public bool TryTrimLastUnit()
+        {
+            if (EnlistedUnits.Count == 1)
+            {
+                RemoveUnit(EnlistedUnits[0]);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>ReAssigns enlisted units to formation positions</summary>

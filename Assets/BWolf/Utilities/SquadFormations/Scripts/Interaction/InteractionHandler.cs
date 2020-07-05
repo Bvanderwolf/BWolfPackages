@@ -27,9 +27,9 @@ namespace BWolf.Utilities.SquadFormations.Interactions
                     //check selected units to see whether to give a group order or not
                     List<Unit> units = selectedObjects.ToUnits();
                     bool isGroupMove = units.Count > 1;
-                    if (isGroupMove && !units.IsAGroup())
+                    if (isGroupMove && !units.FormAGroup())
                     {
-                        //if a group order is made and the units are not already a group, start a new group
+                        //if a group order is made and the units not already form a group, start a new group
                         unitGroupHandler.StartGroup(units, terrainPosition);
                     }
 

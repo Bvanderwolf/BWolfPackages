@@ -12,6 +12,8 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private static readonly Dictionary<int, UnitGroup> groups = new Dictionary<int, UnitGroup>();
 
+        public static UnitGroup GetGroup(int id) => groups.ContainsKey(id) ? groups[id] : null;
+
         /// <summary>Makes given unit leave the group he is in</summary>
         public static void LeaveFromGroup(Unit unit)
         {
@@ -19,7 +21,12 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 UnitGroup g = groups[unit.AssignedGroupId];
                 g.RemoveUnit(unit);
-                g.ReAssignUnits();
+                print(g.EnlistedUnits.Count);
+                if (!g.TryTrimLastUnit())
+                {
+                    g.ReAssignUnits();
+                }
+                print(g.EnlistedUnits.Count);
             }
         }
 
@@ -69,13 +76,10 @@ namespace BWolf.Utilities.SquadFormations.Units
                 unit.ResetValues();
             }
 
-            //clean groups with only 1 unit in them
+            //try trimming groups with only one unit left
             foreach (UnitGroup g in groups.Values)
             {
-                if (g.EnlistedUnits.Count == 1)
-                {
-                    g.EnlistedUnits.RemoveAt(0);
-                }
+                g.TryTrimLastUnit();
             }
         }
 

@@ -81,7 +81,6 @@ namespace BWolf.Utilities.SquadFormations.Units
                     if (AssignedPosition)
                     {
                         UnitGroupHandler.LeaveFromGroup(this);
-                        ResetValues();
                     }
                     agent.SetDestination(content.WayPoint);
                 }
