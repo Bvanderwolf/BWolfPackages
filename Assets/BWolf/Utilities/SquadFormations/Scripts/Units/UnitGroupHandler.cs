@@ -17,7 +17,9 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             if (groups.ContainsKey(unit.AssignedGroupId))
             {
-                groups[unit.AssignedGroupId].RemoveUnit(unit);
+                UnitGroup g = groups[unit.AssignedGroupId];
+                g.RemoveUnit(unit);
+                g.ReAssignUnits();
             }
         }
 

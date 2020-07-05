@@ -46,6 +46,19 @@ namespace BWolf.Utilities.SquadFormations.Units
             EnlistedUnits.Remove(unit);
         }
 
+        public void ReAssignUnits()
+        {
+            //set asigned position to null
+            foreach (Unit unit in EnlistedUnits)
+            {
+                unit.AssignPosition(null);
+            }
+
+            //assign units receiving a new commander to call group orders on
+            commander = formation.AssignUnitPositions(EnlistedUnits);
+            commander.OnGroupOrder += OnGroupOrder;
+        }
+
         /// <summary>Enlists given units in this group</summary>
         private void EnlistUnits(List<Unit> units)
         {
@@ -59,6 +72,8 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Called when a group order is given to the commander to move the formation to a new waypoint</summary>
         private void OnGroupOrder(Vector3 formationWayPoint)
         {
+            //ReAssignUnits();
+
             formation.transform.position = formationWayPoint;
             formation.transform.rotation = Quaternion.LookRotation(commander.transform.position - formationWayPoint);
         }
