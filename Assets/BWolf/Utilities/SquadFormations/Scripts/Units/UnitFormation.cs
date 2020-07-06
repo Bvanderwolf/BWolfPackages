@@ -34,6 +34,15 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 position.SetGizmo(gizmoColor, gizmoRadius);
             }
+
+            if (storedSettings.Count != 0)
+            {
+                UpdateSetting(storedSettings[0].Name);
+            }
+            else
+            {
+                Debug.LogError("no formation settings have been configured! Make sure there is atleast one");
+            }
         }
 
         private void OnValidate()
@@ -96,16 +105,21 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private void SetToLargestSetting()
         {
+            UpdateFormationPositions(storedSettings.Largest());
+        }
+
+        private void UpdateFormationPositions(FormationSetting setting)
+        {
             ClearFormationPositions();
 
-            FormationSetting largest = storedSettings.Largest();
-            formationName = largest.Name;
-            gizmoColor = largest.GizmoColor;
-            gizmoRadius = largest.GizmoRadius;
+            formationName = setting.Name;
+            gizmoColor = setting.GizmoColor;
+            gizmoRadius = setting.GizmoRadius;
 
-            for (int i = 0; i < largest.Size; i++)
+            for (int i = 0; i < setting.Size; i++)
             {
-                FormationPosition position = Instantiate(prefabFormationPosition, largest.LocalPositions[i], Quaternion.identity, transform).GetComponent<FormationPosition>();
+                FormationPosition position = Instantiate(prefabFormationPosition, transform).GetComponent<FormationPosition>();
+                position.transform.localPosition = setting.LocalPositions[i];
                 position.SetGizmo(gizmoColor, gizmoRadius);
                 formationPositions.Add(position);
             }
@@ -116,6 +130,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             FormationSetting setting;
             if (storedSettings.GetSettingWithName(nameOfSetting, out setting))
             {
+                UpdateFormationPositions(setting);
                 CurrentSetting = setting;
             }
         }

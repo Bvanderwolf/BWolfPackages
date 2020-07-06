@@ -36,7 +36,7 @@ namespace BWolf.Utilities.SquadFormations.Units
 
             GUILayout.Space(pixelSpace);
 
-            if (GUILayout.Button(new GUIContent("Create Setting", "Creates Formation Setting using current values")))
+            if (GUILayout.Button(new GUIContent("Store Setting", "Saves Formation Setting using current values")))
             {
                 formation.CreateFormationSetting();
             }
