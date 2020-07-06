@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8156648965065380666
+--- !u!1 &7226346052733367960
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8156648965065380667}
-  - component: {fileID: 2444708675707295745}
+  - component: {fileID: 8286312317297686966}
+  - component: {fileID: 5145006361681594941}
   m_Layer: 0
-  m_Name: UnitFormationPrefab
+  m_Name: FormationPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8156648965065380667
+--- !u!4 &8286312317297686966
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8156648965065380666}
+  m_GameObject: {fileID: 7226346052733367960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,22 +31,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2444708675707295745
+--- !u!114 &5145006361681594941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8156648965065380666}
+  m_GameObject: {fileID: 7226346052733367960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602649b5aee26bb45abd19acd89d0c18, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d8d926249e6f26448f4ecbbb0fc4db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabFormationPosition: {fileID: 7226346052733367960, guid: 8cd37160b4f5892448045c01a3702da9,
-    type: 3}
-  formationName: 
-  gizmoColor: {r: 0.754717, g: 0.08298133, b: 0.05339978, a: 1}
-  gizmoRadius: 0.75
-  formationPositions: []
-  storedSettings: []

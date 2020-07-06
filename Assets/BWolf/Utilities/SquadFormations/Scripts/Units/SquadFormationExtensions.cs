@@ -1,5 +1,6 @@
 ﻿using BWolf.Utilities.SquadFormations.Selection;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
@@ -16,6 +17,81 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
 
             return unAssigned;
+        }
+
+        public static Vector3[] Points(this List<FormationPosition> positions, bool local)
+        {
+            Vector3[] points = new Vector3[positions.Count];
+            for (int i = 0; i < positions.Count; i++)
+            {
+                points[i] = local ? positions[i].transform.localPosition : positions[i].transform.position;
+            }
+            return points;
+        }
+
+        public static Vector3 Center(this List<FormationPosition> positions)
+        {
+            Vector3 center = Vector3.zero;
+            foreach (FormationPosition formationPosition in positions)
+            {
+                center += formationPosition.transform.position;
+            }
+            return center / positions.Count;
+        }
+
+        public static bool GetSettingWithName(this List<FormationSetting> settings, string name, out FormationSetting setting)
+        {
+            for (int i = 0; i < settings.Count; i++)
+            {
+                if (settings[i].Name == name)
+                {
+                    setting = settings[i];
+                    return true;
+                }
+            }
+            setting = default;
+
+            return false;
+        }
+
+        public static bool HasSettingWithName(this List<FormationSetting> settings, string name)
+        {
+            for (int i = 0; i < settings.Count; i++)
+            {
+                if (settings[i].Name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static void RemoveSetttingWithName(this List<FormationSetting> settings, string name)
+        {
+            for (int i = settings.Count - 1; i >= 0; i--)
+            {
+                if (settings[i].Name == name)
+                {
+                    settings.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public static FormationSetting Largest(this List<FormationSetting> settings)
+        {
+            if (settings.Count == 0) { return default; }
+
+            FormationSetting setting = settings[0];
+            for (int i = 1; i < settings.Count; i++)
+            {
+                if (settings[i].Size > setting.Size)
+                {
+                    setting = settings[i];
+                }
+            }
+            return setting;
         }
 
         /// <summary>Returns a sub list of unassigned units</summary>

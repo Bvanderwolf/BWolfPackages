@@ -6,6 +6,14 @@ namespace BWolf.Utilities.SquadFormations.Units
     /// <summary>Class for containg all information on the formation to be used by a unit group</summary>
     public class UnitFormation : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField]
+        private GameObject prefabFormationPosition = null;
+
+        [Header("Settings")]
+        [SerializeField]
+        private string formationName = null;
+
         [SerializeField]
         private Color gizmoColor = Color.red;
 
@@ -15,19 +23,100 @@ namespace BWolf.Utilities.SquadFormations.Units
         [SerializeField]
         private List<FormationPosition> formationPositions = null;
 
-        private void OnValidate()
-        {
-            foreach (FormationPosition position in formationPositions)
-            {
-                position?.SetGizmo(gizmoColor, gizmoRadius);
-            }
-        }
+        [SerializeField]
+        private List<FormationSetting> storedSettings = null;
+
+        public FormationSetting CurrentSetting { get; private set; }
 
         private void Awake()
         {
             foreach (FormationPosition position in formationPositions)
             {
                 position.SetGizmo(gizmoColor, gizmoRadius);
+            }
+        }
+
+        private void OnValidate()
+        {
+            foreach (FormationPosition position in formationPositions)
+            {
+                position.SetGizmo(gizmoColor, gizmoRadius);
+            }
+        }
+
+        public void AddFormationPosition()
+        {
+            FormationPosition position = Instantiate(prefabFormationPosition, transform).GetComponent<FormationPosition>();
+            position.SetGizmo(gizmoColor, gizmoRadius);
+            formationPositions.Add(position);
+        }
+
+        public void ClearFormationPositions()
+        {
+            for (int i = formationPositions.Count - 1; i >= 0; i--)
+            {
+                if (formationPositions[i] != null)
+                {
+                    DestroyImmediate(formationPositions[i].gameObject);
+                }
+                formationPositions.RemoveAt(i);
+            }
+        }
+
+        public void CreateFormationSetting()
+        {
+            if (!string.IsNullOrEmpty(formationName) && !storedSettings.HasSettingWithName(formationName))
+            {
+                storedSettings.Add(new FormationSetting(formationName, formationPositions.Count, formationPositions.Points(true), gizmoColor, gizmoRadius));
+            }
+        }
+
+        public void RemoveFormationSetting()
+        {
+            if (storedSettings.HasSettingWithName(formationName))
+            {
+                storedSettings.RemoveSetttingWithName(formationName);
+                if (storedSettings.Count != 0)
+                {
+                    SetToLargestSetting();
+                }
+                else
+                {
+                    ClearFormationSettings();
+                }
+            }
+        }
+
+        public void ClearFormationSettings()
+        {
+            ClearFormationPositions();
+            storedSettings.Clear();
+            formationName = string.Empty;
+        }
+
+        private void SetToLargestSetting()
+        {
+            ClearFormationPositions();
+
+            FormationSetting largest = storedSettings.Largest();
+            formationName = largest.Name;
+            gizmoColor = largest.GizmoColor;
+            gizmoRadius = largest.GizmoRadius;
+
+            for (int i = 0; i < largest.Size; i++)
+            {
+                FormationPosition position = Instantiate(prefabFormationPosition, largest.LocalPositions[i], Quaternion.identity, transform).GetComponent<FormationPosition>();
+                position.SetGizmo(gizmoColor, gizmoRadius);
+                formationPositions.Add(position);
+            }
+        }
+
+        public void UpdateSetting(string nameOfSetting)
+        {
+            FormationSetting setting;
+            if (storedSettings.GetSettingWithName(nameOfSetting, out setting))
+            {
+                CurrentSetting = setting;
             }
         }
 
@@ -91,7 +180,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             Unit closest = null;
             foreach (Unit unit in units)
             {
-                float sqrmagnitude = (unit.transform.position - position.Point).sqrMagnitude;
+                float sqrmagnitude = (unit.transform.position - position.Point(false)).sqrMagnitude;
                 if (sqrmagnitude < closestSqrMagnitude)
                 {
                     closest = unit;
@@ -110,6 +199,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 center += formationPosition.transform.position;
             }
+
             return center / formationPositions.Count;
         }
     }

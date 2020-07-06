@@ -9,9 +9,9 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         public bool Assigned { get; private set; }
 
-        public Vector3 Point
+        public Vector3 Point(bool local)
         {
-            get { return transform.position; }
+            return local ? transform.localPosition : transform.position;
         }
 
         public void SetAssigned(bool value)
