@@ -34,7 +34,7 @@ namespace BWolf.Utilities.SquadFormations.Units
                 formation.ClearFormationPositions();
             }
 
-            GUILayout.Space(pixelSpace * 0.5f);
+            GUILayout.Space(pixelSpace);
 
             if (GUILayout.Button(new GUIContent("Create Setting", "Creates Formation Setting using current values")))
             {
