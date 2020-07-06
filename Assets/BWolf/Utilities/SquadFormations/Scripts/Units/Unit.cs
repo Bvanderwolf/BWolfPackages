@@ -76,19 +76,22 @@ namespace BWolf.Utilities.SquadFormations.Units
             if (interaction.TypeOfInteraction == InteractionType.MoveOrder)
             {
                 MoveOrderContent content = (MoveOrderContent)interaction.InteractionContent;
-                if (!content.GroupMove)
+                if (content.OrderedUnits.Contains(this))
                 {
-                    if (AssignedPosition)
+                    if (content.OrderedUnits.Count > 1)
                     {
-                        UnitGroupHandler.LeaveFromGroup(this);
+                        OnGroupOrder?.Invoke(content.WayPoint);
+                        MoveTowardsAssignedPosition();
+                        atAssignedPosition = false;
                     }
-                    agent.SetDestination(content.WayPoint);
-                }
-                else
-                {
-                    OnGroupOrder?.Invoke(content.WayPoint);
-                    MoveTowardsAssignedPosition();
-                    atAssignedPosition = false;
+                    else
+                    {
+                        if (AssignedPosition)
+                        {
+                            UnitGroupHandler.LeaveFromGroup(this);
+                        }
+                        agent.SetDestination(content.WayPoint);
+                    }
                 }
             }
         }

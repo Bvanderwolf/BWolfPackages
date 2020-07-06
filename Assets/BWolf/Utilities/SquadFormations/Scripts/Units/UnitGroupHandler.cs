@@ -29,7 +29,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Starts a new group using given units</summary>
-        public void StartGroup(List<Unit> units)
+        public List<Unit> StartGroup(List<Unit> units)
         {
             CleanActiveGroups(units);
 
@@ -41,11 +41,11 @@ namespace BWolf.Utilities.SquadFormations.Units
                 groups.Add(id, group);
             }
 
-            group.AssignUnitsToGroup(units);
+            return group.AssignUnitsToGroup(units);
         }
 
         /// <summary>Starts a new group using given units, also setting the formation position aswell</summary>
-        public void StartGroup(List<Unit> units, Vector3 formationPosition)
+        public List<Unit> StartGroup(List<Unit> units, Vector3 formationPosition)
         {
             CleanActiveGroups(units);
 
@@ -57,7 +57,7 @@ namespace BWolf.Utilities.SquadFormations.Units
                 groups.Add(id, group);
             }
 
-            group.AssignUnitsToGroup(units, formationPosition);
+            return group.AssignUnitsToGroup(units, formationPosition);
         }
 
         /// <summary>Cleans the active groups of given units</summary>

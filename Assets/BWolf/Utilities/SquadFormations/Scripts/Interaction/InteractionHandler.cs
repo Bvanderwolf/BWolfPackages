@@ -26,15 +26,14 @@ namespace BWolf.Utilities.SquadFormations.Interactions
                 {
                     //check selected units to see whether to give a group order or not
                     List<Unit> units = selectedObjects.ToUnits();
-                    bool isGroupMove = units.Count > 1;
-                    if (isGroupMove && !units.FormAGroup())
+                    if (units.Count > 1 && !units.FormAGroup())
                     {
-                        //if a group order is made and the units not already form a group, start a new group
-                        unitGroupHandler.StartGroup(units, terrainPosition);
+                        //if unit count is greater than 1 and the units not already form a group, start a new group
+                        units = unitGroupHandler.StartGroup(units, terrainPosition);
                     }
 
                     //create the content for the moveorder to call the interact method on each selected object
-                    MoveOrderContent content = new MoveOrderContent(terrainPosition, isGroupMove);
+                    MoveOrderContent content = new MoveOrderContent(terrainPosition, units);
                     Interaction moveOrder = new Interaction(InteractionType.MoveOrder, content);
                     foreach (SelectableObject selectable in selectedObjects)
                     {

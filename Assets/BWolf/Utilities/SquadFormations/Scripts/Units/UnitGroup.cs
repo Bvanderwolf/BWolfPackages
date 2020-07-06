@@ -21,23 +21,29 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Assigns units to a group</summary>
-        public void AssignUnitsToGroup(List<Unit> units)
+        public List<Unit> AssignUnitsToGroup(List<Unit> units)
         {
+            List<Unit> enlistableUnits = TrimToFitGroup(units);
             EnlistUnits(units);
 
             Commander = Formation.AssignUnitPositions(units);
             Commander.OnGroupOrder += OnGroupOrder;
+
+            return enlistableUnits;
         }
 
         /// <summary>Assigns units to a group also giving them a order to move their formation towards given formation position</summary>
-        public void AssignUnitsToGroup(List<Unit> units, Vector3 formationPosition)
+        public List<Unit> AssignUnitsToGroup(List<Unit> units, Vector3 formationPosition)
         {
+            List<Unit> enlistableUnits = TrimToFitGroup(units);
             EnlistUnits(units);
 
             Commander = Formation.AssignUnitPositions(units);
             Commander.OnGroupOrder += OnGroupOrder;
 
             OnGroupOrder(formationPosition);
+
+            return enlistableUnits;
         }
 
         /// <summary>Removes given unit from the enlisted units  in this group</summary>
@@ -92,6 +98,16 @@ namespace BWolf.Utilities.SquadFormations.Units
 
             Formation.transform.position = formationWayPoint;
             Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - formationWayPoint);
+        }
+
+        private List<Unit> TrimToFitGroup(List<Unit> units)
+        {
+            int trimCount = Mathf.Max(0, units.Count - Formation.CurrentSetting.Size);
+            for (int i = 0; i < trimCount; i++)
+            {
+                units.RemoveAt(units.Count - 1);
+            }
+            return units;
         }
     }
 }
