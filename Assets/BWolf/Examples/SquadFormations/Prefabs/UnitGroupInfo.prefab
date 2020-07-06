@@ -270,6 +270,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1452101b689a3f498232394f316b665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txtId: {fileID: 5438424575430599450}
+  txtUnitCount: {fileID: 5438424574500995467}
+  txtFormation: {fileID: 5438424575706328636}
+  txtCommander: {fileID: 5438424574524461747}
 --- !u!1 &5438424575430599448
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +363,7 @@ GameObject:
   - component: {fileID: 5438424575706328639}
   - component: {fileID: 5438424575706328636}
   m_Layer: 5
-  m_Name: 'Formation:'
+  m_Name: Formation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,12 +21,10 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 UnitGroup g = groups[unit.AssignedGroupId];
                 g.RemoveUnit(unit);
-                print(g.EnlistedUnits.Count);
                 if (!g.TryTrimLastUnit())
                 {
                     g.ReAssignUnits();
                 }
-                print(g.EnlistedUnits.Count);
             }
         }
 

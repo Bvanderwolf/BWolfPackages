@@ -124,7 +124,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Sets the destination of the agent to move towards the assigned position</summary>
         private void MoveTowardsAssignedPosition()
         {
-            agent.SetDestination(assignedPosition.Point);
+            agent.SetDestination(assignedPosition.Point(false));
         }
     }
 }

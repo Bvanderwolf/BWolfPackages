@@ -9,15 +9,15 @@ namespace BWolf.Utilities.SquadFormations.Units
         public readonly List<Unit> EnlistedUnits = new List<Unit>();
         public readonly int GroupId;
 
-        private Unit commander;
-        private UnitFormation formation;
+        public Unit Commander { get; private set; }
+        public UnitFormation Formation { get; private set; }
 
         /// <summary>Creates a group with id and a formation</summary>
         public UnitGroup(int id, UnitFormation formation)
         {
             GroupId = id;
 
-            this.formation = formation;
+            this.Formation = formation;
         }
 
         /// <summary>Assigns units to a group</summary>
@@ -25,8 +25,8 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             EnlistUnits(units);
 
-            commander = formation.AssignUnitPositions(units);
-            commander.OnGroupOrder += OnGroupOrder;
+            Commander = Formation.AssignUnitPositions(units);
+            Commander.OnGroupOrder += OnGroupOrder;
         }
 
         /// <summary>Assigns units to a group also giving them a order to move their formation towards given formation position</summary>
@@ -34,8 +34,8 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             EnlistUnits(units);
 
-            commander = formation.AssignUnitPositions(units);
-            commander.OnGroupOrder += OnGroupOrder;
+            Commander = Formation.AssignUnitPositions(units);
+            Commander.OnGroupOrder += OnGroupOrder;
 
             OnGroupOrder(formationPosition);
         }
@@ -71,8 +71,8 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
 
             //assign units receiving a new commander to call group orders on
-            commander = formation.AssignUnitPositions(EnlistedUnits);
-            commander.OnGroupOrder += OnGroupOrder;
+            Commander = Formation.AssignUnitPositions(EnlistedUnits);
+            Commander.OnGroupOrder += OnGroupOrder;
         }
 
         /// <summary>Enlists given units in this group</summary>
@@ -90,8 +90,8 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             ReAssignUnits();
 
-            formation.transform.position = formationWayPoint;
-            formation.transform.rotation = Quaternion.LookRotation(commander.transform.position - formationWayPoint);
+            Formation.transform.position = formationWayPoint;
+            Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - formationWayPoint);
         }
     }
 }

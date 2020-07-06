@@ -24,5 +24,13 @@ namespace BWolf.Examples.SquadFormations
         {
             groupToDisplay = group;
         }
+
+        private void Update()
+        {
+            txtId.text = string.Format("id: {0}", groupToDisplay.GroupId);
+            txtUnitCount.text = string.Format("Units: {0}", groupToDisplay.EnlistedUnits.Count);
+            txtFormation.text = string.Format("Formatin: {0}", groupToDisplay.Formation.CurrentSetting.Name);
+            txtCommander.text = string.Format("Commander: {0}", groupToDisplay.Commander.name);
+        }
     }
 }

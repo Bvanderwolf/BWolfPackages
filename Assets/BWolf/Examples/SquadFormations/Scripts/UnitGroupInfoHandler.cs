@@ -18,9 +18,19 @@ namespace BWolf.Examples.SquadFormations
         {
             if (UnitGroupHandler.GetGroup(groupCount) != null)
             {
-                groupsToDisplay.Add(UnitGroupHandler.GetGroup(groupCount));
+                AddGroupToDisplay();
                 groupCount++;
             }
+        }
+
+        private void AddGroupToDisplay()
+        {
+            UnitGroup group = UnitGroupHandler.GetGroup(groupCount);
+            groupsToDisplay.Add(group);
+
+            UnitGroupInfo info = Instantiate(prefabUnitGroupInfo, transform).GetComponent<UnitGroupInfo>();
+            infoComponents.Add(info);
+            info.AssignGroupToDisplay(group);
         }
     }
 }
