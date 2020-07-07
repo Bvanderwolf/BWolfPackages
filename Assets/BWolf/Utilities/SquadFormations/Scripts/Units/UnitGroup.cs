@@ -103,10 +103,11 @@ namespace BWolf.Utilities.SquadFormations.Units
             MoveFormation(formationWayPoint);
         }
 
+        /// <summary>Moves formwation towards given waypoint rotating it in the direction the units have to walk </summary>
         private void MoveFormation(Vector3 waypoint)
         {
             Formation.transform.position = waypoint;
-            Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - waypoint);
+            Formation.transform.rotation = Quaternion.LookRotation(waypoint - Commander.transform.position);
         }
 
         /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>
