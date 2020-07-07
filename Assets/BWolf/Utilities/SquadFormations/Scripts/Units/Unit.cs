@@ -15,7 +15,6 @@ namespace BWolf.Utilities.SquadFormations.Units
         public event Action<Vector3> OnGroupOrder;
 
         private float rePathTime = 0;
-        private bool atAssignedPosition;
 
         private NavMeshAgent agent;
         private SelectableObject selectable;
@@ -44,7 +43,6 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             if (!AssignedPosition) { return; }
 
-            CheckAtAssignedPosition();
             CheckRepath();
         }
 
@@ -52,7 +50,6 @@ namespace BWolf.Utilities.SquadFormations.Units
         public void ResetValues()
         {
             rePathTime = 0;
-            atAssignedPosition = false;
             assignedPosition = null;
             AssignedGroupId = -1;
             OnGroupOrder = null;
@@ -82,7 +79,6 @@ namespace BWolf.Utilities.SquadFormations.Units
                     {
                         OnGroupOrder?.Invoke(content.WayPoint);
                         MoveTowardsAssignedPosition();
-                        atAssignedPosition = false;
                     }
                     else
                     {
@@ -96,25 +92,10 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
-        /// <summary>Checks whether the unit has reached its assigned position</summary>
-        private void CheckAtAssignedPosition()
-        {
-            if (!atAssignedPosition && !agent.pathPending)
-            {
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                    {
-                        atAssignedPosition = true;
-                    }
-                }
-            }
-        }
-
         /// <summary>Checks wether the agents destination can be re-set to the assigned position</summary>
         private void CheckRepath()
         {
-            if (atAssignedPosition) { return; }
+            if (transform.position == assignedPosition.Point(false)) { return; }
 
             rePathTime += Time.deltaTime;
             if (rePathTime >= rePathInterval)
