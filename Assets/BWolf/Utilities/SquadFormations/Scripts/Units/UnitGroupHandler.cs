@@ -46,22 +46,6 @@ namespace BWolf.Utilities.SquadFormations.Units
             return selectedGroups;
         }
 
-        /// <summary>Starts a new group using given units</summary>
-        public List<Unit> StartGroup(List<Unit> units)
-        {
-            CleanActiveGroups(units);
-
-            UnitGroup group;
-            if (!TryGetGroup(out group))
-            {
-                int id = groups.Count;
-                group = new UnitGroup(id, Instantiate(prefabFormation).GetComponent<UnitFormation>());
-                groups.Add(id, group);
-            }
-
-            return group.AssignUnitsToGroup(units);
-        }
-
         /// <summary>Starts a new group using given units, also setting the formation position aswell</summary>
         public List<Unit> StartGroup(List<Unit> units, Vector3 formationPosition)
         {

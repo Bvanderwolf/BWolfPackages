@@ -21,18 +21,6 @@ namespace BWolf.Utilities.SquadFormations.Units
             this.Formation.OnFormationUpdate += OnFormationUpdate;
         }
 
-        /// <summary>Assigns units to a group</summary>
-        public List<Unit> AssignUnitsToGroup(List<Unit> units)
-        {
-            List<Unit> enlistableUnits = TrimToFitGroup(units);
-            EnlistUnits(units);
-
-            Commander = Formation.AssignUnitPositions(units);
-            Commander.OnGroupOrder += OnGroupOrder;
-
-            return enlistableUnits;
-        }
-
         /// <summary>Assigns units to a group also giving them a order to move their formation towards given formation position</summary>
         public List<Unit> AssignUnitsToGroup(List<Unit> units, Vector3 formationPosition)
         {
