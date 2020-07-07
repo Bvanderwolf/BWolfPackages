@@ -11,7 +11,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         [SerializeField]
         private GameObject prefabFormationPosition = null;
 
-        [Header("Settings")]
+        [Header("Formation Creation")]
         [SerializeField]
         private string formationName = null;
 
@@ -171,6 +171,7 @@ namespace BWolf.Utilities.SquadFormations.Units
 
                 Unit closestUnit = ClosestUnitToFormationPosition(units.UnAssigned(), closestToCenter);
                 closestUnit.AssignPosition(closestToCenter);
+                closestUnit.AssignPriorityValue(assignments / (float)units.Count);
 
                 if (assignments == 0)
                 {

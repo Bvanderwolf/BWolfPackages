@@ -9,10 +9,28 @@ namespace BWolf.Utilities.SquadFormations.Units
     /// <summary>Component representing a unit which can be assigned to a group</summary>
     public class Unit : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField]
+        private float minSpeed = 3.5f;
+
+        [SerializeField]
+        private float maxSpeed = 5f;
+
         [SerializeField]
         private float rePathInterval = 1 / 60f;
 
         public event Action<Vector3> OnGroupOrder;
+
+        public SelectableObject Selectable { get; private set; }
+
+        /// <summary>Id of group this unit is assigned to. Is -1 if the unit is not part of a group</summary>
+        public int AssignedGroupId { get; private set; } = -1;
+
+        /// <summary>Is this unit assigned a position in a group</summary>
+        public bool IsAssignedAPosition
+        {
+            get { return assignedPosition != null; }
+        }
 
         private float rePathTime = 0;
         private float sqrMoveDistance;
@@ -30,19 +48,15 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
-        public SelectableObject Selectable { get; private set; }
-
-        public int AssignedGroupId { get; private set; } = -1;
-
-        public bool IsAssignedAPosition
-        {
-            get { return assignedPosition != null; }
-        }
-
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
             Selectable = GetComponent<SelectableObject>();
+        }
+
+        private void Start()
+        {
+            SetDefaultPriorityValues();
         }
 
         private void OnDisable()
@@ -65,6 +79,8 @@ namespace BWolf.Utilities.SquadFormations.Units
             AssignedPosition = null;
             AssignedGroupId = -1;
             OnGroupOrder = null;
+
+            SetDefaultPriorityValues();
         }
 
         /// <summary>Assigns a formation position to this unit</summary>
@@ -77,6 +93,12 @@ namespace BWolf.Utilities.SquadFormations.Units
         public void AssignGroupId(int id)
         {
             AssignedGroupId = id;
+        }
+
+        public void AssignPriorityValue(float perc)
+        {
+            float maxPrioritySpeed = maxSpeed - minSpeed;
+            agent.speed = minSpeed + maxPrioritySpeed * perc;
         }
 
         /// <summary>Called when an interaction has been done, it checks for move orders</summary>
@@ -131,6 +153,12 @@ namespace BWolf.Utilities.SquadFormations.Units
                 MoveTowardsAssignedPosition();
                 rePathTime = 0;
             }
+        }
+
+        /// <summary>Sets default values for a unit without a group</summary>
+        private void SetDefaultPriorityValues()
+        {
+            agent.speed = minSpeed;
         }
     }
 }
