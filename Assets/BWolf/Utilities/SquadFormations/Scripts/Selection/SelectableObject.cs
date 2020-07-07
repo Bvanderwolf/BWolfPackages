@@ -17,10 +17,6 @@ namespace BWolf.Utilities.SquadFormations.Selection
         [SerializeField]
         private Color decalColor = Color.white;
 
-        [Header("Events")]
-        [SerializeField]
-        private OnInteraction OnInteract = null;
-
         public bool IsSelectable { get; private set; }
         public bool IsHovered { get; private set; }
         public bool IsSelected { get; private set; }
@@ -96,14 +92,5 @@ namespace BWolf.Utilities.SquadFormations.Selection
             IsHovered = false;
             selectionDecal.OnHoverEnd();
         }
-
-        /// <summary>Fires the on interact event using the given interaction data</summary>
-        public void Interact(Interaction interaction)
-        {
-            OnInteract.Invoke(interaction);
-        }
-
-        [System.Serializable]
-        private class OnInteraction : UnityEvent<Interaction> { }
     }
 }

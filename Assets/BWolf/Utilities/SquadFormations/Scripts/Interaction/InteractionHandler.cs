@@ -24,20 +24,24 @@ namespace BWolf.Utilities.SquadFormations.Interactions
                 Vector3 terrainPosition;
                 if (RaycastTerrain(out terrainPosition))
                 {
-                    //check selected units to see whether to give a group order or not
+                    //convert selected objects to units to try and give orders
                     List<Unit> units = selectedObjects.ToUnits();
+                    if (units.Count == 0)
+                    {
+                        return;
+                    }
+
                     if (units.Count > 1 && !units.FormAGroup())
                     {
                         //if unit count is greater than 1 and the units not already form a group, start a new group
                         units = unitGroupHandler.StartGroup(units, terrainPosition);
                     }
 
-                    //create the content for the moveorder to call the interact method on each selected object
+                    //create the content for the moveorder to give to each unit
                     MoveOrderContent content = new MoveOrderContent(terrainPosition, units);
-                    Interaction moveOrder = new Interaction(InteractionType.MoveOrder, content);
-                    foreach (SelectableObject selectable in selectedObjects)
+                    foreach (Unit unit in units)
                     {
-                        selectable.Interact(moveOrder);
+                        unit.OnMoveOrdered(content);
                     }
                 }
             }

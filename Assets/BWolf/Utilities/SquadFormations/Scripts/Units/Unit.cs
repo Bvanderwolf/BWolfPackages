@@ -68,26 +68,22 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Called when an interaction has been done, it checks for move orders</summary>
-        public void OnInteract(Interaction interaction)
+        public void OnMoveOrdered(MoveOrderContent content)
         {
-            if (interaction.TypeOfInteraction == InteractionType.MoveOrder)
+            if (content.OrderedUnits.Contains(this))
             {
-                MoveOrderContent content = (MoveOrderContent)interaction.InteractionContent;
-                if (content.OrderedUnits.Contains(this))
+                if (content.OrderedUnits.Count > 1)
                 {
-                    if (content.OrderedUnits.Count > 1)
+                    OnGroupOrder?.Invoke(content.WayPoint);
+                    MoveTowardsAssignedPosition();
+                }
+                else
+                {
+                    if (IsAssignedAPosition)
                     {
-                        OnGroupOrder?.Invoke(content.WayPoint);
-                        MoveTowardsAssignedPosition();
+                        UnitGroupHandler.LeaveFromGroup(this);
                     }
-                    else
-                    {
-                        if (IsAssignedAPosition)
-                        {
-                            UnitGroupHandler.LeaveFromGroup(this);
-                        }
-                        agent.SetDestination(content.WayPoint);
-                    }
+                    agent.SetDestination(content.WayPoint);
                 }
             }
         }
