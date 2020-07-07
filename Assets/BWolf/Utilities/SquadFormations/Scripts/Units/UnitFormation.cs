@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
@@ -26,7 +27,14 @@ namespace BWolf.Utilities.SquadFormations.Units
         [SerializeField]
         private List<FormationSetting> storedSettings = null;
 
+        public event Action<FormationSetting> OnFormationUpdate;
+
         public FormationSetting CurrentSetting { get; private set; }
+
+        public List<FormationSetting> StoredSettings
+        {
+            get { return new List<FormationSetting>(storedSettings); }
+        }
 
         private void Awake()
         {
@@ -53,13 +61,15 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
-        public void AddFormationPosition()
+        /// <summary>creates a new formation positions adding it to the formation positions list aswell</summary>
+        public void CreateFormationPosition()
         {
             FormationPosition position = Instantiate(prefabFormationPosition, transform).GetComponent<FormationPosition>();
             position.SetGizmo(gizmoColor, gizmoRadius);
             formationPositions.Add(position);
         }
 
+        /// <summary>Clears all formation positions by destroying them and removing them from the formation positions list</summary>
         public void ClearFormationPositions()
         {
             for (int i = formationPositions.Count - 1; i >= 0; i--)
@@ -72,6 +82,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Creates a new formation setting using current value of the formation name</summary>
         public void CreateFormationSetting()
         {
             if (!string.IsNullOrEmpty(formationName) && !storedSettings.HasSettingWithName(formationName))
@@ -80,6 +91,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Removes formation setting based on current value of formation name</summary>
         public void RemoveFormationSetting()
         {
             if (storedSettings.HasSettingWithName(formationName))
@@ -96,6 +108,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Clears formation positions and stored settings</summary>
         public void ClearFormationSettings()
         {
             ClearFormationPositions();
@@ -103,11 +116,13 @@ namespace BWolf.Utilities.SquadFormations.Units
             formationName = string.Empty;
         }
 
+        /// <summary>Updates the formation positins to largest stored setting</summary>
         private void SetToLargestSetting()
         {
             UpdateFormationPositions(storedSettings.Largest());
         }
 
+        /// <summary>Updates the formation positions with formation setting</summary>
         private void UpdateFormationPositions(FormationSetting setting)
         {
             ClearFormationPositions();
@@ -125,13 +140,19 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Updates the current formation setting based on given name of new setting</summary>
         public void UpdateSetting(string nameOfSetting)
         {
-            FormationSetting setting;
-            if (storedSettings.GetSettingWithName(nameOfSetting, out setting))
+            if (!string.IsNullOrEmpty(nameOfSetting) && CurrentSetting.Name != nameOfSetting)
             {
-                UpdateFormationPositions(setting);
-                CurrentSetting = setting;
+                //if the name of the new setting is not null, empty or the same as the current setting try finding it in the stored settings
+                FormationSetting setting;
+                if (storedSettings.GetSettingWithName(nameOfSetting, out setting))
+                {
+                    UpdateFormationPositions(setting);
+                    OnFormationUpdate?.Invoke(setting);
+                    CurrentSetting = setting;
+                }
             }
         }
 

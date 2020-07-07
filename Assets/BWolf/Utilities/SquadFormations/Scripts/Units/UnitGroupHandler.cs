@@ -28,6 +28,24 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Returns groups of which atleast one unit is selected. If no units are selected returns null.</summary>
+        public static List<UnitGroup> GetSelectedGroups()
+        {
+            List<UnitGroup> selectedGroups = new List<UnitGroup>();
+            foreach (UnitGroup group in groups.Values)
+            {
+                foreach (Unit unit in group.EnlistedUnits)
+                {
+                    if (unit.Selectable.IsSelected)
+                    {
+                        selectedGroups.Add(group);
+                        break;
+                    }
+                }
+            }
+            return selectedGroups;
+        }
+
         /// <summary>Starts a new group using given units</summary>
         public List<Unit> StartGroup(List<Unit> units)
         {

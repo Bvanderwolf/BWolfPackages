@@ -1,7 +1,5 @@
 ﻿using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
@@ -24,7 +22,7 @@ namespace BWolf.Utilities.SquadFormations.Units
 
             if (GUILayout.Button(new GUIContent("Add FormationPosition", "Creates Formation position and adds it to formation positions list")))
             {
-                formation.AddFormationPosition();
+                formation.CreateFormationPosition();
             }
 
             GUILayout.Space(pixelSpace * 0.5f);

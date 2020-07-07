@@ -18,6 +18,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             GroupId = id;
 
             this.Formation = formation;
+            this.Formation.OnFormationUpdate += OnFormationUpdate;
         }
 
         /// <summary>Assigns units to a group</summary>
@@ -91,6 +92,22 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Called when the formation has been updated, it makes sure units move towards the new formation positions</summary>
+        private void OnFormationUpdate(FormationSetting newSetting)
+        {
+            ReAssignUnits();
+            MoveUnitsInFormation();
+        }
+
+        /// <summary>Gives each enlisted unit the order to move towards its assigned position</summary>
+        private void MoveUnitsInFormation()
+        {
+            foreach (Unit unit in EnlistedUnits)
+            {
+                unit.MoveTowardsAssignedPosition();
+            }
+        }
+
         /// <summary>Called when a group order is given to the commander to move the formation to a new waypoint</summary>
         private void OnGroupOrder(Vector3 formationWayPoint)
         {
@@ -100,6 +117,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - formationWayPoint);
         }
 
+        /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>
         private List<Unit> TrimToFitGroup(List<Unit> units)
         {
             int trimCount = Mathf.Max(0, units.Count - Formation.CurrentSetting.Size);

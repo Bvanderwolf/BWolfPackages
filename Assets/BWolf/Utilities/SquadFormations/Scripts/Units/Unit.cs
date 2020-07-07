@@ -17,13 +17,13 @@ namespace BWolf.Utilities.SquadFormations.Units
         private float rePathTime = 0;
 
         private NavMeshAgent agent;
-        private SelectableObject selectable;
-
         private FormationPosition assignedPosition;
+
+        public SelectableObject Selectable { get; private set; }
 
         public int AssignedGroupId { get; private set; } = -1;
 
-        public bool AssignedPosition
+        public bool IsAssignedAPosition
         {
             get { return assignedPosition != null; }
         }
@@ -31,7 +31,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            selectable = GetComponent<SelectableObject>();
+            Selectable = GetComponent<SelectableObject>();
         }
 
         private void OnDisable()
@@ -41,7 +41,7 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private void Update()
         {
-            if (!AssignedPosition) { return; }
+            if (!IsAssignedAPosition) { return; }
 
             CheckRepath();
         }
@@ -82,7 +82,7 @@ namespace BWolf.Utilities.SquadFormations.Units
                     }
                     else
                     {
-                        if (AssignedPosition)
+                        if (IsAssignedAPosition)
                         {
                             UnitGroupHandler.LeaveFromGroup(this);
                         }
@@ -90,6 +90,12 @@ namespace BWolf.Utilities.SquadFormations.Units
                     }
                 }
             }
+        }
+
+        /// <summary>Sets the destination of the agent to move towards the assigned position</summary>
+        public void MoveTowardsAssignedPosition()
+        {
+            agent.SetDestination(assignedPosition.Point(false));
         }
 
         /// <summary>Checks wether the agents destination can be re-set to the assigned position</summary>
@@ -103,12 +109,6 @@ namespace BWolf.Utilities.SquadFormations.Units
                 MoveTowardsAssignedPosition();
                 rePathTime = 0;
             }
-        }
-
-        /// <summary>Sets the destination of the agent to move towards the assigned position</summary>
-        private void MoveTowardsAssignedPosition()
-        {
-            agent.SetDestination(assignedPosition.Point(false));
         }
     }
 }

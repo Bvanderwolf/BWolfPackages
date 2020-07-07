@@ -18,12 +18,13 @@ namespace BWolf.Examples.SquadFormations
         {
             if (UnitGroupHandler.GetGroup(groupCount) != null)
             {
-                AddGroupToDisplay();
+                CreateGroupDisplay();
                 groupCount++;
             }
         }
 
-        private void AddGroupToDisplay()
+        /// <summary>Creates display for found group</summary>
+        private void CreateGroupDisplay()
         {
             UnitGroup group = UnitGroupHandler.GetGroup(groupCount);
             groupsToDisplay.Add(group);

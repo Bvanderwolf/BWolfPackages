@@ -100,7 +100,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             List<Unit> unAssigned = new List<Unit>();
             foreach (Unit u in units)
             {
-                if (!u.AssignedPosition) { unAssigned.Add(u); }
+                if (!u.IsAssignedAPosition) { unAssigned.Add(u); }
             }
 
             return unAssigned;
