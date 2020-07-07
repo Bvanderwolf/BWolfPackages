@@ -25,12 +25,12 @@ namespace BWolf.Utilities.SquadFormations.Units
         public List<Unit> AssignUnitsToGroup(List<Unit> units, Vector3 formationPosition)
         {
             List<Unit> enlistableUnits = TrimToFitGroup(units);
-            EnlistUnits(units);
+            EnlistUnits(enlistableUnits);
 
             Commander = Formation.AssignUnitPositions(units);
             Commander.OnGroupOrder += OnGroupOrder;
 
-            OnGroupOrder(formationPosition);
+            MoveFormation(formationPosition);
 
             return enlistableUnits;
         }
@@ -100,9 +100,13 @@ namespace BWolf.Utilities.SquadFormations.Units
         private void OnGroupOrder(Vector3 formationWayPoint)
         {
             ReAssignUnits();
+            MoveFormation(formationWayPoint);
+        }
 
-            Formation.transform.position = formationWayPoint;
-            Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - formationWayPoint);
+        private void MoveFormation(Vector3 waypoint)
+        {
+            Formation.transform.position = waypoint;
+            Formation.transform.rotation = Quaternion.LookRotation(Commander.transform.position - waypoint);
         }
 
         /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>
