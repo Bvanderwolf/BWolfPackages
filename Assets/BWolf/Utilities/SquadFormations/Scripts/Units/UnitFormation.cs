@@ -157,12 +157,27 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Assigns given units a position in the formation, returning a commander for the group</summary>
-        public Unit AssignUnitPositions(List<Unit> units)
+        public Unit AssignUnits(List<Unit> units)
         {
             //make sure all positions in the formation are un assigned
-            UnAssign();
+            UnAssignPositions();
 
-            //assign each unassigned formation position a unit based on distance
+            //return commander based on assigned units to positions
+            return AssignUnitsToPositions(units);
+        }
+
+        /// <summary>Unassigns this formations formation positions</summary>
+        private void UnAssignPositions()
+        {
+            foreach (FormationPosition position in formationPositions)
+            {
+                position.SetAssigned(false);
+            }
+        }
+
+        /// <summary>Assigns each unassigned formation position to a unit based on distance</summary>
+        private Unit AssignUnitsToPositions(List<Unit> units)
+        {
             Unit commander = null;
             for (int assignments = 0; assignments < units.Count; assignments++)
             {
@@ -180,15 +195,6 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
 
             return commander;
-        }
-
-        /// <summary>Unassigns this formations formation positions</summary>
-        private void UnAssign()
-        {
-            foreach (FormationPosition position in formationPositions)
-            {
-                position.SetAssigned(false);
-            }
         }
 
         /// <summary>Returns the closest formation position in given list to the center of the formation</summary>

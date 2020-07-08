@@ -27,7 +27,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             List<Unit> enlistableUnits = TrimToFitGroup(units);
             EnlistUnits(enlistableUnits);
 
-            Commander = Formation.AssignUnitPositions(units);
+            Commander = Formation.AssignUnits(units);
             Commander.OnGroupOrder += OnGroupOrder;
 
             MoveFormation(formationPosition);
@@ -66,7 +66,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
 
             //assign units receiving a new commander to call group orders on
-            Commander = Formation.AssignUnitPositions(EnlistedUnits);
+            Commander = Formation.AssignUnits(EnlistedUnits);
             Commander.OnGroupOrder += OnGroupOrder;
         }
 
