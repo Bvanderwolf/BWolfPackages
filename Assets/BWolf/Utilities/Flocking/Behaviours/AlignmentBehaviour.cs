@@ -6,7 +6,7 @@ namespace BWolf.Utilities.Flocking
     [CreateAssetMenu(menuName = "Flocking/Alignment")]
     public class AlignmentBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<Transform> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
         {
             if (context.Count == 0)
             {
@@ -16,9 +16,9 @@ namespace BWolf.Utilities.Flocking
 
             //get average heading of context by adding them toghether and then dividing it by the ammount of context
             Vector3 move = Vector3.zero;
-            foreach (Transform t in context)
+            foreach (FlockUnitContext item in context.Filtered(1 << unit.gameObject.layer))
             {
-                move += t.forward;
+                move += item.ContextTransform.forward;
             }
             move /= context.Count;
 

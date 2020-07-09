@@ -5,6 +5,6 @@ namespace BWolf.Utilities.Flocking
 {
     public abstract class FlockBehaviour : ScriptableObject
     {
-        public abstract Vector3 CalculateMove(FlockUnit unit, List<Transform> context, Flock flock);
+        public abstract Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock);
     }
 }

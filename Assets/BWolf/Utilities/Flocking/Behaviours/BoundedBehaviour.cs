@@ -4,12 +4,15 @@ using UnityEngine;
 
 namespace BWolf.Examples.Flocking
 {
-    [CreateAssetMenu(menuName = "Flocking/TerrainBound")]
-    public class TerrainBoundBehaviour : FlockBehaviour
+    [CreateAssetMenu(menuName = "Flocking/Bounded")]
+    public class BoundedBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<Transform> context, Flock flock)
+        [SerializeField]
+        private Bounds bounds;
+
+        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
         {
-            if (!flock.FlockBounds.Contains(unit.transform.position))
+            if (!bounds.Contains(unit.transform.position))
             {
                 Vector3 position = unit.transform.position;
                 return flock.FlockBounds.ClosestPoint(position) - position;

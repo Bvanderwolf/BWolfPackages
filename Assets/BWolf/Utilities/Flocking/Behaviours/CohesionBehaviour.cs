@@ -6,7 +6,7 @@ namespace BWolf.Utilities.Flocking
     [CreateAssetMenu(menuName = "Flocking/Cohesion")]
     public class CohesionBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<Transform> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
         {
             if (context.Count == 0)
             {
@@ -16,15 +16,16 @@ namespace BWolf.Utilities.Flocking
 
             //get average position of context by adding them toghether and then dividing it by the ammount of context
             Vector3 move = Vector3.zero;
-            foreach (Transform t in context)
+            foreach (FlockUnitContext item in context.Filtered(1 << unit.gameObject.layer))
             {
-                move += t.position;
+                move += item.ContextTransform.position;
             }
             move /= context.Count;
 
             //subtract units position to make the move the direction towards the average position
             move -= unit.transform.position;
 
+            //damp move to prefent flickering
             move = Vector3.SmoothDamp(unit.transform.forward, move, ref flock.Velocity, 0.5f);
 
             return move;

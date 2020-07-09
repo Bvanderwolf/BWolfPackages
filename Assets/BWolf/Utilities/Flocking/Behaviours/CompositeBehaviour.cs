@@ -9,7 +9,7 @@ namespace BWolf.Utilities.Flocking
         [SerializeField]
         private WeightedFlockBehaviour[] behaviours = null;
 
-        public override Vector3 CalculateMove(FlockUnit unit, List<Transform> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
         {
             if (behaviours.Length == 0)
             {
@@ -20,6 +20,7 @@ namespace BWolf.Utilities.Flocking
             Vector3 move = Vector3.zero;
             foreach (var behaviour in behaviours)
             {
+                //add clamped partial moves to the to be returned move
                 Vector3 partialMove = behaviour.Behaviour.CalculateMove(unit, context, flock) * behaviour.Weight;
                 if (partialMove.sqrMagnitude > behaviour.SqrWeight)
                 {
@@ -39,6 +40,7 @@ namespace BWolf.Utilities.Flocking
             public float Weight;
             public FlockBehaviour Behaviour;
 #pragma warning restore 0649
+
             public float SqrWeight { get { return Weight * Weight; } }
         }
     }
