@@ -2,12 +2,13 @@
 
 namespace BWolf.Utilities.Flocking
 {
+    /// <summary>static class providing extensions for a list of context items</summary>
     public static class ContextExtensions
     {
-        public static List<UnitContext> Filtered(this List<UnitContext> context, int layerMask)
+        public static List<ContextItem> Filtered(this List<ContextItem> context, int layerMask)
         {
-            List<UnitContext> filtered = new List<UnitContext>();
-            foreach (UnitContext item in context)
+            List<ContextItem> filtered = new List<ContextItem>();
+            foreach (ContextItem item in context)
             {
                 if (layerMask == (layerMask | (1 << item.Layer)))
                 {

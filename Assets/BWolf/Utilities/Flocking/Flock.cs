@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.Flocking
 {
+    /// <summary>class for spawning and updating flock units</summary>
     public class Flock : MonoBehaviour
     {
         [Header("Spawn Settings")]
@@ -78,14 +79,14 @@ namespace BWolf.Utilities.Flocking
             foreach (FlockUnit unit in flockUnits)
             {
                 List<ContextItem> context = unit.GetContext(neighborRadius);
-                Vector3 move = behaviour.CalculateMove(unit, context, this);
-                move *= driveFactor;
-                if (move.sqrMagnitude > sqrMaxSpeed)
+                Vector3 step = behaviour.CalculateStep(unit, context, this);
+                step *= driveFactor;
+                if (step.sqrMagnitude > sqrMaxSpeed)
                 {
-                    move = move.normalized * maxSpeed;
+                    step = step.normalized * maxSpeed;
                 }
-                move.y = 0;
-                unit.Move(move);
+                step.y = 0;
+                unit.Flock(step);
             }
         }
     }

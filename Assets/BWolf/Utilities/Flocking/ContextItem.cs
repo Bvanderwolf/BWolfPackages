@@ -2,7 +2,7 @@
 
 namespace BWolf.Utilities.Flocking
 {
-    /// <summary>Representation of a Cotext</summary>
+    /// <summary>Representation of an item in a context</summary>
     public struct ContextItem
     {
         public Transform ContextTransform;

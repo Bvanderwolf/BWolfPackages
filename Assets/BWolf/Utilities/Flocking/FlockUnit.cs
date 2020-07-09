@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace BWolf.Utilities.Flocking
 {
+    /// <summary>class for representing the unit to be flocked</summary>
     public class FlockUnit : MonoBehaviour
     {
-        [SerializeField]
-        private MeshRenderer body = null;
-
         private Collider unitCollider;
 
         private void Awake()
@@ -20,17 +18,14 @@ namespace BWolf.Utilities.Flocking
             }
         }
 
-        public void Move(Vector3 velocity)
+        /// <summary>Moves and rotates this unit according to given velocity</summary>
+        public void Flock(Vector3 velocity)
         {
             transform.rotation = Quaternion.LookRotation(velocity);
             transform.position += velocity * Time.deltaTime;
         }
 
-        public void ColorBody(Color color)
-        {
-            body.material.color = color;
-        }
-
+        /// <summary>Returns the context of this unit based on given radius represented by a list of context items</summary>
         public List<ContextItem> GetContext(float radius)
         {
             List<ContextItem> context = new List<ContextItem>();

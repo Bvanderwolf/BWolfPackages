@@ -7,7 +7,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
     [CreateAssetMenu(fileName = "SeperationBehaviour", menuName = "FlockingBehaviours/Seperation")]
     public class SeperationBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {

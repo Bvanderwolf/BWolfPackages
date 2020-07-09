@@ -7,7 +7,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
     [CreateAssetMenu(fileName = "AlignmentBehaviour", menuName = "FlockingBehaviours/Alignment")]
     public class AlignmentBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {

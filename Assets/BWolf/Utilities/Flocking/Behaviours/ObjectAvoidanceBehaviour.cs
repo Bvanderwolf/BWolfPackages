@@ -10,7 +10,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
         [SerializeField]
         private LayerMask objectLayers;
 
-        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {
