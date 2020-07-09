@@ -25,6 +25,8 @@ namespace BWolf.Utilities.Flocking
             //subtract units position to make the move the direction towards the average position
             move -= unit.transform.position;
 
+            move = Vector3.SmoothDamp(unit.transform.forward, move, ref flock.Velocity, 0.5f);
+
             return move;
         }
     }

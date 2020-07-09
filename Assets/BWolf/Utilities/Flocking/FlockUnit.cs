@@ -11,10 +11,6 @@ namespace BWolf.Utilities.Flocking
 
         private Collider unitCollider;
 
-        private const int maxNeighbourIntensity = 5;
-        private float neighbourRadius;
-        private int neighbourCount;
-
         private void Awake()
         {
             unitCollider = GetComponentInChildren<Collider>();
@@ -47,20 +43,7 @@ namespace BWolf.Utilities.Flocking
                 }
             }
 
-            neighbourRadius = radius;
-            neighbourCount = context.Count;
-
             return context;
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, neighbourRadius);
-            if (Application.isPlaying)
-            {
-                ColorBody(Color.Lerp(Color.white, Color.red, neighbourCount / (float)maxNeighbourIntensity));
-            }
         }
     }
 }
