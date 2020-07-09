@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Examples.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/Bounded")]
+    /// <summary>Custom flocking behaviour for bounding units inside given bounds, making sure they stay inside</summary>
+    [CreateAssetMenu(fileName = "BoundedBehaviour", menuName = "FlockingBehaviours/Bounded")]
     public class BoundedBehaviour : FlockBehaviour
     {
         [SerializeField]
@@ -14,6 +15,7 @@ namespace BWolf.Examples.Flocking
         {
             if (!bounds.Contains(unit.transform.position))
             {
+                //if the unit is outside the bounds, return a move that is towards the closest point on the bounds from the units position
                 Vector3 position = unit.transform.position;
                 return flock.FlockBounds.ClosestPoint(position) - position;
             }

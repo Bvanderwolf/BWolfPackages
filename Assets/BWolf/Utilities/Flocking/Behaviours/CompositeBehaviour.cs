@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/Composite")]
+    /// <summary>The behaviour combining multiple flocking behaviours to create create the actuall flocking mechanic</summary>
+    [CreateAssetMenu(fileName = "CompositeBehaviour", menuName = "FlockingBehaviours/Composite")]
     public class CompositeBehaviour : FlockBehaviour
     {
         [SerializeField]
@@ -33,6 +34,7 @@ namespace BWolf.Utilities.Flocking
             return move;
         }
 
+        /// <summary>structure that makes it possible to add weights to each behaviour to be used</summary>
         [System.Serializable]
         private struct WeightedFlockBehaviour
         {

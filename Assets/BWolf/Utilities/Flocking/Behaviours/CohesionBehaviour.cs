@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/Cohesion")]
+    /// <summary>1 of the 3 main behaviours for flocking, making sure units are moving towards the group</summary>
+    [CreateAssetMenu(fileName = "CohesionBehaviour", menuName = "FlockingBehaviours/Cohesion")]
     public class CohesionBehaviour : FlockBehaviour
     {
         public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)

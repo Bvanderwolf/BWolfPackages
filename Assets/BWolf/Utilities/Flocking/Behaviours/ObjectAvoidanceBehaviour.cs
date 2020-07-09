@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/ObjectAvoidance")]
+    /// <summary>Custom flocking behaviour for making units avoid obstacles given a layer mask of objects to avoid</summary>
+    [CreateAssetMenu(fileName = "ObjectAvoidanceBehaviour", menuName = "FlockingBehaviours/ObjectAvoidance")]
     public class ObjectAvoidanceBehaviour : FlockBehaviour
     {
         [SerializeField]
@@ -13,7 +14,7 @@ namespace BWolf.Utilities.Flocking
         {
             if (context.Count == 0)
             {
-                //if there is not context return a vector with no magnitude
+                //if there is no context return a vector with no magnitude
                 return Vector3.zero;
             }
 

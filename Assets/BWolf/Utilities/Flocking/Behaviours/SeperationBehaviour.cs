@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/Seperation")]
+    /// <summary>One of 3 main behaviours for flocking, making sure units don't collide with each other</summary>
+    [CreateAssetMenu(fileName = "SeperationBehaviour", menuName = "FlockingBehaviours/Seperation")]
     public class SeperationBehaviour : FlockBehaviour
     {
         public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
         {
             if (context.Count == 0)
             {
-                //if there is not context return a vector with no magnitude
+                //if there is no context return a vector with no magnitude
                 return Vector3.zero;
             }
 

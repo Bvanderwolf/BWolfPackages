@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Behaviours
 {
-    [CreateAssetMenu(menuName = "Flocking/Alignment")]
+    /// <summary>1 of the 3 main behaviours for flocking, making sure units move towards the same direction</summary>
+    [CreateAssetMenu(fileName = "AlignmentBehaviour", menuName = "FlockingBehaviours/Alignment")]
     public class AlignmentBehaviour : FlockBehaviour
     {
         public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
