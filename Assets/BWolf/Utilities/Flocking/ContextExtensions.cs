@@ -5,6 +5,7 @@ namespace BWolf.Utilities.Flocking
     /// <summary>static class providing extensions for a list of context items</summary>
     public static class ContextExtensions
     {
+        /// <summary>Returns a new list with context item matching the given layer mask</summary>
         public static List<ContextItem> Filtered(this List<ContextItem> context, int layerMask)
         {
             List<ContextItem> filtered = new List<ContextItem>();
