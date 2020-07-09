@@ -11,7 +11,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
         [SerializeField]
         private Bounds bounds;
 
-        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<UnitContext> context, Flock flock)
         {
             if (!bounds.Contains(unit.transform.position))
             {

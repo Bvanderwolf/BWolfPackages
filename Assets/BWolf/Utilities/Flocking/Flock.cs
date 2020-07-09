@@ -77,7 +77,7 @@ namespace BWolf.Utilities.Flocking
             Bounds bounds = terrainBound.bounds;
             foreach (FlockUnit unit in flockUnits)
             {
-                List<FlockUnitContext> context = unit.GetContext(neighborRadius);
+                List<UnitContext> context = unit.GetContext(neighborRadius);
                 Vector3 move = behaviour.CalculateMove(unit, context, this);
                 move *= driveFactor;
                 if (move.sqrMagnitude > sqrMaxSpeed)

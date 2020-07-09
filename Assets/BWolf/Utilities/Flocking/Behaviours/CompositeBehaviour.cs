@@ -10,7 +10,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
         [SerializeField]
         private WeightedFlockBehaviour[] behaviours = null;
 
-        public override Vector3 CalculateMove(FlockUnit unit, List<FlockUnitContext> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<UnitContext> context, Flock flock)
         {
             if (behaviours.Length == 0)
             {
