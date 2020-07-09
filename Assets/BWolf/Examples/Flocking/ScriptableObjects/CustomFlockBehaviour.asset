@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d804ca3b7059c5749b90cede03e338bc, type: 3}
-  m_Name: FlockTerrainbound
+  m_Name: CustomFlockBehaviour
   m_EditorClassIdentifier: 
   behaviours:
   - Weight: 4.5
@@ -20,6 +20,6 @@ MonoBehaviour:
   - Weight: 2
     Behaviour: {fileID: 11400000, guid: 12d8abff0d5b8c74bbffdc0c9980cad0, type: 2}
   - Weight: 0.75
-    Behaviour: {fileID: 11400000, guid: da9bc9cb6f09e73498917688fd691ecf, type: 2}
+    Behaviour: {fileID: 11400000, guid: ea5164e98190d5942bd46a21957e12b7, type: 2}
   - Weight: 1
-    Behaviour: {fileID: 11400000, guid: d50fcc572dcaec24c8b892bf86e8bc1c, type: 2}
+    Behaviour: {fileID: 11400000, guid: 4200916f7030df242ba63ea2448823d6, type: 2}
