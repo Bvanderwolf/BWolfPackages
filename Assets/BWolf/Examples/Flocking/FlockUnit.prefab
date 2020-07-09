@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2676755034374059466}
   - component: {fileID: 2676755034374059465}
   - component: {fileID: 2676755034374059464}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2676755035648494493}
   - component: {fileID: 738264641277107987}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FlockUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

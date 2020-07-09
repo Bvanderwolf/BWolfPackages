@@ -35,11 +35,11 @@ namespace BWolf.Utilities.Flocking
         [SerializeField]
         private BoxCollider terrainBound = null;
 
-        public float SqrAvoidanceRadius { get; private set; }
-        public Bounds FlockBounds { get; private set; }
-
         [HideInInspector]
         public Vector3 Velocity;
+
+        public float SqrAvoidanceRadius { get; private set; }
+        public Bounds FlockBounds { get; private set; }
 
         private List<FlockUnit> flockUnits = new List<FlockUnit>();
 
@@ -76,7 +76,7 @@ namespace BWolf.Utilities.Flocking
             Bounds bounds = terrainBound.bounds;
             foreach (FlockUnit unit in flockUnits)
             {
-                List<Transform> context = unit.GetContext(neighborRadius);
+                List<FlockUnitContext> context = unit.GetContext(neighborRadius);
                 Vector3 move = behaviour.CalculateMove(unit, context, this);
                 move *= driveFactor;
                 if (move.sqrMagnitude > sqrMaxSpeed)

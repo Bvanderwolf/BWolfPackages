@@ -31,15 +31,15 @@ namespace BWolf.Utilities.Flocking
             body.material.color = color;
         }
 
-        public List<Transform> GetContext(float radius)
+        public List<FlockUnitContext> GetContext(float radius)
         {
-            List<Transform> context = new List<Transform>();
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Entity"));
+            List<FlockUnitContext> context = new List<FlockUnitContext>();
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
             foreach (Collider c in colliders)
             {
                 if (c != unitCollider)
                 {
-                    context.Add(c.transform);
+                    context.Add(FlockUnitContext.Create(c.transform, c.gameObject.layer));
                 }
             }
 
