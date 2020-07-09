@@ -10,7 +10,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
         [SerializeField]
         private LayerMask objectLayers;
 
-        public override Vector3 CalculateMove(FlockUnit unit, List<UnitContext> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {
@@ -21,7 +21,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
             //check for each filtered context item if it is to be avoided and add direction away from it to the move if need be
             Vector3 move = Vector3.zero;
             int avoidNr = 0;
-            foreach (UnitContext item in context.Filtered(objectLayers.value))
+            foreach (ContextItem item in context.Filtered(objectLayers.value))
             {
                 Vector3 position = item.ContextTransform.position;
                 if ((position - unit.transform.position).sqrMagnitude < flock.SqrAvoidanceRadius)

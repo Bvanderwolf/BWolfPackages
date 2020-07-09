@@ -7,7 +7,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
     [CreateAssetMenu(fileName = "CohesionBehaviour", menuName = "FlockingBehaviours/Cohesion")]
     public class CohesionBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<UnitContext> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {
@@ -17,7 +17,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
 
             //get average position of context by adding them toghether and then dividing it by the ammount of context
             Vector3 move = Vector3.zero;
-            foreach (UnitContext item in context.Filtered(1 << unit.gameObject.layer))
+            foreach (ContextItem item in context.Filtered(1 << unit.gameObject.layer))
             {
                 move += item.ContextTransform.position;
             }

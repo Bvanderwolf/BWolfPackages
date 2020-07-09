@@ -7,7 +7,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
     [CreateAssetMenu(fileName = "SeperationBehaviour", menuName = "FlockingBehaviours/Seperation")]
     public class SeperationBehaviour : FlockBehaviour
     {
-        public override Vector3 CalculateMove(FlockUnit unit, List<UnitContext> context, Flock flock)
+        public override Vector3 CalculateMove(FlockUnit unit, List<ContextItem> context, Flock flock)
         {
             if (context.Count == 0)
             {
@@ -18,7 +18,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
             //check for each context item if it is to be avoided and add direction away from it to the move if need be
             Vector3 move = Vector3.zero;
             int avoidNr = 0;
-            foreach (UnitContext item in context.Filtered(1 << unit.gameObject.layer))
+            foreach (ContextItem item in context.Filtered(1 << unit.gameObject.layer))
             {
                 Vector3 position = item.ContextTransform.position;
                 if ((position - unit.transform.position).sqrMagnitude < flock.SqrAvoidanceRadius)

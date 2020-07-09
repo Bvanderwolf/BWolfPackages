@@ -2,14 +2,15 @@
 
 namespace BWolf.Utilities.Flocking
 {
-    public struct UnitContext
+    /// <summary>Representation of a Cotext</summary>
+    public struct ContextItem
     {
         public Transform ContextTransform;
         public int Layer;
 
-        public static UnitContext Create(Transform contextItem, int layer)
+        public static ContextItem Create(Transform contextItem, int layer)
         {
-            UnitContext context;
+            ContextItem context;
             context.ContextTransform = contextItem;
             context.Layer = layer;
             return context;
