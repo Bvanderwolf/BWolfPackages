@@ -76,6 +76,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Assigns currently enlisted units as formation position and sets up the formation commander</summary>
         private void AssignFormationPositions()
         {
             //assign units receiving a commander to call group orders on

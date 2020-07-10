@@ -75,24 +75,28 @@ namespace BWolf.Utilities.SquadFormations.Units
         {
             if (translateTime != 1f)
             {
+                //if translate time hasn't reached 1 it can be incremented based on speed
                 translateTime += Time.deltaTime * formationSpeed;
                 if (translateTime >= 1)
                 {
                     translateTime = 1;
                 }
 
+                float translateDelta = translateTime / 1f;
+                //update position and rotation based on translate delta if start and target are not the same and target hasn't been reached yet
                 if (targetPosition != startPosition && transform.position != targetPosition)
                 {
-                    transform.position = Vector3.Lerp(startPosition, targetPosition, translateTime / 1f);
+                    transform.position = Vector3.Lerp(startPosition, targetPosition, translateDelta);
                 }
 
                 if (targetOrientation != startOrientation && transform.rotation != targetOrientation)
                 {
-                    transform.rotation = Quaternion.Lerp(startOrientation, targetOrientation, translateTime / 1f);
+                    transform.rotation = Quaternion.Lerp(startOrientation, targetOrientation, translateDelta);
                 }
             }
         }
 
+        /// <summary>Sets the position and orientation target for this formation so it can linearly interpolate towards it</summary>
         public void SetTarget(Vector3 position, Quaternion orientation)
         {
             targetPosition = position;
