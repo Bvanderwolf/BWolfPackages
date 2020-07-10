@@ -11,10 +11,6 @@ namespace BWolf.Utilities.SquadFormations.Units
     /// <summary>Component representing a unit which can be assigned to a group</summary>
     public class Unit : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField]
-        private Collider unitCollider = null;
-
         [Header("Settings")]
         [SerializeField]
         private float minSpeed = 3.5f;
@@ -32,8 +28,6 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Id of group this unit is assigned to. Is -1 if the unit is not part of a group</summary>
         public int AssignedGroupId { get; private set; } = -1;
 
-        public bool Flockable { get; private set; }
-
         /// <summary>Is this unit assigned a position in a group</summary>
         public bool IsAssignedAPosition
         {
@@ -46,7 +40,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         private NavMeshAgent agent;
         private FormationPosition assignedPosition;
 
-        private FormationPosition AssignedPosition
+        public FormationPosition AssignedPosition
         {
             get { return assignedPosition; }
             set
@@ -74,17 +68,10 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private void Update()
         {
-            if (!Flockable && IsAssignedAPosition)
+            if (IsAssignedAPosition)
             {
                 RotateTowardsFormationOrientation();
-                if (!ReachedAssignedPosition())
-                {
-                    CheckRepath();
-                }
-                else
-                {
-                    SetFlocking(true);
-                }
+                CheckRepath();
             }
         }
 
@@ -96,7 +83,6 @@ namespace BWolf.Utilities.SquadFormations.Units
             AssignedGroupId = -1;
             OnGroupOrder = null;
 
-            SetFlocking(false);
             SetDefaultPriorityValues();
         }
 
@@ -146,29 +132,6 @@ namespace BWolf.Utilities.SquadFormations.Units
             agent.SetDestination(assignedPosition.Point(false));
         }
 
-        /// <summary>Moves and rotates this unit according to given velocity</summary>
-        public void Flock(Vector3 velocity)
-        {
-            transform.rotation = Quaternion.LookRotation(velocity);
-            transform.position += velocity * Time.deltaTime;
-        }
-
-        /// <summary>Returns the context of this unit based on given radius represented by a list of context items</summary>
-        public List<ContextItem> GetContext(float radius)
-        {
-            List<ContextItem> context = new List<ContextItem>();
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-            foreach (Collider c in colliders)
-            {
-                if (c != unitCollider)
-                {
-                    context.Add(ContextItem.Create(c.transform, c.gameObject.layer));
-                }
-            }
-
-            return context;
-        }
-
         /// <summary>Rotates the unit towards the assigned formation position based on the distance to it when given an order</summary>
         private void RotateTowardsFormationOrientation()
         {
@@ -182,38 +145,15 @@ namespace BWolf.Utilities.SquadFormations.Units
             transform.eulerAngles = new Vector3(0, yOrientation, 0);
         }
 
-        private bool ReachedAssignedPosition()
-        {
-            if (!agent.pathPending)
-            {
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         /// <summary>Checks wether the agents destination can be re-set to the assigned position</summary>
         private void CheckRepath()
         {
+            if ((assignedPosition.Point(false) - transform.position).sqrMagnitude < 0.1f) { return; }
             rePathTime += Time.deltaTime;
             if (rePathTime >= rePathInterval)
             {
                 MoveTowardsAssignedPosition();
                 rePathTime = 0;
-            }
-        }
-
-        private void SetFlocking(bool value)
-        {
-            if (agent.isOnNavMesh)
-            {
-                agent.isStopped = value;
-                Flockable = value;
             }
         }
 

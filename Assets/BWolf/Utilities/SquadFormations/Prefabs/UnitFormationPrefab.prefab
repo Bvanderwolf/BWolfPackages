@@ -310,6 +310,7 @@ MonoBehaviour:
   prefabFormationPosition: {fileID: 7226346052733367960, guid: 8cd37160b4f5892448045c01a3702da9,
     type: 3}
   formationName: Closed
+  formationSpeed: 1
   gizmoColor: {r: 0.7529412, g: 0.13214508, b: 0.054901976, a: 1}
   gizmoRadius: 0.75
   formationPositions:
@@ -321,6 +322,7 @@ MonoBehaviour:
   - {fileID: 5465504378075531703}
   storedSettings:
   - Name: Open
+    Speed: 0.35
     GizmoColor: {r: 0.054901976, g: 0.07469646, b: 0.7529412, a: 1}
     GizmoRadius: 0.75
     Size: 5
@@ -331,6 +333,7 @@ MonoBehaviour:
     - {x: 2.5, y: 0, z: 0}
     - {x: 5, y: 0, z: 0}
   - Name: Closed
+    Speed: 0.35
     GizmoColor: {r: 0.7529412, g: 0.13214508, b: 0.054901976, a: 1}
     GizmoRadius: 0.75
     Size: 6

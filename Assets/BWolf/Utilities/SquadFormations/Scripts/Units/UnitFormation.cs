@@ -36,6 +36,16 @@ namespace BWolf.Utilities.SquadFormations.Units
             get { return new List<FormationSetting>(storedSettings); }
         }
 
+        private const float formationSpeed = 0.35f;
+
+        private Vector3 targetPosition;
+        private Vector3 startPosition;
+
+        private Quaternion targetOrientation;
+        private Quaternion startOrientation;
+
+        private float translateTime;
+
         private void Awake()
         {
             foreach (FormationPosition position in formationPositions)
@@ -59,6 +69,39 @@ namespace BWolf.Utilities.SquadFormations.Units
             {
                 position.SetGizmo(gizmoColor, gizmoRadius);
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (translateTime != 1f)
+            {
+                translateTime += Time.deltaTime * formationSpeed;
+                if (translateTime >= 1)
+                {
+                    translateTime = 1;
+                }
+
+                if (targetPosition != startPosition && transform.position != targetPosition)
+                {
+                    transform.position = Vector3.Lerp(startPosition, targetPosition, translateTime / 1f);
+                }
+
+                if (targetOrientation != startOrientation && transform.rotation != targetOrientation)
+                {
+                    transform.rotation = Quaternion.Lerp(startOrientation, targetOrientation, translateTime / 1f);
+                }
+            }
+        }
+
+        public void SetTarget(Vector3 position, Quaternion orientation)
+        {
+            targetPosition = position;
+            startPosition = transform.position;
+
+            targetOrientation = orientation;
+            startOrientation = transform.rotation;
+
+            translateTime = 0;
         }
 
         /// <summary>creates a new formation positions adding it to the formation positions list aswell</summary>

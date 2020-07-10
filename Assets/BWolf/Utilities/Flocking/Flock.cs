@@ -82,8 +82,13 @@ namespace BWolf.Utilities.Flocking
                 {
                     step = step.normalized * maxSpeed;
                 }
+
                 step.y = 0;
-                unit.Flock(step);
+
+                if (step != Vector3.zero)
+                {
+                    unit.Flock(step);
+                }
             }
         }
     }

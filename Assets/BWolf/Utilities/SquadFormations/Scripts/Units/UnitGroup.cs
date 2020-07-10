@@ -1,5 +1,4 @@
-﻿using BWolf.Utilities.Flocking.Context;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
@@ -28,10 +27,8 @@ namespace BWolf.Utilities.SquadFormations.Units
             List<Unit> enlistableUnits = TrimToFitGroup(units);
             EnlistUnits(enlistableUnits);
 
-            Commander = Formation.AssignUnits(units);
-            Commander.OnGroupOrder += OnGroupOrder;
-
-            MoveFormation(formationPosition);
+            AssignFormationPositions();
+            SetFormationTarget(formationPosition);
 
             return enlistableUnits;
         }
@@ -66,9 +63,7 @@ namespace BWolf.Utilities.SquadFormations.Units
                 unit.AssignPosition(null);
             }
 
-            //assign units receiving a new commander to call group orders on
-            Commander = Formation.AssignUnits(EnlistedUnits);
-            Commander.OnGroupOrder += OnGroupOrder;
+            AssignFormationPositions();
         }
 
         /// <summary>Enlists given units in this group</summary>
@@ -79,6 +74,15 @@ namespace BWolf.Utilities.SquadFormations.Units
                 unit.AssignGroupId(GroupId);
                 EnlistedUnits.Add(unit);
             }
+        }
+
+        private void AssignFormationPositions()
+        {
+            //assign units receiving a commander to call group orders on
+            Commander = Formation.AssignUnits(EnlistedUnits);
+            Commander.OnGroupOrder += OnGroupOrder;
+
+            Formation.transform.position = Commander.transform.position;
         }
 
         /// <summary>Called when the formation has been updated, it makes sure units move towards the new formation positions</summary>
@@ -100,15 +104,13 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Called when a group order is given to the commander to move the formation to a new waypoint</summary>
         private void OnGroupOrder(Vector3 formationWayPoint)
         {
-            ReAssignUnits();
-            MoveFormation(formationWayPoint);
+            SetFormationTarget(formationWayPoint);
         }
 
         /// <summary>Moves formwation towards given waypoint rotating it in the direction the units have to walk </summary>
-        private void MoveFormation(Vector3 waypoint)
+        private void SetFormationTarget(Vector3 waypoint)
         {
-            Formation.transform.position = waypoint;
-            Formation.transform.rotation = Quaternion.LookRotation(waypoint - Commander.transform.position);
+            Formation.SetTarget(waypoint, Quaternion.LookRotation(waypoint - Commander.transform.position));
         }
 
         /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>
@@ -120,25 +122,6 @@ namespace BWolf.Utilities.SquadFormations.Units
                 units.RemoveAt(units.Count - 1);
             }
             return units;
-        }
-
-        public bool TryGetFlock(out List<Unit> units)
-        {
-            units = null;
-
-            foreach (Unit u in EnlistedUnits)
-            {
-                if (u.Flockable)
-                {
-                    if (units == null)
-                    {
-                        units = new List<Unit>();
-                    }
-                    units.Add(u);
-                }
-            }
-
-            return units != null;
         }
     }
 }

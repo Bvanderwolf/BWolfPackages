@@ -1542,6 +1542,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 295319708961566004, guid: 756a964f26a6b8948a45c4595da1fa92,
+        type: 3}
+      propertyPath: neighbourRadius
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 295319708961566004, guid: 756a964f26a6b8948a45c4595da1fa92,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 295319708961566004, guid: 756a964f26a6b8948a45c4595da1fa92,
+        type: 3}
+      propertyPath: driveFactor
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 756a964f26a6b8948a45c4595da1fa92, type: 3}
 --- !u!1001 &972075907344807424

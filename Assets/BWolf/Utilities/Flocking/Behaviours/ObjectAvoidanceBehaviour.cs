@@ -22,7 +22,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
             //check for each filtered context item if it is to be avoided and add direction away from it to the move if need be
             Vector3 move = Vector3.zero;
             int avoidNr = 0;
-            foreach (ContextItem item in context.Filtered(objectLayers.value))
+            foreach (ContextItem item in context.FilteredToLayer(objectLayers.value))
             {
                 Vector3 position = item.ContextTransform.position;
                 if ((position - unit.transform.position).sqrMagnitude < flock.SqrAvoidanceRadius)
