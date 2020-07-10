@@ -24,13 +24,13 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Assigns units to a group also giving them a order to move their formation towards given formation position</summary>
         public List<Unit> AssignUnitsToGroup(List<Unit> units, Vector3 formationPosition)
         {
-            List<Unit> enlistableUnits = TrimToFitGroup(units);
-            EnlistUnits(enlistableUnits);
+            EnlistUnits(units);
+            TrimUnitsToFitFormationSetting(Formation.CurrentSetting);
 
             AssignFormationPositions();
             SetFormationTarget(formationPosition);
 
-            return enlistableUnits;
+            return EnlistedUnits;
         }
 
         /// <summary>Removes given unit from the enlisted units  in this group</summary>
@@ -88,6 +88,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Called when the formation has been updated, it makes sure units move towards the new formation positions</summary>
         private void OnFormationUpdate(FormationSetting newSetting)
         {
+            TrimUnitsToFitFormationSetting(newSetting);
             ReAssignUnits();
             MoveUnitsInFormation();
         }
@@ -114,14 +115,13 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>
-        private List<Unit> TrimToFitGroup(List<Unit> units)
+        private void TrimUnitsToFitFormationSetting(FormationSetting setting)
         {
-            int trimCount = Mathf.Max(0, units.Count - Formation.CurrentSetting.Size);
+            int trimCount = Mathf.Max(0, EnlistedUnits.Count - setting.Size);
             for (int i = 0; i < trimCount; i++)
             {
-                units.RemoveAt(units.Count - 1);
+                EnlistedUnits.RemoveAt(EnlistedUnits.Count - 1);
             }
-            return units;
         }
     }
 }
