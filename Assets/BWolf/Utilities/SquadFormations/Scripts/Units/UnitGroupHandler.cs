@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Utilities.Flocking.Context;
+using BWolf.Utilities.SquadFormations.Flocking;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,12 +9,65 @@ namespace BWolf.Utilities.SquadFormations.Units
     /// <summary>class for handling the different groups that may be formed by the user</summary>
     public class UnitGroupHandler : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField]
         private GameObject prefabFormation = null;
+
+        [Header("Flock Settings/References")]
+        [SerializeField]
+        private SquadFlockBehaviour groupBehaviour = null;
+
+        [SerializeField]
+        private float driveFactor = 10f;
+
+        [SerializeField]
+        private float maxSpeed = 5f;
+
+        [SerializeField]
+        private float neighbourRadius = 3f;
+
+        [SerializeField]
+        private float avoidanceRadiusMultiplier = 0.75f;
+
+        [HideInInspector]
+        public Vector3 SquadVelocity;
+
+        public float SqrAvoidanceRadius { get; private set; }
+
+        private float sqrMaxSpeed;
 
         private static readonly Dictionary<int, UnitGroup> groups = new Dictionary<int, UnitGroup>();
 
         public static UnitGroup GetGroup(int id) => groups.ContainsKey(id) ? groups[id] : null;
+
+        private void Awake()
+        {
+            sqrMaxSpeed = maxSpeed * maxSpeed;
+            SqrAvoidanceRadius = (neighbourRadius * neighbourRadius) * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
+        }
+
+        private void Update()
+        {
+            List<Unit> flock;
+            foreach (UnitGroup group in groups.Values)
+            {
+                if (group.TryGetFlock(out flock))
+                {
+                    foreach (Unit unit in flock)
+                    {
+                        List<ContextItem> context = unit.GetContext(neighbourRadius);
+                        Vector3 step = groupBehaviour.CalculateStep(unit, context, this);
+                        step *= driveFactor;
+                        if (step.sqrMagnitude > sqrMaxSpeed)
+                        {
+                            step = step.normalized * maxSpeed;
+                        }
+                        step.y = 0; //make unit clamp position to navmesh using agent.sample navmeshpositoin
+                        unit.Flock(step);
+                    }
+                }
+            }
+        }
 
         /// <summary>Makes given unit leave the group he is in</summary>
         public static void LeaveFromGroup(Unit unit)

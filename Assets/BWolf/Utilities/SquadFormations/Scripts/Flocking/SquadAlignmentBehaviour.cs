@@ -1,14 +1,14 @@
-﻿using BWolf.Utilities.Flocking.Context;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BWolf.Utilities.Flocking.Context;
+using BWolf.Utilities.SquadFormations.Units;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking.Behaviours
+namespace BWolf.Utilities.SquadFormations.Flocking
 {
-    /// <summary>1 of the 3 main behaviours for flocking, making sure units move towards the same direction</summary>
-    [CreateAssetMenu(fileName = "AlignmentBehaviour", menuName = "FlockingBehaviours/Alignment")]
-    public class AlignmentBehaviour : FlockBehaviour
+    [CreateAssetMenu(fileName = "SquadAlignment", menuName = "SquadFlockingBehaviours/SquadAlignment")]
+    public class SquadAlignmentBehaviour : SquadFlockBehaviour
     {
-        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(Unit unit, List<ContextItem> context, UnitGroupHandler handler)
         {
             if (context.Count == 0)
             {

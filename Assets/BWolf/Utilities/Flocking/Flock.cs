@@ -1,4 +1,5 @@
 ﻿using BWolf.Utilities.Flocking.Behaviours;
+using BWolf.Utilities.Flocking.Context;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,10 +23,10 @@ namespace BWolf.Utilities.Flocking
         private float maxSpeed = 5f;
 
         [SerializeField]
-        private float neighborRadius = 1.5f;
+        private float neighbourRadius = 3f;
 
         [SerializeField]
-        private float avoidanceRadiusMultiplier = 0.5f;
+        private float avoidanceRadiusMultiplier = 0.75f;
 
         [Header("References")]
         [SerializeField]
@@ -44,15 +45,12 @@ namespace BWolf.Utilities.Flocking
         public Bounds FlockBounds { get; private set; }
 
         private List<FlockUnit> flockUnits = new List<FlockUnit>();
-
         private float sqrMaxSpeed;
-        private float sqrNeighborRadius;
 
         private void Awake()
         {
             sqrMaxSpeed = maxSpeed * maxSpeed;
-            sqrNeighborRadius = neighborRadius * neighborRadius;
-            SqrAvoidanceRadius = sqrNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
+            SqrAvoidanceRadius = (neighbourRadius * neighbourRadius) * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
 
             FlockBounds = terrainBound.bounds;
         }
@@ -77,7 +75,7 @@ namespace BWolf.Utilities.Flocking
         {
             foreach (FlockUnit unit in flockUnits)
             {
-                List<ContextItem> context = unit.GetContext(neighborRadius);
+                List<ContextItem> context = unit.GetContext(neighbourRadius);
                 Vector3 step = behaviour.CalculateStep(unit, context, this);
                 step *= driveFactor;
                 if (step.sqrMagnitude > sqrMaxSpeed)

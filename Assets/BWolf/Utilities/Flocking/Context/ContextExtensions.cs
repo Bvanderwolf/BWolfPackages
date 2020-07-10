@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Context
 {
     /// <summary>static class providing extensions for a list of context items</summary>
     public static class ContextExtensions

@@ -1,4 +1,4 @@
-﻿using BWolf.Utilities.Flocking;
+﻿using BWolf.Utilities.Flocking.Context;
 using System.Collections.Generic;
 using UnityEngine;
 

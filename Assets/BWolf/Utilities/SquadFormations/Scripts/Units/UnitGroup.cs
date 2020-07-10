@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BWolf.Utilities.Flocking.Context;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
@@ -119,6 +120,25 @@ namespace BWolf.Utilities.SquadFormations.Units
                 units.RemoveAt(units.Count - 1);
             }
             return units;
+        }
+
+        public bool TryGetFlock(out List<Unit> units)
+        {
+            units = null;
+
+            foreach (Unit u in EnlistedUnits)
+            {
+                if (u.Flockable)
+                {
+                    if (units == null)
+                    {
+                        units = new List<Unit>();
+                    }
+                    units.Add(u);
+                }
+            }
+
+            return units != null;
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using BWolf.Utilities.Flocking.Context;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BWolf.Utilities.Flocking.Context;
+using BWolf.Utilities.SquadFormations.Units;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking.Behaviours
+namespace BWolf.Utilities.SquadFormations.Flocking
 {
-    /// <summary>One of 3 main behaviours for flocking, making sure units don't collide with each other</summary>
-    [CreateAssetMenu(fileName = "SeperationBehaviour", menuName = "FlockingBehaviours/Seperation")]
-    public class SeperationBehaviour : FlockBehaviour
+    [CreateAssetMenu(fileName = "SquadSeperation", menuName = "SquadFlockingBehaviours/SquadSeperation")]
+    public class SquadSeperationBehaviour : SquadFlockBehaviour
     {
-        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(Unit unit, List<ContextItem> context, UnitGroupHandler handler)
         {
             if (context.Count == 0)
             {
@@ -22,7 +22,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
             foreach (ContextItem item in context.Filtered(1 << unit.gameObject.layer))
             {
                 Vector3 position = item.ContextTransform.position;
-                if ((position - unit.transform.position).sqrMagnitude < flock.SqrAvoidanceRadius)
+                if ((position - unit.transform.position).sqrMagnitude < handler.SqrAvoidanceRadius)
                 {
                     avoidNr++;
                     move += (unit.transform.position - position);

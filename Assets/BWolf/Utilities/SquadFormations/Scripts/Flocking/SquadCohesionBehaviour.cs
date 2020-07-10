@@ -1,14 +1,14 @@
 ﻿using BWolf.Utilities.Flocking.Context;
+using BWolf.Utilities.SquadFormations.Units;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.Flocking.Behaviours
+namespace BWolf.Utilities.SquadFormations.Flocking
 {
-    /// <summary>1 of the 3 main behaviours for flocking, making sure units are moving towards the group</summary>
-    [CreateAssetMenu(fileName = "CohesionBehaviour", menuName = "FlockingBehaviours/Cohesion")]
-    public class CohesionBehaviour : FlockBehaviour
+    [CreateAssetMenu(fileName = "SquadCohesion", menuName = "SquadFlockingBehaviours/SquadCohesion")]
+    public class SquadCohesionBehaviour : SquadFlockBehaviour
     {
-        public override Vector3 CalculateStep(FlockUnit unit, List<ContextItem> context, Flock flock)
+        public override Vector3 CalculateStep(Unit unit, List<ContextItem> context, UnitGroupHandler handler)
         {
             if (context.Count == 0)
             {
@@ -28,7 +28,7 @@ namespace BWolf.Utilities.Flocking.Behaviours
             move -= unit.transform.position;
 
             //damp move to prefent flickering
-            move = Vector3.SmoothDamp(unit.transform.forward, move, ref flock.Velocity, 0.5f);
+            move = Vector3.SmoothDamp(unit.transform.forward, move, ref handler.SquadVelocity, 0.5f);
 
             return move;
         }

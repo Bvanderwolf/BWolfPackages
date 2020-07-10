@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Utilities.Flocking
+namespace BWolf.Utilities.Flocking.Context
 {
     /// <summary>Representation of an item in a context</summary>
     public struct ContextItem
