@@ -75,7 +75,6 @@ namespace BWolf.Utilities.Flocking
 
         private void Update()
         {
-            Bounds bounds = terrainBound.bounds;
             foreach (FlockUnit unit in flockUnits)
             {
                 List<ContextItem> context = unit.GetContext(neighborRadius);
