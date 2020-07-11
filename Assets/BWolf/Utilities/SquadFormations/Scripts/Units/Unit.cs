@@ -7,6 +7,7 @@ using UnityEngine.AI;
 namespace BWolf.Utilities.SquadFormations.Units
 {
     /// <summary>Component representing a unit which can be assigned to a group</summary>
+    [RequireComponent(typeof(NavMeshAgent))]
     public class Unit : MonoBehaviour
     {
         [Header("Settings")]
