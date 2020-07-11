@@ -11,6 +11,19 @@ namespace BWolf.Utilities.SquadFormations.Units
         [SerializeField]
         private GameObject prefabFormationPosition = null;
 
+        [Header("Settings")]
+        [SerializeField]
+        private float minSpeed = 5f;
+
+        [SerializeField]
+        private float maxSpeed = 10f;
+
+        [SerializeField]
+        private float speedCapAtDistance = 10f;
+
+        [SerializeField]
+        private float prioritySpeedMultiplier = 0.5f;
+
         [Header("Formation Creation")]
         [SerializeField]
         private string formationName = null;
@@ -36,15 +49,16 @@ namespace BWolf.Utilities.SquadFormations.Units
             get { return new List<FormationSetting>(storedSettings); }
         }
 
-        private const float formationSpeed = 0.35f;
-
         private Vector3 targetPosition;
         private Vector3 startPosition;
 
         private Quaternion targetOrientation;
         private Quaternion startOrientation;
 
+        private float translateDistance;
+        private float translateSpeed;
         private float translateTime;
+        private float currentTranslateTime;
 
         private void Awake()
         {
@@ -73,16 +87,16 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private void FixedUpdate()
         {
-            if (translateTime != 1f)
+            if (currentTranslateTime != translateTime)
             {
-                //if translate time hasn't reached 1 it can be incremented based on speed
-                translateTime += Time.deltaTime * formationSpeed;
-                if (translateTime >= 1)
+                //if current translate time hasn't reached translateTime it can be incremented by time since last frame
+                currentTranslateTime += Time.deltaTime;
+                if (currentTranslateTime >= translateTime)
                 {
-                    translateTime = 1;
+                    currentTranslateTime = translateTime;
                 }
 
-                float translateDelta = translateTime / 1f;
+                float translateDelta = currentTranslateTime / translateTime;
                 //update position and rotation based on translate delta if start and target are not the same and target hasn't been reached yet
                 if (targetPosition != startPosition && transform.position != targetPosition)
                 {
@@ -97,15 +111,19 @@ namespace BWolf.Utilities.SquadFormations.Units
         }
 
         /// <summary>Sets the position and orientation target for this formation so it can linearly interpolate towards it</summary>
-        public void SetTarget(Vector3 position, Quaternion orientation)
+        public void SetTarget(Vector3 position)
         {
             targetPosition = position;
             startPosition = transform.position;
 
-            targetOrientation = orientation;
+            translateDistance = (targetPosition - startPosition).magnitude;
+            translateSpeed = Mathf.Lerp(minSpeed, maxSpeed, Mathf.Min(translateDistance, speedCapAtDistance) / speedCapAtDistance);
+            translateTime = translateDistance / translateSpeed;
+
+            targetOrientation = Quaternion.LookRotation(targetPosition - startPosition);
             startOrientation = transform.rotation;
 
-            translateTime = 0;
+            currentTranslateTime = 0;
         }
 
         /// <summary>creates a new formation positions adding it to the formation positions list aswell</summary>
@@ -233,7 +251,9 @@ namespace BWolf.Utilities.SquadFormations.Units
 
                 Unit closestUnit = ClosestUnitToFormationPosition(units.UnAssigned(), closestToCenter);
                 closestUnit.AssignPosition(closestToCenter);
-                closestUnit.AssignPriorityValue(assignments / (float)units.Count);
+
+                float perc = assignments / (float)units.Count;
+                closestUnit.AssignPrioritySpeed(minSpeed + ((translateSpeed * perc) * prioritySpeedMultiplier));
 
                 if (assignments == 0)
                 {

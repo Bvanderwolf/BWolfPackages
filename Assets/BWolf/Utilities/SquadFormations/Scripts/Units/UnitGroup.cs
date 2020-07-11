@@ -27,8 +27,8 @@ namespace BWolf.Utilities.SquadFormations.Units
             EnlistUnits(units);
             TrimUnitsToFitFormationSetting(Formation.CurrentSetting);
 
-            AssignFormationPositions();
             SetFormationTarget(formationPosition);
+            AssignFormationPositions();
 
             return EnlistedUnits;
         }
@@ -112,7 +112,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Moves formwation towards given waypoint rotating it in the direction the units have to walk </summary>
         private void SetFormationTarget(Vector3 waypoint)
         {
-            Formation.SetTarget(waypoint, Quaternion.LookRotation(waypoint - Commander.transform.position));
+            Formation.SetTarget(waypoint);
         }
 
         /// <summary>Trims given list of units to return a list that fits the group's formation size</summary>

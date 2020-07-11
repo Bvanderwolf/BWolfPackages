@@ -1,8 +1,6 @@
-﻿using BWolf.Utilities.Flocking.Context;
-using BWolf.Utilities.SquadFormations.Interactions;
+﻿using BWolf.Utilities.SquadFormations.Interactions;
 using BWolf.Utilities.SquadFormations.Selection;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,12 +10,6 @@ namespace BWolf.Utilities.SquadFormations.Units
     public class Unit : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField]
-        private float minSpeed = 3.5f;
-
-        [SerializeField]
-        private float maxSpeed = 5f;
-
         [SerializeField]
         private float rePathInterval = 1 / 60f;
 
@@ -36,6 +28,7 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private float rePathTime = 0;
         private float sqrMoveDistance;
+        private float defaultSpeed;
 
         private NavMeshAgent agent;
         private FormationPosition assignedPosition;
@@ -58,6 +51,8 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         private void Start()
         {
+            defaultSpeed = agent.speed;
+
             SetDefaultPriorityValues();
         }
 
@@ -98,10 +93,10 @@ namespace BWolf.Utilities.SquadFormations.Units
             AssignedGroupId = id;
         }
 
-        public void AssignPriorityValue(float perc)
+        public void AssignPrioritySpeed(float speed)
         {
-            float maxPrioritySpeed = maxSpeed - minSpeed;
-            agent.speed = minSpeed + maxPrioritySpeed * perc;
+            print(speed);
+            agent.speed = speed;
         }
 
         /// <summary>Called when an interaction has been done, it checks for move orders</summary>
@@ -160,7 +155,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Sets default values for a unit without a group</summary>
         private void SetDefaultPriorityValues()
         {
-            agent.speed = minSpeed;
+            agent.speed = defaultSpeed;
         }
     }
 }
