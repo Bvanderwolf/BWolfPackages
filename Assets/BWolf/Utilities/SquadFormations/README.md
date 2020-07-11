@@ -10,7 +10,7 @@ A small and concise package containing selection of units, ability to given unit
   - Selection Decal Handler: Makes sure there is a visual representation of unit selection and hovering
   - Unit Group Handler: Manages created groups of units 
   
- - Unit class using a nav mesh agent for pathfinding
+ - Unit class supporting solo and group movement using unity's nav mesh agent
  
  - UnitFormation creation using the unit formation prefab.
  
