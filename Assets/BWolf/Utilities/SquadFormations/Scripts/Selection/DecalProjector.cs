@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
+    /// <summary>Utility component for fake instancing the materials for the projector to make sure color changes are not applied to all materials</summary>
     public class DecalProjector : MonoBehaviour
     {
         [Header("References")]

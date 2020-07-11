@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>Editor script for creation of new unit formations using the Unit Formation MonoBehaviour</summary>
     [CustomEditor(typeof(UnitFormation))]
     public class UnitFormationEditor : Editor
     {

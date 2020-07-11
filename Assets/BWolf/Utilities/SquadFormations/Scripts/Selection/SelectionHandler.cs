@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
+    /// <summary>Component class for managing selection and hovering of entities in a scene</summary>
     public class SelectionHandler : MonoBehaviour
     {
         public static SelectionHandler Instance { get; private set; }
@@ -17,6 +18,9 @@ namespace BWolf.Utilities.SquadFormations.Selection
         private EventSystem mainEventSystem = null;
 
         [Header("Settings")]
+        [SerializeField]
+        private LayerMask selectableLayers;
+
         [SerializeField]
         private Color innerColor = Color.clear;
 
@@ -89,12 +93,14 @@ namespace BWolf.Utilities.SquadFormations.Selection
 
             if (Input.GetMouseButtonDown(0))
             {
+                //start selecting if the user puts the left mouse button
                 mousePositionStart = Input.mousePosition;
                 isSelecting = true;
             }
 
             if (Input.GetMouseButtonUp(0) && isSelecting)
             {
+                //finish selection if the left mouse button is released and the user was selecting
                 FinishSelection();
             }
         }
@@ -114,7 +120,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000f, LayerMask.GetMask("Entity")))
+            if (Physics.Raycast(ray, out hit, 1000f, selectableLayers.value))
             {
                 SelectableObject selectableObject = hit.collider.GetComponentInParent<SelectableObject>();
 

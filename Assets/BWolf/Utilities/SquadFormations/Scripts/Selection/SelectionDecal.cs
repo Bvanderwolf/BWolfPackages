@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
+    /// <summary>Component class for having selection and hover decals follow the assigned unit</summary>
     public class SelectionDecal : MonoBehaviour, ISelectionCallbacks
     {
         [Header("References")]

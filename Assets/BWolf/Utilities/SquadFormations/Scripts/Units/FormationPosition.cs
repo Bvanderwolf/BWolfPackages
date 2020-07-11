@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>Component class representing a position in a unit formation</summary>
     public class FormationPosition : MonoBehaviour
     {
         public bool Assigned { get; private set; }

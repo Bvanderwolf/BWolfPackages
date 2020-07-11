@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.SquadFormations.Units
 {
+    /// <summary>structure representing a setting a formation can be in</summary>
     [System.Serializable]
     public struct FormationSetting
     {

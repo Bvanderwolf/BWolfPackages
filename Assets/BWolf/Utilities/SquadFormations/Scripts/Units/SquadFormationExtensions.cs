@@ -19,6 +19,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return unAssigned;
         }
 
+        /// <summary>Returns an array containing the local/world positions of formation positions</summary>
         public static Vector3[] Points(this List<FormationPosition> positions, bool local)
         {
             Vector3[] points = new Vector3[positions.Count];
@@ -29,6 +30,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return points;
         }
 
+        /// <summary>Returns the center point of given list of formation positions</summary>
         public static Vector3 Center(this List<FormationPosition> positions)
         {
             Vector3 center = Vector3.zero;
@@ -39,6 +41,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return center / positions.Count;
         }
 
+        /// <summary>Tries outputting a setting with given name. Returns whether it was succesfull or not</summary>
         public static bool GetSettingWithName(this List<FormationSetting> settings, string name, out FormationSetting setting)
         {
             for (int i = 0; i < settings.Count; i++)
@@ -54,6 +57,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return false;
         }
 
+        /// <summary>Returns whether a setting with given name is in this list</summary>
         public static bool HasSettingWithName(this List<FormationSetting> settings, string name)
         {
             for (int i = 0; i < settings.Count; i++)
@@ -67,6 +71,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             return false;
         }
 
+        /// <summary>Removes the first occurence of a setting with given name in this list</summary>
         public static void RemoveSetttingWithName(this List<FormationSetting> settings, string name)
         {
             for (int i = settings.Count - 1; i >= 0; i--)
@@ -79,6 +84,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Returns the setting with the largest amount of formation positions in it</summary>
         public static FormationSetting Largest(this List<FormationSetting> settings)
         {
             if (settings.Count == 0) { return default; }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
+    /// <summary>Component class managing selectin decals to be used on selected/hovered units</summary>
     public class SelectionDecalHandler : MonoBehaviour
     {
         [SerializeField]
@@ -11,12 +12,13 @@ namespace BWolf.Utilities.SquadFormations.Selection
 
         private List<SelectionDecal> selectionDecals = new List<SelectionDecal>();
 
+        /// <summary>Assigns a decal to given selectable object</summary>
         public void AssignSelectionDecal(SelectableObject selectableObject)
         {
-            SelectionDecal decal = GetDecal();
-            decal.Setup(selectableObject);
+            GetDecal().Setup(selectableObject);
         }
 
+        /// <summary>Retracts the decal managing the given selectable object</summary>
         public void RetractSelectionDecal(SelectableObject selectable)
         {
             foreach (SelectionDecal decal in selectionDecals)
@@ -29,6 +31,7 @@ namespace BWolf.Utilities.SquadFormations.Selection
             }
         }
 
+        /// <summary>Returns a decal, either stored on instantiated</summary>
         private SelectionDecal GetDecal()
         {
             SelectionDecal decal = selectionDecals.FirstOrDefault(s => !s.gameObject.activeInHierarchy);

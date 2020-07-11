@@ -48,6 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   mainEventSystem: {fileID: 0}
+  selectableLayers:
+    serializedVersion: 2
+    m_Bits: 2048
   innerColor: {r: 0, g: 0, b: 0, a: 0}
   borderColor: {r: 0.22988607, g: 0.7735849, b: 0.27467498, a: 1}
   borderThickness: 5
@@ -91,9 +94,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabFormation: {fileID: 8156648965065380666, guid: 49e100b97775e3941814a615b6ef755a,
     type: 3}
-  groupBehaviour: {fileID: 11400000, guid: 935fe0069a1838242b55b5752d8ff4fd, type: 2}
-  driveFactor: 10
-  maxSpeed: 5
-  neighbourRadius: 2
-  avoidanceRadiusMultiplier: 0.75
-  SquadVelocity: {x: 0, y: 0, z: 0}

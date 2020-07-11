@@ -35,6 +35,7 @@ namespace BWolf.Utilities.SquadFormations.Units
         private NavMeshAgent agent;
         private FormationPosition assignedPosition;
 
+        /// <summary>The assigned position of this unit. Setting this will also modify how the agent's rotation is updated</summary>
         public FormationPosition AssignedPosition
         {
             get { return assignedPosition; }
@@ -156,6 +157,7 @@ namespace BWolf.Utilities.SquadFormations.Units
             }
         }
 
+        /// <summary>Sets IsAtAssignedPosition and returns its value</summary>
         private bool CheckIfAtAssignedPosition()
         {
             IsAtAssignedPosition = (assignedPosition.Point(false) - transform.position).sqrMagnitude < 0.1f;
