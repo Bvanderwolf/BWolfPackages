@@ -20,6 +20,8 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Id of group this unit is assigned to. Is -1 if the unit is not part of a group</summary>
         public int AssignedGroupId { get; private set; } = -1;
 
+        public bool IsAtAssignedPosition { get; private set; }
+
         /// <summary>Is this unit assigned a position in a group</summary>
         public bool IsAssignedAPosition
         {
@@ -66,7 +68,11 @@ namespace BWolf.Utilities.SquadFormations.Units
             if (IsAssignedAPosition)
             {
                 RotateTowardsFormationOrientation();
-                CheckRepath();
+
+                if (!CheckIfAtAssignedPosition())
+                {
+                    CheckRepath();
+                }
             }
         }
 
@@ -95,7 +101,6 @@ namespace BWolf.Utilities.SquadFormations.Units
 
         public void AssignPrioritySpeed(float speed)
         {
-            print(speed);
             agent.speed = speed;
         }
 
@@ -143,13 +148,18 @@ namespace BWolf.Utilities.SquadFormations.Units
         /// <summary>Checks wether the agents destination can be re-set to the assigned position</summary>
         private void CheckRepath()
         {
-            if ((assignedPosition.Point(false) - transform.position).sqrMagnitude < 0.1f) { return; }
             rePathTime += Time.deltaTime;
             if (rePathTime >= rePathInterval)
             {
                 MoveTowardsAssignedPosition();
                 rePathTime = 0;
             }
+        }
+
+        private bool CheckIfAtAssignedPosition()
+        {
+            IsAtAssignedPosition = (assignedPosition.Point(false) - transform.position).sqrMagnitude < 0.1f;
+            return IsAtAssignedPosition;
         }
 
         /// <summary>Sets default values for a unit without a group</summary>

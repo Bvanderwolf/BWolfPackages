@@ -83,7 +83,10 @@ namespace BWolf.Utilities.SquadFormations.Units
             Commander = Formation.AssignUnits(EnlistedUnits);
             Commander.OnGroupOrder += OnGroupOrder;
 
-            Formation.transform.position = Commander.transform.position;
+            if (!Commander.IsAtAssignedPosition)
+            {
+                Formation.transform.position = Commander.transform.position;
+            }
         }
 
         /// <summary>Called when the formation has been updated, it makes sure units move towards the new formation positions</summary>
