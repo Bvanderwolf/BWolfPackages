@@ -1,4 +1,4 @@
-# SingletonBehaviour class for easy use of the singleton pattern in unity
+# SingletonBehaviour for easy use of the singleton pattern in Unity
 
 provides singleton functionality using inheritance to provide the monobehaviour tools like coroutines
 
