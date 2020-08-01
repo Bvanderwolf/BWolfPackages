@@ -1,4 +1,8 @@
-﻿namespace BWolf.Utilities.LerpValue
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Utilities.LerpValue
 {
     /// <summary>Representation of lerp values</summary>
     public struct LerpValue<T> where T : struct
