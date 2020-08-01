@@ -11,3 +11,5 @@ This class was heavily inspired by a blog post and a github project
 
 this class uses lazy initialization. A feature in C# explained here:
 https://docs.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization 
+
+You can download the UnityPackage here: https://drive.google.com/file/d/1EVlhAtmSM5FUpVh2AwKruheKZmt620G7/view?usp=sharing
