@@ -168,7 +168,7 @@ namespace BWolf.Games.PutUnder
             charging = true;
 
             LerpValue<float> fill = new LerpValue<float>(0, 1, time);
-            while (!fill.IncrementTime(Time.deltaTime))
+            while (fill.Continue(Time.deltaTime))
             {
                 imgCharge.fillAmount = Mathf.Lerp(fill.Start, fill.End, fill.Perc);
                 yield return null;

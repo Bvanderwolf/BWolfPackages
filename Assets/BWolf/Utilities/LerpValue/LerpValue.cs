@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 namespace BWolf.Utilities.LerpValue
@@ -31,13 +31,13 @@ namespace BWolf.Utilities.LerpValue
         }
 
         /// <summary>
-        /// Returns if current time has reached time value. Increments current time by t if this is not the case
+        /// Returns if current time hasn't reached stored "Time" value. Increments current time by t if this is the case
         /// </summary>
-        public bool IncrementTime(float t)
+        public bool Continue(float t)
         {
             if (currentTime == Time)
             {
-                return true;
+                return false;
             }
 
             currentTime += t;
@@ -46,7 +46,7 @@ namespace BWolf.Utilities.LerpValue
                 currentTime = Time;
             }
 
-            return false;
+            return true;
         }
     }
 }
