@@ -2,6 +2,9 @@
 // Version: 1.1
 //----------------------------------
 
+using System;
+using UnityEngine;
+
 namespace BWolf.Utilities.LerpValue
 {
     /// <summary>Representation of lerp values</summary>
@@ -12,12 +15,13 @@ namespace BWolf.Utilities.LerpValue
         public readonly float Time;
 
         private float currentTime;
+        private LerpSetting setting;
 
         public float Perc
         {
             get
             {
-                return currentTime / Time;
+                return setting(currentTime, Time);
             }
         }
 
@@ -26,7 +30,18 @@ namespace BWolf.Utilities.LerpValue
             Start = start;
             End = end;
             Time = time;
+            setting = LerpSettings.Default;
 
+            this.currentTime = currentTime;
+        }
+
+        public LerpValue(T start, T end, float time, LerpSetting setting, float currentTime = 0)
+        {
+            Start = start;
+            End = end;
+            Time = time;
+
+            this.setting = setting;
             this.currentTime = currentTime;
         }
 
@@ -49,4 +64,13 @@ namespace BWolf.Utilities.LerpValue
             return true;
         }
     }
+
+    public static class LerpSettings
+    {
+        public readonly static LerpSetting Default = (c, t) => c / t;
+        public readonly static LerpSetting Sine = (c, t) => Mathf.Sin(c / t * Mathf.PI * 0.5f);
+        public readonly static LerpSetting Cosine = (c, t) => 1f - Mathf.Cos(c / t * Mathf.PI * 0.5f);
+    }
+
+    public delegate float LerpSetting(float current, float time);
 }
