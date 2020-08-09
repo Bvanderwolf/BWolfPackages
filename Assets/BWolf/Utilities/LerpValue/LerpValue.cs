@@ -1,8 +1,7 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
-using System;
 using UnityEngine;
 
 namespace BWolf.Utilities.LerpValue
