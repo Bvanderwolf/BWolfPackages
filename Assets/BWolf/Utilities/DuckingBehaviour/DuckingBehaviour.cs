@@ -95,7 +95,7 @@ namespace BWolf.Utilities.DuckingBehaviour
                 //if duckoffset is not zero, continue moving towards end position
                 if (move.Continue(Time.deltaTime))
                 {
-                    duckTransform.localPosition = Vector3.Lerp(move.Start, move.End, move.Perc);
+                    duckTransform.localPosition = Vector3.Lerp(move.start, move.end, move.perc);
                 }
 
                 if (duckTransform.localPosition == startLocalPosition)
