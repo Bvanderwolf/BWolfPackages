@@ -1,0 +1,13 @@
+# PingPongValue 
+
+a compact and simple way to store and use values for pingpong operations
+
+## Contains options for
+
+- min and max values (including negative values for min)
+- ping pong count 
+- a percentage to start from in pingponging
+- an example showing a shaking cube
+
+You can download the UnityPackage here: 
+
