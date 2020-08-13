@@ -4,7 +4,7 @@
 
 using UnityEngine;
 
-namespace BWolf.Utilities.LerpValue
+namespace BWolf.Utilities
 {
     /// <summary>Representation of lerp values</summary>
     public struct LerpValue<T> where T : struct

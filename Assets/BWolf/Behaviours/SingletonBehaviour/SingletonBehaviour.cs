@@ -5,7 +5,7 @@
 using System;
 using UnityEngine;
 
-namespace BWolf.Utilities.SingletonBehaviour
+namespace BWolf.Behaviours.SingletonBehaviour
 {
     /// <summary>
     /// A singleton class to be derived from by monobehaviours to make use of the singleton functionality but keep monobehaviour functionalities like coroutines

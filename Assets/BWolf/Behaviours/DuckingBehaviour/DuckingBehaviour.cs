@@ -2,10 +2,10 @@
 // Version: 1.0
 //----------------------------------
 
-using BWolf.Utilities.LerpValue;
+using BWolf.Utilities;
 using UnityEngine;
 
-namespace BWolf.Utilities.DuckingBehaviour
+namespace BWolf.Behaviours.DuckingBehaviour
 {
     public class DuckingBehaviour : MonoBehaviour
     {
@@ -37,6 +37,8 @@ namespace BWolf.Utilities.DuckingBehaviour
         private LerpValue<Vector3> move;
         private LerpSetting duckSetting;
 
+        private PingPongValue testvalue;
+
         private void Start()
         {
             if (duckTransform == null)
@@ -61,6 +63,8 @@ namespace BWolf.Utilities.DuckingBehaviour
 
             duckOffsetVector = duckTransform.localPosition + Vector3.down * duckOffset;
             startLocalPosition = duckTransform.localPosition;
+
+            testvalue = new PingPongValue(-1, 1, 2);
         }
 
         private void Update()
@@ -77,6 +81,11 @@ namespace BWolf.Utilities.DuckingBehaviour
             if (!updateInFixedFrames)
             {
                 Duck();
+            }
+
+            if (testvalue.Continue(Time.deltaTime))
+            {
+                print(testvalue.value);
             }
         }
 
