@@ -5,7 +5,7 @@
 using BWolf.Utilities;
 using UnityEngine;
 
-namespace BWolf.Behaviours.DuckingBehaviour
+namespace BWolf.Behaviours
 {
     public class DuckingBehaviour : MonoBehaviour
     {
