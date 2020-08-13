@@ -36,8 +36,7 @@ namespace BWolf.Behaviours.DuckingBehaviour
 
         private LerpValue<Vector3> move;
         private LerpSetting duckSetting;
-
-        private PingPongValue testvalue;
+        private bool canDuck;
 
         private void Start()
         {
@@ -63,8 +62,6 @@ namespace BWolf.Behaviours.DuckingBehaviour
 
             duckOffsetVector = duckTransform.localPosition + Vector3.down * duckOffset;
             startLocalPosition = duckTransform.localPosition;
-
-            testvalue = new PingPongValue(-1, 1, 2);
         }
 
         private void Update()
@@ -76,16 +73,12 @@ namespace BWolf.Behaviours.DuckingBehaviour
                 //start new lerp movement when ducking is started on stopped
                 duckOffsetStart = duckTransform.localPosition;
                 move = new LerpValue<Vector3>(duckOffsetStart, duck ? duckOffsetVector : startLocalPosition, duckTime, duckSetting);
+                canDuck = true;
             }
 
             if (!updateInFixedFrames)
             {
                 Duck();
-            }
-
-            if (testvalue.Continue(Time.deltaTime))
-            {
-                print(testvalue.value);
             }
         }
 
@@ -99,9 +92,9 @@ namespace BWolf.Behaviours.DuckingBehaviour
 
         private void Duck()
         {
-            if (duckOffsetStart != Vector3.zero)
+            if (canDuck)
             {
-                //if duckoffset is not zero, continue moving towards end position
+                //if we can duck, linearly interpolate towards end position
                 if (move.Continue(Time.deltaTime))
                 {
                     duckTransform.localPosition = Vector3.Lerp(move.start, move.end, move.perc);
@@ -109,8 +102,8 @@ namespace BWolf.Behaviours.DuckingBehaviour
 
                 if (duckTransform.localPosition == startLocalPosition)
                 {
-                    //if the localposition of the object is back to start, set duckofsetstart to zero
-                    duckOffsetStart = Vector3.zero;
+                    //if the localposition of the object is back to start, stop ducking
+                    canDuck = false;
                 }
             }
         }
