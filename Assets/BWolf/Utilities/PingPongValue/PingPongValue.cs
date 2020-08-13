@@ -13,13 +13,15 @@ namespace BWolf.Utilities
 
         private float currentTime;
         private float time;
+
         private bool positiveMin;
+        private float minMaxDifference;
 
         public float value
         {
             get
             {
-                return positiveMin ? min + Mathf.PingPong(currentTime, max) : min + Mathf.PingPong(currentTime, Mathf.Abs(min) + Mathf.Abs(max));
+                return positiveMin ? min + Mathf.PingPong(currentTime, max) : min + Mathf.PingPong(currentTime, minMaxDifference);
             }
         }
 
@@ -30,9 +32,9 @@ namespace BWolf.Utilities
 
             positiveMin = min >= 0;
 
-            float diff = Mathf.Abs(min) + Mathf.Abs(max);
-            currentTime = startPerc * diff;
-            time = ((count * 2f) * diff) + currentTime;
+            minMaxDifference = Mathf.Abs(min) + Mathf.Abs(max);
+            currentTime = startPerc * minMaxDifference;
+            time = ((count * 2f) * minMaxDifference) + currentTime;
         }
 
         /// <summary>
