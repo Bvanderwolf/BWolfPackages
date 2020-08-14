@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using UnityEngine;
