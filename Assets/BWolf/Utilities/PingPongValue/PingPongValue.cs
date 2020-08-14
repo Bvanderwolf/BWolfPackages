@@ -14,25 +14,37 @@ namespace BWolf.Utilities
         private float currentTime;
         private float time;
 
-        private bool positiveMin;
         private float minMaxDifference;
 
         public float value
         {
             get
             {
-                return positiveMin ? min + Mathf.PingPong(currentTime, max) : min + Mathf.PingPong(currentTime, minMaxDifference);
+                return min + Mathf.PingPong(currentTime, minMaxDifference);
             }
         }
 
+        /// <summary>Creates a new pingpong value object with a mininum value and a max value, a pingpong count and an optional
+        /// start perc at which the value should start</summary>
         public PingPongValue(float min, float max, int count, float startPerc = 0)
         {
+            if (min > max)
+            {
+                throw new System.Exception($"min: {min} is greater than max: {max} :: this is not intended!");
+            }
+
             this.min = min;
             this.max = max;
 
-            positiveMin = min >= 0;
+            if (min < 0 && max > 0)
+            {
+                minMaxDifference = Mathf.Abs(min - max);
+            }
+            else
+            {
+                minMaxDifference = max - min;
+            }
 
-            minMaxDifference = Mathf.Abs(min) + Mathf.Abs(max);
             currentTime = startPerc * minMaxDifference;
             time = ((count * 2f) * minMaxDifference) + currentTime;
         }
