@@ -19,6 +19,7 @@ Packages created as i learn and start to understand more about unity and the csh
   - [Squad Formations](https://github.com/Bvanderwolf/BWolfPackages/blob/master/Assets/BWolf/Utilities/SquadFormations)
   - [LerpValue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/LerpValue)
   - [PingPongValue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PingPongValue)
+  - [InputManager](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/InputManager)
 
 
 ## Packages currently working on
