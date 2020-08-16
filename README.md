@@ -22,5 +22,5 @@ Packages created as i learn and start to understand more about unity and the csh
   - [InputManager](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/InputManager)
 
 
-## Packages currently working on
-no packages are currently in the working for now.
+## Large Packages currently working on
+no packages are currently in the working for now. (Working on small/compact packages right now)
