@@ -15,6 +15,8 @@ namespace BWolf.Utilities
         private float currentTime;
         private LerpSetting setting;
         private float time;
+        private float speed;
+        private bool fixedDelta;
 
         public float perc
         {
@@ -24,36 +26,41 @@ namespace BWolf.Utilities
             }
         }
 
-        public LerpValue(T start, T end, float time, float currentTime = 0)
+        public LerpValue(T start, T end, float time) : this(start, end, time, 1f, LerpSettings.Default, 0f, false)
         {
-            this.start = start;
-            this.end = end;
-            this.time = time;
-            this.currentTime = currentTime;
-
-            setting = LerpSettings.Default;
         }
 
-        public LerpValue(T start, T end, float time, LerpSetting setting, float currentTime = 0)
+        public LerpValue(T start, T end, float time, float speed) : this(start, end, time, speed, LerpSettings.Default, 0f, false)
+        {
+        }
+
+        public LerpValue(T start, T end, float time, float speed, LerpSetting setting) : this(start, end, time, speed, setting, 0f, false)
+        {
+        }
+
+        public LerpValue(T start, T end, float time, float speed, LerpSetting setting, float startPerc = 0f, bool fixedDelta = false)
         {
             this.start = start;
             this.end = end;
             this.time = time;
+            this.speed = speed;
             this.setting = setting;
-            this.currentTime = currentTime;
+            this.fixedDelta = fixedDelta;
+
+            currentTime = time * Mathf.Clamp01(startPerc);
         }
 
         /// <summary>
-        /// Returns if current time hasn't reached stored "time" value. Increments current time by delta if this is the case
+        /// Returns if current time hasn't reached stored "time" value. Increments current time if this is the case
         /// </summary>
-        public bool Continue(float delta)
+        public bool Continue()
         {
             if (currentTime == time)
             {
                 return false;
             }
 
-            currentTime += delta;
+            currentTime += (!fixedDelta ? Time.deltaTime : Time.fixedDeltaTime) * speed;
             if (currentTime > time)
             {
                 currentTime = time;
