@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using BWolf.Utilities;
@@ -95,7 +95,7 @@ namespace BWolf.Behaviours
             if (canDuck)
             {
                 //if we can duck, linearly interpolate towards end position
-                if (move.Continue(Time.deltaTime))
+                if (move.Continue())
                 {
                     duckTransform.localPosition = Vector3.Lerp(move.start, move.end, move.perc);
                 }

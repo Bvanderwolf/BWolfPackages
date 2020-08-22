@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.3
+// Version: 1.4
 //----------------------------------
 
 using UnityEngine;
@@ -31,6 +31,10 @@ namespace BWolf.Utilities
         }
 
         public LerpValue(T start, T end, float time, float speed) : this(start, end, time, speed, LerpSettings.Default, 0f, false)
+        {
+        }
+
+        public LerpValue(T start, T end, float time, LerpSetting setting) : this(start, end, time, 1f, setting, 0f, false)
         {
         }
 
