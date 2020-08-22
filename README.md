@@ -8,8 +8,8 @@ Packages created as i learn and start to understand more about unity and the csh
   - [Photon SDK Wrapper V1](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Wrappers/PhotonSDK)
   
 ### Behaviours
-  - [SingletonBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SingletonBehaviour)
-  - [DuckingBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/DuckingBehaviour)
+  - [SingletonBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Behaviours/SingletonBehaviour)
+  - [DuckingBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Behaviurs/DuckingBehaviour)
   - [ShakeBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Behaviours/ShakeBehaviour)
   
 ### Utilities
