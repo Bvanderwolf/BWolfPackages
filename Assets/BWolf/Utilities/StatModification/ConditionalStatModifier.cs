@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using System;
@@ -13,6 +13,9 @@ namespace BWolf.Utilities.StatModification
     {
         [SerializeField, Min(0), Tooltip("The amount of value this modifier will modify each second while active")]
         private int valuePerSecond = 0;
+
+        /// <summary>Default condition that will, when added to a system, run the modifier until infinity</summary>
+        public readonly static Func<bool> DefaultCondition = () => false;
 
         private Func<bool> stopCondition;
 
@@ -31,15 +34,16 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>
-        /// Creates a new instance of a conditinal stat modifier
+        /// Creates a new instance of a conditinal stat modifier using all available options
         /// </summary>
         /// <param name="name">used for comparing modifiers</param>
         /// <param name="valuePerSecond">The amount of value this modifier will modify each second while active</param>
         /// <param name="increase">Will this modifier increase stat or decrease</param>
         /// <param name="modifiesCurrent">Will this modifier modify current value or max value?</param>
+        /// <param name="modifiesCurrentWithMax">Does current value change when max value has changed?</param>
         /// <param name="canStack">Can this modifier stack with modifiers with the same name?</param>
         /// <param name="stopCondition">The condition on which this stat modifier needs to stop modifying</param>
-        public ConditionalStatModifier(string name, int valuePerSecond, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax, bool canStack, Func<bool> stopCondition = null)
+        public ConditionalStatModifier(string name, int valuePerSecond, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax, bool canStack, Func<bool> stopCondition)
         {
             this.name = name;
             this.valuePerSecond = valuePerSecond;
@@ -47,15 +51,56 @@ namespace BWolf.Utilities.StatModification
             this.modifiesCurrent = modifiesCurrent;
             this.modifiesCurrentWithMax = modifiesCurrentWithMax;
             this.canStack = canStack;
+            this.stopCondition = stopCondition ?? DefaultCondition;
+        }
 
-            if (stopCondition != null)
-            {
-                this.stopCondition = stopCondition;
-            }
-            else
-            {
-                this.stopCondition = () => false;
-            }
+        /// <summary>
+        /// Creates new instance of a timed stat modifier using the default "ConditionalStatModifier.DefaultCondition" condition
+        /// </summary>
+        /// <param name="name">used for comparing modifiers</param>
+        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
+        /// <param name="value">The ammount of value it will modify over given amount of time</param>
+        /// <param name="increase">Will this modifier increase stat or decrease</param>
+        public ConditionalStatModifier(string name, int valuePerSecond, bool increase) : this(name, valuePerSecond, increase, true, false, false, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates new instance of a timed stat modifier using a stopcondition
+        /// </summary>
+        /// <param name="name">used for comparing modifiers</param>
+        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
+        /// <param name="value">The ammount of value it will modify over given amount of time</param>
+        /// <param name="increase">Will this modifier increase stat or decrease</param>
+        /// <param name="canStack">Can this modifier stack with modifiers with the same name?</param>
+        public ConditionalStatModifier(string name, int valuePerSecond, bool increase, Func<bool> stopCondition) : this(name, valuePerSecond, increase, true, false, false, stopCondition)
+        {
+        }
+
+        /// <summary>
+        /// Creates new instance of a timed stat modifier using the default "ConditionalStatModifier.DefaultCondition" condition
+        /// </summary>
+        /// <param name="name">used for comparing modifiers</param>
+        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
+        /// <param name="value">The ammount of value it will modify over given amount of time</param>
+        /// <param name="increase">Will this modifier increase stat or decrease</param>
+        /// <param name="modifiesCurrent">Will this modifier modify current value or max value?</param>
+        /// <param name="modifiesCurrentWithMax">Does current value change when max value has changed?</param>
+        public ConditionalStatModifier(string name, int valuePerSecond, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax = false) : this(name, valuePerSecond, increase, modifiesCurrent, modifiesCurrentWithMax, false, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates new instance of a timed stat modifier using a stopcondition
+        /// </summary>
+        /// <param name="name">used for comparing modifiers</param>
+        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
+        /// <param name="value">The ammount of value it will modify over given amount of time</param>
+        /// <param name="increase">Will this modifier increase stat or decrease</param>
+        /// <param name="modifiesCurrent">Will this modifier modify current value or max value?</param>
+        /// <param name="modifiesCurrentWithMax">Does current value change when max value has changed?</param>
+        public ConditionalStatModifier(string name, int valuePerSecond, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax, Func<bool> stopCondition) : this(name, valuePerSecond, increase, modifiesCurrent, modifiesCurrentWithMax, false, stopCondition)
+        {
         }
 
         /// <summary>Sets given condition as to when to stop this modifier</summary>
