@@ -1,6 +1,6 @@
 # Agent Commands
 
-Generic utitlity scripts for commanding nav mesh agent controlled game objects
+Generic utility scripts for commanding nav mesh agent controlled game objects
 
 ## Design Patterns
 
