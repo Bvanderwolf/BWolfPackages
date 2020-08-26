@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
 
-namespace BWolf.Utilities.PluggableStates
+using UnityEngine;
+
+namespace BWolf.Utilities.PluggableStateMachine
 {
     /// <summary>Base condition for a state controlled object to transition to a new state</summary>
     public abstract class Condition : ScriptableObject

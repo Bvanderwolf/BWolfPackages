@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.1
+//----------------------------------
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace BWolf.Utilities.AgentCommands
 {
+    [RequireComponent(typeof(NavMeshAgent))]
     public class Agent : MonoBehaviour
     {
         public ICommand CurrentCommand { get; private set; }

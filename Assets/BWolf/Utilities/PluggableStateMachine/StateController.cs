@@ -1,7 +1,10 @@
-﻿using BWolf.Utilities.AgentCommands;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
 using UnityEngine;
 
-namespace BWolf.Utilities.PluggableStates
+namespace BWolf.Utilities.PluggableStateMachine
 {
     public class StateController : MonoBehaviour
     {

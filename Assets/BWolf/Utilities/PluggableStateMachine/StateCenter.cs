@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
 
-namespace BWolf.Utilities.PluggableStates
+using UnityEngine;
+
+namespace BWolf.Utilities.PluggableStateMachine
 {
     /// <summary>Container/Manager class for States controlled by the state controller</summary>
     [CreateAssetMenu(fileName = "StateCenter", menuName = "AgentStateControl/StateCenter")]

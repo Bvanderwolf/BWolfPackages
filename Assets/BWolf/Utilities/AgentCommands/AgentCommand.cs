@@ -1,4 +1,8 @@
-﻿namespace BWolf.Utilities.AgentCommands
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Utilities.AgentCommands
 {
     /// <summary>Base command used by agent behaviours</summary>
     public abstract class AgentCommand : ICommand

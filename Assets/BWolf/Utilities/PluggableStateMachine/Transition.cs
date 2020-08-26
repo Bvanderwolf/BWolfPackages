@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
 
-namespace BWolf.Utilities.PluggableStates
+using UnityEngine;
+
+namespace BWolf.Utilities.PluggableStateMachine
 {
     /// <summary>Structure representing a transition that can be made to a state based on a condition</summary>
     [System.Serializable]

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using System.Collections.Generic;
 
 namespace BWolf.Utilities.AgentCommands
 {
