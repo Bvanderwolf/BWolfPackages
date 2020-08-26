@@ -98,7 +98,7 @@ Projector:
   m_Material: {fileID: 0}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
 --- !u!114 &2579323573284524700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +163,7 @@ Projector:
   m_Material: {fileID: 0}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
 --- !u!114 &2579323573411658508
 MonoBehaviour:
   m_ObjectHideFlags: 0
