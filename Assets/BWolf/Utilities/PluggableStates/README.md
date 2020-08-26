@@ -1,6 +1,6 @@
 # Pluggable StateMachine
 
-Generic Utility scripts for creation of a pluggable state based statemachine.
+Generic Utility scripts for creation of a statemachine with dynamic pluggable states.
 
 This package is heavily influenced by [Unity's Pluggable AI Tutorial](https://learn.unity.com/tutorial/5c515373edbc2a001fd5c79d#5c7f8528edbc2a002053b487 )
 
