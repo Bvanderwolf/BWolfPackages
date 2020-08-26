@@ -1,6 +1,6 @@
 ﻿using BWolf.Utilities.AgentCommands;
 
-namespace BWolf.Examples.RealTimeStrategy
+namespace BWolf.Examples.AgentCommands
 {
     public class PickupCommand : CompositeCommand
     {

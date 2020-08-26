@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace BWolf.Utilities.AgentCommands
 {
-    public class Agent : MonoBehaviour, ICommandControlled
+    public class Agent : MonoBehaviour
     {
         public ICommand CurrentCommand { get; private set; }
 

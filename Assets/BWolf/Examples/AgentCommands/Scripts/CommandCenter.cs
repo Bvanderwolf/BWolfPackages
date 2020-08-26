@@ -2,7 +2,7 @@
 using BWolf.Utilities.AgentCommands;
 using UnityEngine;
 
-namespace BWolf.Examples.RealTimeStrategy
+namespace BWolf.Examples.AgentCommands
 {
     public class CommandCenter : SingletonBehaviour<CommandCenter>
     {
@@ -30,7 +30,6 @@ namespace BWolf.Examples.RealTimeStrategy
                     switch (LayerMask.LayerToName(hit.transform.gameObject.layer))
                     {
                         case "Terrain":
-                            print("test");
                             CreateMoveCommand(hit.point);
                             break;
 
