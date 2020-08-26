@@ -12,7 +12,7 @@ namespace BWolf.Utilities.AgentCommands
             Agent = agent;
         }
 
-        public Agent Agent { get; private set; }
+        public readonly Agent Agent;
 
         public abstract void Excecute();
 
