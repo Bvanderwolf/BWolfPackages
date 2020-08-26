@@ -30,6 +30,7 @@ namespace BWolf.Examples.RealTimeStrategy
                     switch (LayerMask.LayerToName(hit.transform.gameObject.layer))
                     {
                         case "Terrain":
+                            print("test");
                             CreateMoveCommand(hit.point);
                             break;
 
