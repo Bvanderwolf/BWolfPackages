@@ -2,7 +2,7 @@
 using BWolf.Utilities.AgentCommands;
 using UnityEngine;
 
-namespace BWolf.Examples.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     public class CommandCenter : SingletonBehaviour<CommandCenter>
     {

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using BWolf.Utilities.AgentCommands;
+using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Utilities.PluggableStates
 {
     public class StateController : MonoBehaviour
     {
@@ -12,17 +13,9 @@ namespace BWolf.Utilities.AgentCommands
         [SerializeField]
         private State current = null;
 
-        private Agent agent;
-
-        public ICommand CurrentCommand
-        {
-            get { return agent.CurrentCommand; }
-        }
-
         private void Awake()
         {
             current = stateCenter.Default;
-            agent = GetComponent<Agent>();
         }
 
         private void Update()

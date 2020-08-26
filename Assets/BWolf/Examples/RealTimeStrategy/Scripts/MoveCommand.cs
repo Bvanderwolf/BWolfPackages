@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using BWolf.Utilities.AgentCommands;
+using UnityEngine;
 using UnityEngine.AI;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     /// <summary>Move command for an agent to move towards a location on a nav mesh</summary>
     public class MoveCommand : AgentCommand

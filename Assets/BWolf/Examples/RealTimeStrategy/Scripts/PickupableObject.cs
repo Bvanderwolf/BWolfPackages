@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     public abstract class PickupableObject : MonoBehaviour, IPickupable
     {

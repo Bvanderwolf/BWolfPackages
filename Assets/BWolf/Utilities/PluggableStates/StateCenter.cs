@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Utilities.PluggableStates
 {
     /// <summary>Container/Manager class for States controlled by the state controller</summary>
     [CreateAssetMenu(fileName = "StateCenter", menuName = "AgentStateControl/StateCenter")]

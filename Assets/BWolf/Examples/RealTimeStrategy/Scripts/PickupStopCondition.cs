@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using BWolf.Utilities.PluggableStates;
+using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     [CreateAssetMenu(fileName = "AgentStopPickup", menuName = "AgentControl/Decisions/PickupStop")]
     public class PickupStopCondition : Condition
     {
         public override bool Check(StateController controller)
         {
-            return controller.CurrentCommand as PickupCommand != null;
+            return true;
         }
     }
 }

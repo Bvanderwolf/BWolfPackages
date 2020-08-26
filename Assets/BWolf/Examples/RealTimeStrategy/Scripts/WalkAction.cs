@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using BWolf.Utilities.PluggableStates;
+using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     [CreateAssetMenu(fileName = "AgentWalk", menuName = "AgentControl/Actions/Walk")]
     public class WalkAction : Action

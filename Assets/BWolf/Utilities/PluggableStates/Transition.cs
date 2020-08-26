@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Utilities.PluggableStates
 {
     /// <summary>Structure representing a transition that can be made to a state based on a condition</summary>
     [System.Serializable]

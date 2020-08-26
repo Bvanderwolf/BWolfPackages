@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.AgentCommands
+namespace BWolf.Utilities.PluggableStates
 {
     /// <summary>State Controlled by the state controlled</summary>
     [CreateAssetMenu(fileName = "AgentState", menuName = "AgentStateControl/State")]

@@ -1,7 +1,6 @@
-﻿using BWolf.Utilities.AgentCommands;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace BWolf.Examples.AgentCommands
+namespace BWolf.Examples.RealTimeStrategy
 {
     public class PickupableObstacle : PickupableObject
     {

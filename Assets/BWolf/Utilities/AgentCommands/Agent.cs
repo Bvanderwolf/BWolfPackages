@@ -7,16 +7,13 @@ namespace BWolf.Utilities.AgentCommands
     public class Agent : MonoBehaviour, ICommandControlled
     {
         public ICommand CurrentCommand { get; private set; }
-        public StateController Controller { get; private set; }
 
         private NavMeshAgent agent;
-
         private Queue<ICommand> commands = new Queue<ICommand>();
 
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            Controller = GetComponent<StateController>();
         }
 
         private void Update()
@@ -28,27 +25,25 @@ namespace BWolf.Utilities.AgentCommands
         public void SetDestination(Vector3 worldPosition)
         {
             agent.SetDestination(worldPosition);
-            Controller.Transition("AgentStateWalk");
         }
 
         /// <summary>Stops movement of this agent</summary>
         public void StopMovement()
         {
             agent.SetDestination(transform.position);
-            Controller.SetDefault();
         }
 
         /// <summary>Returns whether this agent has reached its destination</summary>
         public bool HasReachedDestination(Vector3 destination)
         {
-            if (agent.destination != destination)
-            {
-                //return true if stored destination in the navmeshagent doesn't correspond to destination
-                return true;
-            }
-
             if (!agent.pathPending)
             {
+                if (agent.destination != destination)
+                {
+                    //return true if stored destination in the navmeshagent doesn't correspond to destination
+                    return true;
+                }
+
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)

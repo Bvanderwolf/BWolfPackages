@@ -1,4 +1,6 @@
-﻿namespace BWolf.Utilities.AgentCommands
+﻿using BWolf.Utilities.AgentCommands;
+
+namespace BWolf.Examples.RealTimeStrategy
 {
     public class PickupCommand : CompositeCommand
     {
@@ -19,7 +21,6 @@
             public override void Excecute()
             {
                 Pickupable.StartPickup();
-                Agent.Controller.Transition("AgentStatePickup");
             }
 
             public override bool IsFinished()
@@ -30,7 +31,6 @@
             public override void Undo()
             {
                 Pickupable.UndoPickup();
-                Agent.Controller.SetDefault();
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace BWolf.Utilities.AgentCommands
+﻿namespace BWolf.Examples.RealTimeStrategy
 {
     public interface IPickupable
     {
