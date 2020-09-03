@@ -8,15 +8,26 @@ namespace BWolf.Utilities.ShapeShifting
         [SerializeField]
         private float defaultShiftTime = 1f;
 
+        [SerializeField]
+        private ShapeType defaultShape = ShapeType.Circle;
+
         private Shape currentShape;
+
+        public ShapeType DefaultShape
+        {
+            get { return defaultShape; }
+        }
+
+        [ContextMenu("Shift")]
+        public void ShiftTest()
+        {
+            Shift(ShapeType.Circle);
+        }
 
         /// <summary>Sets current shape</summary>
         public void SetShape(Shape shape)
         {
-            if (shape != currentShape)
-            {
-                currentShape = shape;
-            }
+            currentShape = shape;
         }
 
         /// <summary>Starts the shifting progress towards given new shift type</summary>
@@ -29,14 +40,13 @@ namespace BWolf.Utilities.ShapeShifting
         private void Shift(ShapeType type, float time)
         {
             Shape newShape = ShapeManager.Instance.GetShapeTemplate(type);
-            if (currentShape == null) { return; }
             if (newShape.PartCount != currentShape.PartCount)
             {
                 Debug.LogWarning("Shapes part count isn't corresponding");
                 return;
             }
 
-            if (currentShape == newShape)
+            if (newShape.Type == currentShape.Type)
             {
                 return;
             }

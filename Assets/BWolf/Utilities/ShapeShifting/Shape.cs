@@ -17,6 +17,8 @@ namespace BWolf.Utilities.ShapeShifting
             get { return prefabRef.transform.childCount; }
         }
 
+        public ShapeType Type { get; private set; }
+
         public Shape(Shape shape) : this(shape.prefabRef)
         {
         }
@@ -38,6 +40,7 @@ namespace BWolf.Utilities.ShapeShifting
             }
 
             prefabRef = prefab;
+            Type = prefab.GetComponent<ShapeShifter>().DefaultShape;
         }
 
         /// <summary>Assigns shape values to all parts based on given root transform. Use when shifting</summary>
