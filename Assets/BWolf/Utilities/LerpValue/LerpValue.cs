@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf
-// Version: 1.4
+// Version: 1.5
 //----------------------------------
 
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BWolf.Utilities
 {
     /// <summary>Representation of lerp values</summary>
-    public struct LerpValue<T> where T : struct
+    public struct LerpValue<T>
     {
         public readonly T start;
         public readonly T end;
