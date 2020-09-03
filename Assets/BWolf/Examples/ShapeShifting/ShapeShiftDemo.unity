@@ -214,8 +214,9 @@ GameObject:
   m_Component:
   - component: {fileID: 845533872}
   - component: {fileID: 845533871}
+  - component: {fileID: 845533873}
   m_Layer: 0
-  m_Name: ShapeManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,6 +237,7 @@ MonoBehaviour:
   shapePrefabs:
   - {fileID: 3071034370134577797, guid: b4bf7a48bf4031441a335b35f1d0bb3f, type: 3}
   - {fileID: 2133452196726804533, guid: 8926272ae9a11ea409d752f9d046fde7, type: 3}
+  - {fileID: 7182236244451817862, guid: 89dabf4d30b74e448b66fd5a3c79f26e, type: 3}
 --- !u!4 &845533872
 Transform:
   m_ObjectHideFlags: 0
@@ -250,6 +252,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &845533873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845533870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193722c6b7ab87e4aab131ef418596c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shiftTime: 5
 --- !u!1 &1800297991
 GameObject:
   m_ObjectHideFlags: 0

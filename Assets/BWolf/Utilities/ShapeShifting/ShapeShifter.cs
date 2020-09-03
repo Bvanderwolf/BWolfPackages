@@ -13,6 +13,7 @@ namespace BWolf.Utilities.ShapeShifting
         private ShapeType defaultShape = ShapeType.Circle;
 
         private Shape currentShape;
+        private bool shifting;
 
         /// <summary>The shape this ShapeShifter started with</summary>
         public ShapeType DefaultShape
@@ -27,18 +28,23 @@ namespace BWolf.Utilities.ShapeShifting
         }
 
         /// <summary>Starts the shifting progress towards given new shift type</summary>
-        private void Shift(ShapeType type)
+        public void Shift(ShapeType type)
         {
             Shift(type, defaultShiftTime);
         }
 
         /// <summary>Starts the shifting progress towards given new shift type in given ammount of time</summary>
-        private void Shift(ShapeType type, float time)
+        public void Shift(ShapeType type, float time)
         {
+            if (shifting)
+            {
+                return;
+            }
+
             Shape newShape = ShapeManager.Instance.GetShapeTemplate(type);
             if (newShape.PartCount != currentShape.PartCount)
             {
-                Debug.LogWarning("Shapes part count isn't corresponding");
+                Debug.LogWarning("Shapes part count isn't corresponding :: won't shift");
                 return;
             }
 
@@ -53,6 +59,8 @@ namespace BWolf.Utilities.ShapeShifting
         /// <summary>Shifts this game object and its children towards given new shape over </summary>
         private IEnumerator ShiftShape(Shape newShape, float time)
         {
+            shifting = true;
+
             LerpValue<Shape> shift = new LerpValue<Shape>(currentShape, newShape, time);
             Shape output = new Shape(currentShape);
             while (shift.Continue())
@@ -60,7 +68,9 @@ namespace BWolf.Utilities.ShapeShifting
                 Shape.Shift(shift.start, shift.end, output, shift.perc).AssignValues(transform);
                 yield return null;
             }
+
             SetShape(newShape);
+            shifting = false;
         }
     }
 }

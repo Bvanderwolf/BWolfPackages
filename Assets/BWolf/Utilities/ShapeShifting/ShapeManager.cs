@@ -44,6 +44,7 @@ namespace BWolf.Utilities.ShapeShifting
     public enum ShapeType
     {
         Circle,
-        Rectange
+        Rectange,
+        Triangle
     }
 }
