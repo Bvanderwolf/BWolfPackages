@@ -5,6 +5,7 @@ namespace BWolf.Utilities.ShapeShifting
 {
     public class ShapeShifter : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField]
         private float defaultShiftTime = 1f;
 
@@ -13,15 +14,10 @@ namespace BWolf.Utilities.ShapeShifting
 
         private Shape currentShape;
 
+        /// <summary>The shape this ShapeShifter started with</summary>
         public ShapeType DefaultShape
         {
             get { return defaultShape; }
-        }
-
-        [ContextMenu("Shift")]
-        public void ShiftTest()
-        {
-            Shift(ShapeType.Circle);
         }
 
         /// <summary>Sets current shape</summary>
