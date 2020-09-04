@@ -44,7 +44,7 @@ namespace BWolf.Utilities.InputManagement
         /// <summary>Returns whether given integer value is part of the arg bit mask</summary>
         private bool IsPartOfArgs(int value)
         {
-            return (arg & value) != 0;
+            return (arg & value) == value;
         }
     }
 }
