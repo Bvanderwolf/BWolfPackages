@@ -11,6 +11,7 @@ a compact and simple way to store and use values for linear interpolation operat
 ### Examples from usage in other packages
 
 - [DuckingBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Behaviours/DuckingBehaviour)
+- [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
 
 You can download the UnityPackage here: https://drive.google.com/file/d/1PjuDJZZp63kDeKWJ9gavtYtPCM1ZolxY/view?usp=sharing
 
