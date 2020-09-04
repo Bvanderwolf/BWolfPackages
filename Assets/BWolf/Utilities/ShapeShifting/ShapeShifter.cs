@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using System.Collections;
 using UnityEngine;
 
 namespace BWolf.Utilities.ShapeShifting

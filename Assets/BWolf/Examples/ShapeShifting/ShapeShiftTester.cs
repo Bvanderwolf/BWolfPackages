@@ -8,11 +8,14 @@ namespace BWolf.Examples.ShapeShifting
         [SerializeField]
         private float shiftTime = 1f;
 
+        [SerializeField]
+        private ShapeType startShape = ShapeType.Circle;
+
         private ShapeShifter shifter;
 
         private void Start()
         {
-            shifter = ShapeManager.Instance.CreateShape(ShapeType.Circle).GetComponent<ShapeShifter>();
+            shifter = ShapeManager.Instance.CreateShape(startShape).GetComponent<ShapeShifter>();
         }
 
         private void Update()
