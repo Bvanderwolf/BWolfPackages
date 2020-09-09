@@ -45,11 +45,11 @@ namespace BWolf.Behaviours
         private IEnumerator ShakeLocal()
         {
             isShaking = true;
-            PingPongValue shake = new PingPongValue(-strength, strength, count, 0.5f);
+            PingPongValue shake = new PingPongValue(-strength, strength, count, speed, 0.5f);
             Vector3 start = transform.localPosition;
             int axisIndex = (int)axis;
 
-            while (shake.Continue(Time.deltaTime * speed))
+            while (shake.Continue())
             {
                 Vector3 position = transform.localPosition;
                 position[axisIndex] = start[axisIndex] + shake.value;
@@ -64,11 +64,11 @@ namespace BWolf.Behaviours
         private IEnumerator ShakeWorld()
         {
             isShaking = true;
-            PingPongValue shake = new PingPongValue(-strength, strength, count, 0.5f);
+            PingPongValue shake = new PingPongValue(-strength, strength, count, speed, 0.5f);
             Vector3 start = transform.position;
             int axisIndex = (int)axis;
 
-            while (shake.Continue(Time.deltaTime * speed))
+            while (shake.Continue())
             {
                 Vector3 position = transform.position;
                 position[axisIndex] = start[axisIndex] + shake.value;
