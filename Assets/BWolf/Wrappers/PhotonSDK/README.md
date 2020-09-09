@@ -6,7 +6,6 @@ Latest Downloadable (Google Drive):
 [UnityPackage](https://drive.google.com/file/d/1kFEojh88C8Bp2ioc1oYW1R8_ehtAognP/view?usp=sharing)
 
 ## Current Version (1.0)
-------------------
 
 ### Simple Matchmaking 
 - Connect using photon's default settings asset
