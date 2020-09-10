@@ -19,11 +19,7 @@ Reference: https://www.youtube.com/watch?v=mjKINQigAE4
   
 ### Demo
 
-The Flocking demo can be found at
-
-```sh
-BWolf -> Examples -> Flocking
-```
+The Flocking demo can be found: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/Flocking)
 
 You can download the package here:
 https://drive.google.com/file/d/1_yDPpn5x1JpCHS3XP4h0SyIYvJOHYAH6/view?usp=sharing
