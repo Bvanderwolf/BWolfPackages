@@ -16,11 +16,7 @@ A small and concise package containing selection of units, ability to given unit
  
  ### Demo
  
- The SquadFormations demo can be found at:
- 
- ```sh
-BWolf -> Examples -> SquadFormations
-```
+ The SquadFormations demo can be found: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/SquadFormations)
 
 The UnityPackage can be downloaded here: 
 https://drive.google.com/file/d/1PPKFCJvIdcYoKHedvwJWjgwXfyLgigrq/view?usp=sharing
