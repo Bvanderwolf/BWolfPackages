@@ -20,10 +20,6 @@ A Utility class for modifiying and representing stats in games.
   
 ### Examples
 
-The demo scene and demo scripts can be found inside:
-
-```sh
-BWolf -> Examples -> StatModification
-```
+The demo scene and demo scripts can be found inside: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/StatModification)
 
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1LG_Wq6-ijekM0jXxx4myFpzrD_MajY2I/view?usp=sharing
