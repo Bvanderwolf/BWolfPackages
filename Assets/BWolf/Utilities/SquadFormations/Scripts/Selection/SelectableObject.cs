@@ -1,6 +1,7 @@
-﻿using BWolf.Utilities.SquadFormations.Interactions;
+﻿// Created By: Ties van Kipshagen @ https://www.tiesvankipshagen.com/
+//----------------------------------
+
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {

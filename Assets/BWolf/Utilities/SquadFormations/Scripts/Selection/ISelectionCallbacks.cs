@@ -1,4 +1,7 @@
-﻿namespace BWolf.Utilities.SquadFormations.Selection
+﻿// Created By: Ties van Kipshagen @ https://www.tiesvankipshagen.com/
+//----------------------------------
+
+namespace BWolf.Utilities.SquadFormations.Selection
 {
     /// <summary>Interface to be used for interfacing with the SelectableObject component (e.g. decal projection)</summary>
     public interface ISelectionCallbacks

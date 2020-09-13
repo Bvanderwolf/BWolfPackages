@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.SquadFormations.Selection;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.SquadFormations.Selection;
 using System.Collections.Generic;
 using UnityEngine;
 

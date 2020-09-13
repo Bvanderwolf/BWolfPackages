@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units
 {

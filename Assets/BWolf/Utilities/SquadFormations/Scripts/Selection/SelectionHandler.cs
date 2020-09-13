@@ -1,4 +1,7 @@
-﻿using BWolf.Utilities.SquadFormations.Interactions;
+﻿// Created By: Ties van Kipshagen @ https://www.tiesvankipshagen.com/
+//----------------------------------
+
+using BWolf.Utilities.SquadFormations.Interactions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;

@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.SquadFormations.Interactions;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.SquadFormations.Interactions;
 using BWolf.Utilities.SquadFormations.Selection;
 using System;
 using UnityEngine;

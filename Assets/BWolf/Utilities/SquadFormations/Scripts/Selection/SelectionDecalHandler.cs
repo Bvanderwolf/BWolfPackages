@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Created By: Ties van Kipshagen @ https://www.tiesvankipshagen.com/
+//----------------------------------
+
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 

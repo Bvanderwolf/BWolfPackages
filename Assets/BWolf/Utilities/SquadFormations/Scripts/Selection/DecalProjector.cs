@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Created By: Ties van Kipshagen @ https://www.tiesvankipshagen.com/
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Selection
 {
