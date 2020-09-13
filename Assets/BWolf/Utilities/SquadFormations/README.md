@@ -1,5 +1,12 @@
 # Squad Formations Using Unity's NavMesh 
 
+*To make this package work parts of this package are taken from a student project i worked on. These are:
+- Selection scripts
+- Selection Decal prefab
+- Camera Controller scripts
+
+~ credit goes to Ties van Kipshagen for this content. @ https://www.tiesvankipshagen.com/
+
 A small and concise package containing selection of units, ability to given units move orders and the grouping and creation of unit formations.
 
 ### Features
@@ -16,11 +23,7 @@ A small and concise package containing selection of units, ability to given unit
  
  ### Demo
  
- The SquadFormations demo can be found at:
- 
- ```sh
-BWolf -> Examples -> SquadFormations
-```
+ The SquadFormations demo can be found: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/SquadFormations)
 
 The UnityPackage can be downloaded here: 
 https://drive.google.com/file/d/1PPKFCJvIdcYoKHedvwJWjgwXfyLgigrq/view?usp=sharing
