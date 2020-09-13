@@ -1,5 +1,12 @@
 # Squad Formations Using Unity's NavMesh 
 
+*To make this package work parts of this package are taken from a student project i worked on. These are:
+- Selection scripts
+- Selection Decal prefab
+- Camera Controller scripts
+
+~ credit goes to Ties van Kipshagen for this content. @ https://www.tiesvankipshagen.com/
+
 A small and concise package containing selection of units, ability to given units move orders and the grouping and creation of unit formations.
 
 ### Features
