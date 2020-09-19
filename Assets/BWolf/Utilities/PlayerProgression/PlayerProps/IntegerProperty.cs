@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.PlayerProgression.Achievements;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.PlayerProgression.Achievements;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.PlayerProps

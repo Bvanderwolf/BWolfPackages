@@ -1,4 +1,8 @@
-﻿using BWolf.Behaviours;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Behaviours;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

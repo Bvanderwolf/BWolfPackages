@@ -1,4 +1,9 @@
-﻿using BWolf.Behaviours;
+﻿// Created By: Benjamin van der Wolf
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Behaviours;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +14,8 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     {
         [SerializeField]
         private PlayerProperties propertiesAsset = null;
+
+        public event Action<IProgressInfo> AchievementCompleted;
 
         private void Awake()
         {
@@ -46,6 +53,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         private void OnAchievementCompleted(IProgressInfo achievementInfo)
         {
             print($"achievement completed: {achievementInfo.Name}");
+            AchievementCompleted?.Invoke(achievementInfo);
         }
 
         /// <summary>Resets all stored player properties</summary>
