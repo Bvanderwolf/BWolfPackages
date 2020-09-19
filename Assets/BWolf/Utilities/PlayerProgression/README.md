@@ -36,6 +36,6 @@ Properies and Achievements. This is already done internally in the player proper
 The ProgressableObject class from which Quest and Achievement types derive implements the IProgressInfo interface.
 This interface is used to provide information to display and retreive from callbacks. The QuestManager class provides
 a list of IProgressInfo objects which can be retreived to display quests and an event to provide callbacks for when
-a ques has been completed. The PlayerProperty class provides this functionality for Achievements held by PlayerProperties.
+a quest has been completed. The PlayerProperty class provides this functionality for Achievements held by PlayerProperties.
 
  
