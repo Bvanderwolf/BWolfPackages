@@ -50,39 +50,25 @@ namespace BWolf.Utilities.PlayerProgression
         /// <summary>Adds a listener to this property for when an achievement has been completed</summary>
         public void AddListener(Action<IProgressInfo> onAchievementCompleted)
         {
-            if (Achievements != null)
+            foreach (ProgressableObject<T> progressable in Achievements)
             {
-                foreach (ProgressableObject<T> progressable in Achievements)
-                {
-                    progressable.AddListener(onAchievementCompleted);
-                }
+                progressable.AddListener(onAchievementCompleted);
             }
         }
 
         /// <summary>Removes a listener from this property for when an achievement has been completed</summary>
         public void RemoveListener(Action<IProgressInfo> onAchievementCompleted)
         {
-            if (Achievements != null)
+            foreach (ProgressableObject<T> progressable in Achievements)
             {
-                foreach (ProgressableObject<T> progressable in Achievements)
-                {
-                    progressable.RemoveListener(onAchievementCompleted);
-                }
+                progressable.RemoveListener(onAchievementCompleted);
             }
         }
 
         /// <summary>Resets the value of this property and the achievements attached to it</summary>
         public void Reset()
         {
-            _value = default;
-
-            if (Achievements != null)
-            {
-                foreach (ProgressableObject<T> progressable in Achievements)
-                {
-                    progressable.Reset();
-                }
-            }
+            UpdateValue(default);
         }
 
         /// <summary>Saves value to local storage</summary>
@@ -100,7 +86,7 @@ namespace BWolf.Utilities.PlayerProgression
             T outValue;
             if (ProgressFileSystem.LoadProgress(path, out outValue))
             {
-                UpdateValue(outValue);
+                UpdateValue(outValue, true);
             }
         }
     }

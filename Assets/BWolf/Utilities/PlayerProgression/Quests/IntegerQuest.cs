@@ -12,21 +12,24 @@ namespace BWolf.Utilities.PlayerProgression
     {
         public override void UpdateValue(int newValue, bool fromSaveFile = false)
         {
-            if (!IsCompleted)
+            if (fromSaveFile)
             {
-                bool canSave = current != newValue && !fromSaveFile;
-
                 current = Mathf.Clamp(newValue, start, goal);
                 progress = Mathf.Clamp01((float)current / goal);
-
-                if (IsCompleted && !fromSaveFile)
+            }
+            else
+            {
+                if (current != newValue)
                 {
-                    OnCompletion();
-                }
+                    current = Mathf.Clamp(newValue, start, goal);
+                    progress = Mathf.Clamp01((float)current / goal);
 
-                if (canSave)
-                {
                     SaveToFile();
+
+                    if (IsCompleted)
+                    {
+                        OnCompletion();
+                    }
                 }
             }
         }

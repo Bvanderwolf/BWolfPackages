@@ -17,12 +17,13 @@ namespace BWolf.Utilities.PlayerProgression
         protected T start = default;
 
         [SerializeField]
+        protected T current;
+
+        [SerializeField]
         protected T goal = default;
 
         [SerializeField, Range(0.0f, 1.0f)]
         protected float progress = 0.0f;
-
-        protected T current;
 
         private const string FOLDER_NAME = "Progressables";
 
