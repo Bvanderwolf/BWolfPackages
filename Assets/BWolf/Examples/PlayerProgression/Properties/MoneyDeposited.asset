@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MoneyDeposited
   m_EditorClassIdentifier: 
   _value: 0
-  achievements: []
+  achievements:
+  - {fileID: 11400000, guid: da4458f3dc818924eb37eefad0fdb877, type: 2}

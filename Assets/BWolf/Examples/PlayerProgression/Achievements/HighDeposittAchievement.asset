@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   start: 0
-  goal: 20
-  progress: 1
+  current: 0
+  goal: 200
+  progress: 0

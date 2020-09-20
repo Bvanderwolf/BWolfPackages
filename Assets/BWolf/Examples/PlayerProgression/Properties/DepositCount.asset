@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: DepositCount
   m_EditorClassIdentifier: 
   _value: 0
-  achievements: []
+  achievements:
+  - {fileID: 11400000, guid: 165e4c5ed79f2ec40bab38c5c0af621d, type: 2}

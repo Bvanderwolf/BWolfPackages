@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcce84e090259164db4f7d8e7677d654, type: 3}
   m_Name: HasOpenedBankAccount
   m_EditorClassIdentifier: 
-  _value: 1
-  achievements: []
+  _value: 0
+  achievements:
+  - {fileID: 11400000, guid: 4bcc1d152a30df249bba8b2d324599ba, type: 2}

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   start: 0
-  goal: 0
-  progress: NaN
+  current: 0
+  goal: 5
+  progress: 0
