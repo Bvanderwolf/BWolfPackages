@@ -5,6 +5,8 @@ A library for networking using the Photon multiplayer SDK.
 Latest Downloadable (Google Drive):
 [UnityPackage](https://drive.google.com/file/d/1kFEojh88C8Bp2ioc1oYW1R8_ehtAognP/view?usp=sharing)
 
+!Important Note: Photon SDK package is not included, make sure you download it using the Unity Asset store
+
 ## Current Version (1.0)
 
 ### Simple Matchmaking 
