@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEditor;
 using UnityEngine;
 
 namespace BWolf.Utilities.SquadFormations.Units

@@ -1,4 +1,8 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     /// <summary>structure containing data about a lobby on the server</summary>
     public struct LobbyData

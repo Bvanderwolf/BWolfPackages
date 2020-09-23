@@ -1,4 +1,8 @@
-﻿using BWolf.Wrappers.PhotonSDK.DataContainers;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Wrappers.PhotonSDK.DataContainers;
 
 namespace BWolf.Wrappers.PhotonSDK
 {

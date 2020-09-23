@@ -1,4 +1,8 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     /// <summary>structure for storing information on a decision been made by the host</summary>
     public struct RequestDecisionInfo

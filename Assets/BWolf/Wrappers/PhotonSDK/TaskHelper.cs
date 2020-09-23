@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Created By: Benjamin van der Wolf @ https://stackoverflow.com/users/462631/sinaesthetic?tab=profile
+// Version: 1.1
+//----------------------------------
+
+using System;
 using System.Threading.Tasks;
 
 namespace BWolf.Wrappers.PhotonSDK

@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.Flocking.Behaviours;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.Flocking.Behaviours;
 using BWolf.Utilities.Flocking.Context;
 using System.Collections.Generic;
 using UnityEngine;

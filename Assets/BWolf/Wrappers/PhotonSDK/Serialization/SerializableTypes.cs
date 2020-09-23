@@ -1,4 +1,8 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.Serialization
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Wrappers.PhotonSDK.Serialization
 {
     using ExitGames.Client.Photon;
     using Photon.Realtime;

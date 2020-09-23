@@ -1,4 +1,8 @@
-﻿using BWolf.Wrappers.PhotonSDK.Handlers;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Wrappers.PhotonSDK.Handlers;
 
 namespace BWolf.Wrappers.PhotonSDK.Synchronization
 {

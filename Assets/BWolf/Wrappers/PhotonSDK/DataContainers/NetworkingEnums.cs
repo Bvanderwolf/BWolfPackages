@@ -1,4 +1,8 @@
-﻿namespace BWolf.Wrappers.PhotonSDK.DataContainers
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+namespace BWolf.Wrappers.PhotonSDK.DataContainers
 {
     /// <summary>Defines callbacks with either no arguments or a message string used for matchmaking</summary>
     public enum MatchmakingCallbackEvent
