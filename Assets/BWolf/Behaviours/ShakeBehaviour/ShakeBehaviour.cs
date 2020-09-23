@@ -1,5 +1,6 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
 // Version: 1.0
+// Dependencies: PingPongValue
 //----------------------------------
 
 using BWolf.Utilities;
