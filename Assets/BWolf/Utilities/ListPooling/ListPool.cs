@@ -1,19 +1,20 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
+using BWolf.Behaviours;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace BWolf.Utilities.ListPooling
 {
     /// <summary>static class used for creating list pools</summary>
-    public static class ListPool<T>
+    public class ListPool<T> : SingletonBehaviour<ListPool<T>>
     {
-        private static ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
+        private ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
 
         /// <summary>Creates an empty list with objects of Type type.</summary>
-        public static List<T> Create()
+        public List<T> Create()
         {
             List<T> list;
             if (!bag.TryTake(out list))
@@ -25,7 +26,7 @@ namespace BWolf.Utilities.ListPooling
         }
 
         /// <summary>Creates a list of given capacity with objects of Type type</summary>
-        public static List<T> Create(int capacity)
+        public List<T> Create(int capacity)
         {
             List<T> list;
             if (!bag.TryTake(out list))
@@ -40,7 +41,7 @@ namespace BWolf.Utilities.ListPooling
         }
 
         /// <summary>Creates a list using given collection with objects of Type type.</summary>
-        public static List<T> Create(IEnumerable<T> collection)
+        public List<T> Create(IEnumerable<T> collection)
         {
             List<T> list;
             if (!bag.TryTake(out list))
@@ -55,7 +56,7 @@ namespace BWolf.Utilities.ListPooling
         }
 
         /// <summary>Disposes of given objects of type type</summary>
-        public static void Dispose(List<T> list)
+        public void Dispose(List<T> list)
         {
             list.Clear();
             bag.Add(list);
