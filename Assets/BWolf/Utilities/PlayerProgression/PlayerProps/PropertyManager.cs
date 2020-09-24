@@ -18,8 +18,10 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
 
         public event Action<IProgressInfo> AchievementCompleted;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             propertiesAsset.Initialize(OnAchievementCompleted);
         }
 

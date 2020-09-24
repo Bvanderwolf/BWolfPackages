@@ -41,7 +41,7 @@ namespace BWolf.Utilities.PlayerProgression
             }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
             if (booleanQuests != null)
             {

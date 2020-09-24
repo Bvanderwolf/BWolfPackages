@@ -16,7 +16,7 @@ namespace BWolf.Utilities.ShapeShifting
 
         private Dictionary<ShapeType, Shape> shapes = new Dictionary<ShapeType, Shape>();
 
-        private void Awake()
+        protected override void Awake()
         {
             foreach (GameObject shape in shapePrefabs)
             {

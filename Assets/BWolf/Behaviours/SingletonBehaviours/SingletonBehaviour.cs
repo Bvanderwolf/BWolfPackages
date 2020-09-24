@@ -14,6 +14,7 @@ namespace BWolf.Behaviours.SingletonBehaviours
         private static T _instance;
 
         private static bool appIsQuitting;
+        private bool isDuplicate;
 
         public static T Instance
         {
@@ -29,10 +30,11 @@ namespace BWolf.Behaviours.SingletonBehaviours
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (_instance != null && _instance != this)
             {
+                isDuplicate = true;
                 Destroy(this.gameObject);
             }
             else
@@ -49,7 +51,11 @@ namespace BWolf.Behaviours.SingletonBehaviours
 
         protected virtual void OnDestroy()
         {
-            appIsQuitting = true;
+            if (!isDuplicate)
+            {
+                //only set appIsQuitting flag if this is not a duplicate being destroyed
+                appIsQuitting = true;
+            }
         }
     }
 }
