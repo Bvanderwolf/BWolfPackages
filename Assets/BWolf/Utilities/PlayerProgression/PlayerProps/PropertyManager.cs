@@ -1,9 +1,9 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
-// Dependencies: SingletonBehaviour
+// Version: 1.1
+// Dependencies: SingletonBehaviours
 //----------------------------------
 
-using BWolf.Behaviours;
+using BWolf.Behaviours.SingletonBehaviours;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,8 +1,9 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
 // Version: 1.0
+// Dependencies: SingletonBehaviour
 //----------------------------------
 
-using BWolf.Behaviours;
+using BWolf.Behaviours.SingletonBehaviours;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine;
 namespace BWolf.Utilities.InputManagement
 {
     /// <summary>Singleton class for managing input and updating managable input targets</summary>
-    public class InputManager : SingletonBehaviour<InputManager>
+    public class InputManager : LazySingletonBehaviour<InputManager>
     {
         private List<Func<bool>> conditions = new List<Func<bool>>();
         private List<IInputManageable> manageables = new List<IInputManageable>();

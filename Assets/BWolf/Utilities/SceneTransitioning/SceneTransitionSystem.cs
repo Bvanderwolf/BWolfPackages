@@ -1,5 +1,4 @@
-﻿using BWolf.Behaviours;
-using System.Collections;
+﻿using BWolf.Behaviours.SingletonBehaviours;
 using UnityEngine.SceneManagement;
 
 namespace BWolf.Utilities.SceneTransitioning

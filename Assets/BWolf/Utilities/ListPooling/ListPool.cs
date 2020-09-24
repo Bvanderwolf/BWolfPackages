@@ -1,16 +1,16 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
 // Version: 1.1
-// Dependencies: SingletonBehaviour
+// Dependencies: SingletonBehaviours
 //----------------------------------
 
-using BWolf.Behaviours;
+using BWolf.Behaviours.SingletonBehaviours;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace BWolf.Utilities.ListPooling
 {
     /// <summary>static class used for creating list pools</summary>
-    public class ListPool<T> : SingletonBehaviour<ListPool<T>>
+    public class ListPool<T> : LazySingletonBehaviour<ListPool<T>>
     {
         private ConcurrentBag<List<T>> bag = new ConcurrentBag<List<T>>();
 
