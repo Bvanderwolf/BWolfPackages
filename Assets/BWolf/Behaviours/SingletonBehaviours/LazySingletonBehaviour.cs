@@ -1,16 +1,17 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using System;
 using UnityEngine;
 
-namespace BWolf.Behaviours
+namespace BWolf.Behaviours.SingletonBehaviours
 {
     /// <summary>
-    /// A singleton class to be derived from by monobehaviours to make use of the singleton functionality but keep monobehaviour functionalities like coroutines
+    /// A lazy singleton class to be derived from by monobehaviours to make use of the singleton functionality but keep monobehaviour functionalities like coroutines, Make sure to only
+    /// use this when your singleton has no inspector fields and thus is not already in a scene.
     /// </summary>
-    public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+    public class LazySingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         private readonly static Lazy<T> lazyInstance = new Lazy<T>(CreateSingleton);
 
@@ -31,7 +32,7 @@ namespace BWolf.Behaviours
         }
 
         //make sure no instance of this object can be made using new keyword by making the constructor protected
-        protected SingletonBehaviour()
+        protected LazySingletonBehaviour()
         {
         }
 
@@ -40,10 +41,10 @@ namespace BWolf.Behaviours
             appIsQuitting = true;
         }
 
-        /// <summary>Returns singleton instance by constructing a undestroyable gameobject with this component attached to it</summary>
+        /// <summary>Returns singleton instance by first searching object of type T in scene and otherwise creating one if not was found</summary>
         private static T CreateSingleton()
         {
-            var gameObject = new GameObject($"{typeof(T).Name} (singleton)");
+            var gameObject = new GameObject($"{typeof(T).Name} (LazySingleton)");
             var instance = gameObject.AddComponent<T>();
             DontDestroyOnLoad(gameObject);
             return instance;
