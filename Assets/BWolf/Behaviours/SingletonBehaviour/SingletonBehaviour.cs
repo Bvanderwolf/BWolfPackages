@@ -40,21 +40,13 @@ namespace BWolf.Behaviours
             appIsQuitting = true;
         }
 
-        /// <summary>Returns singleton instance by first searching object of type T in scene and otherwise creating one if not was found</summary>
+        /// <summary>Returns singleton instance by constructing a undestroyable gameobject with this component attached to it</summary>
         private static T CreateSingleton()
         {
-            var search = FindObjectOfType<T>();
-            if (search != null)
-            {
-                return search;
-            }
-            else
-            {
-                var gameObject = new GameObject($"{typeof(T).Name} (singleton)");
-                var instance = gameObject.AddComponent<T>();
-                DontDestroyOnLoad(gameObject);
-                return instance;
-            }
+            var gameObject = new GameObject($"{typeof(T).Name} (singleton)");
+            var instance = gameObject.AddComponent<T>();
+            DontDestroyOnLoad(gameObject);
+            return instance;
         }
     }
 }
