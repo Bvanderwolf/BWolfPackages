@@ -18,6 +18,14 @@ already existing singleton when returning to the original scene where the single
 - SingletonBehaviour Class: Use this clas when you want your monobehaviour to have singleton functionalities but also be able to set inspector fields 
 beforehand. When returning to the scene this singleton was created in, the already existing singleton will remain and the copy will destroy itself. 
 
+## Packages that use this Utility
+Example of usage of this utility can be found in multiple other packages
+
+ - [ListPooling](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ListPooling)
+ - [InputManager](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/InputManager)
+ - [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
+ - [PlayerProgression](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PlayerProgression)
+
 To learn more about lazy initialization:
 https://docs.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization 
 
