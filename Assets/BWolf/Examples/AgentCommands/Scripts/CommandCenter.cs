@@ -1,4 +1,9 @@
-﻿using BWolf.Behaviours;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+// Dependencies: SingletonBehaviours
+//----------------------------------
+
+using BWolf.Behaviours.SingletonBehaviours;
 using BWolf.Utilities.AgentCommands;
 using UnityEngine;
 

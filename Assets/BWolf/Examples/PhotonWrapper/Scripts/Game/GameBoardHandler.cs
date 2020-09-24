@@ -1,5 +1,4 @@
 ﻿using BWolf.Wrappers.PhotonSDK;
-using BWolf.Wrappers.PhotonSDK.Serialization;
 using BWolf.Wrappers.PhotonSDK.Handlers;
 using System;
 using System.Collections;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using BWolf.Wrappers.PhotonSDK.DataContainers;
 
 namespace BWolf.Examples.PhotonWrapper.Game
 {
