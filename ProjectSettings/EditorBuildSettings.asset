@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BWolf/Examples/SceneTransitioning/DemoScene3.unity
     guid: b9a209f6b7f2d8d40aa6a70aa7bc8cda
+  - enabled: 1
+    path: Assets/BWolf/Examples/SceneTransitioning/DemoUIScene.unity
+    guid: 8f0ac7673fb80124ea0f4e3c41f507b7
   m_configObjects: {}
