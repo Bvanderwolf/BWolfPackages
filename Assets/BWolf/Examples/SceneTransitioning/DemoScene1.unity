@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 1787494526}
   - component: {fileID: 1787494527}
   m_Layer: 0
-  m_Name: UiSceneLoader
+  m_Name: UISceneLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

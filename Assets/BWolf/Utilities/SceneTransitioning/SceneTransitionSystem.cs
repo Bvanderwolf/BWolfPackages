@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace BWolf.Utilities.SceneTransitioning
 {
+    /// <summary>System responsible for providing transitions between scenes</summary>
     public class SceneTransitionSystem : SingletonBehaviour<SceneTransitionSystem>
     {
         private string[] scenesInBuild;
@@ -25,39 +26,37 @@ namespace BWolf.Utilities.SceneTransitioning
             }
         }
 
-        public void Transition(int sceneIndex, LoadSceneMode mode)
+        /// <summary>Starts transition from current active scene to scene with given name. Returns a SceneTransition object
+        /// to which and outro and intro retoutine can be added and to which can be listed for progress</summary>
+        public SceneTransition Transition(string sceneName, LoadSceneMode mode)
         {
-            if (!transitioning)
+            if (transitioning || !SceneIsLoadable(sceneName))
             {
-                if (sceneIndex >= 0 && sceneIndex < scenesInBuild.Length)
-                {
-                    StartCoroutine(TransitionRoutine(scenesInBuild[sceneIndex], mode));
-                }
+                return null;
             }
+
+            SceneTransition transition = new SceneTransition();
+            StartCoroutine(TransitionRoutine(sceneName, mode, transition));
+
+            return transition;
         }
 
-        public void Transition(string sceneName, LoadSceneMode mode)
+        /// <summary>Starts transition from current active scene to scene with given sceneIndex. Returns a SceneTransition object
+        /// to which and outro and intro retoutine can be added and to which can be listed for progress</summary>
+        public SceneTransition Transition(int sceneIndex, LoadSceneMode mode)
         {
-            if (!transitioning)
+            if (transitioning || !(sceneIndex >= 0 && sceneIndex < scenesInBuild.Length))
             {
-                if (SceneIsLoadable(sceneName))
-                {
-                    StartCoroutine(TransitionRoutine(sceneName, mode));
-                }
+                return null;
             }
+
+            SceneTransition transition = new SceneTransition();
+            StartCoroutine(TransitionRoutine(scenesInBuild[sceneIndex], mode, transition));
+
+            return transition;
         }
 
-        public void Transition(string sceneName, LoadSceneMode mode, IEnumerator enumerator)
-        {
-            if (!transitioning)
-            {
-                if (SceneIsLoadable(sceneName))
-                {
-                    StartCoroutine(TransitionRoutine(sceneName, mode, enumerator));
-                }
-            }
-        }
-
+        /// <summary>Returns whether given scene name corresponds to a scene that is stored in the build settings</summary>
         private bool SceneIsLoadable(string sceneName)
         {
             for (int i = 0; i < scenesInBuild.Length; i++)
@@ -72,50 +71,54 @@ namespace BWolf.Utilities.SceneTransitioning
             return false;
         }
 
-        private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode)
+        /// <summary>Returns a routine for transitiong from the current active scene to a scene with given name in given load mode and
+        /// with given SceneTransition object</summary>
+        private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode, SceneTransition transition)
         {
             transitioning = true;
 
-            print(SceneManager.GetActiveScene().name);
+            yield return null; //wait one frame to wait for SceneTransition to be initialized
 
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-            while (!unloadOperation.isDone)
-            {
-                yield return null;
-            }
-
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            while (!loadOperation.isDone)
-            {
-                yield return null;
-            }
-
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            yield return UnLoadRoutine(transition);
+            yield return LoadRoutine(sceneName, mode, transition);
 
             transitioning = false;
         }
 
-        private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode, IEnumerator enumerator)
+        /// <summary>Returns a routine that unloads the current active scene based on given SceneTransition object</summary>
+        private IEnumerator UnLoadRoutine(SceneTransition transition)
         {
-            transitioning = true;
-
-            yield return enumerator;
+            if (transition.OutroEnumerator != null)
+            {
+                yield return transition.OutroEnumerator;
+            }
 
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
             while (!unloadOperation.isDone)
             {
+                transition.UpdateProgress(unloadOperation.progress / 2.0f);
+
+                yield return null;
+            }
+        }
+
+        /// <summary>Returns a routine that loads a scene with given name in given load mode and
+        /// with given SceneTransition object</summary>
+        private IEnumerator LoadRoutine(string sceneName, LoadSceneMode mode, SceneTransition transition)
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
+            while (!loadOperation.isDone)
+            {
+                transition.UpdateProgress((1.0f + loadOperation.progress) / 2.0f);
                 yield return null;
             }
 
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            while (!loadOperation.isDone)
+            if (transition.IntroEnumerator != null)
             {
-                yield return null;
+                yield return transition.IntroEnumerator;
             }
 
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
-
-            transitioning = false;
         }
     }
 }
