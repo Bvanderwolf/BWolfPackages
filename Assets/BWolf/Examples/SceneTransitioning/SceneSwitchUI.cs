@@ -1,4 +1,9 @@
-﻿using BWolf.Utilities;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+// Dependencies: LerpValue
+//----------------------------------
+
+using BWolf.Utilities;
 using BWolf.Utilities.SceneTransitioning;
 using System.Collections;
 using UnityEngine;
