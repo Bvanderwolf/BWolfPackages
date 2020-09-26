@@ -25,6 +25,7 @@ Example of usage of this utility can be found in multiple other packages
  - [InputManager](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/InputManager)
  - [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
  - [PlayerProgression](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PlayerProgression)
+ - [SceneTransitioning](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SceneTransitioning)
 
 To learn more about lazy initialization:
 https://docs.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization 
