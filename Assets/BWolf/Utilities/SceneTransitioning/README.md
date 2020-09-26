@@ -17,3 +17,4 @@ add your Outro, Intro and OnProgressUpdate Listener. You can look at the example
 current active scene. The SceneTransitionSystem class will (When using LoadSceneMode.Additive) unload the current active scene
 first and then load the scene you wanted to transition to. 
 
+You can download the UnityPackage here: https://drive.google.com/file/d/14Nxd8WixgryCpJ-Z57p3yhDfJ1T5PXc7/view?usp=sharing
