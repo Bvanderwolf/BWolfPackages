@@ -23,6 +23,7 @@ Packages created as i learn and start to understand more about unity and the csh
   - [PluggableStateMachine](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PluggableStateMachine)
   - [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
   - [PlayerProgression](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PlayerProgression)
+  - [SceneTransitioning](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SceneTransitioning)
 
 
 ## Large Packages currently working on
