@@ -36,7 +36,17 @@ namespace BWolf.Utilities.SceneTransitioning
             }
 
             SceneTransition transition = new SceneTransition();
-            StartCoroutine(TransitionRoutine(sceneName, mode, transition));
+
+            switch (mode)
+            {
+                case LoadSceneMode.Single:
+                    StartCoroutine(LoadRoutine(sceneName, mode, transition));
+                    break;
+
+                case LoadSceneMode.Additive:
+                    StartCoroutine(TransitionRoutine(sceneName, mode, transition));
+                    break;
+            }
 
             return transition;
         }
@@ -51,7 +61,17 @@ namespace BWolf.Utilities.SceneTransitioning
             }
 
             SceneTransition transition = new SceneTransition();
-            StartCoroutine(TransitionRoutine(scenesInBuild[sceneIndex], mode, transition));
+
+            switch (mode)
+            {
+                case LoadSceneMode.Single:
+                    StartCoroutine(LoadRoutine(scenesInBuild[sceneIndex], mode, transition));
+                    break;
+
+                case LoadSceneMode.Additive:
+                    StartCoroutine(TransitionRoutine(scenesInBuild[sceneIndex], mode, transition));
+                    break;
+            }
 
             return transition;
         }
@@ -97,7 +117,6 @@ namespace BWolf.Utilities.SceneTransitioning
             while (!unloadOperation.isDone)
             {
                 transition.UpdateProgress(unloadOperation.progress / 2.0f);
-
                 yield return null;
             }
         }
@@ -109,16 +128,16 @@ namespace BWolf.Utilities.SceneTransitioning
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
             while (!loadOperation.isDone)
             {
-                transition.UpdateProgress((1.0f + loadOperation.progress) / 2.0f);
+                transition.UpdateProgress(mode == LoadSceneMode.Single ? loadOperation.progress : ((1.0f + loadOperation.progress) / 2.0f));
                 yield return null;
             }
+
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
             if (transition.IntroEnumerator != null)
             {
                 yield return transition.IntroEnumerator;
             }
-
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
         }
     }
 }

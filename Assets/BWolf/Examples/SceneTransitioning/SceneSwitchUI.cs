@@ -13,6 +13,9 @@ namespace BWolf.Examples.SceneTransitioning
         [SerializeField]
         private string[] namesOfScenes = null;
 
+        [SerializeField]
+        private float transitionTime = 2.5f;
+
         [Header("References")]
         [SerializeField]
         private Button btnSwitch = null;
@@ -32,26 +35,28 @@ namespace BWolf.Examples.SceneTransitioning
         {
             SetButtonText();
 
-            btnSwitch.onClick.AddListener(() =>
-            {
-                SceneTransitionSystem.Instance.Transition(namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive)
+            btnSwitch.onClick.AddListener(OnClick);
+        }
+
+        private void OnClick()
+        {
+            SceneTransitionSystem.Instance.Transition(namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive)
                 .AddOutroRoutine(Outro())
                 .AddIntroRoutine(Intro())
                 .OnProgressUpdated(OnProgresUpdate);
 
-                if (indexOfSceneAt == namesOfScenes.Length)
-                {
-                    indexOfSceneAt = 0;
-                }
+            if (indexOfSceneAt == namesOfScenes.Length)
+            {
+                indexOfSceneAt = 0;
+            }
 
-                imgLoadBar.fillAmount = 0.0f;
-                SetButtonText();
-            });
+            imgLoadBar.fillAmount = 0.0f;
+            SetButtonText();
         }
 
         private IEnumerator Outro()
         {
-            LerpValue<float> alphaLerp = new LerpValue<float>(0, 1, 1f);
+            LerpValue<float> alphaLerp = new LerpValue<float>(0, 1, transitionTime);
 
             while (alphaLerp.Continue())
             {
@@ -62,7 +67,7 @@ namespace BWolf.Examples.SceneTransitioning
 
         private IEnumerator Intro()
         {
-            LerpValue<float> alphaLerp = new LerpValue<float>(1, 0, 1f);
+            LerpValue<float> alphaLerp = new LerpValue<float>(1, 0, transitionTime);
 
             while (alphaLerp.Continue())
             {
