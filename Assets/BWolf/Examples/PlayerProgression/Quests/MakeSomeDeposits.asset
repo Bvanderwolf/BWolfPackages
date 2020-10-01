@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b68c3e8da4cd2147888723d6c63c4fb, type: 3}
-  m_Name: DepositAmmountQuest
+  m_Script: {fileID: 11500000, guid: 79c144187d14ed34497fdc4f98abe604, type: 3}
+  m_Name: MakeSomeDeposits
   m_EditorClassIdentifier: 
-  description: 
-  start: 0
-  goal: 120
-  progress: 0
+  description: Make some deposits
+  count: 0
+  goal: 5

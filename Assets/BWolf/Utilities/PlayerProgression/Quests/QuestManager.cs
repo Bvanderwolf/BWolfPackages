@@ -8,102 +8,66 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BWolf.Utilities.PlayerProgression
+namespace BWolf.Utilities.PlayerProgression.Quests
 {
     /// <summary>Singleton Manager class providing options to manage all stored quests in the game</summary>
     public class QuestManager : SingletonBehaviour<QuestManager>
     {
-        [Header("Boolean Quests")]
         [SerializeField]
-        private BooleanQuest[] booleanQuests = null;
+        private Quest[] quests = null;
 
-        [Header("Float Quests")]
-        [SerializeField]
-        private FloatQuest[] floatQuests = null;
+        public List<Quest> ActiveQuests { get; } = new List<Quest>();
 
-        [Header("Integer Quests")]
-        [SerializeField]
-        private IntegerQuest[] integerQuests = null;
-
-        /// <summary>Called when a quest has been completed</summary>
-        public event Action<IProgressInfo> QuestCompleted;
-
-        /// <summary>Provides a list of information on all stored quests</summary>
-        public List<IProgressInfo> QuestInfo
-        {
-            get
-            {
-                List<IProgressInfo> info = new List<IProgressInfo>();
-                info.AddRange(booleanQuests);
-                info.AddRange(floatQuests);
-                info.AddRange(integerQuests);
-                return info;
-            }
-        }
+        public event Action<Quest> QuestCompleted;
 
         protected override void Awake()
         {
-            if (booleanQuests != null)
-            {
-                for (int i = 0; i < booleanQuests.Length; i++)
-                {
-                    booleanQuests[i].LoadFromFile();
-                    booleanQuests[i].AddListener(OnQuestCompleted);
-                }
-            }
+            base.Awake();
 
-            if (floatQuests != null)
+            for (int i = 0; i < quests.Length; i++)
             {
-                for (int i = 0; i < floatQuests.Length; i++)
-                {
-                    floatQuests[i].LoadFromFile();
-                    floatQuests[i].AddListener(OnQuestCompleted);
-                }
-            }
+                quests[i].ActiveStateChanged += OnActiveStateChanged;
+                quests[i].Completed += OnQuestCompleted;
 
-            if (integerQuests != null)
-            {
-                for (int i = 0; i < integerQuests.Length; i++)
-                {
-                    integerQuests[i].LoadFromFile();
-                    integerQuests[i].AddListener(OnQuestCompleted);
-                }
+                quests[i].LoadActiveStateFromFile();
+                quests[i].LoadTasksFromFile();
             }
         }
 
-        private void OnQuestCompleted(IProgressInfo questInfo)
+        private void Update()
         {
-            print($"Quest Completed: {questInfo.Name}");
-            QuestCompleted?.Invoke(questInfo);
+            for (int i = 0; i < ActiveQuests.Count; i++)
+            {
+                ActiveQuests[i].Update();
+            }
         }
 
-        /// <summary>Resets all stored Quests</summary>
-        [ContextMenu("ResetQuests")]
-        public void ResetQuests()
+        [ContextMenu("ResetProgress")]
+        public void ResetProgress()
         {
-            if (booleanQuests != null)
+            for (int i = 0; i < quests.Length; i++)
             {
-                for (int i = 0; i < booleanQuests.Length; i++)
-                {
-                    booleanQuests[i].Reset();
-                }
+                quests[i].Reset();
             }
+        }
 
-            if (floatQuests != null)
+        /// <summary>Called when a quest's active state has changed to add it to or remove it from the activeQuests list</summary>
+        private void OnActiveStateChanged(Quest quest, bool value)
+        {
+            if (value)
             {
-                for (int i = 0; i < floatQuests.Length; i++)
-                {
-                    floatQuests[i].Reset();
-                }
+                ActiveQuests.Add(quest);
             }
+            else
+            {
+                ActiveQuests.Remove(quest);
+            }
+        }
 
-            if (integerQuests != null)
-            {
-                for (int i = 0; i < integerQuests.Length; i++)
-                {
-                    integerQuests[i].Reset();
-                }
-            }
+        /// <summary>Called when a quest has been completed to notify listeners of this event</summary>
+        private void OnQuestCompleted(Quest quest)
+        {
+            QuestCompleted?.Invoke(quest);
         }
     }
 }

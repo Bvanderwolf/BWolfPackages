@@ -4,6 +4,7 @@
 //----------------------------------
 
 using BWolf.Behaviours.SingletonBehaviours;
+using BWolf.Utilities.PlayerProgression.Achievements;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private PlayerProperties propertiesAsset = null;
 
-        public event Action<IProgressInfo> AchievementCompleted;
+        public event Action<IAchievementInfo> AchievementCompleted;
 
         protected override void Awake()
         {
@@ -26,7 +27,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Returns a list of information on all achievements</summary>
-        public List<IProgressInfo> AchievementInfo
+        public List<IAchievementInfo> AchievementInfo
         {
             get { return propertiesAsset.GetAchievementInfo(); }
         }
@@ -53,7 +54,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             }
         }
 
-        private void OnAchievementCompleted(IProgressInfo achievementInfo)
+        private void OnAchievementCompleted(IAchievementInfo achievementInfo)
         {
             print($"achievement completed: {achievementInfo.Name}");
             AchievementCompleted?.Invoke(achievementInfo);

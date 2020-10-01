@@ -1,7 +1,6 @@
-﻿using BWolf.Utilities.PlayerProgression;
+﻿using BWolf.Utilities.PlayerProgression.Quests;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BWolf.Examples.PlayerProgression
 {
@@ -10,23 +9,40 @@ namespace BWolf.Examples.PlayerProgression
         [SerializeField]
         private GameObject propertyTextPrefab = null;
 
-        private Dictionary<string, Text> quests = new Dictionary<string, Text>();
+        private Dictionary<Quest, QuestDisplay> quests = new Dictionary<Quest, QuestDisplay>();
 
         private void Start()
         {
-            foreach (IProgressInfo info in QuestManager.Instance.QuestInfo)
-            {
-                Text text = Instantiate(propertyTextPrefab, transform).GetComponent<Text>();
-                text.text = $"{info.Name} : {info.Progress}";
-                quests.Add(info.Name, text);
-            }
-
             QuestManager.Instance.QuestCompleted += OnQuestCompleted;
         }
 
-        private void OnQuestCompleted(IProgressInfo info)
+        private void Update()
         {
-            quests[info.Name].text = $"{info.Name} : {info.Progress}";
+            //display active quests on screen
+            foreach (Quest quest in QuestManager.Instance.ActiveQuests)
+            {
+                QuestDisplay display = GetQuestDisplay(quest);
+                display.SetDescription(quest.Description);
+                display.SetTaskDescription(quest.Tasks);
+            }
+        }
+
+        private void OnQuestCompleted(Quest quest)
+        {
+            //destroy quest display and remove quest from quests display if completed
+            Destroy(quests[quest].gameObject);
+            quests.Remove(quest);
+        }
+
+        /// <summary>Returns a quest display for given quest</summary>
+        private QuestDisplay GetQuestDisplay(Quest quest)
+        {
+            if (!quests.ContainsKey(quest))
+            {
+                quests.Add(quest, Instantiate(propertyTextPrefab, transform).GetComponent<QuestDisplay>());
+            }
+
+            return quests[quest];
         }
     }
 }

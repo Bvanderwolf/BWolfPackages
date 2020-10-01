@@ -1,21 +1,11 @@
-﻿using BWolf.Utilities.PlayerProgression;
-using BWolf.Utilities.PlayerProgression.PlayerProps;
+﻿using BWolf.Utilities.PlayerProgression.PlayerProps;
+using BWolf.Utilities.PlayerProgression.Quests;
 using UnityEngine;
 
 namespace BWolf.Examples.PlayerProgression
 {
-    public class Bank : MonoBehaviour
+    public class Bank : QuestGiver
     {
-        [Header("Quests")]
-        [SerializeField]
-        private BooleanQuest openAccountQuest = null;
-
-        [SerializeField]
-        private IntegerQuest depositCountQuest = null;
-
-        [SerializeField]
-        private FloatQuest depositAmmountQuest = null;
-
         [Header("Settings")]
         [SerializeField]
         private float moneyDeposited = 0.0f;
@@ -32,8 +22,17 @@ namespace BWolf.Examples.PlayerProgression
         {
             if (!hasOpenedBankAccount)
             {
+                //set has opened bank account property using the property manager
                 PropertyManager.Instance.SetProperty("HasOpenedBankAccount", true);
-                openAccountQuest.UpdateValue(true);
+
+                //update the achieve financial independance quest if it is active and not completed
+                Quest quest = GetQuest("AchieveFinancialIndependance");
+                if (quest.IsActive && !quest.IsCompleted)
+                {
+                    //get specific type of task to update its value
+                    quest.GetTask<DoOnceTask>("OpenBankAccount").SetDoneOnce();
+                }
+
                 hasOpenedBankAccount = true;
             }
         }
@@ -45,11 +44,18 @@ namespace BWolf.Examples.PlayerProgression
                 moneyDeposited += depositOnClick;
                 depositCount++;
 
+                //set money deposited and deposit count properties
                 PropertyManager.Instance.SetProperty("MoneyDeposited", moneyDeposited);
                 PropertyManager.Instance.SetProperty("DepositCount", depositCount);
 
-                depositCountQuest.UpdateValue(depositCount);
-                depositAmmountQuest.UpdateValue(moneyDeposited);
+                //check if we can update our achieve financial independance quest
+                Quest quest = GetQuest("AchieveFinancialIndependance");
+                if (quest.IsActive && !quest.IsCompleted)
+                {
+                    //get specific types of task to update its value accordingly
+                    quest.GetTask<IncrementTask>("MakeSomeDeposits").Increment();
+                    quest.GetTask<MinimalValueTask>("DepositSomeMoney").UpdateCurrentValue(moneyDeposited);
+                }
             }
         }
     }

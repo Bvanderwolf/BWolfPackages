@@ -5,10 +5,10 @@
 using System;
 using UnityEngine;
 
-namespace BWolf.Utilities.PlayerProgression
+namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>abstract class providing the basis for a progressable object of choosen type</summary>
-    public abstract class ProgressableObject<T> : ScriptableObject, IProgressInfo
+    public abstract class Achievement<T> : ScriptableObject, IAchievementInfo
     {
         [SerializeField]
         private string description = string.Empty;
@@ -25,9 +25,9 @@ namespace BWolf.Utilities.PlayerProgression
         [SerializeField, Range(0.0f, 1.0f)]
         protected float progress = 0.0f;
 
-        private const string FOLDER_NAME = "Progressables";
+        private const string FOLDER_NAME = "Achievements";
 
-        private event Action<IProgressInfo> OnCompletionEvent;
+        private event Action<IAchievementInfo> OnCompletionEvent;
 
         public string Name
         {
@@ -58,13 +58,13 @@ namespace BWolf.Utilities.PlayerProgression
         }
 
         /// <summary>Adds a listener for when the goal has been reached for the first time</summary>
-        public void AddListener(Action<IProgressInfo> onCompletion)
+        public void AddListener(Action<IAchievementInfo> onCompletion)
         {
             OnCompletionEvent += onCompletion;
         }
 
         /// <summary>Removes a listener for when the goal has been reached for the first time</summary>
-        public void RemoveListener(Action<IProgressInfo> onCompletion)
+        public void RemoveListener(Action<IAchievementInfo> onCompletion)
         {
             OnCompletionEvent -= onCompletion;
         }
@@ -88,8 +88,7 @@ namespace BWolf.Utilities.PlayerProgression
         {
             string path = $"{FOLDER_NAME}/{typeof(T).Name}/{name}";
 
-            T outValue;
-            if (ProgressFileSystem.LoadProgress(path, out outValue))
+            if (ProgressFileSystem.LoadProgress(path, out T outValue))
             {
                 UpdateValue(outValue, true);
             }

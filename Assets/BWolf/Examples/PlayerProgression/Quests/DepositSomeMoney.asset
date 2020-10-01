@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a58be5f10ad349429084ff9f9869375, type: 3}
-  m_Name: HasOpenedAccountQuest
+  m_Script: {fileID: 11500000, guid: ea4088c42e799804bbfc14f475a2b8be, type: 3}
+  m_Name: DepositSomeMoney
   m_EditorClassIdentifier: 
-  description: 
-  start: 0
-  goal: 1
-  progress: 1
+  description: Deposit some money
+  currentValue: 0
+  minimalValue: 150

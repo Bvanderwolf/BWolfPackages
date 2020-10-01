@@ -2,10 +2,11 @@
 // Version: 1.0
 //----------------------------------
 
+using BWolf.Utilities.PlayerProgression.Achievements;
 using System;
 using UnityEngine;
 
-namespace BWolf.Utilities.PlayerProgression
+namespace BWolf.Utilities.PlayerProgression.PlayerProps
 {
     /// <summary>Base class for generic player properties</summary>
     public abstract class PlayerProperty<T> : ScriptableObject
@@ -16,7 +17,7 @@ namespace BWolf.Utilities.PlayerProgression
         private const string FOLDER_NAME = "PlayerProperties";
 
         /// <summary>The Achievements attached to this property's value</summary>
-        public abstract ProgressableObject<T>[] Achievements { get; }
+        public abstract Achievement<T>[] Achievements { get; }
 
         public T Value
         {
@@ -48,18 +49,18 @@ namespace BWolf.Utilities.PlayerProgression
         }
 
         /// <summary>Adds a listener to this property for when an achievement has been completed</summary>
-        public void AddListener(Action<IProgressInfo> onAchievementCompleted)
+        public void AddListener(Action<IAchievementInfo> onAchievementCompleted)
         {
-            foreach (ProgressableObject<T> progressable in Achievements)
+            foreach (Achievement<T> progressable in Achievements)
             {
                 progressable.AddListener(onAchievementCompleted);
             }
         }
 
         /// <summary>Removes a listener from this property for when an achievement has been completed</summary>
-        public void RemoveListener(Action<IProgressInfo> onAchievementCompleted)
+        public void RemoveListener(Action<IAchievementInfo> onAchievementCompleted)
         {
-            foreach (ProgressableObject<T> progressable in Achievements)
+            foreach (Achievement<T> progressable in Achievements)
             {
                 progressable.RemoveListener(onAchievementCompleted);
             }
@@ -83,8 +84,7 @@ namespace BWolf.Utilities.PlayerProgression
         {
             string path = $"{FOLDER_NAME}/{typeof(T).Name}/{name}";
 
-            T outValue;
-            if (ProgressFileSystem.LoadProgress(path, out outValue))
+            if (ProgressFileSystem.LoadProgress(path, out T outValue))
             {
                 UpdateValue(outValue, true);
             }

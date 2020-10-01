@@ -14,7 +14,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private FloatAchievement[] achievements = null;
 
-        public override ProgressableObject<float>[] Achievements
+        public override Achievement<float>[] Achievements
         {
             get { return achievements; }
         }

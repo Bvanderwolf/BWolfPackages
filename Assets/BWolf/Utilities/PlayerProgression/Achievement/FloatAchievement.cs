@@ -8,7 +8,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>A floating point value based Achievement</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/FloatAchievement")]
-    public class FloatAchievement : ProgressableObject<float>
+    public class FloatAchievement : Achievement<float>
     {
         public override void UpdateValue(float newValue, bool fromSaveFile = false)
         {

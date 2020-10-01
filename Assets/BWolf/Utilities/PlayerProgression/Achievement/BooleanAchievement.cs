@@ -8,7 +8,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>A Boolean value based Achievement</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/BooleanAchievement")]
-    public class BooleanAchievement : ProgressableObject<bool>
+    public class BooleanAchievement : Achievement<bool>
     {
         public override void UpdateValue(bool newValue, bool fromSaveFile = false)
         {

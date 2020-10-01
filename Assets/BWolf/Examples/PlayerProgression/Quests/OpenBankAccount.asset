@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e8756ad794005e47b09d3aea47e11e8, type: 3}
-  m_Name: DepositCountQuest
+  m_Script: {fileID: 11500000, guid: 3c155382fa853514381b5082cdd56bc4, type: 3}
+  m_Name: OpenBankAccount
   m_EditorClassIdentifier: 
-  description: 
-  start: 0
-  goal: 4
-  progress: 0
+  description: Open a bank account
+  isDoneOnce: 0

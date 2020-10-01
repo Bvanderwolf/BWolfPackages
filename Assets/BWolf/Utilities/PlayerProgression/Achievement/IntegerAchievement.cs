@@ -8,7 +8,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>An Integer value based Achievement</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/IntegerAchievement")]
-    public class IntegerAchievement : ProgressableObject<int>
+    public class IntegerAchievement : Achievement<int>
     {
         public override void UpdateValue(int newValue, bool fromSaveFile = false)
         {

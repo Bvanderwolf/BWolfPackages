@@ -2,6 +2,7 @@
 // Version: 1.0
 //----------------------------------
 
+using BWolf.Utilities.PlayerProgression.Achievements;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         private IntegerProperty[] integerProperties = null;
 
         /// <summary>Initializes properties, loading their values from local storage and listening for achievement completion using given listener</summary>
-        public void Initialize(Action<IProgressInfo> onAchievementCompleted)
+        public void Initialize(Action<IAchievementInfo> onAchievementCompleted)
         {
             if (booleanProperties != null)
             {
@@ -53,9 +54,9 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Returns a list containing information on all the achievements stored</summary>
-        public List<IProgressInfo> GetAchievementInfo()
+        public List<IAchievementInfo> GetAchievementInfo()
         {
-            List<IProgressInfo> info = new List<IProgressInfo>();
+            List<IAchievementInfo> info = new List<IAchievementInfo>();
 
             if (booleanProperties != null)
             {
