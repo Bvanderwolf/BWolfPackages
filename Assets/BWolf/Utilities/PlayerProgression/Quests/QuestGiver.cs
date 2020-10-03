@@ -12,14 +12,26 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private Quest[] quests = null;
 
-        /// <summary>Gives the player a quests with given name by setting it active</summary>
+        /// <summary>Gives the player a quest with given name by setting it active</summary>
         public void GiveQuest(string nameOfQuest)
         {
             for (int i = 0; i < quests.Length; i++)
             {
-                if (quests[i].name == nameOfQuest)
+                if (quests[i].name == nameOfQuest && quests[i].IsActivatable)
                 {
                     quests[i].SetActive(true);
+                }
+            }
+        }
+
+        /// <summary>Cancels the player's active quest with given name by setting it to inactive</summary>
+        public void CancelQuest(string nameOfQuest)
+        {
+            for (int i = 0; i < quests.Length; i++)
+            {
+                if (quests[i].name == nameOfQuest && quests[i].IsActive)
+                {
+                    quests[i].SetActive(false);
                 }
             }
         }

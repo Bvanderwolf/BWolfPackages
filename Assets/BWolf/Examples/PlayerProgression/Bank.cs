@@ -27,7 +27,7 @@ namespace BWolf.Examples.PlayerProgression
 
                 //update the achieve financial independance quest if it is active and not completed
                 Quest quest = GetQuest("AchieveFinancialIndependance");
-                if (quest.IsActive && !quest.IsCompleted)
+                if (quest.IsUpdatable)
                 {
                     //get specific type of task to update its value
                     quest.GetTask<DoOnceTask>("OpenBankAccount").SetDoneOnce();
@@ -50,7 +50,7 @@ namespace BWolf.Examples.PlayerProgression
 
                 //check if we can update our achieve financial independance quest
                 Quest quest = GetQuest("AchieveFinancialIndependance");
-                if (quest.IsActive && !quest.IsCompleted)
+                if (quest.IsUpdatable)
                 {
                     //get specific types of task to update its value accordingly
                     quest.GetTask<IncrementTask>("MakeSomeDeposits").Increment();

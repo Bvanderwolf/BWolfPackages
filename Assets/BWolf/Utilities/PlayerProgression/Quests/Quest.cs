@@ -7,6 +7,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
     [CreateAssetMenu(menuName = "PlayerProgression/Quest")]
     public class Quest : ScriptableObject
     {
+        [Header("Settings")]
         [SerializeField]
         private string description = string.Empty;
 
@@ -16,8 +17,12 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private bool isActive = false;
 
+        [Header("References")]
         [SerializeField]
         private QuestTask[] tasks = null;
+
+        [SerializeField]
+        private Quest requiredQuest = null;
 
         public event Action<Quest, bool> ActiveStateChanged;
 
@@ -30,20 +35,29 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             get { return description; }
         }
 
-        public bool IsCompleted
-        {
-            get
-            {
-                return isCompleted;
-            }
-        }
-
         public bool IsActive
         {
-            get
-            {
-                return isActive;
-            }
+            get { return isActive; }
+        }
+
+        public bool IsActivatable
+        {
+            get { return !isActive && FinishedRequiredQuest; }
+        }
+
+        public bool IsUpdatable
+        {
+            get { return isActive && !isCompleted; }
+        }
+
+        private bool FinishedRequiredQuest
+        {
+            get { return requiredQuest == null || requiredQuest.isCompleted; }
+        }
+
+        public Quest RequiredQuest
+        {
+            get { return requiredQuest; }
         }
 
         public QuestTask[] Tasks
