@@ -77,8 +77,13 @@ namespace BWolf.Utilities
     /// <summary>Exposes lerp settings to be used when using lerp value</summary>
     public static class LerpSettings
     {
+        /// <summary>No curve is applied to the linear interpolation</summary>
         public readonly static LerpSetting Default = (c, t) => c / t;
+
+        /// <summary>Curve that makes linear interpolation start fast and end slow</summary>
         public readonly static LerpSetting Sine = (c, t) => Mathf.Sin(c / t * Mathf.PI * 0.5f);
+
+        /// <summary>Curve that makes linear interpolation start slow and end fast</summary>
         public readonly static LerpSetting Cosine = (c, t) => 1f - Mathf.Cos(c / t * Mathf.PI * 0.5f);
     }
 
