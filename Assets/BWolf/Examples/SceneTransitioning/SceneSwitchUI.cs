@@ -19,7 +19,7 @@ namespace BWolf.Examples.SceneTransitioning
         private string[] namesOfScenes = null;
 
         [SerializeField]
-        private FadeTransitionProvider transitionProvider = null;
+        private string nameOfTransition = string.Empty;
 
         [Header("References")]
         [SerializeField]
@@ -39,7 +39,7 @@ namespace BWolf.Examples.SceneTransitioning
 
         private void OnClick()
         {
-            SceneTransitionSystem.Instance.Transition(transitionProvider, namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive);
+            SceneTransitionSystem.Instance.Transition(nameOfTransition, namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive);
 
             if (indexOfSceneAt == namesOfScenes.Length)
             {
