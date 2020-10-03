@@ -1,10 +1,12 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 // Dependencies: SingletonBehaviour
 //----------------------------------
 
 using BWolf.Behaviours.SingletonBehaviours;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +15,25 @@ namespace BWolf.Utilities.SceneTransitioning
     /// <summary>System responsible for providing transitions between scenes</summary>
     public class SceneTransitionSystem : SingletonBehaviour<SceneTransitionSystem>
     {
+        [SerializeField]
+        private string nameOfTransitionUIScene = string.Empty;
+
+        public event Action<Scene, LoadSceneMode> transitionCompleted;
+
+        public bool IsTransitioning { get; private set; }
+
         private string[] scenesInBuild;
-        private bool transitioning;
+
+        private Dictionary<string, ITransitionProvider> providers = new Dictionary<string, ITransitionProvider>();
 
         protected override void Awake()
         {
             base.Awake();
+
+            if (isDuplicate)
+            {
+                return;
+            }
 
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             scenesInBuild = new string[sceneCount];
@@ -29,56 +44,45 @@ namespace BWolf.Utilities.SceneTransitioning
                 int lastSlash = scenePath.LastIndexOf("/");
                 scenesInBuild[i] = (scenePath.Substring(lastSlash + 1, scenePath.LastIndexOf(".") - lastSlash - 1));
             }
+
+            StartCoroutine(LoadTransitionUIScene());
         }
 
-        /// <summary>Starts transition from current active scene to scene with given name. Returns a SceneTransition object
-        /// to which and outro and intro retoutine can be added and to which can be listed for progress</summary>
-        public SceneTransition Transition(string sceneName, LoadSceneMode mode)
+        /// <summary>Starts transition with given transitionName set by transition provider to a scene with given scene name and in given load mode</summary>
+        public void Transition(string transitionName, string sceneName, LoadSceneMode loadMode)
         {
-            if (transitioning || !SceneIsLoadable(sceneName))
+            if (IsTransitioning || !SceneIsLoadable(sceneName) || !providers.ContainsKey(transitionName))
             {
-                return null;
+                return;
             }
 
-            SceneTransition transition = new SceneTransition();
+            Transition(sceneName, loadMode, providers[transitionName]);
+        }
 
+        /// <summary>Starts transition with given transition provider to a scene with given scene name and in given load mode</summary>
+        public void Transition(ITransitionProvider provider, string sceneName, LoadSceneMode loadMode)
+        {
+            if (IsTransitioning || !SceneIsLoadable(sceneName) || !providers.ContainsValue(provider))
+            {
+                return;
+            }
+
+            Transition(sceneName, loadMode, provider);
+        }
+
+        /// <summary>Starts the coroutine for transitioning scene based on given scene name, mode and transition</summary>
+        private void Transition(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
+        {
             switch (mode)
             {
                 case LoadSceneMode.Single:
-                    StartCoroutine(LoadRoutine(sceneName, mode, transition));
+                    StartCoroutine(LoadRoutine(sceneName, mode, provider));
                     break;
 
                 case LoadSceneMode.Additive:
-                    StartCoroutine(TransitionRoutine(sceneName, mode, transition));
+                    StartCoroutine(TransitionRoutine(sceneName, mode, provider));
                     break;
             }
-
-            return transition;
-        }
-
-        /// <summary>Starts transition from current active scene to scene with given sceneIndex. Returns a SceneTransition object
-        /// to which and outro and intro retoutine can be added and to which can be listed for progress</summary>
-        public SceneTransition Transition(int sceneIndex, LoadSceneMode mode)
-        {
-            if (transitioning || !(sceneIndex >= 0 && sceneIndex < scenesInBuild.Length))
-            {
-                return null;
-            }
-
-            SceneTransition transition = new SceneTransition();
-
-            switch (mode)
-            {
-                case LoadSceneMode.Single:
-                    StartCoroutine(LoadRoutine(scenesInBuild[sceneIndex], mode, transition));
-                    break;
-
-                case LoadSceneMode.Additive:
-                    StartCoroutine(TransitionRoutine(scenesInBuild[sceneIndex], mode, transition));
-                    break;
-            }
-
-            return transition;
         }
 
         /// <summary>Returns whether given scene name corresponds to a scene that is stored in the build settings</summary>
@@ -92,56 +96,73 @@ namespace BWolf.Utilities.SceneTransitioning
                 }
             }
 
-            Debug.LogWarning("Scene with sceneName: " + sceneName + " is not loadable because it doesn't exist");
+            Debug.LogWarning("Scene with sceneName: " + sceneName + " is not loadable because it doesn't exist in the build settings");
             return false;
         }
 
         /// <summary>Returns a routine for transitiong from the current active scene to a scene with given name in given load mode and
         /// with given SceneTransition object</summary>
-        private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode, SceneTransition transition)
+        private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
         {
-            transitioning = true;
+            IsTransitioning = true;
 
             yield return null; //wait one frame to wait for SceneTransition to be initialized
 
-            yield return UnLoadRoutine(transition);
-            yield return LoadRoutine(sceneName, mode, transition);
+            yield return UnLoadRoutine(provider);
+            yield return LoadRoutine(sceneName, mode, provider);
 
-            transitioning = false;
+            IsTransitioning = false;
         }
 
         /// <summary>Returns a routine that unloads the current active scene based on given SceneTransition object</summary>
-        private IEnumerator UnLoadRoutine(SceneTransition transition)
+        private IEnumerator UnLoadRoutine(ITransitionProvider provider)
         {
-            if (transition.OutroEnumerator != null)
-            {
-                yield return transition.OutroEnumerator;
-            }
+            yield return provider.Outro();
 
             AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
             while (!unloadOperation.isDone)
             {
-                transition.UpdateProgress(unloadOperation.progress / 2.0f);
+                provider.OnProgressUpdated(unloadOperation.progress / 2.0f);
                 yield return null;
             }
         }
 
         /// <summary>Returns a routine that loads a scene with given name in given load mode and
         /// with given SceneTransition object</summary>
-        private IEnumerator LoadRoutine(string sceneName, LoadSceneMode mode, SceneTransition transition)
+        private IEnumerator LoadRoutine(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
             while (!loadOperation.isDone)
             {
-                transition.UpdateProgress(mode == LoadSceneMode.Single ? loadOperation.progress : ((1.0f + loadOperation.progress) / 2.0f));
+                provider.OnProgressUpdated(mode == LoadSceneMode.Single ? loadOperation.progress : ((1.0f + loadOperation.progress) / 2.0f));
                 yield return null;
             }
 
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            Scene sceneLoaded = SceneManager.GetSceneByName(sceneName);
+            SceneManager.SetActiveScene(sceneLoaded);
 
-            if (transition.IntroEnumerator != null)
+            yield return provider.Intro();
+
+            transitionCompleted?.Invoke(sceneLoaded, mode);
+        }
+
+        /// <summary>Returns a routine that loads the transition ui scene and sets the transition provider reference</summary>
+        private IEnumerator LoadTransitionUIScene()
+        {
+            AsyncOperation operation = SceneManager.LoadSceneAsync(nameOfTransitionUIScene, LoadSceneMode.Additive);
+
+            while (!operation.isDone)
             {
-                yield return transition.IntroEnumerator;
+                yield return null;
+            }
+
+            GameObject[] gameObjects = SceneManager.GetSceneByName(nameOfTransitionUIScene).GetRootGameObjects();
+            foreach (GameObject go in gameObjects)
+            {
+                foreach (ITransitionProvider provider in go.GetComponentsInChildren<ITransitionProvider>())
+                {
+                    providers.Add(provider.TransitionName, provider);
+                }
             }
         }
     }

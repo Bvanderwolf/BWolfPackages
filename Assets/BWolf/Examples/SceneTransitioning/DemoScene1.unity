@@ -32745,6 +32745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9860bd71cf3c2494692d5bf6d14abbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameOfTransitionUIScene: DemoUIScene
 --- !u!4 &1369476152
 Transform:
   m_ObjectHideFlags: 0

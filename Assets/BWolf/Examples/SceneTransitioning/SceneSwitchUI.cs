@@ -19,17 +19,11 @@ namespace BWolf.Examples.SceneTransitioning
         private string[] namesOfScenes = null;
 
         [SerializeField]
-        private float transitionTime = 2.5f;
+        private FadeTransitionProvider transitionProvider = null;
 
         [Header("References")]
         [SerializeField]
         private Button btnSwitch = null;
-
-        [SerializeField]
-        private CanvasGroup group = null;
-
-        [SerializeField]
-        private Image imgLoadBar = null;
 
         [SerializeField]
         private Text txtTransition = null;
@@ -45,45 +39,14 @@ namespace BWolf.Examples.SceneTransitioning
 
         private void OnClick()
         {
-            SceneTransitionSystem.Instance.Transition(namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive)
-                .AddOutroRoutine(Outro())
-                .AddIntroRoutine(Intro())
-                .OnProgressUpdated(OnProgresUpdate);
+            SceneTransitionSystem.Instance.Transition(transitionProvider, namesOfScenes[indexOfSceneAt++], LoadSceneMode.Additive);
 
             if (indexOfSceneAt == namesOfScenes.Length)
             {
                 indexOfSceneAt = 0;
             }
 
-            imgLoadBar.fillAmount = 0.0f;
             SetButtonText();
-        }
-
-        private IEnumerator Outro()
-        {
-            LerpValue<float> alphaLerp = new LerpValue<float>(0, 1, transitionTime);
-
-            while (alphaLerp.Continue())
-            {
-                group.alpha = Mathf.Lerp(alphaLerp.start, alphaLerp.end, alphaLerp.perc);
-                yield return null;
-            }
-        }
-
-        private IEnumerator Intro()
-        {
-            LerpValue<float> alphaLerp = new LerpValue<float>(1, 0, transitionTime);
-
-            while (alphaLerp.Continue())
-            {
-                group.alpha = Mathf.Lerp(alphaLerp.start, alphaLerp.end, alphaLerp.perc);
-                yield return null;
-            }
-        }
-
-        private void OnProgresUpdate(float perc)
-        {
-            imgLoadBar.fillAmount = perc;
         }
 
         private void SetButtonText()
