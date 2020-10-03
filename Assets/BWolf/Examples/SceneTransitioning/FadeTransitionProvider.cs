@@ -2,28 +2,27 @@
 // Version: 1.0
 //----------------------------------
 
+using BWolf.Utilities;
+using BWolf.Utilities.SceneTransitioning;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BWolf.Utilities.SceneTransitioning
+namespace BWolf.Examples.SceneTransitioning
 {
     /// <summary>A behaviour for creating a scene transition effect using various UI elements and enumerators to be used as coroutines</summary>
-    public class SlideTransitionProvider : MonoBehaviour, ITransitionProvider
+    public class FadeTransitionProvider : MonoBehaviour, ITransitionProvider
     {
         [Header("Settings")]
         [SerializeField]
-        private string nameOfTransition = "Slide";
+        private string nameOfTransition = "Fade";
 
         [SerializeField]
-        private float transitionTime = 1.25f;
+        private float transitionTime = 2.5f;
 
         [Header("References")]
         [SerializeField]
-        private Image imgBackground = null;
-
-        [SerializeField]
-        private GameObject loadbar = null;
+        private CanvasGroup group = null;
 
         [SerializeField]
         private Image imgLoadBar = null;
@@ -36,27 +35,23 @@ namespace BWolf.Utilities.SceneTransitioning
         /// <summary>Returns an enumerator that linearly interpolates the alpha of the canvasgroup from 0 to 1</summary>
         public IEnumerator Outro()
         {
-            LerpValue<float> leftSlide = new LerpValue<float>(0, 1, transitionTime, LerpSettings.Cosine);
+            LerpValue<float> alphaLerp = new LerpValue<float>(0, 1, transitionTime);
 
-            while (leftSlide.Continue())
+            while (alphaLerp.Continue())
             {
-                imgBackground.fillAmount = Mathf.Lerp(leftSlide.start, leftSlide.end, leftSlide.perc);
+                group.alpha = Mathf.Lerp(alphaLerp.start, alphaLerp.end, alphaLerp.perc);
                 yield return null;
             }
-
-            loadbar.SetActive(true);
         }
 
         /// <summary>Returns an enumerator that linearly interpolates the alpha of the canvasgroup from 1 to 0</summary>
         public IEnumerator Intro()
         {
-            loadbar.SetActive(false);
+            LerpValue<float> alphaLerp = new LerpValue<float>(1, 0, transitionTime);
 
-            LerpValue<float> rightSlide = new LerpValue<float>(1, 0, transitionTime, LerpSettings.Cosine);
-
-            while (rightSlide.Continue())
+            while (alphaLerp.Continue())
             {
-                imgBackground.fillAmount = Mathf.Lerp(rightSlide.start, rightSlide.end, rightSlide.perc);
+                group.alpha = Mathf.Lerp(alphaLerp.start, alphaLerp.end, alphaLerp.perc);
                 yield return null;
             }
         }
