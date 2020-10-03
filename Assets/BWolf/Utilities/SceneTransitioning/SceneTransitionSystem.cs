@@ -109,8 +109,6 @@ namespace BWolf.Utilities.SceneTransitioning
         {
             IsTransitioning = true;
 
-            yield return null; //wait one frame to wait for SceneTransition to be initialized
-
             yield return UnLoadRoutine(provider);
             yield return LoadRoutine(sceneName, mode, provider);
 
