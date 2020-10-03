@@ -146,7 +146,7 @@ namespace BWolf.Utilities.SceneTransitioning
 
             yield return provider.Intro();
 
-            transitionCompleted?.Invoke(sceneLoaded, mode);
+            TransitionCompleted?.Invoke(sceneLoaded, mode);
         }
 
         /// <summary>Returns a routine that loads the transition ui scene and sets the transition provider reference</summary>
