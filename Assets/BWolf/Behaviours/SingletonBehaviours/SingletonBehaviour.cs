@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using UnityEngine;
@@ -14,7 +14,9 @@ namespace BWolf.Behaviours.SingletonBehaviours
         private static T _instance;
 
         private static bool appIsQuitting;
-        private bool isDuplicate;
+
+        /// <summary>Use when overriding Awake to only execute Awake code if this is not a duplicate</summary>
+        protected bool isDuplicate;
 
         public static T Instance
         {
