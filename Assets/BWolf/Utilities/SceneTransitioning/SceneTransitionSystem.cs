@@ -18,7 +18,7 @@ namespace BWolf.Utilities.SceneTransitioning
         [SerializeField]
         private string nameOfTransitionUIScene = string.Empty;
 
-        public event Action<Scene, LoadSceneMode> transitionCompleted;
+        public event Action<Scene, LoadSceneMode> TransitionCompleted;
 
         public bool IsTransitioning { get; private set; }
 
@@ -56,7 +56,16 @@ namespace BWolf.Utilities.SceneTransitioning
                 return;
             }
 
-            Transition(sceneName, loadMode, providers[transitionName]);
+            switch (loadMode)
+            {
+                case LoadSceneMode.Single:
+                    StartCoroutine(LoadRoutine(sceneName, loadMode, providers[transitionName]));
+                    break;
+
+                case LoadSceneMode.Additive:
+                    StartCoroutine(TransitionRoutine(sceneName, loadMode, providers[transitionName]));
+                    break;
+            }
         }
 
         /// <summary>Starts transition with given transition provider to a scene with given scene name and in given load mode</summary>
@@ -67,20 +76,14 @@ namespace BWolf.Utilities.SceneTransitioning
                 return;
             }
 
-            Transition(sceneName, loadMode, provider);
-        }
-
-        /// <summary>Starts the coroutine for transitioning scene based on given scene name, mode and transition</summary>
-        private void Transition(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
-        {
-            switch (mode)
+            switch (loadMode)
             {
                 case LoadSceneMode.Single:
-                    StartCoroutine(LoadRoutine(sceneName, mode, provider));
+                    StartCoroutine(LoadRoutine(sceneName, loadMode, provider));
                     break;
 
                 case LoadSceneMode.Additive:
-                    StartCoroutine(TransitionRoutine(sceneName, mode, provider));
+                    StartCoroutine(TransitionRoutine(sceneName, loadMode, provider));
                     break;
             }
         }
