@@ -104,7 +104,7 @@ namespace BWolf.Utilities.SceneTransitioning
         }
 
         /// <summary>Returns a routine for transitiong from the current active scene to a scene with given name in given load mode and
-        /// with given SceneTransition object</summary>
+        /// with given provider</summary>
         private IEnumerator TransitionRoutine(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
         {
             IsTransitioning = true;
@@ -115,7 +115,7 @@ namespace BWolf.Utilities.SceneTransitioning
             IsTransitioning = false;
         }
 
-        /// <summary>Returns a routine that unloads the current active scene based on given SceneTransition object</summary>
+        /// <summary>Returns a routine that unloads the current active scene based on given provider</summary>
         private IEnumerator UnLoadRoutine(ITransitionProvider provider)
         {
             yield return provider.Outro();
@@ -129,7 +129,7 @@ namespace BWolf.Utilities.SceneTransitioning
         }
 
         /// <summary>Returns a routine that loads a scene with given name in given load mode and
-        /// with given SceneTransition object</summary>
+        /// with given provider</summary>
         private IEnumerator LoadRoutine(string sceneName, LoadSceneMode mode, ITransitionProvider provider)
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
@@ -147,7 +147,7 @@ namespace BWolf.Utilities.SceneTransitioning
             TransitionCompleted?.Invoke(sceneLoaded, mode);
         }
 
-        /// <summary>Returns a routine that loads the transition ui scene and sets the transition provider reference</summary>
+        /// <summary>Returns a routine that loads the transition ui scene and stores its Transition providers</summary>
         private IEnumerator LoadTransitionUIScene()
         {
             AsyncOperation operation = SceneManager.LoadSceneAsync(nameOfTransitionUIScene, LoadSceneMode.Additive);
