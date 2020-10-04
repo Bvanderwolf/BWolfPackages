@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
 {
