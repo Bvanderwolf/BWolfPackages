@@ -8,26 +8,17 @@ using UnityEngine;
 namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>abstract class providing the basis for a progressable object of choosen type</summary>
-    public abstract class Achievement<T> : ScriptableObject, IAchievementInfo
+    public abstract class Achievement : ScriptableObject
     {
         [SerializeField]
         private string description = string.Empty;
 
-        [SerializeField]
-        protected T start = default;
-
-        [SerializeField]
-        protected T current;
-
-        [SerializeField]
-        protected T goal = default;
-
         [SerializeField, Range(0.0f, 1.0f)]
         protected float progress = 0.0f;
 
-        private const string FOLDER_NAME = "Achievements";
+        protected const string FOLDER_NAME = "Achievements";
 
-        private event Action<IAchievementInfo> OnCompletionEvent;
+        private event Action<Achievement> OnCompletionEvent;
 
         public string Name
         {
@@ -58,42 +49,24 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         }
 
         /// <summary>Adds a listener for when the goal has been reached for the first time</summary>
-        public void AddListener(Action<IAchievementInfo> onCompletion)
+        public void AddListener(Action<Achievement> onCompletion)
         {
             OnCompletionEvent += onCompletion;
         }
 
         /// <summary>Removes a listener for when the goal has been reached for the first time</summary>
-        public void RemoveListener(Action<IAchievementInfo> onCompletion)
+        public void RemoveListener(Action<Achievement> onCompletion)
         {
             OnCompletionEvent -= onCompletion;
         }
 
         /// <summary>Resets the progression</summary>
-        public void Reset()
-        {
-            progress = 0.0f;
-            UpdateValue(default);
-        }
+        public abstract void Reset();
 
         /// <summary>Saves current value to local storage</summary>
-        protected void SaveToFile()
-        {
-            string path = $"{FOLDER_NAME}/{typeof(T).Name}/{name}";
-            ProgressFileSystem.SaveProgress(path, current);
-        }
+        protected abstract void SaveToFile();
 
         /// <summary>Loads current value from local storage</summary>
-        public void LoadFromFile()
-        {
-            string path = $"{FOLDER_NAME}/{typeof(T).Name}/{name}";
-
-            if (ProgressFileSystem.LoadProgress(path, out T outValue))
-            {
-                UpdateValue(outValue, true);
-            }
-        }
-
-        public abstract void UpdateValue(T newValue, bool fromSaveFile = false);
+        public abstract void LoadFromFile();
     }
 }

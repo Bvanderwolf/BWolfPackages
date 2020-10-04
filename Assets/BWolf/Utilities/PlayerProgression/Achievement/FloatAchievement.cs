@@ -8,21 +8,46 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>A floating point value based Achievement</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/FloatAchievement")]
-    public class FloatAchievement : Achievement<float>
+    public class FloatAchievement : Achievement
     {
-        public override void UpdateValue(float newValue, bool fromSaveFile = false)
+        [SerializeField]
+        private float startValue = 0.0f;
+
+        [SerializeField]
+        private float currentValue = 0.0f;
+
+        [SerializeField]
+        private float goalValue = 0.0f;
+
+        public override void LoadFromFile()
         {
-            if (fromSaveFile)
+            string path = $"{FOLDER_NAME}/{nameof(FloatAchievement)} /{name}";
+
+            if (ProgressFileSystem.LoadProgress(path, out float outValue))
             {
-                current = Mathf.Clamp(newValue, start, goal);
-                progress = Mathf.Clamp01(current / goal);
+                UpdateValue(outValue, false);
             }
-            else
+        }
+
+        public override void Reset()
+        {
+            UpdateValue(startValue);
+        }
+
+        protected override void SaveToFile()
+        {
+            string path = $"{FOLDER_NAME}/{nameof(FloatAchievement)} /{name}";
+            ProgressFileSystem.SaveProgress(path, currentValue);
+        }
+
+        public void UpdateValue(float newValue, bool saveToFile = true)
+        {
+            if (saveToFile)
             {
-                if (current != newValue)
+                if (currentValue != newValue)
                 {
-                    current = Mathf.Clamp(newValue, start, goal);
-                    progress = Mathf.Clamp01(current / goal);
+                    currentValue = Mathf.Clamp(newValue, startValue, goalValue);
+                    progress = Mathf.Clamp01(currentValue / goalValue);
 
                     SaveToFile();
 
@@ -31,6 +56,11 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
                         OnCompletion();
                     }
                 }
+            }
+            else
+            {
+                currentValue = Mathf.Clamp(newValue, startValue, goalValue);
+                progress = Mathf.Clamp01(currentValue / goalValue);
             }
         }
     }

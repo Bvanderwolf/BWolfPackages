@@ -17,7 +17,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private PlayerProperties propertiesAsset = null;
 
-        public event Action<IAchievementInfo> AchievementCompleted;
+        public event Action<Achievement> AchievementCompleted;
 
         protected override void Awake()
         {
@@ -27,34 +27,18 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Returns a list of information on all achievements</summary>
-        public List<IAchievementInfo> AchievementInfo
+        public List<Achievement> AchievementInfo
         {
             get { return propertiesAsset.GetAchievementInfo(); }
         }
 
-        /// <summary>Sets the value of property with given name. Make sure the value type matches the type of property</summary>
-        public void SetProperty<T>(string propertyname, T value)
+        /// <summary>Gets a property with given name. Make sure type T matches the type of property</summary>
+        public T GetProperty<T>(string propertyname) where T : PlayerProperty
         {
-            switch (value)
-            {
-                case bool booleanValue:
-                    propertiesAsset.GetBooleanProperty(propertyname).UpdateValue(booleanValue);
-                    break;
-
-                case float floatValue:
-                    propertiesAsset.GetFloatProperty(propertyname).UpdateValue(floatValue);
-                    break;
-
-                case int integerValue:
-                    propertiesAsset.GetIntegerProperty(propertyname).UpdateValue(integerValue);
-                    break;
-
-                default:
-                    break;
-            }
+            return propertiesAsset.GetProperty<T>(propertyname);
         }
 
-        private void OnAchievementCompleted(IAchievementInfo achievementInfo)
+        private void OnAchievementCompleted(Achievement achievementInfo)
         {
             print($"achievement completed: {achievementInfo.Name}");
             AchievementCompleted?.Invoke(achievementInfo);

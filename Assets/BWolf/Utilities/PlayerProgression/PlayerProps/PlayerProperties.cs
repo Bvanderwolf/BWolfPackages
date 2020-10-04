@@ -14,69 +14,32 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     public class PlayerProperties : ScriptableObject
     {
         [SerializeField]
-        private BooleanProperty[] booleanProperties = null;
-
-        [SerializeField]
-        private FloatProperty[] floatProperties = null;
-
-        [SerializeField]
-        private IntegerProperty[] integerProperties = null;
+        private PlayerProperty[] properties = null;
 
         /// <summary>Initializes properties, loading their values from local storage and listening for achievement completion using given listener</summary>
-        public void Initialize(Action<IAchievementInfo> onAchievementCompleted)
+        public void Initialize(Action<Achievement> onAchievementCompleted)
         {
-            if (booleanProperties != null)
+            if (properties != null)
             {
-                for (int i = 0; i < booleanProperties.Length; i++)
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    booleanProperties[i].LoadFromFile();
-                    booleanProperties[i].AddListener(onAchievementCompleted);
-                }
-            }
-
-            if (floatProperties != null)
-            {
-                for (int i = 0; i < floatProperties.Length; i++)
-                {
-                    floatProperties[i].LoadFromFile();
-                    floatProperties[i].AddListener(onAchievementCompleted);
-                }
-            }
-
-            if (integerProperties != null)
-            {
-                for (int i = 0; i < integerProperties.Length; i++)
-                {
-                    integerProperties[i].LoadFromFile();
-                    integerProperties[i].AddListener(onAchievementCompleted);
+                    properties[i].LoadFromFile();
+                    properties[i].AddListener(onAchievementCompleted);
                 }
             }
         }
 
         /// <summary>Returns a list containing information on all the achievements stored</summary>
-        public List<IAchievementInfo> GetAchievementInfo()
+        public List<Achievement> GetAchievementInfo()
         {
-            List<IAchievementInfo> info = new List<IAchievementInfo>();
+            List<Achievement> info = new List<Achievement>();
 
-            if (booleanProperties != null)
+            for (int i = 0; i < properties.Length; i++)
             {
-                for (int i = 0; i < booleanProperties.Length; i++)
-                    if (booleanProperties[i].Achievements != null)
-                        info.AddRange(booleanProperties[i].Achievements);
-            }
-
-            if (floatProperties != null)
-            {
-                for (int i = 0; i < floatProperties.Length; i++)
-                    if (floatProperties[i].Achievements != null)
-                        info.AddRange(floatProperties[i].Achievements);
-            }
-
-            if (integerProperties != null)
-            {
-                for (int i = 0; i < integerProperties.Length; i++)
-                    if (integerProperties[i].Achievements != null)
-                        info.AddRange(integerProperties[i].Achievements);
+                if (properties[i].Achievements != null)
+                {
+                    info.AddRange(properties[i].Achievements);
+                }
             }
 
             return info;
@@ -85,61 +48,20 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Resets all stored properties</summary>
         public void Reset()
         {
-            if (booleanProperties != null)
+            for (int i = 0; i < properties.Length; i++)
             {
-                for (int i = 0; i < booleanProperties.Length; i++)
-                    booleanProperties[i].Reset();
+                properties[i].Reset();
             }
-
-            if (floatProperties != null)
-            {
-                for (int i = 0; i < floatProperties.Length; i++)
-                    floatProperties[i].Reset();
-            }
-
-            if (integerProperties != null)
-            {
-                for (int i = 0; i < integerProperties.Length; i++)
-                    integerProperties[i].Reset();
-            }
-        }
-
-        /// <summary>Returns a stored boolean property based on given name</summary>
-        public BooleanProperty GetBooleanProperty(string propertyName)
-        {
-            for (int i = 0; i < booleanProperties.Length; i++)
-            {
-                if (booleanProperties[i].name == propertyName)
-                {
-                    return booleanProperties[i];
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>Returns a stored floating point property based on given name</summary>
-        public FloatProperty GetFloatProperty(string propertyName)
-        {
-            for (int i = 0; i < floatProperties.Length; i++)
-            {
-                if (floatProperties[i].name == propertyName)
-                {
-                    return floatProperties[i];
-                }
-            }
-
-            return null;
         }
 
         /// <summary>Returns a stored integer property based on given name</summary>
-        public IntegerProperty GetIntegerProperty(string propertyName)
+        public T GetProperty<T>(string propertyName) where T : PlayerProperty
         {
-            for (int i = 0; i < integerProperties.Length; i++)
+            for (int i = 0; i < properties.Length; i++)
             {
-                if (integerProperties[i].name == propertyName)
+                if (properties[i].name == propertyName)
                 {
-                    return integerProperties[i];
+                    return (T)properties[i];
                 }
             }
 

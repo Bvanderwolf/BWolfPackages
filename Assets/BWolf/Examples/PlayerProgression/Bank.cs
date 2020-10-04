@@ -23,7 +23,7 @@ namespace BWolf.Examples.PlayerProgression
             if (!hasOpenedBankAccount)
             {
                 //set has opened bank account property using the property manager
-                PropertyManager.Instance.SetProperty("HasOpenedBankAccount", true);
+                PropertyManager.Instance.GetProperty<BooleanProperty>("HasOpenedBankAccount").UpdateValue(true);
 
                 //update the achieve financial independance quest if it is active and not completed
                 Quest quest = GetQuest("AchieveFinancialIndependance");
@@ -45,8 +45,8 @@ namespace BWolf.Examples.PlayerProgression
                 depositCount++;
 
                 //set money deposited and deposit count properties
-                PropertyManager.Instance.SetProperty("MoneyDeposited", moneyDeposited);
-                PropertyManager.Instance.SetProperty("DepositCount", depositCount);
+                PropertyManager.Instance.GetProperty<FloatProperty>("MoneyDeposited").UpdateValue(moneyDeposited);
+                PropertyManager.Instance.GetProperty<IntegerProperty>("DepositCount").UpdateValue(depositCount);
 
                 //check if we can update our achieve financial independance quest
                 Quest quest = GetQuest("AchieveFinancialIndependance");

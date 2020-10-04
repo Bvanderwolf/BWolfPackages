@@ -8,21 +8,46 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 {
     /// <summary>A Boolean value based Achievement</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/BooleanAchievement")]
-    public class BooleanAchievement : Achievement<bool>
+    public class BooleanAchievement : Achievement
     {
-        public override void UpdateValue(bool newValue, bool fromSaveFile = false)
+        [SerializeField]
+        private bool startValue = false;
+
+        [SerializeField]
+        private bool currentValue = false;
+
+        [SerializeField]
+        private bool goalValue = true;
+
+        public override void LoadFromFile()
         {
-            if (fromSaveFile)
+            string path = $"{FOLDER_NAME}/{nameof(BooleanAchievement)}/{name}";
+
+            if (ProgressFileSystem.LoadProgress(path, out bool outValue))
             {
-                current = newValue;
-                progress = current == goal ? 1.0f : 0.0f;
+                UpdateValue(outValue, false);
             }
-            else
+        }
+
+        public override void Reset()
+        {
+            UpdateValue(startValue);
+        }
+
+        protected override void SaveToFile()
+        {
+            string path = $"{FOLDER_NAME}/{nameof(BooleanAchievement)}/{name}";
+            ProgressFileSystem.SaveProgress(path, currentValue);
+        }
+
+        public void UpdateValue(bool newValue, bool saveToFile = true)
+        {
+            if (saveToFile)
             {
-                if (current != newValue)
+                if (currentValue != newValue)
                 {
-                    current = newValue;
-                    progress = current == goal ? 1.0f : 0.0f;
+                    currentValue = newValue;
+                    progress = currentValue == goalValue ? 1.0f : 0.0f;
 
                     SaveToFile();
 
@@ -31,6 +56,11 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
                         OnCompletion();
                     }
                 }
+            }
+            else
+            {
+                currentValue = newValue;
+                progress = currentValue == goalValue ? 1.0f : 0.0f;
             }
         }
     }

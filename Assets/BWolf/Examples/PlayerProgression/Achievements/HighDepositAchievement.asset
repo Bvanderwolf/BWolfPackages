@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb2f82a1540a5e142a02b651e623a068, type: 3}
-  m_Name: HighDeposittAchievement
+  m_Name: HighDepositAchievement
   m_EditorClassIdentifier: 
   description: 
-  start: 0
-  current: 0
-  goal: 200
   progress: 0
+  startValue: 0
+  currentValue: 0
+  goalValue: 200

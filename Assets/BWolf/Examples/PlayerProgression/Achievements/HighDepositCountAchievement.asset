@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HighDepositCountAchievement
   m_EditorClassIdentifier: 
   description: 
-  start: 0
-  current: 0
-  goal: 5
   progress: 0
+  startValue: 0
+  currentValue: 0
+  goalValue: 5
