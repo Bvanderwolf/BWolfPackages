@@ -20,11 +20,6 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         private event Action<Achievement> OnCompletionEvent;
 
-        public string Name
-        {
-            get { return name; }
-        }
-
         public string Description
         {
             get { return description; }

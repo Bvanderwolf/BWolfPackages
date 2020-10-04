@@ -40,7 +40,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
 
         private void OnAchievementCompleted(Achievement achievementInfo)
         {
-            print($"achievement completed: {achievementInfo.Name}");
+            print($"achievement completed: {achievementInfo.name}");
             AchievementCompleted?.Invoke(achievementInfo);
         }
 

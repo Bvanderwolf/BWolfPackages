@@ -4,6 +4,7 @@
 
 using BWolf.Utilities.PlayerProgression.Achievements;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.PlayerProps
@@ -16,7 +17,36 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
 
         protected const string FOLDER_NAME = "PlayerProperties";
 
-        /// <summary>The Achievements attached to this property's value</summary>
+        /// <summary>Returns an achievement of type T with given name attached to this property</summary>
+        public T GetAchievement<T>(string name) where T : Achievement
+        {
+            for (int i = 0; i < achievements.Length; i++)
+            {
+                if (achievements[i].name == name)
+                {
+                    return (T)achievements[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>Returns a list of Achievements of type T attached to this property</summary>
+        public List<T> GetAchievements<T>() where T : Achievement
+        {
+            List<T> list = new List<T>();
+            for (int i = 0; i < achievements.Length; i++)
+            {
+                if (achievements[i].GetType() == typeof(T))
+                {
+                    list.Add((T)achievements[i]);
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>The base Achievements attached to this property</summary>
         public Achievement[] Achievements
         {
             get

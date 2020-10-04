@@ -2,6 +2,7 @@
 // Version: 1.1
 //----------------------------------
 
+using BWolf.Utilities.PlayerProgression.Achievements;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.PlayerProps
@@ -22,6 +23,11 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             }
 
             floatValue = newfloatValue;
+
+            foreach (FloatAchievement achievement in GetAchievements<FloatAchievement>())
+            {
+                achievement.UpdateValue(floatValue);
+            }
 
             if (!fromSaveFile)
             {
@@ -50,7 +56,6 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             if (ProgressFileSystem.LoadProgress(path, out float outValue))
             {
                 UpdateValue(outValue, true);
-                Debug.LogError(outValue);
             }
         }
     }
