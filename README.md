@@ -26,5 +26,5 @@ Packages created as i learn and start to understand more about unity and the csh
   - [SceneTransitioning](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SceneTransitioning)
 
 
-## Large Packages currently working on
-no packages are currently in the working for now. (Working on small/compact packages right now)
+## Packages currently working on
+- EventPlanning
