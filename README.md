@@ -28,3 +28,4 @@ Packages created as i learn and start to understand more about unity and the csh
 
 ## Packages currently working on
 - EventPlanning
+- CharacterDialogue
