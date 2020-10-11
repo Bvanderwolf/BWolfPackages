@@ -1,44 +1,30 @@
 ﻿using BWolf.Behaviours.SingletonBehaviours;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BWolf.Utilities.CharacterDialogue
 {
     public class DialogueSystem : SingletonBehaviour<DialogueSystem>
     {
         [SerializeField]
-        private AudableCharacterDisplay leftCharacterDisplay;
+        private AudableCharacterDisplay leftCharacterDisplay = null;
 
         [SerializeField]
-        private AudableCharacterDisplay rightCharacterDisplay;
+        private AudableCharacterDisplay rightCharacterDisplay = null;
 
-        public void StartDialogue(Dialogue dialogue)
+        protected override void Awake()
         {
-            leftCharacterDisplay.ImgDisplay.sprite = dialogue.LeftDisplay;
-            rightCharacterDisplay.ImgDisplay.sprite = dialogue.RightDisplay;
+            base.Awake();
 
-            StartCoroutine(DialogueRoutine(dialogue));
-        }
-
-        private IEnumerator DialogueRoutine(Dialogue dialogue)
-        {
-            while (dialogue.Continue(out AudableCharacter character))
+            if (isDuplicate)
             {
-                while (!Input.GetMouseButton(0) && Input.touchCount == 0)
-                {
-                    yield return null;
-                }
+                return;
             }
         }
 
-        [System.Serializable]
-        private struct AudableCharacterDisplay
+        public void StartDialogue(Dialogue dialogue)
         {
-#pragma warning disable 0649
-            public Image ImgDisplay;
-            public Text DialogueDisplay;
-#pragma warning restore 0649
+            StartCoroutine(dialogue.Routine(leftCharacterDisplay, rightCharacterDisplay));
         }
     }
 }

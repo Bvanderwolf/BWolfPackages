@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66126eb32ea8894b865e47611d5523d, type: 3}
   m_Name: JohnMaryDialogue
   m_EditorClassIdentifier: 
-  left: {fileID: 0}
-  right: {fileID: 0}
-  dialogue: []
+  startLeft: 1
+  leftCharacter: {fileID: 11400000, guid: 7b293dcb6807f3c4588248073801a406, type: 2}
+  rightCharacter: {fileID: 11400000, guid: 4f40868ec1490c44b869038fa34275bf, type: 2}
+  monologues:
+  - Line: Hey, How are you?
+    IsLast: 1
+  - Line: I Am fine, How are you?
+    IsLast: 1
+  - Line: I am good
+    IsLast: 0
+  - Line: I just made a demo for creating dialogue
+    IsLast: 1
+  - Line: That sounds pretty cool
+    IsLast: 1

@@ -12,7 +12,5 @@ namespace BWolf.Utilities.CharacterDialogue
         {
             get { return displaySprite; }
         }
-
-        public string NextLine { get; set; }
     }
 }
