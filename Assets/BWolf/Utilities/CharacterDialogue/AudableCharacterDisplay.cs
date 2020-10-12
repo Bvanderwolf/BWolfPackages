@@ -31,15 +31,13 @@ namespace BWolf.Utilities.CharacterDialogue
             set { textComponent.text = value; }
         }
 
-        private void Awake()
-        {
-            SetActive(false);
-        }
-
         /// <summary>Either shows or hides the textbox showing the character to be speaking</summary>
         public void SetActive(bool value)
         {
-            textBox.SetActive(value);
+            if (value != textBox.activeInHierarchy)
+            {
+                textBox.SetActive(value);
+            }
         }
     }
 }

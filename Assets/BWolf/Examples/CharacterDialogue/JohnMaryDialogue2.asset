@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66126eb32ea8894b865e47611d5523d, type: 3}
+  m_Name: JohnMaryDialogue2
+  m_EditorClassIdentifier: 
+  startLeft: 0
+  leftCharacter: {fileID: 11400000, guid: 7b293dcb6807f3c4588248073801a406, type: 2}
+  rightCharacter: {fileID: 11400000, guid: 4f40868ec1490c44b869038fa34275bf, type: 2}
+  monologues:
+  - Line: This is our second dialogue
+    IsLast: 1
+  - Line: Yeah, this is awesome
+    IsLast: 0
+  - Line: I can do this forever!
+    IsLast: 1
+  - Line: This is the end sadly enough
+    IsLast: 1

@@ -33,7 +33,10 @@ namespace BWolf.Utilities.CharacterDialogue
             int indexAt = -1;
 
             leftDisplay.sprite = leftCharacter.DisplaySprite;
+            leftDisplay.SetActive(false);
+
             rightDisplay.sprite = rightCharacter.DisplaySprite;
+            rightDisplay.SetActive(false);
 
             leftIsActive = startLeft;
             activeDisplay = leftIsActive ? leftDisplay : rightDisplay;
@@ -80,8 +83,17 @@ namespace BWolf.Utilities.CharacterDialogue
         {
             hasSwitched = false;
 
-            activeDisplay.SetActive(false);
+            if (activeDisplay != null)
+            {
+                activeDisplay.SetActive(false);
+            }
+
             activeDisplay = null;
+        }
+
+        private void OnDisable()
+        {
+            Reset();
         }
 
         /// <summary>Returns an enumerator that waits for the mouse button to be pressed</summary>

@@ -595,7 +595,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792fe7bf7ce2be94495378c54c14adb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  demoDialogue: {fileID: 11400000, guid: eb88562dbe7c58a44ac3e10434cbcc66, type: 2}
+  choice: 0
+  demoDialogue1: {fileID: 11400000, guid: eb88562dbe7c58a44ac3e10434cbcc66, type: 2}
+  demoDialogue2: {fileID: 11400000, guid: 115b73b1eadef6a4cbba90c02a03905c, type: 2}
 --- !u!1 &763068306
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &763068307
 RectTransform:
   m_ObjectHideFlags: 0
@@ -703,7 +705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1529470591
 RectTransform:
   m_ObjectHideFlags: 0
