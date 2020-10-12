@@ -81,7 +81,6 @@ namespace BWolf.Behaviours
             isShaking = false;
         }
 
-        [SerializeField]
         private enum Axis
         {
             x = 0,

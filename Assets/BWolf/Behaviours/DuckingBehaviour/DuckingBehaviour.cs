@@ -109,7 +109,6 @@ namespace BWolf.Behaviours
             }
         }
 
-        [System.Serializable]
         private enum Curve
         {
             Default,
