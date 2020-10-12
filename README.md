@@ -24,8 +24,9 @@ Packages created as i learn and start to understand more about unity and the csh
   - [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
   - [PlayerProgression](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PlayerProgression)
   - [SceneTransitioning](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SceneTransitioning)
+  - [CharacterDialogue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/CharacterDialogue)
 
 
 ## Packages currently working on
 - EventPlanning
-- CharacterDialogue
+
