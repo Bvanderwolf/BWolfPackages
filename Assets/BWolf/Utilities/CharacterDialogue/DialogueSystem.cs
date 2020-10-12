@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.CharacterDialogue
 {
+    /// <summary>The Singleton class from where dialogue can be started on 2 character displays</summary>
     public class DialogueSystem : SingletonBehaviour<DialogueSystem>
     {
         [SerializeField]
@@ -11,6 +12,8 @@ namespace BWolf.Utilities.CharacterDialogue
 
         [SerializeField]
         private AudableCharacterDisplay rightCharacterDisplay = null;
+
+        private bool isHoldingDialogue;
 
         protected override void Awake()
         {
@@ -22,9 +25,28 @@ namespace BWolf.Utilities.CharacterDialogue
             }
         }
 
+        /// <summary>Starts a new dialogue if none is already in progress</summary>
         public void StartDialogue(Dialogue dialogue)
         {
-            StartCoroutine(dialogue.Routine(leftCharacterDisplay, rightCharacterDisplay));
+            if (!isHoldingDialogue)
+            {
+                StartCoroutine(DialogueRoutine(dialogue));
+            }
+            else
+            {
+                Debug.LogWarning("A dialogue was started while another was in progress :: this is not intended behaviour!");
+            }
+        }
+
+        /// <summary>Returns an enumerator that waits for the dialogue to finish, resseting it when it has</summary>
+        private IEnumerator DialogueRoutine(Dialogue dialogue)
+        {
+            isHoldingDialogue = true;
+
+            yield return dialogue.Routine(leftCharacterDisplay, rightCharacterDisplay);
+
+            dialogue.Reset();
+            isHoldingDialogue = false;
         }
     }
 }

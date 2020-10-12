@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using System.Collections;
 using UnityEngine;
 
 namespace BWolf.Utilities.CharacterDialogue
 {
+    /// <summary>A scriptableobject representing the dialogue between a character on the left side of the screen and one on the right</summary>
     [CreateAssetMenu(menuName = "CharacterDialogue/Dialogue")]
     public class Dialogue : ScriptableObject
     {
@@ -19,8 +24,10 @@ namespace BWolf.Utilities.CharacterDialogue
         private Monologue[] monologues = null;
 
         private bool leftIsActive;
+        private bool hasSwitched;
         private AudableCharacterDisplay activeDisplay;
 
+        /// <summary>Returns an Enumerator that plays out the monologues by each character</summary>
         public IEnumerator Routine(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
         {
             int indexAt = -1;
@@ -29,6 +36,8 @@ namespace BWolf.Utilities.CharacterDialogue
             rightDisplay.sprite = rightCharacter.DisplaySprite;
 
             leftIsActive = startLeft;
+            activeDisplay = leftIsActive ? leftDisplay : rightDisplay;
+            activeDisplay.SetActive(true);
 
             while (Continue(leftDisplay, rightDisplay, ref indexAt))
             {
@@ -37,6 +46,7 @@ namespace BWolf.Utilities.CharacterDialogue
             }
         }
 
+        /// <summary>Tries Progresses the dialogue by switching display if necessary and dislay the next line on screen. Returns false if the end of monologues has been reached.</summary>
         public bool Continue(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay, ref int indexAt)
         {
             indexAt++;
@@ -46,17 +56,35 @@ namespace BWolf.Utilities.CharacterDialogue
                 return false;
             }
 
-            activeDisplay = leftIsActive ? leftDisplay : rightDisplay;
+            if (hasSwitched)
+            {
+                activeDisplay.SetActive(false);
+                activeDisplay = leftIsActive ? leftDisplay : rightDisplay;
+                activeDisplay.SetActive(true);
+                hasSwitched = false;
+            }
+
             activeDisplay.text = monologues[indexAt].Line;
 
             if (monologues[indexAt].IsLast)
             {
                 leftIsActive = !leftIsActive;
+                hasSwitched = true;
             }
 
             return true;
         }
 
+        /// <summary>Resets the dialogue state</summary>
+        public void Reset()
+        {
+            hasSwitched = false;
+
+            activeDisplay.SetActive(false);
+            activeDisplay = null;
+        }
+
+        /// <summary>Returns an enumerator that waits for the mouse button to be pressed</summary>
         private static IEnumerator WaitForInput()
         {
             while (!Input.GetMouseButtonDown(0))

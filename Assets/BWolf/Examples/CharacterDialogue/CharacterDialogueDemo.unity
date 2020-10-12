@@ -480,7 +480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayImage: {fileID: 587294635}
-  textBox: {fileID: 1689251553}
+  textBox: {fileID: 1529470590}
+  textComponent: {fileID: 1689251553}
 --- !u!1 &695657855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,7 +1054,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayImage: {fileID: 1743231051}
-  textBox: {fileID: 516322620}
+  textBox: {fileID: 763068306}
+  textComponent: {fileID: 516322620}
 --- !u!1 &1812431387
 GameObject:
   m_ObjectHideFlags: 0

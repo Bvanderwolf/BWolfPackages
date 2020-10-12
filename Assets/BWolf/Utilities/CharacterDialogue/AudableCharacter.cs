@@ -2,6 +2,7 @@
 
 namespace BWolf.Utilities.CharacterDialogue
 {
+    /// <summary>A scriptable object representing an audable character to be shown on screen</summary>
     [CreateAssetMenu(menuName = "CharacterDialogue/AudableCharacter")]
     public class AudableCharacter : ScriptableObject
     {
