@@ -1,4 +1,8 @@
-﻿using BWolf.Behaviours.SingletonBehaviours;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Behaviours.SingletonBehaviours;
 using System.Collections;
 using UnityEngine;
 
