@@ -1,0 +1,16 @@
+# Character Dialogue
+
+A small package for providing text based dialogue between 2 characters on screen using scriptable objects
+
+## Features
+
+- A AudableCharacter class representing a displayable audable character on screen
+- A Dialogue class representing a conversation between 2 audable characters
+- A AudableCharacterDisplay class for displaying the audable characters on screen with their monologue
+- A DialogueSystem class for starting and managing a new dialogue
+
+## Demo
+
+A demo is attached to this package showing 2 conversations between John and Mary
+
+The UnityPackage can be downloaded here: https://drive.google.com/file/d/1iEVftnSoJfXRvdAeFKM8HoVvuIbq2Dbz/view?usp=sharing 
