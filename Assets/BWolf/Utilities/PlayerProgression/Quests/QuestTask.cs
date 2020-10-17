@@ -21,6 +21,6 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public abstract void SaveToFile();
 
-        public abstract void Reset();
+        public abstract void Restore();
     }
 }

@@ -35,7 +35,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
-        public override void Reset()
+        public override void Restore()
         {
             isDoneOnce = false;
             SaveToFile();

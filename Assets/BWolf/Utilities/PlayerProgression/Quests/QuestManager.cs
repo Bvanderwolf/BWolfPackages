@@ -20,6 +20,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public event Action<Quest> QuestCompleted;
 
+        public Quest[] Quests
+        {
+            get { return quests; }
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -47,7 +52,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         {
             for (int i = 0; i < quests.Length; i++)
             {
-                quests[i].Reset();
+                quests[i].Restore();
             }
         }
 

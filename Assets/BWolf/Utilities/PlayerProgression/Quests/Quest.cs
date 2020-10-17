@@ -25,6 +25,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private QuestTask[] tasks = null;
 
+        [Space]
         [SerializeField]
         private Quest requiredQuest = null;
 
@@ -67,6 +68,21 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public QuestTask[] Tasks
         {
             get { return tasks; }
+        }
+
+        /// <summary>Progression of this quest indicated by a number between 0 and 1</summary>
+        public float Progress
+        {
+            get
+            {
+                float totalProgress = 0.0f;
+                for (int i = 0; i < tasks.Length; i++)
+                {
+                    totalProgress += tasks[i].TaskProgres;
+                }
+
+                return Mathf.Clamp01(totalProgress);
+            }
         }
 
         /// <summary>Updates this quest by checking the progress of the tasks</summary>
@@ -129,11 +145,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         }
 
         /// <summary>Resets this quest, resetting its tasks and setting it to be inactive and incomplete</summary>
-        public void Reset()
+        public void Restore()
         {
             for (int i = 0; i < tasks.Length; i++)
             {
-                tasks[i].Reset();
+                tasks[i].Restore();
             }
 
             SetActive(false);
