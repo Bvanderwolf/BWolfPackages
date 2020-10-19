@@ -13,17 +13,22 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private bool isDoneOnce = false;
 
-        public override string TaskDescription
+        public override string Description
         {
             get
             {
-                return string.Format("{0} ({1}/1)", description, isDoneOnce ? 1 : 0);
+                return description;
             }
         }
 
-        public override float TaskProgres
+        public override float Progress
         {
             get { return isDoneOnce ? 1.0f : 0.0f; }
+        }
+
+        public override string ProgressFormatted
+        {
+            get { return string.Format("({0}/1)", isDoneOnce ? 1 : 0); }
         }
 
         public override void LoadFromFile()

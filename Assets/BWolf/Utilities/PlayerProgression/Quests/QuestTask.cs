@@ -14,8 +14,9 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         protected const string FOLDER_PATH = "Quests/QuestTasks";
 
-        public abstract string TaskDescription { get; }
-        public abstract float TaskProgres { get; }
+        public abstract string Description { get; }
+        public abstract float Progress { get; }
+        public abstract string ProgressFormatted { get; }
 
         public abstract void LoadFromFile();
 

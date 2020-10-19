@@ -21,7 +21,8 @@ namespace BWolf.Examples.PlayerProgression
         {
             for (int i = 0; i < txtTasks.Length; i++)
             {
-                txtTasks[i].text = tasks[i].TaskDescription;
+                QuestTask task = tasks[i];
+                txtTasks[i].text = $"{task.Description} {task.ProgressFormatted}";
             }
         }
     }

@@ -16,20 +16,25 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private int goal = 0;
 
-        public override string TaskDescription
+        public override string Description
         {
             get
             {
-                return $"{description} ({count}/{goal})";
+                return description;
             }
         }
 
-        public override float TaskProgres
+        public override float Progress
         {
             get
             {
                 return count / (float)goal;
             }
+        }
+
+        public override string ProgressFormatted
+        {
+            get { return $"({count}/{goal})"; }
         }
 
         /// <summary>Increments the count on this task by one</summary>

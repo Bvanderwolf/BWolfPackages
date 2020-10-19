@@ -78,7 +78,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
                 float totalProgress = 0.0f;
                 for (int i = 0; i < tasks.Length; i++)
                 {
-                    totalProgress += tasks[i].TaskProgres;
+                    totalProgress += tasks[i].Progress;
                 }
 
                 return Mathf.Clamp01(totalProgress);
@@ -96,7 +96,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             float totalProgress = 0.0f;
             for (int i = 0; i < tasks.Length; i++)
             {
-                totalProgress += tasks[i].TaskProgres;
+                totalProgress += tasks[i].Progress;
             }
 
             if (totalProgress >= tasks.Length)

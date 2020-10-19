@@ -16,20 +16,25 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private float minimalValue = 0.0f;
 
-        public override string TaskDescription
+        public override string Description
         {
             get
             {
-                return $"{description} ({currentValue}/{minimalValue})";
+                return description;
             }
         }
 
-        public override float TaskProgres
+        public override float Progress
         {
             get
             {
                 return currentValue / minimalValue;
             }
+        }
+
+        public override string ProgressFormatted
+        {
+            get { return $"({currentValue}/{minimalValue})"; }
         }
 
         public override void LoadFromFile()
