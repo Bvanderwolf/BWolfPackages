@@ -37,6 +37,16 @@ namespace BWolf.Utilities.PlayerProgression.Quests
                 quests[i].LoadActiveStateFromFile();
                 quests[i].LoadTasksFromFile();
             }
+
+#if UNITY_EDITOR
+            foreach (Quest quest in quests)
+            {
+                if (quest.IsActive)
+                {
+                    ActiveQuests.Add(quest);
+                }
+            }
+#endif
         }
 
         private void Update()
