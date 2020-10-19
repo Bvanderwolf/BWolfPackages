@@ -9,11 +9,14 @@ namespace BWolf.Utilities.EventPlanning
         [SerializeField]
         private float timeScale = 1f;
 
+        [SerializeField]
+        private int startingHour = 12;
+
         private List<DatedEvent> events = new List<DatedEvent>();
 
-        private EventDate date = new EventDate();
+        private CalenderDate date;
 
-        public EventDate Date
+        public CalenderDate Date
         {
             get { return date; }
         }
@@ -24,6 +27,7 @@ namespace BWolf.Utilities.EventPlanning
 
             if (!isDuplicate)
             {
+                date = new CalenderDate(startingHour);
                 date.AddSeconds(Time.realtimeSinceStartup);
             }
         }
@@ -60,7 +64,7 @@ namespace BWolf.Utilities.EventPlanning
         }
     }
 
-    public struct EventDate
+    public struct CalenderDate
     {
         private double _seconds;
 
@@ -69,12 +73,28 @@ namespace BWolf.Utilities.EventPlanning
         public int day { get; set; }
         public int month { get; set; }
         public int year { get; set; }
+        public bool night { get; private set; }
 
-        private const int SECONDS_PER_MINUTE = 60;
-        private const int MINUTES_PER_HOUR = 60;
-        private const int HOURS_PER_DAY = 24;
-        private const int DAYS_PER_MONTH = 30;
-        private const int MONTHS_PER_YEAR = 12;
+        public const int SECONDS_PER_MINUTE = 60;
+        public const int MINUTES_PER_HOUR = 60;
+        public const int HOURS_PER_DAY = 24;
+        public const int CLOCK_HOURS_PER_DAY = 12;
+        public const int DAYS_PER_MONTH = 30;
+        public const int MONTHS_PER_YEAR = 12;
+
+        private const int NIGHT_START_HOUR = 18;
+        private const int NIGHT_END_HOUR = 6;
+
+        public CalenderDate(int startingHour)
+        {
+            _seconds = 0.0d;
+            minute = 0;
+            hour = Mathf.Clamp(startingHour, 0, HOURS_PER_DAY);
+            night = hour > NIGHT_START_HOUR || hour < NIGHT_END_HOUR;
+            day = 0;
+            month = 0;
+            year = 0;
+        }
 
         public int second
         {
@@ -137,7 +157,7 @@ namespace BWolf.Utilities.EventPlanning
             }
         }
 
-        public bool Equals(EventDate dt2)
+        public bool Equals(CalenderDate dt2)
         {
             return year == dt2.year
                && month == dt2.month
@@ -152,7 +172,7 @@ namespace BWolf.Utilities.EventPlanning
             return $"{hour}:{minute}:{second} {day}/{month}/{year}";
         }
 
-        public static bool operator >(EventDate dt1, EventDate dt2)
+        public static bool operator >(CalenderDate dt1, CalenderDate dt2)
         {
             return dt1.year > dt2.year
                 || dt1.month > dt2.month
@@ -162,7 +182,7 @@ namespace BWolf.Utilities.EventPlanning
                 || dt1.second > dt2.second;
         }
 
-        public static bool operator <(EventDate dt1, EventDate dt2)
+        public static bool operator <(CalenderDate dt1, CalenderDate dt2)
         {
             return !(dt1 > dt2);
         }

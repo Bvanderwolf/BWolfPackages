@@ -21,7 +21,7 @@ namespace BWolf.Examples.EventPlanning
                 partPairs.Add(part.NameOfPart, part.Number);
             }
 
-            EventCalender.Instance.AddEvent(new DatedEvent(new EventDate
+            EventCalender.Instance.AddEvent(new DatedEvent(new CalenderDate
             {
                 second = partPairs["second"],
                 minute = partPairs["minute"],

@@ -4,11 +4,11 @@ namespace BWolf.Utilities.EventPlanning
 {
     public struct DatedEvent
     {
-        public EventDate Date { get; private set; }
+        public CalenderDate Date { get; private set; }
 
         private Action<DatedEvent> _onEvent;
 
-        public DatedEvent(EventDate date, Action<DatedEvent> onEvent)
+        public DatedEvent(CalenderDate date, Action<DatedEvent> onEvent)
         {
             Date = date;
             _onEvent = onEvent;

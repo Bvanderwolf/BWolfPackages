@@ -26,7 +26,7 @@ namespace BWolf.Examples.EventPlanning
 
         private void Update()
         {
-            EventDate date = EventCalender.Instance.Date;
+            CalenderDate date = EventCalender.Instance.Date;
             seconds.text = "Seconds: " + date.second;
             minutes.text = "Minutes " + date.minute;
             hours.text = "Hours: " + date.hour;
