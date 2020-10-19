@@ -55,6 +55,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             get { return isActive && !isCompleted; }
         }
 
+        public bool IsCompleted
+        {
+            get { return isCompleted; }
+        }
+
         private bool FinishedRequiredQuest
         {
             get { return requiredQuest == null || requiredQuest.isCompleted; }
@@ -102,6 +107,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             if (totalProgress >= tasks.Length)
             {
                 Completed?.Invoke(this);
+                SetActive(false);
                 isCompleted = true;
             }
         }
