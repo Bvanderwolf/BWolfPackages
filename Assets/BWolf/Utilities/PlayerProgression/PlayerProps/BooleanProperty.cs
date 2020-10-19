@@ -14,6 +14,11 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private bool booleanValue = false;
 
+        public bool Value
+        {
+            get { return booleanValue; }
+        }
+
         /// <summary>Updates the value of this property, only set fromSaveFile flag to true when called when called after loading it from a file</summary>
         public void UpdateValue(bool newBooleanValue, bool fromSaveFile = false)
         {

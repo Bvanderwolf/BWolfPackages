@@ -14,6 +14,11 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private float floatValue = 0.0f;
 
+        public float Value
+        {
+            get { return floatValue; }
+        }
+
         /// <summary>Updates the value of this property, only set fromSaveFile flag to true when called when called after loading it from a file</summary>
         public void UpdateValue(float newfloatValue, bool fromSaveFile = false)
         {

@@ -14,6 +14,11 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private int integerValue = 0;
 
+        public int Value
+        {
+            get { return integerValue; }
+        }
+
         /// <summary>Updates the value of this property, only set fromSaveFile flag to true when called when called after loading it from a file</summary>
         public void UpdateValue(int newIntegerValue, bool fromSaveFile = false)
         {
