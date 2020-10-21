@@ -50,7 +50,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         {
             for (int i = 0; i < properties.Length; i++)
             {
-                properties[i].Reset();
+                properties[i].Restore();
             }
         }
 

@@ -74,7 +74,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Resets the value of this property and the achievements attached to it</summary>
-        public abstract void Reset();
+        public abstract void Restore();
 
         /// <summary>Saves value to local storage</summary>
         protected abstract void SaveToFile();

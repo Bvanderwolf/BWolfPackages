@@ -56,7 +56,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         }
 
         /// <summary>Resets the progression</summary>
-        public abstract void Reset();
+        public abstract void Restore();
 
         /// <summary>Saves current value to local storage</summary>
         protected abstract void SaveToFile();

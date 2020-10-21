@@ -41,7 +41,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Resets the value of this property and the achievements attached to it</summary>
-        public override void Reset()
+        public override void Restore()
         {
             UpdateValue(false);
         }

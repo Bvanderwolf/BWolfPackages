@@ -29,7 +29,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
             }
         }
 
-        public override void Reset()
+        public override void Restore()
         {
             UpdateValue(startValue);
         }
