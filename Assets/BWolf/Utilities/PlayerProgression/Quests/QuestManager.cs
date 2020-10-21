@@ -66,6 +66,21 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
+        /// <summary>Returns a stored quest with given name. Returns null if no quest is found</summary>
+        public Quest GetQuest(string nameOfQuest)
+        {
+            for (int i = 0; i < quests.Length; i++)
+            {
+                Quest quest = quests[i];
+                if (quest.name == nameOfQuest)
+                {
+                    return quest;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>Called when a quest's active state has changed to add it to or remove it from the activeQuests list</summary>
         private void OnActiveStateChanged(Quest quest, bool value)
         {
