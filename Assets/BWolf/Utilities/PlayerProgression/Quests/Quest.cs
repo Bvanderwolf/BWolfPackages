@@ -86,7 +86,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
                     totalProgress += tasks[i].Progress;
                 }
 
-                return Mathf.Clamp01(totalProgress);
+                return Mathf.Clamp01(totalProgress / tasks.Length);
             }
         }
 
