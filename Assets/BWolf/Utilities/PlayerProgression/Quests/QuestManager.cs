@@ -14,7 +14,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
     public class QuestManager : SingletonBehaviour<QuestManager>
     {
         [SerializeField]
-        private Quest[] quests = null;
+        private QuestAsset questAsset = null;
 
         public List<Quest> ActiveQuests { get; } = new List<Quest>();
 
@@ -22,24 +22,24 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public Quest[] Quests
         {
-            get { return quests; }
+            get { return questAsset.Quests; }
         }
 
         protected override void Awake()
         {
             base.Awake();
 
-            for (int i = 0; i < quests.Length; i++)
+            foreach (Quest quest in questAsset.Quests)
             {
-                quests[i].ActiveStateChanged += OnActiveStateChanged;
-                quests[i].Completed += OnQuestCompleted;
+                quest.ActiveStateChanged += OnActiveStateChanged;
+                quest.Completed += OnQuestCompleted;
 
-                quests[i].LoadActiveStateFromFile();
-                quests[i].LoadTasksFromFile();
+                quest.LoadActiveStateFromFile();
+                quest.LoadTasksFromFile();
             }
 
 #if UNITY_EDITOR
-            foreach (Quest quest in quests)
+            foreach (Quest quest in questAsset.Quests)
             {
                 if (quest.IsActive)
                 {
@@ -60,25 +60,13 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [ContextMenu("ResetProgress")]
         public void ResetProgress()
         {
-            for (int i = 0; i < quests.Length; i++)
-            {
-                quests[i].Restore();
-            }
+            questAsset.Restore();
         }
 
         /// <summary>Returns a stored quest with given name. Returns null if no quest is found</summary>
         public Quest GetQuest(string nameOfQuest)
         {
-            for (int i = 0; i < quests.Length; i++)
-            {
-                Quest quest = quests[i];
-                if (quest.name == nameOfQuest)
-                {
-                    return quest;
-                }
-            }
-
-            return null;
+            return questAsset.GetQuest(nameOfQuest);
         }
 
         /// <summary>Called when a quest's active state has changed to add it to or remove it from the activeQuests list</summary>

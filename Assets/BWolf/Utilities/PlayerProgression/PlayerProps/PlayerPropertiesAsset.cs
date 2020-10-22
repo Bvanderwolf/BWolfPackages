@@ -11,10 +11,21 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
 {
     /// <summary>The Player properties stored as a scriptable object</summary>
     [CreateAssetMenu(menuName = "PlayerProgression/PlayerProps/PropertiesAsset")]
-    public class PlayerProperties : ScriptableObject
+    public class PlayerPropertiesAsset : ScriptableObject
     {
+        [Header("Settings")]
+        [SerializeField, Tooltip("Are player properties restored to their original default state when building the application")]
+        private bool restoreOnBuild = true;
+
+        [Header("Player Properties")]
         [SerializeField]
         private PlayerProperty[] properties = null;
+
+        /// <summary>Are player properties restored to their original default state when building the application</summary>
+        public bool RestoreOnBuild
+        {
+            get { return restoreOnBuild; }
+        }
 
         /// <summary>Initializes properties, loading their values from local storage and listening for achievement completion using given listener</summary>
         public void Initialize(Action<Achievement> onAchievementCompleted)
@@ -46,7 +57,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Resets all stored properties</summary>
-        public void Reset()
+        public void Restore()
         {
             for (int i = 0; i < properties.Length; i++)
             {

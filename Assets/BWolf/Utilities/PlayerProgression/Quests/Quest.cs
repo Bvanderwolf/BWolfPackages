@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BWolf.Utilities.PlayerProgression.Quests
 {
     /// <summary>A scriptable object for storing quest information, containing tasks to complete it</summary>
-    [CreateAssetMenu(menuName = "PlayerProgression/Quest")]
+    [CreateAssetMenu(menuName = "PlayerProgression/Quests/Quest")]
     public class Quest : ScriptableObject
     {
         [Header("Settings")]
@@ -136,14 +136,14 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         }
 
         /// <summary>Sets the active state of this quest</summary>
-        public void SetActive(bool value, bool fromFile = false)
+        public void SetActive(bool value, bool saveToFile = true)
         {
             if (value != isActive)
             {
                 isActive = value;
                 ActiveStateChanged(this, isActive);
 
-                if (!fromFile)
+                if (saveToFile)
                 {
                     SaveActiveStateToFile();
                 }
@@ -176,7 +176,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             string path = $"{FOLDER_PATH}/{name}";
             if (ProgressFileSystem.LoadProgress(path, out bool outValue))
             {
-                SetActive(outValue, true);
+                SetActive(outValue, false);
             }
         }
     }

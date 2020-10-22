@@ -15,7 +15,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     public class PropertyManager : SingletonBehaviour<PropertyManager>
     {
         [SerializeField]
-        private PlayerProperties propertiesAsset = null;
+        private PlayerPropertiesAsset propertiesAsset = null;
 
         public event Action<Achievement> AchievementCompleted;
 
@@ -48,7 +48,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [ContextMenu("ResetProgression")]
         public void ResetProgression()
         {
-            propertiesAsset.Reset();
+            propertiesAsset.Restore();
         }
     }
 }

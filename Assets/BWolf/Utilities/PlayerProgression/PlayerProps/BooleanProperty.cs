@@ -20,7 +20,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Updates the value of this property, only set fromSaveFile flag to true when called when called after loading it from a file</summary>
-        public void UpdateValue(bool newBooleanValue, bool fromSaveFile = false)
+        public void UpdateValue(bool newBooleanValue, bool saveToFile = true)
         {
             if (booleanValue == newBooleanValue)
             {
@@ -34,7 +34,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
                 achievement.UpdateValue(booleanValue);
             }
 
-            if (!fromSaveFile)
+            if (saveToFile)
             {
                 SaveToFile();
             }
@@ -60,7 +60,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
 
             if (ProgressFileSystem.LoadProgress(path, out bool outValue))
             {
-                UpdateValue(outValue, true);
+                UpdateValue(outValue, false);
             }
         }
     }
