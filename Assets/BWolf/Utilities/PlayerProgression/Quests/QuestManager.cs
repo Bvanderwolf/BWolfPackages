@@ -41,7 +41,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 #if UNITY_EDITOR
             foreach (Quest quest in questAsset.Quests)
             {
-                if (quest.IsActive)
+                if (quest.IsActive && !ActiveQuests.Contains(quest))
                 {
                     ActiveQuests.Add(quest);
                 }
