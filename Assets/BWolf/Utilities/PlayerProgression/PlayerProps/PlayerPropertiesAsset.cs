@@ -10,7 +10,7 @@ using UnityEngine;
 namespace BWolf.Utilities.PlayerProgression.PlayerProps
 {
     /// <summary>The Player properties stored as a scriptable object</summary>
-    [CreateAssetMenu(menuName = "PlayerProgression/PlayerProps/PropertiesAsset")]
+    [CreateAssetMenu(fileName = ASSET_NAME, menuName = "PlayerProgression/PlayerProps/PropertiesAsset")]
     public class PlayerPropertiesAsset : ScriptableObject
     {
         [Header("Settings")]
@@ -20,6 +20,8 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [Header("Player Properties")]
         [SerializeField]
         private PlayerProperty[] properties = null;
+
+        public const string ASSET_NAME = "PlayerPropertiesAsset";
 
         /// <summary>Are player properties restored to their original default state when building the application</summary>
         public bool RestoreOnBuild
