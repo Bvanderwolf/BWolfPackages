@@ -141,7 +141,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             if (value != isActive)
             {
                 isActive = value;
-                ActiveStateChanged(this, isActive);
+                ActiveStateChanged?.Invoke(this, isActive);
 
                 if (saveToFile)
                 {
@@ -158,9 +158,9 @@ namespace BWolf.Utilities.PlayerProgression.Quests
                 tasks[i].Restore();
             }
 
-            SetActive(false);
-
+            ActiveStateChanged = null;
             isCompleted = false;
+            SetActive(false);
         }
 
         /// <summary>Saves the active state of this quest to local storage</summary>
