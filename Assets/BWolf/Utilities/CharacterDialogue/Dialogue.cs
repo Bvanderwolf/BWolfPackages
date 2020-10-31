@@ -2,6 +2,7 @@
 // Version: 1.0
 //----------------------------------
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ namespace BWolf.Utilities.CharacterDialogue
         private bool hasSwitched;
         private AudableCharacterDisplay activeDisplay;
 
+        public Action<int> OnContinue;
+
         /// <summary>Returns an Enumerator that plays out the monologues by each character</summary>
         public IEnumerator Routine(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
         {
@@ -44,6 +47,8 @@ namespace BWolf.Utilities.CharacterDialogue
 
             while (Continue(leftDisplay, rightDisplay, ref indexAt))
             {
+                OnContinue?.Invoke(indexAt);
+
                 yield return WaitForInput();
                 yield return null; //wait for update frame so Continue is not called twice
             }
@@ -79,21 +84,17 @@ namespace BWolf.Utilities.CharacterDialogue
         }
 
         /// <summary>Resets the dialogue state</summary>
-        public void Reset()
+        public void Restore()
         {
             hasSwitched = false;
 
-            if (activeDisplay != null)
-            {
-                activeDisplay.SetActive(false);
-            }
-
+            activeDisplay?.SetActive(false);
             activeDisplay = null;
         }
 
         private void OnDisable()
         {
-            Reset();
+            Restore();
         }
 
         /// <summary>Returns an enumerator that waits for the mouse button to be pressed</summary>
@@ -105,7 +106,7 @@ namespace BWolf.Utilities.CharacterDialogue
             }
         }
 
-        [System.Serializable]
+        [Serializable]
         private struct Monologue
         {
 #pragma warning disable 0649

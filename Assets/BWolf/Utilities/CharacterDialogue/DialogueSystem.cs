@@ -5,6 +5,7 @@
 using BWolf.Behaviours.SingletonBehaviours;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.CharacterDialogue
@@ -20,6 +21,8 @@ namespace BWolf.Utilities.CharacterDialogue
 
         private bool isHoldingDialogue;
 
+        private Queue<CallbackDialogue> dialogueQueue = new Queue<CallbackDialogue>();
+
         protected override void Awake()
         {
             base.Awake();
@@ -30,16 +33,21 @@ namespace BWolf.Utilities.CharacterDialogue
             }
         }
 
+        protected override void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
+
         /// <summary>Starts a new dialogue if none is already in progress</summary>
-        public void StartDialogue(Dialogue dialogue, Action onDialogueFinished = null)
+        public void StartDialogue(Dialogue dialogue, Action onFinish = null)
         {
             if (!isHoldingDialogue)
             {
-                StartCoroutine(DialogueRoutine(dialogue, onDialogueFinished));
+                StartCoroutine(DialogueRoutine(dialogue, onFinish));
             }
             else
             {
-                Debug.LogWarning("A dialogue was started while another was in progress :: this is not intended behaviour!");
+                dialogueQueue.Enqueue(new CallbackDialogue(dialogue, onFinish));
             }
         }
 
@@ -50,10 +58,34 @@ namespace BWolf.Utilities.CharacterDialogue
 
             yield return dialogue.Routine(leftCharacterDisplay, rightCharacterDisplay);
 
-            dialogue.Reset();
+            dialogue.Restore();
             onDialogueFinished?.Invoke();
+            CheckForDeque();
+        }
 
-            isHoldingDialogue = false;
+        private void CheckForDeque()
+        {
+            if (dialogueQueue.Count != 0)
+            {
+                CallbackDialogue dequedDialogue = dialogueQueue.Dequeue();
+                StartCoroutine(DialogueRoutine(dequedDialogue.dialogue, dequedDialogue.callback));
+            }
+            else
+            {
+                isHoldingDialogue = false;
+            }
+        }
+
+        private readonly struct CallbackDialogue
+        {
+            public readonly Dialogue dialogue;
+            public readonly Action callback;
+
+            public CallbackDialogue(Dialogue dialogue, Action callback)
+            {
+                this.dialogue = dialogue;
+                this.callback = callback;
+            }
         }
     }
 }
