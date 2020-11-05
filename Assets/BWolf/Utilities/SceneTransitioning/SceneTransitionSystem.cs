@@ -89,7 +89,7 @@ namespace BWolf.Utilities.SceneTransitioning
         }
 
         /// <summary>Returns whether given scene name corresponds to a scene that is stored in the build settings</summary>
-        private bool SceneIsLoadable(string sceneName)
+        public bool SceneIsLoadable(string sceneName)
         {
             for (int i = 0; i < scenesInBuild.Length; i++)
             {
