@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.5
+// Version: 1.6
 //----------------------------------
 
 using UnityEngine;
@@ -15,9 +15,9 @@ namespace BWolf.Utilities
         private float currentTime;
         private LerpSetting setting;
         private float time;
-        private float speed;
         private bool fixedDelta;
 
+        /// <summary>current percentage at which the value is linearly interpolating</summary>
         public float perc
         {
             get
@@ -26,28 +26,28 @@ namespace BWolf.Utilities
             }
         }
 
-        public LerpValue(T start, T end, float time) : this(start, end, time, 1f, LerpSettings.Default, 0f, false)
+        /// <summary>remaining time left to used for linearly interpolating</summary>
+        public float remainer
+        {
+            get
+            {
+                return time - currentTime;
+            }
+        }
+
+        public LerpValue(T start, T end, float time) : this(start, end, time, LerpSettings.Default, 0.0f, false)
         {
         }
 
-        public LerpValue(T start, T end, float time, float speed) : this(start, end, time, speed, LerpSettings.Default, 0f, false)
+        public LerpValue(T start, T end, float time, LerpSetting setting) : this(start, end, time, setting, 0.0f, false)
         {
         }
 
-        public LerpValue(T start, T end, float time, LerpSetting setting) : this(start, end, time, 1f, setting, 0f, false)
-        {
-        }
-
-        public LerpValue(T start, T end, float time, float speed, LerpSetting setting) : this(start, end, time, speed, setting, 0f, false)
-        {
-        }
-
-        public LerpValue(T start, T end, float time, float speed, LerpSetting setting, float startPerc = 0f, bool fixedDelta = false)
+        public LerpValue(T start, T end, float time, LerpSetting setting, float startPerc, bool fixedDelta)
         {
             this.start = start;
             this.end = end;
             this.time = time;
-            this.speed = speed;
             this.setting = setting;
             this.fixedDelta = fixedDelta;
 
@@ -64,7 +64,7 @@ namespace BWolf.Utilities
                 return false;
             }
 
-            currentTime += (!fixedDelta ? Time.deltaTime : Time.fixedDeltaTime) * speed;
+            currentTime += (!fixedDelta ? Time.deltaTime : Time.fixedDeltaTime);
             if (currentTime > time)
             {
                 currentTime = time;
