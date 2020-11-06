@@ -16,7 +16,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         [SerializeField, Range(0.0f, 1.0f)]
         protected float progress = 0.0f;
 
-        protected const string FOLDER_NAME = "Achievements";
+        protected const string FOLDER_NAME = "ProgressSaves/Achievements";
 
         private event Action<Achievement> OnCompletionEvent;
 

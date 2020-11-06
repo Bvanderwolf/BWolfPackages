@@ -2,6 +2,7 @@
 // Version: 1.0
 //----------------------------------
 
+using BWolf.Utilities.FileStorage;
 using System;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public event Action<Quest> Completed;
 
-        private const string FOLDER_PATH = "Quests/ActiveQuests";
+        private const string FOLDER_PATH = "ProgressSaves/Quests/ActiveQuests";
 
         public string Description
         {
@@ -167,14 +168,14 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public void SaveActiveStateToFile()
         {
             string path = $"{FOLDER_PATH}/{name}";
-            ProgressFileSystem.SaveProgress(path, isActive);
+            FileStorageSystem.SaveToFile(path, isActive);
         }
 
         /// <summary>Loads the active state of this quest from local storage and assigns its value</summary>
         public void LoadActiveStateFromFile()
         {
             string path = $"{FOLDER_PATH}/{name}";
-            if (ProgressFileSystem.LoadProgress(path, out bool outValue))
+            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
             {
                 SetActive(outValue, false);
             }

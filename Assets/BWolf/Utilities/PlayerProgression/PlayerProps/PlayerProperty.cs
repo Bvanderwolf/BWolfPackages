@@ -15,7 +15,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private Achievement[] achievements = null;
 
-        protected const string FOLDER_NAME = "PlayerProperties";
+        protected const string FOLDER_NAME = "ProgressSaves/PlayerProperties";
 
         /// <summary>Returns an achievement of type T with given name attached to this property</summary>
         public T GetAchievement<T>(string name) where T : Achievement

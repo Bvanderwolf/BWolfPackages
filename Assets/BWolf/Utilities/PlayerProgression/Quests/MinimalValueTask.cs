@@ -2,6 +2,7 @@
 // Version: 1.0
 //----------------------------------
 
+using BWolf.Utilities.FileStorage;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
@@ -40,7 +41,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void LoadFromFile()
         {
             string path = $"{FOLDER_PATH}/{nameof(MinimalValueTask)}/{name}";
-            if (ProgressFileSystem.LoadProgress(path, out float outValue))
+            if (FileStorageSystem.LoadFromFile(path, out float outValue))
             {
                 currentValue = outValue;
             }
@@ -55,7 +56,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void SaveToFile()
         {
             string path = $"{FOLDER_PATH}/{nameof(MinimalValueTask)}/{name}";
-            ProgressFileSystem.SaveProgress(path, currentValue);
+            FileStorageSystem.SaveToFile(path, currentValue);
         }
 
         /// <summary>Updates the current value of this task to given value</summary>

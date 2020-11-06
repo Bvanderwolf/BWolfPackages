@@ -2,6 +2,7 @@
 // Version: 1.1
 //----------------------------------
 
+using BWolf.Utilities.FileStorage;
 using BWolf.Utilities.PlayerProgression.Achievements;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         protected override void SaveToFile()
         {
             string path = $"{FOLDER_NAME}/{nameof(BooleanProperty)}/{name}";
-            ProgressFileSystem.SaveProgress(path, booleanValue);
+            FileStorageSystem.SaveToFile(path, booleanValue);
         }
 
         /// <summary>Loads value from local storage</summary>
@@ -58,7 +59,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         {
             string path = $"{FOLDER_NAME}/{nameof(BooleanProperty)}/{name}";
 
-            if (ProgressFileSystem.LoadProgress(path, out bool outValue))
+            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
             {
                 UpdateValue(outValue, false);
             }

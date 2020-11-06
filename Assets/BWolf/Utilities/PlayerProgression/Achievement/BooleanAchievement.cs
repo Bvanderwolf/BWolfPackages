@@ -2,6 +2,7 @@
 // Version: 1.1
 //----------------------------------
 
+using BWolf.Utilities.FileStorage;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Achievements
@@ -23,7 +24,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         {
             string path = $"{FOLDER_NAME}/{nameof(BooleanAchievement)}/{name}";
 
-            if (ProgressFileSystem.LoadProgress(path, out bool outValue))
+            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
             {
                 UpdateValue(outValue, false);
             }
@@ -37,7 +38,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         protected override void SaveToFile()
         {
             string path = $"{FOLDER_NAME}/{nameof(BooleanAchievement)}/{name}";
-            ProgressFileSystem.SaveProgress(path, currentValue);
+            FileStorageSystem.SaveToFile(path, currentValue);
         }
 
         public void UpdateValue(bool newValue, bool saveToFile = true)

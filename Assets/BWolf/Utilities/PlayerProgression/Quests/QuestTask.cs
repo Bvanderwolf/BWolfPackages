@@ -12,7 +12,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         protected string description = string.Empty;
 
-        protected const string FOLDER_PATH = "Quests/QuestTasks";
+        protected const string FOLDER_PATH = "ProgressSaves/Quests/QuestTasks";
 
         public abstract string Description { get; }
         public abstract float Progress { get; }
