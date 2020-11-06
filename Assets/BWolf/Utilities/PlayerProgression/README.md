@@ -45,4 +45,12 @@ The PropertyManager provides an AchievementCompleted event to get callbacks on a
 an array of ActiveQuests which can be retreived to display and an event to provide callbacks for when
 a quest has been completed. 
 
+## Dependencies
+
+This package makes use of the following packages:
+- SingletonBehaviours
+- FileStorage
+
+## Download
+
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1CLyNduqJDfh1h6d6Cj6L1l-H1AuGyWcs/view?usp=sharing
