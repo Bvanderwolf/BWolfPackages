@@ -26,6 +26,7 @@ Packages created as i learn and start to understand more about unity and the csh
   - [SceneTransitioning](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SceneTransitioning)
   - [CharacterDialogue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/CharacterDialogue)
   - [FileStorage](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/FileStorage)
+  - [AudioPlaying](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/AudioPlaying)
 
 
 ## Packages currently working on
