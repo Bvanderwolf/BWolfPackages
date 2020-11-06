@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/BWolf/Examples/AudioPlaying/AudioPlayingDemo.unity
+    guid: 85d3ef178d1b2284c8ebc0b02b237233
+  - enabled: 1
     path: Assets/BWolf/Examples/SceneTransitioning/DemoScene1.unity
     guid: 2d250bef47bf54c4fb864277754f91c2
   - enabled: 1
