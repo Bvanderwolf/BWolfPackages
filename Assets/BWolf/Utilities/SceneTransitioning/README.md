@@ -23,4 +23,10 @@ Using the Transition function provided by the SceneTransitionSystem you can tran
 with the TransitionName of your ITransitionProvider implemention or a reference to the component itself in addition to ofcourse the 
 scene name and load mode.
 
+## Dependencies
+This package makes use of the following packages:
+- SingletonBehaviours
+
+## Download
+
 You can download the UnityPackage here: https://drive.google.com/file/d/14Nxd8WixgryCpJ-Z57p3yhDfJ1T5PXc7/view?usp=sharing
