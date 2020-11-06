@@ -9,7 +9,7 @@
 
 A small and concise package containing selection of units, ability to given units move orders and the grouping and creation of unit formations.
 
-### Features
+## Features
 
 - 4 Handler classes
   - Selection Handler: Manages selection of objects on a Physics Layer of your choice.
@@ -21,10 +21,7 @@ A small and concise package containing selection of units, ability to given unit
  
  - UnitFormation creation using the unit formation prefab.
  
- ### Demo
- 
- The SquadFormations demo can be found: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/SquadFormations)
+## Download
 
-The UnityPackage can be downloaded here: 
-https://drive.google.com/file/d/1PPKFCJvIdcYoKHedvwJWjgwXfyLgigrq/view?usp=sharing
+The UnityPackage can be downloaded here: https://drive.google.com/file/d/1PPKFCJvIdcYoKHedvwJWjgwXfyLgigrq/view?usp=sharing
  
