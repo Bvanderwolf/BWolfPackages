@@ -9,8 +9,10 @@ A small package for providing text based dialogue between 2 characters on screen
 - A AudableCharacterDisplay class for displaying the audable characters on screen with their monologue
 - A DialogueSystem class for starting and managing a new dialogue
 
-## Demo
+## Dependencies
 
-A demo is attached to this package showing 2 conversations between John and Mary
+- SingletonBehaviours
+
+## Download
 
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1iEVftnSoJfXRvdAeFKM8HoVvuIbq2Dbz/view?usp=sharing 
