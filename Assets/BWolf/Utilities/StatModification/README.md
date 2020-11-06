@@ -2,7 +2,7 @@
 
 A Utility class for modifiying and representing stats in games.
 
-### Features
+## Features
 
   - A StatSystem class containing:
     - a current and a max value which can both be modified using Modifier classes
@@ -18,8 +18,6 @@ A Utility class for modifiying and representing stats in games.
     
   - A demo scene showing off all the different functionalities of the stat system and stat modifier
   
-### Examples
-
-The demo scene and demo scripts can be found inside: [here](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Examples/StatModification)
+## Download
 
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1LG_Wq6-ijekM0jXxx4myFpzrD_MajY2I/view?usp=sharing
