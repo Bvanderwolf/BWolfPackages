@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6cc85a7aad63f419dcf3228d45ca81, type: 3}
+  m_Name: MaryMonologue
+  m_EditorClassIdentifier: 
+  character: {fileID: 11400000, guid: 7b293dcb6807f3c4588248073801a406, type: 2}
+  lines:
+  - Hello!
+  - This is my Monologue

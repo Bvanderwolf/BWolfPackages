@@ -14,9 +14,12 @@ namespace BWolf.Examples.CharacterDialogue
         [SerializeField]
         private Dialogue demoDialogue2 = null;
 
+        [SerializeField]
+        private Monologue demoMonologue = null;
+
         private void Awake()
         {
-            StartDialogue();
+            Invoke(nameof(StartDialogue), 1.0f);
         }
 
         public void StartDialogue()
@@ -30,13 +33,18 @@ namespace BWolf.Examples.CharacterDialogue
                 case DialogueChoice.DemoDialogue2:
                     DialogueSystem.Instance.StartDialogue(demoDialogue2);
                     break;
+
+                case DialogueChoice.DemoMonologue:
+                    MonologueSystem.Instance.StartMonologue(demoMonologue);
+                    break;
             }
         }
 
         private enum DialogueChoice
         {
             DemoDialogue1,
-            DemoDialogue2
+            DemoDialogue2,
+            DemoMonologue
         }
     }
 }

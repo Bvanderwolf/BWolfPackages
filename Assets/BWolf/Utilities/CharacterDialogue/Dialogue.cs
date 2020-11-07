@@ -26,26 +26,36 @@ namespace BWolf.Utilities.CharacterDialogue
 
         private bool leftIsActive;
         private bool hasSwitched;
+
         private AudableCharacterDisplay activeDisplay;
+        private AudableCharacterDisplay leftDisplay;
+        private AudableCharacterDisplay rightDisplay;
 
         public Action<int> OnContinue;
 
-        /// <summary>Returns an Enumerator that plays out the monologues by each character</summary>
-        public IEnumerator Routine(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
+        public void SetupDisplay(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
         {
-            int indexAt = -1;
+            this.leftDisplay = leftDisplay;
+            this.rightDisplay = rightDisplay;
+
+            leftDisplay.SetActive(false);
+            rightDisplay.SetActive(false);
 
             leftDisplay.sprite = leftCharacter.DisplaySprite;
-            leftDisplay.SetActive(false);
-
             rightDisplay.sprite = rightCharacter.DisplaySprite;
-            rightDisplay.SetActive(false);
 
             leftIsActive = startLeft;
             activeDisplay = leftIsActive ? leftDisplay : rightDisplay;
+        }
+
+        /// <summary>Returns an Enumerator that plays out the monologues by each character</summary>
+        public IEnumerator Routine()
+        {
+            int indexAt = -1;
+
             activeDisplay.SetActive(true);
 
-            while (Continue(leftDisplay, rightDisplay, ref indexAt))
+            while (Continue(ref indexAt))
             {
                 OnContinue?.Invoke(indexAt);
 
@@ -55,7 +65,7 @@ namespace BWolf.Utilities.CharacterDialogue
         }
 
         /// <summary>Tries Progresses the dialogue by switching display if necessary and dislay the next line on screen. Returns false if the end of monologues has been reached.</summary>
-        public bool Continue(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay, ref int indexAt)
+        public bool Continue(ref int indexAt)
         {
             indexAt++;
 
