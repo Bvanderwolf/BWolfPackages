@@ -1,9 +1,8 @@
-﻿using UnityEditor.Build;
-
-// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
 // Version: 1.0
 //----------------------------------
 
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 

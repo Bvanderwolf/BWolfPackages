@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.Introductions
 {
@@ -7,7 +11,7 @@ namespace BWolf.Utilities.Introductions
     public class SceneIntroduction : Introduction
     {
         [Header("SceneSettings")]
-        [SerializeField]
+        [SerializeField, Tooltip("The name of the scene on which this introduction is given on load")]
         private string nameOfScene = string.Empty;
 
         public string NameOfScene

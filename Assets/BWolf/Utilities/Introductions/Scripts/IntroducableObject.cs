@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.Introductions
 {
@@ -7,13 +11,13 @@ namespace BWolf.Utilities.Introductions
     public class IntroducableObject : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField]
+        [SerializeField, Tooltip("The introduction tag of this introducable object")]
         private string intoTagName = string.Empty;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The position of the arrow relative to this object")]
         private RelativePosition relativeArrowPosition = RelativePosition.Bottom;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The space of the arrow relative to this object in pixels")]
         private float introArrowSpacing = 0.0f;
 
         private GameObject activeArrow;

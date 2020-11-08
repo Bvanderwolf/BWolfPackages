@@ -1,4 +1,8 @@
-﻿using BWolf.Behaviours.SingletonBehaviours;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Behaviours.SingletonBehaviours;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,11 +22,6 @@ namespace BWolf.Utilities.Introductions
         public event Action IntroFinished;
 
         public bool IsActive { get; private set; }
-
-        public GameObject GetArrow(Transform parent = null)
-        {
-            return Instantiate(prefabIntroArrow, parent ?? transform);
-        }
 
         private void Start()
         {
@@ -51,6 +50,13 @@ namespace BWolf.Utilities.Introductions
             }
         }
 
+        /// <summary>Returns a new IntroductionArrow gameobject</summary>
+        public GameObject GetArrow(Transform parent = null)
+        {
+            return Instantiate(prefabIntroArrow, parent ?? transform);
+        }
+
+        /// <summary>Sets the active state of the introduction manager when an introduction has started</summary>
         private void OnIntroStart()
         {
             if (!IsActive)

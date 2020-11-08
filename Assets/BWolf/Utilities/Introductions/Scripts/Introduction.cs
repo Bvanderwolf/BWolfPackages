@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.CharacterDialogue;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.CharacterDialogue;
 using BWolf.Utilities.FileStorage;
 using System;
 using UnityEngine;
@@ -14,7 +18,7 @@ namespace BWolf.Utilities.Introductions
         private bool finished = false;
 
         [Space]
-        [SerializeField]
+        [SerializeField, Tooltip("The introducables used for this introduction")]
         private Introducable[] introducables = null;
 
         [Header("References")]
