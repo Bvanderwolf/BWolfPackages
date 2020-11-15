@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,7 +10,8 @@ using UnityEngine.UI;
 
 namespace BWolf.Utilities.NumberSlider
 {
-    public class NumberSlider : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    /// <summary>Utility class for managing a draggable number slider</summary>
+    public class NumberSlider : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         [Header("Settings")]
         [SerializeField, Tooltip("time for slider to snap back to closed number on release")]
@@ -61,10 +66,6 @@ namespace BWolf.Utilities.NumberSlider
                 numberTransforms[i] = number;
                 configurationPositions[i] = new Vector3(minAnchorX + (numberHeight * i), rectTransform.anchoredPosition.y);
             }
-        }
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
         }
 
         public void OnDrag(PointerEventData eventData)
