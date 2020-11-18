@@ -44,7 +44,12 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Resets the value of this property and the achievements attached to it</summary>
         public override void Restore()
         {
-            UpdateValue(false);
+            UpdateValue(default);
+
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the playerproperty marks it as dirty so it can be saved
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         /// <summary>Saves value to local storage</summary>

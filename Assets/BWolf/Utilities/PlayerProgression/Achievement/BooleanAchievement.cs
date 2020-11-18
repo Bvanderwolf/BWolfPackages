@@ -33,6 +33,11 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         public override void Restore()
         {
             UpdateValue(startValue);
+
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the achievement marks it as dirty so it can be saved
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         protected override void SaveToFile()

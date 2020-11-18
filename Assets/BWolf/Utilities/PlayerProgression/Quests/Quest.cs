@@ -159,9 +159,19 @@ namespace BWolf.Utilities.PlayerProgression.Quests
                 tasks[i].Restore();
             }
 
-            ActiveStateChanged = null;
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the quest outside of playmode doesn't cause any null references
+            if (!UnityEditor.EditorApplication.isPlaying)
+                ActiveStateChanged = null;
+#endif
+
             isCompleted = false;
             SetActive(false);
+
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the quest marks it as dirty so it can be saved
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         /// <summary>Saves the active state of this quest to local storage</summary>

@@ -51,6 +51,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         {
             currentValue = 0;
             SaveToFile();
+
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the task marks it as dirty so it can be saved
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         public override void SaveToFile()
