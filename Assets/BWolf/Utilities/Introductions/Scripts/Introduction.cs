@@ -91,7 +91,6 @@ namespace BWolf.Utilities.Introductions
             SetFinished(true);
 
             OnFinish?.Invoke();
-            OnFinish = null;
         }
 
         /// <summary>Saves value to local storage</summary>
@@ -115,7 +114,17 @@ namespace BWolf.Utilities.Introductions
         /// <summary>Restores this introduction to its default state</summary>
         public void Restore()
         {
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the introduction outside of playmode doesn't cause any null references
+            if (!UnityEditor.EditorApplication.isPlaying)
+                OnFinish = null;
+#endif
             SetFinished(false);
+
+#if UNITY_EDITOR
+            //make sure that in the editor, restoring the introduction it as dirty so it can be saved
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         /// <summary>A sub structure for introduction to manage introducables in the scene</summary>
