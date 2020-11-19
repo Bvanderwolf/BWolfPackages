@@ -10,7 +10,7 @@ namespace BWolf.Utilities.SystemBootstrapping
     /// <summary>The static bootstrap class from which the system locator is initiated</summary>
     public static class SystemBootstrap
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void CreateSystems()
         {
             //initiate system locator
