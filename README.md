@@ -29,6 +29,7 @@ Packages created as i learn and start to understand more about unity and the csh
   - [AudioPlaying](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/AudioPlaying)
   - [Introductions](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Introductions)
   - [NumberSlider](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/NumberSlider)
+  - [SystemBootstrapping](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SystemBootstrapping)
 
 
 ## Packages currently working on
