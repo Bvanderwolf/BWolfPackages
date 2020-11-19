@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities.SystemBootstrapping
 {
     public class SystemLocator
     {
+        /// <summary>The system locator instance through which system behaviours are retrievable</summary>
         public static SystemLocator Instance { get; private set; }
 
         private SystemLocator()
@@ -13,6 +18,7 @@ namespace BWolf.Utilities.SystemBootstrapping
 
         private Dictionary<string, SystemBehaviour> systems = new Dictionary<string, SystemBehaviour>();
 
+        /// <summary>Sets the SystemLocator singleton instance.</summary>
         public static void Awake()
         {
             if (Instance != null)
@@ -23,6 +29,7 @@ namespace BWolf.Utilities.SystemBootstrapping
             Instance = new SystemLocator();
         }
 
+        /// <summary>Returns systembehaviour T</summary>
         public T Get<T>() where T : SystemBehaviour
         {
             string key = typeof(T).Name;
@@ -34,7 +41,8 @@ namespace BWolf.Utilities.SystemBootstrapping
             return (T)systems[key];
         }
 
-        public void Register<T>() where T : SystemBehaviour
+        /// <summary>Registers system behaviour T to the system locator making it usable through the singleton instance</summary>
+        public void Register<T>(bool dontDestroyOnLoad = true) where T : SystemBehaviour
         {
             string key = typeof(T).Name;
             if (systems.ContainsKey(key))
@@ -42,11 +50,17 @@ namespace BWolf.Utilities.SystemBootstrapping
                 throw new System.InvalidOperationException($"{key} is already registered with the system locator");
             }
 
-            var system = Resources.Load<T>("Systems/" + typeof(T).Name);
-            systems.Add(key, system);
+            //load and instantiate prefab using key
+            var gameObject = GameObject.Instantiate(Resources.Load<GameObject>("Systems/" + key));
 
-            var gameObject = GameObject.Instantiate(system.gameObject);
-            GameObject.DontDestroyOnLoad(gameObject);
+            //add key and T component to systems dictionary
+            systems.Add(key, gameObject.GetComponent<T>());
+
+            if (dontDestroyOnLoad)
+            {
+                //make sure the system is not destroyed when loading new scenes
+                GameObject.DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }

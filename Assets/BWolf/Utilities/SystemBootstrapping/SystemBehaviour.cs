@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 
 namespace BWolf.Utilities.SystemBootstrapping
 {
+    /// <summary>The class from which systems can derive to be used by the system locator</summary>
     [DisallowMultipleComponent]
-    public class SystemBehaviour : MonoBehaviour
+    public abstract class SystemBehaviour : MonoBehaviour
     {
         protected virtual void Reset()
         {
