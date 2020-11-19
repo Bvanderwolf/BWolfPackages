@@ -35,6 +35,7 @@ it can register pretty much any Custom made System that you want. The only 3 req
 - The prefab the system is placed on is inside a Resources/Systems folder. 
 
 The SystemLocator can now load the prefab systems from the resources folder and place them in this first scene loaded.
+Retrieval of the System instance can be done using the SystemLocator's Get function e.g. "SystemLocator.Instance.Get<MusicSystem>()".
 
 ### Features
 
