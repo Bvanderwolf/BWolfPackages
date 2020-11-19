@@ -1,13 +1,13 @@
-# Agent Commands
+## Agent Commands
 
 Generic utility scripts for commanding nav mesh agent controlled game objects
 
-## Design Patterns
+### Design Patterns
 
 - Composition
 - Command Pattern
 
-## Features
+### Features
 - Agent
 - AgentCommand
 - CompositeCommand
@@ -16,11 +16,11 @@ Implements can be found in the [demo](https://github.com/Bvanderwolf/BWolfPackag
 - MoveCommand inherits from AgentCommand
 - PickupCommand inherits from CompositeCommand
 
-## Dependencies
+### Dependencies
 
 This package makes use of the following packages
 - SingletonBehaviour
 
-## Download
+### Download
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/18v6d4RUMEJFT8TzRgv-cNgheqEzuw36V/view?usp=sharing
 
