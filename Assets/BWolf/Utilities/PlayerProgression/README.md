@@ -1,10 +1,10 @@
-## Player Progression
+# Player Progression
 
 A scalable package focused on providing options to create, manage and save player progression using scriptable objects.
 
-### Features
+## Features
   
-#### Quest Management
+### Quest Management
 
 
 In this package a Quest is a container for multiple Quest Tasks. It can be set active to start updating its tasks. Completing all tasks will complete the quest. 
@@ -19,7 +19,7 @@ managed by a derived class to make it possible to make a quest active and to upd
 
 These can be created by using the Creation menu in the Project View: Create/PlayerProgression/Quest & Create/PlayerProgression/QuestTasks
 
-#### PropertyManagement
+### PropertyManagement
 
 This package comes with 3 different types of Properties:
   - BooleanProperties
@@ -32,25 +32,25 @@ This package comes with 3 different types of Properties:
  A player property can hold multiple achievements. When Updating a derived 
  player property class these achievements can also be updated using the generic GetAchievement and GetAchievements functions.
   
-#### Progress Saving and Loading
+### Progress Saving and Loading
 
 This packages also comes with a simple static class called ProgressFileSystem.
 this class provides functionality to save and load the current state of Quests, QuestTasks
 Player Properties and Achievements. Look for examples of implementations inside the standard
 QuestTasks, Achievements and Player Properties provided.
 
-#### Displaying and Callbacks
+### Displaying and Callbacks
 
 The PropertyManager provides an AchievementCompleted event to get callbacks on achievements completed. The QuestManager class provides
 an array of ActiveQuests which can be retreived to display and an event to provide callbacks for when
 a quest has been completed. 
 
-### Dependencies
+## Dependencies
 
 This package makes use of the following packages:
 - SingletonBehaviours
 - FileStorage
 
-### Download
+## Download
 
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1CLyNduqJDfh1h6d6Cj6L1l-H1AuGyWcs/view?usp=sharing

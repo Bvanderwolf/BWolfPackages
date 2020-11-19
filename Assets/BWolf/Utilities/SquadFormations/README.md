@@ -1,4 +1,4 @@
-## Squad Formations Using Unity's NavMesh 
+# Squad Formations Using Unity's NavMesh 
 
 *To make this package work parts of this package are taken from a student project i worked on. These are:
 - Selection scripts
@@ -9,7 +9,7 @@
 
 A small and concise package containing selection of units, ability to given units move orders and the grouping and creation of unit formations.
 
-### Features
+## Features
 
 - 4 Handler classes
   - Selection Handler: Manages selection of objects on a Physics Layer of your choice.
@@ -21,7 +21,7 @@ A small and concise package containing selection of units, ability to given unit
  
  - UnitFormation creation using the unit formation prefab.
  
-### Download
+## Download
 
 The UnityPackage can be downloaded here: https://drive.google.com/file/d/1PPKFCJvIdcYoKHedvwJWjgwXfyLgigrq/view?usp=sharing
  
