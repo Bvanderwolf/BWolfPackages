@@ -1,4 +1,4 @@
-# Flocking 
+## Flocking 
 
 Making flocking possible using FlockingBehaviours as ScriptableObjects
 
@@ -17,6 +17,6 @@ Reference: https://www.youtube.com/watch?v=mjKINQigAE4
     - BoundedInArea -> BoundedBehaviour.cs
   - A Composite Behaviour for combining multiple behaviours and adding weights to each one
   
-## Download
+### Download
 
 You can download the package here: https://drive.google.com/file/d/1_yDPpn5x1JpCHS3XP4h0SyIYvJOHYAH6/view?usp=sharing
