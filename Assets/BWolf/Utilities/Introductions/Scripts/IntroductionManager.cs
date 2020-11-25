@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using BWolf.Behaviours.SingletonBehaviours;
@@ -47,6 +47,7 @@ namespace BWolf.Utilities.Introductions
             foreach (Introduction introduction in asset)
             {
                 introduction.OnFinish -= OnIntroFinished;
+                introduction.OnStart -= OnIntroStart;
             }
         }
 
@@ -57,7 +58,7 @@ namespace BWolf.Utilities.Introductions
         }
 
         /// <summary>Sets the active state of the introduction manager when an introduction has started</summary>
-        private void OnIntroStart()
+        private void OnIntroStart(Introduction introduction)
         {
             if (!IsActive)
             {
@@ -70,7 +71,7 @@ namespace BWolf.Utilities.Introductions
         }
 
         /// <summary>Called when a introduction has been finished to fire event and set active state</summary>
-        private void OnIntroFinished()
+        private void OnIntroFinished(Introduction introduction)
         {
             IsActive = false;
             IntroFinished?.Invoke();

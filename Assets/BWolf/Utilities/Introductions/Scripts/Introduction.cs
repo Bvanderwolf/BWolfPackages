@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using BWolf.Utilities.CharacterDialogue;
@@ -25,9 +25,9 @@ namespace BWolf.Utilities.Introductions
         [SerializeField]
         private Monologue monologue = null;
 
-        public event Action OnFinish;
+        public event Action<Introduction> OnFinish;
 
-        public event Action OnStart;
+        public event Action<Introduction> OnStart;
 
         private const string FOLDER_NAME = "ProgressSaves/Introductions";
 
@@ -66,7 +66,7 @@ namespace BWolf.Utilities.Introductions
         private void OnIntroStart()
         {
             monologue.OnContinue += OnIntroContinue;
-            OnStart?.Invoke();
+            OnStart?.Invoke(this);
         }
 
         /// <summary>Called when the intro is being continued at given index to update the stored introducables</summary>
@@ -90,7 +90,7 @@ namespace BWolf.Utilities.Introductions
 
             SetFinished(true);
 
-            OnFinish?.Invoke();
+            OnFinish?.Invoke(this);
         }
 
         /// <summary>Saves value to local storage</summary>
@@ -117,7 +117,11 @@ namespace BWolf.Utilities.Introductions
 #if UNITY_EDITOR
             //make sure that in the editor, restoring the introduction outside of playmode doesn't cause any null references
             if (!UnityEditor.EditorApplication.isPlaying)
+            {
+                OnStart = null;
                 OnFinish = null;
+            }
+
 #endif
             SetFinished(false);
 
