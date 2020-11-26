@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace BWolf.Utilities.NumberSlider
+namespace BWolf.Utilities.UI
 {
     /// <summary>Utility class for managing a draggable number slider</summary>
     public class NumberSlider : MonoBehaviour, IDragHandler, IEndDragHandler
