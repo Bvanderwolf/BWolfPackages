@@ -21,10 +21,10 @@ executing a function once after or before loading the first scene.
 To visualize the problem and how the bootstrapper fixes it:
 
 ### Without Bootstrap (placing them in the scene)
-![Without Bootstrap](https://raw.githubusercontent.com/Bvanderwolf/bvanderwolf.github.io/master/ReadmeImages/WithBootstrap.png)
+![Without Bootstrap](https://raw.githubusercontent.com/Bvanderwolf/bvanderwolf.github.io/master/ReadmeImages/WithoutBootstrap.png)
 
 ### With Bootstrap
-![With Bootstrap](https://raw.githubusercontent.com/Bvanderwolf/bvanderwolf.github.io/master/ReadmeImages/WithoutBootstrap.png)
+![With Bootstrap](https://raw.githubusercontent.com/Bvanderwolf/bvanderwolf.github.io/master/ReadmeImages/WithBootstrap.png)
 
 ----------------------------
 The SystemBootstrap uses the RuntimeInitializeOnLoadMethod attribute to create the system locator before the first scene is loaded. After creating the system locator
