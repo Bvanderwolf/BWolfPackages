@@ -32,7 +32,3 @@ Packages created as i learn and start to understand more about unity and the csh
   - [SystemBootstrapping](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SystemBootstrapping)
   - [DraggableImage](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/UI/DraggableImage)
 
-
-## Packages currently working on
-- EventPlanning
-- ObjectPooling
