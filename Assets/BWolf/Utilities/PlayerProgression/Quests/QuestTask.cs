@@ -14,6 +14,12 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         protected const string FOLDER_PATH = "ProgressSaves/Quests/QuestTasks";
 
+        /// <summary>Is this task finished?</summary>
+        public bool IsDone
+        {
+            get { return Progress == 1.0f; }
+        }
+
         public abstract string Description { get; }
         public abstract float Progress { get; }
         public abstract string ProgressFormatted { get; }

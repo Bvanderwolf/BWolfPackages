@@ -26,21 +26,26 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             propertiesAsset.Initialize(OnAchievementCompleted);
         }
 
-        /// <summary>Returns a list of information on all achievements</summary>
+        /// <summary>All stored achievements</summary>
         public List<Achievement> AchievementInfo
         {
-            get { return propertiesAsset.GetAchievementInfo(); }
+            get { return propertiesAsset.GetAllAchievements(); }
         }
 
-        /// <summary>Gets a property with given name. Make sure type T matches the type of property</summary>
+        /// <summary>Gets a property of type T with given name. Make sure type T matches the type of property</summary>
         public T GetProperty<T>(string propertyname) where T : PlayerProperty
         {
             return propertiesAsset.GetProperty<T>(propertyname);
         }
 
+        /// <summary>Gets a property with given name. Make sure type T matches the type of property</summary>
+        public PlayerProperty GetProperty(string propertyname)
+        {
+            return propertiesAsset.GetProperty(propertyname);
+        }
+
         private void OnAchievementCompleted(Achievement achievementInfo)
         {
-            print($"achievement completed: {achievementInfo.name}");
             AchievementCompleted?.Invoke(achievementInfo);
         }
 

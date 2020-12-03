@@ -20,6 +20,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         private event Action<Achievement> OnCompletionEvent;
 
+        /// <summary>The stored description given to this achievement</summary>
         public string Description
         {
             get { return description; }

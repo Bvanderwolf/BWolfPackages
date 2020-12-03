@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.PlayerProgression.Achievements;
@@ -31,13 +31,28 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             return null;
         }
 
+        /// <summary>Returns an achievement of with given name attached to this property</summary>
+        public Achievement GetAchievement(string name)
+        {
+            for (int i = 0; i < achievements.Length; i++)
+            {
+                if (achievements[i].name == name)
+                {
+                    return achievements[i];
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>Returns a list of Achievements of type T attached to this property</summary>
         public List<T> GetAchievements<T>() where T : Achievement
         {
             List<T> list = new List<T>();
+            Type type = typeof(T);
             for (int i = 0; i < achievements.Length; i++)
             {
-                if (achievements[i].GetType() == typeof(T))
+                if (achievements[i].GetType() == type)
                 {
                     list.Add((T)achievements[i]);
                 }
@@ -58,18 +73,18 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Adds a listener to this property for when an achievement has been completed</summary>
         public void AddListener(Action<Achievement> onAchievementCompleted)
         {
-            foreach (Achievement progressable in Achievements)
+            foreach (Achievement achievement in Achievements)
             {
-                progressable.AddListener(onAchievementCompleted);
+                achievement.AddListener(onAchievementCompleted);
             }
         }
 
         /// <summary>Removes a listener from this property for when an achievement has been completed</summary>
         public void RemoveListener(Action<Achievement> onAchievementCompleted)
         {
-            foreach (Achievement progressable in Achievements)
+            foreach (Achievement achievement in Achievements)
             {
-                progressable.RemoveListener(onAchievementCompleted);
+                achievement.RemoveListener(onAchievementCompleted);
             }
         }
 

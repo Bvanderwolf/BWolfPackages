@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -36,41 +36,49 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         private const string FOLDER_PATH = "ProgressSaves/Quests/ActiveQuests";
 
+        /// <summary>The stored description given to this quest</summary>
         public string Description
         {
             get { return description; }
         }
 
+        /// <summary>Is this quest active?</summary>
         public bool IsActive
         {
             get { return isActive; }
         }
 
+        /// <summary>Can this quest be activated?</summary>
         public bool IsActivatable
         {
             get { return !isActive && FinishedRequiredQuest; }
         }
 
+        /// <summary>Is this quest updatable</summary>
         public bool IsUpdatable
         {
             get { return isActive && !isCompleted; }
         }
 
+        /// <summary>Is this quest completed?</summary>
         public bool IsCompleted
         {
             get { return isCompleted; }
         }
 
+        /// <summary>Has player finished the quest that is required for this quest to be activated</summary>
         private bool FinishedRequiredQuest
         {
             get { return requiredQuest == null || requiredQuest.isCompleted; }
         }
 
+        /// <summary>The quest that is required for this quest to be activated</summary>
         public Quest RequiredQuest
         {
             get { return requiredQuest; }
         }
 
+        /// <summary>The stored array of tasks that needs to be done for this quest to be completed</summary>
         public QuestTask[] Tasks
         {
             get { return tasks; }
@@ -127,6 +135,20 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             return null;
         }
 
+        /// <summary>Returns a Task based on given name</summary>
+        public QuestTask GetTask(string nameOfTask)
+        {
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                if (tasks[i].name == nameOfTask)
+                {
+                    return tasks[i];
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>Loads the task data from local storage</summary>
         public void LoadTasksFromFile()
         {
@@ -169,7 +191,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             SetActive(false);
 
 #if UNITY_EDITOR
-            //make sure that in the editor, restoring the quest marks it as dirty so it can be saved
+            //make sure that in the editor, restoring the quest marks it as dirty so it can be saved for version control
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
         }

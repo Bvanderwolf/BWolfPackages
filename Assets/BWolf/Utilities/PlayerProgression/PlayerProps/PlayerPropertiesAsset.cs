@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.PlayerProgression.Achievements;
@@ -43,7 +43,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Returns a list containing information on all the achievements stored</summary>
-        public List<Achievement> GetAchievementInfo()
+        public List<Achievement> GetAllAchievements()
         {
             List<Achievement> info = new List<Achievement>();
 
@@ -67,7 +67,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             }
         }
 
-        /// <summary>Returns a stored integer property based on given name</summary>
+        /// <summary>Returns a stored property of type T based on given name</summary>
         public T GetProperty<T>(string propertyName) where T : PlayerProperty
         {
             for (int i = 0; i < properties.Length; i++)
@@ -75,6 +75,20 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
                 if (properties[i].name == propertyName)
                 {
                     return (T)properties[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>Returns a stored property based on given name</summary>
+        public PlayerProperty GetProperty(string propertyName)
+        {
+            for (int i = 0; i < properties.Length; i++)
+            {
+                if (properties[i].name == propertyName)
+                {
+                    return properties[i];
                 }
             }
 

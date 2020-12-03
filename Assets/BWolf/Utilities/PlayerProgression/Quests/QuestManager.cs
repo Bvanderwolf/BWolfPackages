@@ -20,6 +20,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public event Action<Quest> QuestCompleted;
 
+        /// <summary>A list of all stored quests</summary>
         public Quest[] Quests
         {
             get { return questAsset.Quests; }
@@ -39,6 +40,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
 
 #if UNITY_EDITOR
+            //in the editor, active quests are as project assets which means they won't fire the ActiveStateChanged event
+            //so we add them manually to the active quests list on awake
             foreach (Quest quest in questAsset.Quests)
             {
                 if (quest.IsActive && !ActiveQuests.Contains(quest))
@@ -51,9 +54,10 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         private void Update()
         {
-            for (int i = 0; i < ActiveQuests.Count; i++)
+            //update active quests
+            foreach (Quest quest in ActiveQuests)
             {
-                ActiveQuests[i].Update();
+                quest.Update();
             }
         }
 

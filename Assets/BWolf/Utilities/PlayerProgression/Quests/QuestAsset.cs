@@ -20,6 +20,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public const string ASSET_NAME = "QuestAsset";
 
+        /// <summary>All quests stored in this asset</summary>
         public Quest[] Quests
         {
             get { return quests; }
