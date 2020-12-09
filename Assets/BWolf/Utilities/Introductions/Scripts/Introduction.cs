@@ -112,6 +112,7 @@ namespace BWolf.Utilities.Introductions
         }
 
         /// <summary>Restores this introduction to its default state</summary>
+        [ContextMenu("Restore")]
         public void Restore()
         {
 #if UNITY_EDITOR
