@@ -1,4 +1,4 @@
-### Number Slider
+# Number Slider
 
 A small utility package containing a draggable number slider
 
