@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -69,7 +69,13 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         {
             if (newValue != currentValue)
             {
-                currentValue = Mathf.Clamp(newValue, 0.0f, minimalValue);
+                float value = Mathf.Clamp(newValue, 0.0f, minimalValue);
+                if (currentValue != minimalValue && value == minimalValue)
+                {
+                    Completed?.Invoke(this);
+                }
+
+                currentValue = value;
                 SaveToFile();
             }
         }

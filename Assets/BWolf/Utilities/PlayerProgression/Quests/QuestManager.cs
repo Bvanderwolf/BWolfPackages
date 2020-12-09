@@ -32,11 +32,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
             foreach (Quest quest in questAsset.Quests)
             {
-                quest.ActiveStateChanged += OnActiveStateChanged;
-                quest.Completed += OnQuestCompleted;
-
                 quest.LoadActiveStateFromFile();
                 quest.LoadTasksFromFile();
+
+                quest.ActiveStateChanged += OnActiveStateChanged;
+                quest.Completed += OnQuestCompleted;
             }
 
 #if UNITY_EDITOR

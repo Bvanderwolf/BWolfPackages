@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.2
+// Version: 1.3
 //----------------------------------
 
 using BWolf.Utilities.PlayerProgression.Achievements;
@@ -88,13 +88,16 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             }
         }
 
-        /// <summary>Resets the value of this property and the achievements attached to it</summary>
+        /// <summary>Should reset the value of this property and the achievements attached to it</summary>
+        [ContextMenu("Restore")]
         public abstract void Restore();
 
-        /// <summary>Saves value to local storage</summary>
+        /// <summary>Should save current value to local storage</summary>
+        [ContextMenu("Save")]
         protected abstract void SaveToFile();
 
-        /// <summary>Loads value from local storage</summary>
+        /// <summary>Should load current value from local storage</summary>
+        [ContextMenu("Load")]
         public abstract void LoadFromFile();
     }
 }

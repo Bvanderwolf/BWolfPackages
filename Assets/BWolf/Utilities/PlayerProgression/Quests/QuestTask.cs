@@ -1,7 +1,8 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
+using System;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
@@ -14,6 +15,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         protected const string FOLDER_PATH = "ProgressSaves/Quests/QuestTasks";
 
+        public Action<QuestTask> Completed;
+
         /// <summary>Is this task finished?</summary>
         public bool IsDone
         {
@@ -24,10 +27,16 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public abstract float Progress { get; }
         public abstract string ProgressFormatted { get; }
 
-        public abstract void LoadFromFile();
+        /// <summary>should restore the quest task</summary>
+        [ContextMenu("Restore")]
+        public abstract void Restore();
 
+        /// <summary>Should save current value to local storage</summary>
+        [ContextMenu("Save")]
         public abstract void SaveToFile();
 
-        public abstract void Restore();
+        /// <summary>Should load current value from local storage</summary>
+        [ContextMenu("Load")]
+        public abstract void LoadFromFile();
     }
 }

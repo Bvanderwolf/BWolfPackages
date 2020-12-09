@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using System;
@@ -56,13 +56,16 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
             OnCompletionEvent -= onCompletion;
         }
 
-        /// <summary>Resets the progression</summary>
+        /// <summary>should restore the achiement</summary>
+        [ContextMenu("Restore")]
         public abstract void Restore();
 
-        /// <summary>Saves current value to local storage</summary>
+        /// <summary>Should save current value to local storage</summary>
+        [ContextMenu("Save")]
         protected abstract void SaveToFile();
 
-        /// <summary>Loads current value from local storage</summary>
+        /// <summary>Should load current value from local storage</summary>
+        [ContextMenu("Load")]
         public abstract void LoadFromFile();
     }
 }

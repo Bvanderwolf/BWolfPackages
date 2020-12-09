@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -174,6 +174,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         }
 
         /// <summary>Resets this quest, resetting its tasks and setting it to be inactive and incomplete</summary>
+        [ContextMenu("Restore")]
         public void Restore()
         {
             for (int i = 0; i < tasks.Length; i++)
