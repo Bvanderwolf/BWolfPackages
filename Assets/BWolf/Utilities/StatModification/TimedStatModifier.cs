@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using UnityEngine;
@@ -23,25 +23,11 @@ namespace BWolf.Utilities.StatModification
         public float Time
         {
             get { return time; }
-            set
-            {
-                if (value >= 0)
-                {
-                    time = value;
-                }
-            }
         }
 
         public int Value
         {
             get { return value; }
-            set
-            {
-                if (value >= 0)
-                {
-                    this.value = value;
-                }
-            }
         }
 
         /// <summary>Returns whether all time for this modifier has been passed</summary>
@@ -51,60 +37,17 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>
-        /// Creates new instance of a timed stat modifier
+        /// Creates new instance of a timed stat modifier using the timed modifier info scriptable object
         /// </summary>
-        /// <param name="name">used for comparing modifiers</param>
-        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
-        /// <param name="value">The ammount of value it will modify over given amount of time</param>
-        /// <param name="increase">Will this modifier increase stat or decrease</param>
-        /// <param name="modifiesCurrent">Will this modifier modify current value or max value?</param>
-        /// <param name="modifiesCurrentWithMax">Does current value change when max value has changed?</param>
-        /// <param name="canStack">Can this modifier stack with modifiers with the same name?</param>
-        public TimedStatModifier(string name, float time, int value, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax, bool canStack)
+        public TimedStatModifier(TimedModifierInfoSO info)
         {
-            this.name = name;
-            this.time = time;
-            this.value = value;
-            this.increase = increase;
-            this.modifiesCurrent = modifiesCurrent;
-            this.modifiesCurrentWithMax = modifiesCurrentWithMax;
-            this.canStack = canStack;
-        }
-
-        /// <summary>
-        /// Creates new instance of a timed stat modifier
-        /// </summary>
-        /// <param name="name">used for comparing modifiers</param>
-        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
-        /// <param name="value">The ammount of value it will modify over given amount of time</param>
-        /// <param name="increase">Will this modifier increase stat or decrease</param>
-        public TimedStatModifier(string name, float time, int value, bool increase) : this(name, time, value, increase, true, false, false)
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of a timed stat modifier
-        /// </summary>
-        /// <param name="name">used for comparing modifiers</param>
-        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
-        /// <param name="value">The ammount of value it will modify over given amount of time</param>
-        /// <param name="increase">Will this modifier increase stat or decrease</param>
-        /// <param name="canStack">Can this modifier stack with modifiers with the same name?</param>
-        public TimedStatModifier(string name, float time, int value, bool increase, bool canStack) : this(name, time, value, increase, true, false, canStack)
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of a timed stat modifier
-        /// </summary>
-        /// <param name="name">used for comparing modifiers</param>
-        /// <param name="time">Time it takes for this modifier to finish modifying the stat system</param>
-        /// <param name="value">The ammount of value it will modify over given amount of time</param>
-        /// <param name="increase">Will this modifier increase stat or decrease</param>
-        /// <param name="modifiesCurrent">Will this modifier modify current value or max value?</param>
-        /// <param name="modifiesCurrentWithMax">Does current value change when max value has changed?</param>
-        public TimedStatModifier(string name, float time, int value, bool increase, bool modifiesCurrent, bool modifiesCurrentWithMax = false) : this(name, time, value, increase, modifiesCurrent, modifiesCurrentWithMax, false)
-        {
+            name = info.name;
+            time = info.time;
+            value = info.Value;
+            increase = info.Increase;
+            modifiesCurrent = info.ModifiesCurrent;
+            modifiesCurrentWithMax = info.ModifiesCurrentWithMax;
+            canStack = info.CanStack;
         }
 
         /// <summary>Modifies system stat based on given time and time passed</summary>

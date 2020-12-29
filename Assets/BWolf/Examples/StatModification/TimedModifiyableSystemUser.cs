@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using BWolf.Utilities.StatModification;
+using UnityEngine;
 
 namespace BWolf.Examples.StatModification
 {
-    public class TimedModifiyableSystem : ModifyableSystem
+    public class TimedModifiyableSystemUser : ModifyableSystemUser
     {
-        private float time = 0;
-
         public override void OnValueChanged(string changedValue)
         {
             int value = int.Parse(changedValue);
@@ -18,7 +17,8 @@ namespace BWolf.Examples.StatModification
             float time = float.Parse(changedTime);
             if (time >= 0)
             {
-                this.time = time;
+                ((TimedModifierInfoSO)nonStackModifier).time = time;
+                ((TimedModifierInfoSO)stackModifier).time = time;
             }
             else
             {
@@ -26,8 +26,8 @@ namespace BWolf.Examples.StatModification
             }
         }
 
-        public override void OnAddStackModifierButtonClick() => stackSystem.AddTimedModifier(stackModifier, time);
+        public override void OnAddStackModifierButtonClick() => stackSystem.AddTimedModifier(stackModifier as TimedModifierInfoSO);
 
-        public override void OnAddNonStackModifierButtonClick() => nonStackSystem.AddTimedModifier(nonStackModifier, time);
+        public override void OnAddNonStackModifierButtonClick() => nonStackSystem.AddTimedModifier(nonStackModifier as TimedModifierInfoSO);
     }
 }

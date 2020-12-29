@@ -1,28 +1,22 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+// Version: 1.1
 //----------------------------------
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BWolf.Utilities.StatModification
 {
     /// <summary>the main class to be used to show specific stats e.g. hitpoints or energy and modify its state by modifying a current or a max value</summary>
-    [Serializable]
-    public class StatSystem
+    public class StatSystem : MonoBehaviour
     {
         [SerializeField, Min(0)]
         private int max = 1000;
 
         private List<StatModifier> activeModifiers = new List<StatModifier>();
         private List<StatModifier> queuedModifiers = new List<StatModifier>();
-
-        private Image fillableBar;
-
-        private Text displayText;
 
         /// <summary>Fired once when current or max has started increasing</summary>
         public event Action OnIncreaseStart;
@@ -69,9 +63,13 @@ namespace BWolf.Utilities.StatModification
             get { return activeModifiers.Count != 0; }
         }
 
-        /// <summary>Updates systems state based on modifiers stored</summary>
-        public void UpdateModifiers()
+        private void Update()
         {
+            if (!BeingModified)
+            {
+                return;
+            }
+
             bool currentIsMax = Current == max;
             bool currentIsZero = Current == 0f;
 
@@ -89,13 +87,6 @@ namespace BWolf.Utilities.StatModification
             CheckZeroMaxEvents(currentIsMax, currentIsZero);
         }
 
-        /// <summary>shows feedback of data on fillablebar and text. Make sure these are not null before using this</summary>
-        public void UpdateVisuals()
-        {
-            fillableBar.fillAmount = Perc;
-            displayText.text = $"{Current}/{max}";
-        }
-
         /// <summary>Sets current to max without callbacks</summary>
         public void SetCurrentToMax()
         {
@@ -108,7 +99,7 @@ namespace BWolf.Utilities.StatModification
             Current = 0;
         }
 
-        /// <summary>Lets a modifier that is in the list of modifiers modify current</summary>
+        /// <summary>Lets a modifier modify the current value</summary>
         public void ModifyCurrent(StatModifier modifier, int value)
         {
             if (activeModifiers.Contains(modifier))
@@ -132,7 +123,7 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
-        /// <summary>Lets a modifier that is in the list of modifiers modify max</summary>
+        /// <summary>Lets a modifier modify the max value</summary>
         public void ModifyMax(StatModifier modifier, int value)
         {
             if (activeModifiers.Contains(modifier))
@@ -156,31 +147,6 @@ namespace BWolf.Utilities.StatModification
             }
         }
 
-        /// <summary>Sets fillable bar reference if given image is of type filled</summary>
-        public void AttachFillableBar(Image fillableImage)
-        {
-            if (fillableImage != null && fillableImage.type == Image.Type.Filled)
-            {
-                this.fillableBar = fillableImage;
-            }
-        }
-
-        /// <summary>Sets display text reference</summary>
-        public void AttachDisplayText(Text displayText)
-        {
-            if (displayText != null)
-            {
-                this.displayText = displayText;
-            }
-        }
-
-        /// <summary>Resets members for displaying system state</summary>
-        public void ResetReferences()
-        {
-            fillableBar = null;
-            displayText = null;
-        }
-
         /// <summary>Removes all queued and active modifiers from system</summary>
         public void Clear()
         {
@@ -199,7 +165,7 @@ namespace BWolf.Utilities.StatModification
         {
             for (int i = activeModifiers.Count - 1; i >= 0; i--)
             {
-                if (activeModifiers[i].Name == modifierName)
+                if (activeModifiers[i].name == modifierName)
                 {
                     RemoveActiveModifierInternal(activeModifiers[i], i);
                     if (!allOccurences) { break; }
@@ -212,7 +178,7 @@ namespace BWolf.Utilities.StatModification
         {
             for (int i = queuedModifiers.Count - 1; i >= 0; i--)
             {
-                if (queuedModifiers[i].Name == modifierName)
+                if (queuedModifiers[i].name == modifierName)
                 {
                     queuedModifiers.RemoveAt(i);
                     if (!allOccurences) { break; }
@@ -223,12 +189,12 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Updates queued modifiers based on given finished modifier at given index</summary>
         private void RemoveActiveModifierInternal(StatModifier modifier, int indexOfModifier)
         {
-            if (queuedModifiers.Count != 0 && queuedModifiers.Any(m => m.Name == modifier.Name))
+            if (queuedModifiers.Count != 0 && queuedModifiers.Any(m => m.name == modifier.name))
             {
                 //if there are queued modifiers an one has the same name as this one, replace this one with the queued one
                 for (int j = queuedModifiers.Count - 1; j >= 0; j--)
                 {
-                    if (queuedModifiers[j].Name == modifier.Name)
+                    if (queuedModifiers[j].name == modifier.name)
                     {
                         activeModifiers[indexOfModifier] = queuedModifiers[j];
                         queuedModifiers.RemoveAt(j);
@@ -248,12 +214,12 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Checks whether stop events should be called</summary>
         private void CheckStopEvents(StatModifier modifier)
         {
-            if (activeModifiers.Count(m => m.Increase) == 0 && modifier.Increase)
+            if (activeModifiers.Count(m => m.increase) == 0 && modifier.increase)
             {
                 //if there are no more regenerating over time modifiers and this one (which was removed) was, the regeneration has ended
                 OnIncreaseStop?.Invoke();
             }
-            else if (activeModifiers.Count(m => !m.Increase) == 0 && !modifier.Increase)
+            else if (activeModifiers.Count(m => !m.increase) == 0 && !modifier.increase)
             {
                 //if there are no more decrease over time modifiers and this one (which was removed) was, the decreasing has ended
                 OnDecreaseStop?.Invoke();
@@ -279,51 +245,47 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Checks if based on given modifier a start event should be fired</summary>
         private void CheckStartEvents(StatModifier modifier)
         {
-            if (activeModifiers.Count(m => m.Increase) == 0 && modifier.Increase)
+            if (activeModifiers.Count(m => m.increase) == 0 && modifier.increase)
             {
                 OnIncreaseStart?.Invoke();
             }
-            else if (activeModifiers.Count(m => !m.Increase) == 0 && !modifier.Increase)
+            else if (activeModifiers.Count(m => !m.increase) == 0 && !modifier.increase)
             {
                 OnDecreaseStart?.Invoke();
             }
         }
 
         /// <summary>Adds a timed modifier to the stat system based on given info. time defaults to 0</summary>
-        public TimedStatModifier AddTimedModifier(StatModifierInfo info, float time = 0)
+        public TimedStatModifier AddTimedModifier(TimedModifierInfoSO info)
         {
-            if (string.IsNullOrEmpty(info.Name))
+            if (info == null)
             {
-                return null;
+                throw new InvalidOperationException("Timed modifier Info was null");
             }
-            else
-            {
-                TimedStatModifier modifier = new TimedStatModifier(info.Name, time, info.Value, info.Increase, info.ModifiesCurrent, info.ModifiesCurrentWithMax, info.CanStack);
-                InsertModifierInSystem(modifier);
-                return modifier;
-            }
+
+            TimedStatModifier modifier = new TimedStatModifier(info);
+            InsertModifierInSystem(modifier);
+            return modifier;
         }
 
         /// <summary>Adds a conditional stat modifier to the system based on given info. stop conditoin defaults to null meaning it will never stop</summary>
-        public ConditionalStatModifier AddConditionalModifier(StatModifierInfo info, Func<bool> stopCondition = null)
+        public ConditionalStatModifier AddConditionalModifier(ConditionalModifierInfoSO info)
         {
-            if (string.IsNullOrEmpty(info.Name))
+            if (info == null)
             {
-                return null;
+                throw new InvalidOperationException("Conditional modifier Info was null");
             }
-            else
-            {
-                ConditionalStatModifier modifier = new ConditionalStatModifier(info.Name, info.Value, info.Increase, info.ModifiesCurrent, info.ModifiesCurrentWithMax, info.CanStack, stopCondition);
-                InsertModifierInSystem(modifier);
-                return modifier;
-            }
+
+            ConditionalStatModifier modifier = new ConditionalStatModifier(info);
+            InsertModifierInSystem(modifier);
+            return modifier;
         }
 
         /// <summary>Inserts given modifier into the system either as active modifier or queued based on the can stack flag</summary>
         private void InsertModifierInSystem(StatModifier modifier)
         {
             //insert at index zero to make sure when removing a modifier by name, the first instance of this modifier inside the system is being removed
-            if (!modifier.CanStack && activeModifiers.Any(m => m.Name == modifier.Name))
+            if (!modifier.canStack && activeModifiers.Any(m => m.name == modifier.name))
             {
                 queuedModifiers.Insert(0, modifier);
             }

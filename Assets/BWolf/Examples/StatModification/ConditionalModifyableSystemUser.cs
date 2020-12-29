@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BWolf.Utilities.StatModification;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace BWolf.Examples.StatModification
 {
-    public class ConditionalModifyableSystem : ModifyableSystem
+    public class ConditionalModifyableSystemUser : ModifyableSystemUser
     {
         [Header("References")]
         [SerializeField]
@@ -16,8 +18,8 @@ namespace BWolf.Examples.StatModification
         [SerializeField]
         private InputField valueInput = null;
 
-        private Func<bool> stopCondition;
-        private Action<string, int> onSecondPassed;
+        private ModificationEndCondition stopCondition;
+        private UnityAction<string, int> onSecondPassed;
 
         [Header("Stored Values")]
         [SerializeField]
@@ -81,7 +83,10 @@ namespace BWolf.Examples.StatModification
             startValue = valueInput.text;
             startStopCondition = stopConditionDropdown.captionText.text;
             startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
-            stackSystem.AddConditionalModifier(stackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+
+            stackSystem.AddConditionalModifier(stackModifier as ConditionalModifierInfoSO)
+                .ModifyUntil(stopCondition)
+                .OnSecondPassed(onSecondPassed);
         }
 
         public override void OnAddNonStackModifierButtonClick()
@@ -89,7 +94,10 @@ namespace BWolf.Examples.StatModification
             startValue = valueInput.text;
             startStopCondition = stopConditionDropdown.captionText.text;
             startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
-            nonStackSystem.AddConditionalModifier(nonStackModifier, stopCondition).OnSecondPassed += onSecondPassed;
+
+            nonStackSystem.AddConditionalModifier(nonStackModifier as ConditionalModifierInfoSO)
+                .ModifyUntil(stopCondition)
+                .OnSecondPassed(onSecondPassed);
         }
     }
 }

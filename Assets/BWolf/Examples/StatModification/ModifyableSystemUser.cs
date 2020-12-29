@@ -4,20 +4,14 @@ using UnityEngine.UI;
 
 namespace BWolf.Examples.StatModification
 {
-    public class ModifyableSystem : MonoBehaviour
+    public class ModifyableSystemUser : MonoBehaviour
     {
         [Header("Stack System")]
         [SerializeField]
         protected StatSystem stackSystem = null;
 
         [SerializeField]
-        protected StatModifierInfo stackModifier = new StatModifierInfo();
-
-        [SerializeField]
-        protected Image imgStackSystemFillable = null;
-
-        [SerializeField]
-        protected Text txtStackSystemDisplayText = null;
+        protected ModifierInfoSO stackModifier = null;
 
         [SerializeField]
         protected Text txtStackSystemEventDisplay = null;
@@ -27,13 +21,7 @@ namespace BWolf.Examples.StatModification
         protected StatSystem nonStackSystem = null;
 
         [SerializeField]
-        protected StatModifierInfo nonStackModifier = new StatModifierInfo();
-
-        [SerializeField]
-        protected Image imgNonStackSystemFillable = null;
-
-        [SerializeField]
-        protected Text txtNonStackSystemDisplayText = null;
+        protected ModifierInfoSO nonStackModifier = null;
 
         [SerializeField]
         protected Text txtNonStackSystemEventDisplay = null;
@@ -43,8 +31,6 @@ namespace BWolf.Examples.StatModification
         protected virtual void Awake()
         {
             stackSystem.SetCurrentToMax();
-            stackSystem.AttachFillableBar(imgStackSystemFillable);
-            stackSystem.AttachDisplayText(txtStackSystemDisplayText);
 
             stackSystem.OnDecreaseStart += () => ShowStackEventTextWithFade("Decrease Started");
             stackSystem.OnDecreaseStop += () => ShowStackEventTextWithFade("Decrease Stopped");
@@ -54,8 +40,6 @@ namespace BWolf.Examples.StatModification
             stackSystem.OnIncreaseStop += () => ShowStackEventTextWithFade("Increase Stopped");
 
             nonStackSystem.SetCurrentToMax();
-            nonStackSystem.AttachFillableBar(imgNonStackSystemFillable);
-            nonStackSystem.AttachDisplayText(txtNonStackSystemDisplayText);
 
             nonStackSystem.OnDecreaseStart += () => ShowNonStackEventTextWithFade("Decrease Started");
             nonStackSystem.OnDecreaseStop += () => ShowNonStackEventTextWithFade("Decrease Stopped");
@@ -63,15 +47,6 @@ namespace BWolf.Examples.StatModification
             nonStackSystem.OnReachedZero += () => ShowNonStackEventTextWithFade("Reached Zero");
             nonStackSystem.OnIncreaseStart += () => ShowNonStackEventTextWithFade("Increase Started");
             nonStackSystem.OnIncreaseStop += () => ShowNonStackEventTextWithFade("Increase Stopped");
-        }
-
-        private void Update()
-        {
-            stackSystem.UpdateModifiers();
-            stackSystem.UpdateVisuals();
-
-            nonStackSystem.UpdateModifiers();
-            nonStackSystem.UpdateVisuals();
         }
 
         private void ShowStackEventTextWithFade(string text)
