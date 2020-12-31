@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.2
+// Version: 1.3
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -84,6 +84,14 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             get { return tasks; }
         }
 
+        private void OnEnable()
+        {
+            foreach (QuestTask task in tasks)
+            {
+                task.Completed += CheckCompletion;
+            }
+        }
+
         /// <summary>Progression of this quest indicated by a number between 0 and 1</summary>
         public float Progress
         {
@@ -99,8 +107,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
-        /// <summary>Updates this quest by checking the progress of the tasks</summary>
-        public void Update()
+        /// <summary>Checks the progress of the tasks</summary>
+        private void CheckCompletion()
         {
             if (isCompleted)
             {
@@ -115,8 +123,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
             if (totalProgress >= tasks.Length)
             {
-                Completed?.Invoke(this);
-                SetActive(false);
+                Completed(this);
+                SetActiveInternal(false, true);
                 isCompleted = true;
             }
         }
@@ -159,7 +167,13 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         }
 
         /// <summary>Sets the active state of this quest</summary>
-        public void SetActive(bool value, bool saveToFile = true)
+        public void SetActive(bool value)
+        {
+            SetActiveInternal(value, true);
+        }
+
+        /// <summary>Sets the active state of this quest</summary>
+        private void SetActiveInternal(bool value, bool saveToFile)
         {
             if (value != isActive)
             {
@@ -189,7 +203,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 #endif
 
             isCompleted = false;
-            SetActive(false);
+            SetActiveInternal(false, true);
 
 #if UNITY_EDITOR
             //make sure that in the editor, restoring the quest marks it as dirty so it can be saved for version control
@@ -210,7 +224,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             string path = $"{FOLDER_PATH}/{name}";
             if (FileStorageSystem.LoadFromFile(path, out bool outValue))
             {
-                SetActive(outValue, false);
+                SetActiveInternal(outValue, false);
             }
         }
     }

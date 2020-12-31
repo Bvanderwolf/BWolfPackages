@@ -11,6 +11,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
     [CreateAssetMenu(menuName = "PlayerProgression/QuestTasks/IncrementTask")]
     public class IncrementTask : QuestTask
     {
+        [Header("Increment Settings")]
         [SerializeField]
         private int count = 0;
 
@@ -25,6 +26,9 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
+        /// <summary>
+        /// The progress of this task represented by a number between 0 and 1
+        /// </summary>
         public override float Progress
         {
             get
@@ -33,6 +37,9 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
+        /// <summary>
+        /// The progress of this task represented as a string
+        /// </summary>
         public override string ProgressFormatted
         {
             get { return $"({count}/{goal})"; }
@@ -50,7 +57,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             {
                 if (count == goal)
                 {
-                    Completed?.Invoke(this);
+                    Completed();
                 }
                 SaveToFile();
             }

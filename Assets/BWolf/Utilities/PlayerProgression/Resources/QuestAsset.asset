@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ed8996ab6a610469b78c659a54f64c, type: 3}
   m_Name: QuestAsset
   m_EditorClassIdentifier: 
+  restoreOnBuild: 1
   quests:
   - {fileID: 11400000, guid: 885df852d0d019946bb7837c60218df6, type: 2}
+  ActiveQuests: []

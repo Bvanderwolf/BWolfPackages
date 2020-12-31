@@ -41,6 +41,16 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             }
         }
 
+        public void AddValue(int value)
+        {
+            UpdateValue(integerValue + value);
+        }
+
+        public void SubtractValue(int value)
+        {
+            UpdateValue(integerValue - value);
+        }
+
         /// <summary>Resets the value of this property and the achievements attached to it</summary>
         public override void Restore()
         {

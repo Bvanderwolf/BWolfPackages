@@ -9,17 +9,20 @@ namespace BWolf.Examples.PlayerProgression
         [SerializeField]
         private GameObject propertyTextPrefab = null;
 
+        [SerializeField]
+        private QuestAsset questAsset = null;
+
         private Dictionary<Quest, QuestDisplay> quests = new Dictionary<Quest, QuestDisplay>();
 
         private void Start()
         {
-            QuestManager.Instance.QuestCompleted += OnQuestCompleted;
+            questAsset.OnQuestCompletedEvent += OnQuestCompleted;
         }
 
         private void Update()
         {
             //display active quests on screen
-            foreach (Quest quest in QuestManager.Instance.ActiveQuests)
+            foreach (Quest quest in questAsset.ActiveQuests)
             {
                 QuestDisplay display = GetQuestDisplay(quest);
                 display.SetDescription(quest.Description);

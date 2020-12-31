@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/BWolf/Examples/SystemBootstrapping/SystemBootstrappingDemo1.unity
-    guid: 71805e17eac446c48a9a43bf22a9228c
-  - enabled: 1
-    path: Assets/BWolf/Examples/SystemBootstrapping/SystemBootstrappingDemo2.unity
-    guid: e9971a5d07154664c85f0626e7eb66ba
+    path: Assets/BWolf/Examples/PlayerProgression/PlayerProgressionDemo.unity
+    guid: 6e3d34bb21df5f044b880c1cf2a280b5
   m_configObjects: {}

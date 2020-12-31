@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42bf5d595003aba43a136ee80168445e, type: 3}
   m_Name: DemoSceneIntro
   m_EditorClassIdentifier: 
-  finished: 1
+  finished: 0
   introducables:
   - tagName: InroSceneUIElement
     fromIndex: 2

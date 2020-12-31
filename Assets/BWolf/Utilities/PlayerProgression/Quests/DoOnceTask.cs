@@ -11,6 +11,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
     [CreateAssetMenu(menuName = "PlayerProgression/QuestTasks/DoOnceTask")]
     public class DoOnceTask : QuestTask
     {
+        [Header("Do Once Settings")]
         [SerializeField]
         private bool isDoneOnce = false;
 
@@ -22,11 +23,17 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             }
         }
 
+        /// <summary>
+        /// The progress of this task represented by a number between 0 and 1
+        /// </summary>
         public override float Progress
         {
             get { return isDoneOnce ? 1.0f : 0.0f; }
         }
 
+        /// <summary>
+        /// The progress of this task represented as a string
+        /// </summary>
         public override string ProgressFormatted
         {
             get { return string.Format("({0}/1)", isDoneOnce ? 1 : 0); }
@@ -64,6 +71,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
             if (!isDoneOnce)
             {
                 isDoneOnce = true;
+                Completed();
                 SaveToFile();
             }
         }

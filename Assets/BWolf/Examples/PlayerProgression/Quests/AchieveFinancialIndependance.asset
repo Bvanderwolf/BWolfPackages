@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5073c0b001c5d84391c9282f51bf2cd, type: 2}
   - {fileID: 11400000, guid: 953fe69986b708a4f9cbadb428d254be, type: 2}
   - {fileID: 11400000, guid: 1fe7247bdfc61f2438d8ed366bfdb39c, type: 2}
+  requiredQuest: {fileID: 0}
