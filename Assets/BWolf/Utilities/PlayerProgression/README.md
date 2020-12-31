@@ -14,9 +14,6 @@ By default there are 3 types of QuestTask
  - IncrementTask: do something a set ammount of times
  - MinimalValueTask: accumulate a minimal ammount of value
 
-Quests can be interacted with by using the QuestGiver class. The quest giver class is a monobehaviour containing quests which can be
-managed by a derived class to make it possible to make a quest active and to update its tasks until completed.
-
 These can be created by using the Creation menu in the Project View: Create/PlayerProgression/Quest & Create/PlayerProgression/QuestTasks
 
 ### PropertyManagement
@@ -34,7 +31,7 @@ This package comes with 3 different types of Properties:
   
 ### Progress Saving and Loading
 
-This packages also comes with a simple static class called ProgressFileSystem.
+This package uses the static FileStorageSystem class to save and load data from local storage 
 this class provides functionality to save and load the current state of Quests, QuestTasks
 Player Properties and Achievements. Look for examples of implementations inside the standard
 QuestTasks, Achievements and Player Properties provided.
@@ -48,7 +45,6 @@ a quest has been completed.
 ## Dependencies
 
 This package makes use of the following packages:
-- SingletonBehaviours
 - FileStorage
 
 ## Download
