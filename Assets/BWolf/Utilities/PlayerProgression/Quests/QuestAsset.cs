@@ -98,7 +98,6 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         }
 
         /// <summary>Resets the progression by restoring all quests to their original default state</summary>
-        [ContextMenu("Restore")]
         public void Restore()
         {
             ActiveQuests.Clear();

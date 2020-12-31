@@ -67,7 +67,6 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Resets all stored properties</summary>
-        [ContextMenu("Restore")]
         public void Restore()
         {
             for (int i = 0; i < properties.Length; i++)
