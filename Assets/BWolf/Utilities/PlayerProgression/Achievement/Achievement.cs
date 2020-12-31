@@ -18,7 +18,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         protected const string FOLDER_NAME = "ProgressSaves/Achievements";
 
-        private event Action<Achievement> OnCompletionEvent;
+        public Action<Achievement> Completed;
 
         /// <summary>The stored description given to this achievement</summary>
         public string Description
@@ -36,24 +36,6 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         public bool IsCompleted
         {
             get { return progress == 1.0f; }
-        }
-
-        /// <summary>OnCompletionEvent invocation method</summary>
-        protected void OnCompletion()
-        {
-            OnCompletionEvent?.Invoke(this);
-        }
-
-        /// <summary>Adds a listener for when the goal has been reached for the first time</summary>
-        public void AddListener(Action<Achievement> onCompletion)
-        {
-            OnCompletionEvent += onCompletion;
-        }
-
-        /// <summary>Removes a listener for when the goal has been reached for the first time</summary>
-        public void RemoveListener(Action<Achievement> onCompletion)
-        {
-            OnCompletionEvent -= onCompletion;
         }
 
         /// <summary>should restore the achiement</summary>

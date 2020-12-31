@@ -59,7 +59,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
                     if (IsCompleted)
                     {
-                        OnCompletion();
+                        Completed(this);
                     }
                 }
             }

@@ -26,7 +26,7 @@ namespace BWolf.Examples.PlayerProgression
 
         public void OnOpenBankAccount()
         {
-            if (!openedBankAccount.IsTrue)
+            if (quest.IsActive && !openedBankAccount.Value)
             {
                 //set has opened bank account property using the property manager
                 openedBankAccount.UpdateValue(true);
@@ -42,7 +42,7 @@ namespace BWolf.Examples.PlayerProgression
 
         public void DepositMoney()
         {
-            if (openedBankAccount.IsTrue)
+            if (openedBankAccount.Value)
             {
                 //set money deposited and deposit count properties
                 moneyDeposited.AddValue(depositOnClick);

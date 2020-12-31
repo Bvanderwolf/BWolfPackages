@@ -48,6 +48,11 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         public void UpdateValue(int newValue, bool saveToFile = true)
         {
+            if (newValue < startValue || newValue > goalValue)
+            {
+                return;
+            }
+
             if (saveToFile)
             {
                 if (currentValue != newValue)
@@ -59,7 +64,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
                     if (IsCompleted)
                     {
-                        OnCompletion();
+                        Completed(this);
                     }
                 }
             }

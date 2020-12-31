@@ -21,6 +21,8 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         [SerializeField]
         private PlayerProperty[] properties = null;
 
+        public Action<Achievement> AchievementCompleted;
+
         public const string ASSET_NAME = "PlayerPropertiesAsset";
 
         /// <summary>Are player properties restored to their original default state when building the application</summary>
@@ -29,17 +31,23 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
             get { return restoreOnBuild; }
         }
 
-        /// <summary>Initializes properties, loading their values from local storage and listening for achievement completion using given listener</summary>
-        public void Initialize(Action<Achievement> onAchievementCompleted)
+        private void OnEnable()
         {
-            if (properties != null)
+            if (properties == null)
             {
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    properties[i].LoadFromFile();
-                    properties[i].AddListener(onAchievementCompleted);
-                }
+                return;
             }
+
+            foreach (PlayerProperty property in properties)
+            {
+                property.LoadFromFile();
+                property.AddListener(OnAchievementCompleted);
+            }
+        }
+
+        private void OnAchievementCompleted(Achievement achievement)
+        {
+            AchievementCompleted?.Invoke(achievement);
         }
 
         /// <summary>Returns a list containing information on all the achievements stored</summary>
@@ -59,6 +67,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         }
 
         /// <summary>Resets all stored properties</summary>
+        [ContextMenu("Restore")]
         public void Restore()
         {
             for (int i = 0; i < properties.Length; i++)

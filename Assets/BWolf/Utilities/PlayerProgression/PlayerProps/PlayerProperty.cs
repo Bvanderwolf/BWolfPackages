@@ -73,9 +73,9 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Adds a listener to this property for when an achievement has been completed</summary>
         public void AddListener(Action<Achievement> onAchievementCompleted)
         {
-            foreach (Achievement achievement in Achievements)
+            foreach (Achievement achievement in achievements)
             {
-                achievement.AddListener(onAchievementCompleted);
+                achievement.Completed += onAchievementCompleted;
             }
         }
 
@@ -84,7 +84,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         {
             foreach (Achievement achievement in Achievements)
             {
-                achievement.RemoveListener(onAchievementCompleted);
+                achievement.Completed -= onAchievementCompleted;
             }
         }
 

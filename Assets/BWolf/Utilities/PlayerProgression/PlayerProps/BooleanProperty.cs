@@ -13,26 +13,26 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     public class BooleanProperty : PlayerProperty
     {
         [SerializeField]
-        private bool isTrue = false;
+        private bool value = false;
 
-        public bool IsTrue
+        public bool Value
         {
-            get { return isTrue; }
+            get { return value; }
         }
 
         /// <summary>Updates the value of this property, only set fromSaveFile flag to true when called when called after loading it from a file</summary>
         public void UpdateValue(bool newBooleanValue, bool saveToFile = true)
         {
-            if (isTrue == newBooleanValue)
+            if (value == newBooleanValue)
             {
                 return;
             }
 
-            isTrue = newBooleanValue;
+            value = newBooleanValue;
 
             foreach (BooleanAchievement achievement in GetAchievements<BooleanAchievement>())
             {
-                achievement.UpdateValue(isTrue);
+                achievement.UpdateValue(value, saveToFile);
             }
 
             if (saveToFile)
@@ -56,7 +56,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         protected override void SaveToFile()
         {
             string path = $"{FOLDER_NAME}/{nameof(BooleanProperty)}/{name}";
-            FileStorageSystem.SaveToFile(path, isTrue);
+            FileStorageSystem.SaveToFile(path, value);
         }
 
         /// <summary>Loads value from local storage</summary>
