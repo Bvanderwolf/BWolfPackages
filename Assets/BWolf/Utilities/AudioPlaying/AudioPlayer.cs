@@ -83,7 +83,13 @@ namespace BWolf.Utilities.AudioPlaying
         /// <summary>Tries loading settings from local storage. Uses AudioSettings DefaultVolume as fallback on fail</summary>
         private void LoadSettings()
         {
-            if (!FileStorageSystem.LoadAsJsonFromFile(AudioSettings.FILE_PATH, ref settings))
+            if (FileStorageSystem.LoadJsonFromFile(AudioSettings.FILE_PATH, out LoadResult<AudioSettings> loadResult))
+            {
+                AudioSettings loadedSettings = loadResult.data;
+                settings.ThemeVolume = loadedSettings.ThemeVolume;
+                settings.SFXVolume = loadedSettings.SFXVolume;
+            }
+            else
             {
                 settings.ThemeVolume = AudioSettings.DEFAULT_VOLUME;
                 settings.SFXVolume = AudioSettings.DEFAULT_VOLUME;
@@ -138,10 +144,18 @@ namespace BWolf.Utilities.AudioPlaying
         {
             if (newVolume != settings.SFXVolume)
             {
+                //update local settings
                 settings.SFXVolume = Mathf.Clamp01(newVolume);
+
+                //update containers
+                foreach (SFXSound sound in sfxContainers.Keys)
+                {
+                    UpdateSFXSoundVolume(sound, newVolume);
+                }
 
                 if (saveToFile)
                 {
+                    //update stored settings
                     SaveSettings();
                 }
             }
@@ -154,6 +168,13 @@ namespace BWolf.Utilities.AudioPlaying
             if (container.Volume != newVolume)
             {
                 container.Volume = newVolume;
+
+                AudioSource source = GetClipSource(container.Clip);
+                if (source != null)
+                {
+                    //update the source volume if it is playing the sfx sound
+                    source.volume = newVolume;
+                }
             }
         }
 
@@ -162,10 +183,18 @@ namespace BWolf.Utilities.AudioPlaying
         {
             if (newVolume != settings.ThemeVolume)
             {
+                //update local settings
                 settings.ThemeVolume = Mathf.Clamp01(newVolume);
+
+                //update the theme containers
+                foreach (ThemeSound sound in themeContainers.Keys)
+                {
+                    UpdateThemeSoundVolume(sound, newVolume);
+                }
 
                 if (saveToFile)
                 {
+                    //update stored settings
                     SaveSettings();
                 }
             }
@@ -178,6 +207,13 @@ namespace BWolf.Utilities.AudioPlaying
             if (container.Volume != newVolume)
             {
                 container.Volume = newVolume;
+
+                AudioSource source = GetClipSource(container.Clip);
+                if (source != null)
+                {
+                    //update the source if it is currently playing the theme sound
+                    source.volume = newVolume;
+                }
             }
         }
 
@@ -197,7 +233,7 @@ namespace BWolf.Utilities.AudioPlaying
             for (int i = 0; i < sources.Count; i++)
             {
                 source = sources[i];
-                if (source.isPlaying)
+                if (!source.isPlaying)
                 {
                     return source;
                 }

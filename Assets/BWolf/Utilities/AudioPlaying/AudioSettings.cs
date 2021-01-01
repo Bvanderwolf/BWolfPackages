@@ -16,7 +16,7 @@ namespace BWolf.Utilities.AudioPlaying
         [Range(0.0f, 1.0f)]
         public float SFXVolume = DEFAULT_VOLUME;
 
-        public const string FILE_PATH = "Music/Settings";
+        public const string FILE_PATH = "Music/Settings.txt";
         public const float DEFAULT_VOLUME = 1.0f;
     }
 }
