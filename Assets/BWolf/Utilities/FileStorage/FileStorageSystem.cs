@@ -23,7 +23,7 @@ namespace BWolf.Utilities.FileStorage
         {
             string filePath = Path.Combine(rootPath, path);
 
-            VerifyFileDirectorPath(filePath);
+            VerifyFileDirectoryPath(filePath);
 
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Create(filePath);
@@ -56,7 +56,7 @@ namespace BWolf.Utilities.FileStorage
         {
             string filePath = Path.Combine(rootPath, path);
 
-            VerifyFileDirectorPath(filePath);
+            VerifyFileDirectoryPath(filePath);
 
             string json = JsonUtility.ToJson(value);
             if (mode == SaveMode.Hashed)
@@ -95,7 +95,7 @@ namespace BWolf.Utilities.FileStorage
                     string loadedHash = EncryptionSystem.Hash(json);
                     if (storedHash != loadedHash)
                     {
-                        Debug.LogWarning($"Loaded data {loadResult.data} @ {path} path isn't the same as the saved data :: this is not intended");
+                        Debug.LogWarning($"Loaded data {loadResult.data} @ {filePath} path isn't the same as the saved data :: this is not intended");
                         loadResult.result = LoadResult.FileChanged;
                         return true;
                     }
@@ -111,7 +111,7 @@ namespace BWolf.Utilities.FileStorage
         {
             string filePath = Path.Combine(rootPath, path);
 
-            VerifyFileDirectorPath(filePath);
+            VerifyFileDirectoryPath(filePath);
 
             string text = data.ToString();
             if (mode == SaveMode.Hashed)
@@ -148,7 +148,7 @@ namespace BWolf.Utilities.FileStorage
                     string loadedHash = EncryptionSystem.Hash(loadResult.data);
                     if (storedHash != loadedHash)
                     {
-                        Debug.LogWarning($"Loaded data {loadResult.data} @ {path} path isn't the same as the saved data :: this is not intended");
+                        Debug.LogWarning($"Loaded data {loadResult.data} @ {filePath} path isn't the same as the saved data :: this is not intended");
                         loadResult.result = LoadResult.FileChanged;
                         return true;
                     }
@@ -160,7 +160,7 @@ namespace BWolf.Utilities.FileStorage
         }
 
         /// <summary>Checks whether the file at given filePath its parent directory exists. Creates it if doesn't</summary>
-        private static void VerifyFileDirectorPath(string filePath)
+        private static void VerifyFileDirectoryPath(string filePath)
         {
             string directoryPath = filePath.Substring(0, filePath.LastIndexOf('/'));
             if (!Directory.Exists(directoryPath))
