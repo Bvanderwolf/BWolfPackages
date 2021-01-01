@@ -17,8 +17,8 @@ namespace BWolf.Utilities.SystemBootstrapping
             SystemLocator.Awake();
 
             //register systems
-            SystemLocator.Instance.Register<MusicSystem>();
-            SystemLocator.Instance.Register<SceneSwitchSystem>();
+            //SystemLocator.Instance.Register<MusicSystem>();
+            //SystemLocator.Instance.Register<SceneSwitchSystem>();
         }
     }
 }
