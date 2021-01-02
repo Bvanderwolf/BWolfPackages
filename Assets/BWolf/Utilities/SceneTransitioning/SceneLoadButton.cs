@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace BWolf.Utilities.SceneTransitioning
@@ -18,7 +22,7 @@ namespace BWolf.Utilities.SceneTransitioning
         private bool showLoadingScreen = false;
 
         [SerializeField]
-        private bool overwrite = false;
+        private bool overwrite = true;
 
         [SerializeField]
         private SceneInfoSO[] scenesToLoad = null;
