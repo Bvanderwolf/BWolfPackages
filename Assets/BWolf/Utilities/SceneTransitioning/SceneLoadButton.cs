@@ -21,7 +21,7 @@ namespace BWolf.Utilities.SceneTransitioning
         [SerializeField]
         private bool showLoadingScreen = false;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Unload all currently loaded scenes except for the initialization one")]
         private bool overwrite = true;
 
         [SerializeField]

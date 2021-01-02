@@ -1,4 +1,7 @@
-﻿#if UNITY_EDITOR
+﻿// Created By: Unity Open Project @ https://github.com/UnityTechnologies/open-project-1
+//----------------------------------
+
+#if UNITY_EDITOR
 
 using UnityEngine;
 using UnityEditor;

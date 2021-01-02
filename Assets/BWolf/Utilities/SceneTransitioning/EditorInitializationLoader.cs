@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Created By: Unity Open Project @ https://github.com/UnityTechnologies/open-project-1
+//----------------------------------
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace BWolf.Utilities.SceneTransitioning

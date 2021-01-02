@@ -1,5 +1,4 @@
-﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.0
+﻿// Created By: Unity Open Project @ https://github.com/UnityTechnologies/open-project-1
 //----------------------------------
 
 using UnityEngine;
