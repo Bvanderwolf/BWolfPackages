@@ -11,9 +11,16 @@ namespace BWolf.Utilities.AudioPlaying
     [RequireComponent(typeof(Button))]
     public class AudableButton : MonoBehaviour
     {
-        [Header("AudioSettings")]
+        [Header("Settings")]
         [SerializeField]
-        private SFXSound sound = SFXSound.DefaultButtonClick;
+        private AudioCueSO audioCue = null;
+
+        [SerializeField]
+        private AudioConfigurationSO config = null;
+
+        [Header("Channel broadcasting on")]
+        [SerializeField]
+        private AudioRequestChannelSO channel = null;
 
         private Button button;
 
@@ -30,7 +37,7 @@ namespace BWolf.Utilities.AudioPlaying
 
         private void PlaySound()
         {
-            AudioPlayer.Instance.PlaySFXSound(sound);
+            channel.RaiseEvent(config, audioCue, Vector3.zero);
         }
     }
 }

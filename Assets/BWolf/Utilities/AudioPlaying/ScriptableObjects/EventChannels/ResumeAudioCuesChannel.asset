@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 665749f5bdb510e498fa66c145990227, type: 3}
-  m_Name: AudioSettings
+  m_Script: {fileID: 11500000, guid: 7a5a5ead6bf430e41bca6c8c0dac148b, type: 3}
+  m_Name: ResumeAudioCuesChannel
   m_EditorClassIdentifier: 
-  ThemeVolume: 0.5
-  SFXVolume: 0.5

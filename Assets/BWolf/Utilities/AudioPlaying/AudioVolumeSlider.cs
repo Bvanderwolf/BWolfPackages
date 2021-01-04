@@ -12,8 +12,24 @@ namespace BWolf.Utilities.AudioPlaying
     [RequireComponent(typeof(Slider))]
     public class AudioVolumeSlider : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField]
-        private Sound sound = Sound.SFX;
+        private VolumeGroup volumeGroup = VolumeGroup.SFX;
+
+        [Space]
+        [SerializeField]
+        private AudioConfigurationSO config = null;
+
+        [SerializeField]
+        private AudioCueSO audioCue = null;
+
+        [Header("Channels broadcasting on")]
+        [SerializeField]
+        private AudioRequestChannelSO channel = null;
+
+        [Header("Profile Adjusting")]
+        [SerializeField]
+        private AudioProfileSO profile = null;
 
         private Slider slider;
 
@@ -31,16 +47,18 @@ namespace BWolf.Utilities.AudioPlaying
             slider.onValueChanged.AddListener(OnValueChanged);
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
-            switch (sound)
+            yield return null; //wait one frame for the audio profile to set its values
+
+            switch (volumeGroup)
             {
-                case Sound.Theme:
-                    slider.SetValueWithoutNotify(AudioPlayer.Instance.ThemeVolume);
+                case VolumeGroup.Music:
+                    slider.SetValueWithoutNotify(profile.GetGroupVolume(VolumeGroup.Music));
                     break;
 
-                case Sound.SFX:
-                    slider.SetValueWithoutNotify(AudioPlayer.Instance.SFXVolume);
+                case VolumeGroup.SFX:
+                    slider.SetValueWithoutNotify(profile.GetGroupVolume(VolumeGroup.SFX));
                     break;
             }
         }
@@ -52,6 +70,12 @@ namespace BWolf.Utilities.AudioPlaying
 
         private void OnValueChanged(float delta)
         {
+            if (volumeGroup != VolumeGroup.SFX)
+            {
+                //non-SFX values should be updated to the player while changing the slider for accurate feedback
+                profile.SetGroupVolume(volumeGroup, slider.value);
+            }
+
             if (!waitingForChangeToStop)
             {
                 //if we are not waiting for change to stop, start waiting the slider to stop being changd
@@ -64,6 +88,7 @@ namespace BWolf.Utilities.AudioPlaying
         {
             waitingForChangeToStop = true;
 
+            //wait for the slider value to stop being changed
             float change = 0.0f;
             while (change != slider.value)
             {
@@ -71,26 +96,16 @@ namespace BWolf.Utilities.AudioPlaying
                 yield return new WaitForSeconds(VALUE_CHANGE_INTERVAL_WAIT);
             }
 
-            //after the change has stopped, set the new volume percentage based on sound
-            switch (sound)
+            if (volumeGroup == VolumeGroup.SFX)
             {
-                case Sound.Theme:
-                    AudioPlayer.Instance.UpdateThemeVolume(slider.value, true);
-                    break;
-
-                case Sound.SFX:
-                    AudioPlayer.Instance.UpdateSFXVolume(slider.value, true);
-                    AudioPlayer.Instance.PlaySFXSound(SFXSound.DefaultButtonClick);
-                    break;
+                //sfx value is set after value has stopped being changed and feedbacked to the player
+                profile.SetGroupVolume(volumeGroup, slider.value);
+                channel.RaiseEvent(config, audioCue, Vector3.zero);
             }
 
-            waitingForChangeToStop = false;
-        }
+            profile.SaveGroupVolumeToFile(volumeGroup);
 
-        private enum Sound
-        {
-            Theme,
-            SFX
+            waitingForChangeToStop = false;
         }
     }
 }

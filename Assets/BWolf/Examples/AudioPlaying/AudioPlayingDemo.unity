@@ -215,7 +215,7 @@ RectTransform:
   - {fileID: 1447467299}
   - {fileID: 1330842240}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -353,7 +353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9404cb29ce7de4b9a090e218336eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: 0
+  audioCue: {fileID: 11400000, guid: a22e8dc76a0a9b74798f03a0cd13dd15, type: 2}
+  config: {fileID: 11400000, guid: 0c34caff922dd3b43b5a9fff58330339, type: 2}
+  channel: {fileID: 11400000, guid: 16340c489d7b2884eb35008175f30e04, type: 2}
 --- !u!1 &457217129
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +570,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712411198
 GameObject:
@@ -955,7 +957,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a20783c6db52743828ade24e279711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: 0
+  volumeGroup: 1
+  config: {fileID: 11400000, guid: 0252f68b1c4411046a1cdd20aa574071, type: 2}
+  audioCue: {fileID: 11400000, guid: 00db5bbdbc62e5742bb417851470db8a, type: 2}
+  channel: {fileID: 11400000, guid: 02b96c534981b214dbc3159bde0f3ecc, type: 2}
+  profile: {fileID: 11400000, guid: e074ea7feb49de74080cf2f761a56cbb, type: 2}
 --- !u!114 &1330842242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,7 +1101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a20783c6db52743828ade24e279711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: 1
+  volumeGroup: 2
+  config: {fileID: 11400000, guid: 0c34caff922dd3b43b5a9fff58330339, type: 2}
+  audioCue: {fileID: 11400000, guid: a22e8dc76a0a9b74798f03a0cd13dd15, type: 2}
+  channel: {fileID: 11400000, guid: 16340c489d7b2884eb35008175f30e04, type: 2}
+  profile: {fileID: 11400000, guid: e074ea7feb49de74080cf2f761a56cbb, type: 2}
 --- !u!114 &1447467301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,7 +1404,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709801022}
   m_CullTransparentMesh: 0
---- !u!1 &1846248126
+--- !u!1 &1888676107
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1402,50 +1412,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1846248127}
-  - component: {fileID: 1846248128}
+  - component: {fileID: 1888676108}
+  - component: {fileID: 1888676109}
   m_Layer: 0
-  m_Name: MusicPlayer
+  m_Name: StartTheme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1846248127
+--- !u!4 &1888676108
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846248126}
+  m_GameObject: {fileID: 1888676107}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 810, z: 0}
+  m_LocalPosition: {x: 935.28394, y: 858.3453, z: -497.80707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1846248128
+--- !u!114 &1888676109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846248126}
+  m_GameObject: {fileID: 1888676107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f170e903771f8f047b6cdd7ee110267a, type: 3}
+  m_Script: {fileID: 11500000, guid: b04deaa23f01718438ab7306b8dc2030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 7ce62e43f92582c49be7e4ea1858030b, type: 2}
-  sfxSounds:
-  - Sound: 0
-    Clip: {fileID: 8300000, guid: 7897901ae19efa34396a3b2962b02a84, type: 3}
-    Volume: 1
-  themeSounds:
-  - Sound: 0
-    Clip: {fileID: 8300000, guid: 85bd5e4ce3d32a74cb23f4d5d50c4183, type: 3}
-    Volume: 1
+  config: {fileID: 11400000, guid: 0252f68b1c4411046a1cdd20aa574071, type: 2}
+  themeCue: {fileID: 11400000, guid: 00db5bbdbc62e5742bb417851470db8a, type: 2}
+  channel: {fileID: 11400000, guid: 02b96c534981b214dbc3159bde0f3ecc, type: 2}
 --- !u!1 &1924823884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,6 +1636,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942110414}
   m_CullTransparentMesh: 0
+--- !u!1 &1954060486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1954060487}
+  - component: {fileID: 1954060488}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1954060487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954060486}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 935.28394, y: 858.3453, z: -497.80707}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1954060488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954060486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd75f3dc72ba1b4b9d3b24f595e4507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterPool: {fileID: 11400000, guid: da9a8416c9b310a4292babb9665f3e71, type: 2}
+  initialSize: 10
+  sfxChannel: {fileID: 11400000, guid: 16340c489d7b2884eb35008175f30e04, type: 2}
+  themeChannel: {fileID: 11400000, guid: 02b96c534981b214dbc3159bde0f3ecc, type: 2}
+  stopChannel: {fileID: 11400000, guid: c275df6c18fe5ab488cc4b26c5cc6b64, type: 2}
+  pauseChannel: {fileID: 11400000, guid: b60e5eec5f8d1b848b7c713afb51e4d2, type: 2}
+  resumeChannel: {fileID: 11400000, guid: 5aada040c5d86234d9d319515c4a1ce2, type: 2}
+  profiles:
+  - {fileID: 11400000, guid: e074ea7feb49de74080cf2f761a56cbb, type: 2}
 --- !u!1 &1986212515
 GameObject:
   m_ObjectHideFlags: 0
