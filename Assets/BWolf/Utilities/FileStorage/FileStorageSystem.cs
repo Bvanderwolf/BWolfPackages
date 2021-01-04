@@ -125,7 +125,8 @@ namespace BWolf.Utilities.FileStorage
             File.WriteAllText(filePath, text);
         }
 
-        /// <summary>Loads data of given type as a string from given path</summary>
+        /// <summary>Loads data of <typeparamref name="T"/> as a string from given path</summary>
+        /// <typeparam name="T">The type of object to load from text</typeparam>
         public static bool LoadFromPlainText<T>(string path, out LoadResult<string> loadResult)
         {
             string filePath = Path.Combine(rootPath, path);
@@ -162,7 +163,7 @@ namespace BWolf.Utilities.FileStorage
         /// <summary>Checks whether the file at given filePath its parent directory exists. Creates it if doesn't</summary>
         private static void VerifyFileDirectoryPath(string filePath)
         {
-            string directoryPath = filePath.Substring(0, filePath.LastIndexOf('/'));
+            string directoryPath = filePath.Substring(0, filePath.LastIndexOf(Path.DirectorySeparatorChar));
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
