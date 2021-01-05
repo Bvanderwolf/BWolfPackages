@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: f9ced5b549cd588489a42be26acd0cab, type: 2}
   masterVolume: 1
-  musicVolume: 0.5922778
-  sfxVolume: 1
+  musicVolume: 0.647577
+  sfxVolume: 0.454

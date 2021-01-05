@@ -51,16 +51,7 @@ namespace BWolf.Utilities.AudioPlaying
         {
             yield return null; //wait one frame for the audio profile to set its values
 
-            switch (volumeGroup)
-            {
-                case VolumeGroup.Music:
-                    slider.SetValueWithoutNotify(profile.GetGroupVolume(VolumeGroup.Music));
-                    break;
-
-                case VolumeGroup.SFX:
-                    slider.SetValueWithoutNotify(profile.GetGroupVolume(VolumeGroup.SFX));
-                    break;
-            }
+            slider.SetValueWithoutNotify(profile.GetGroupVolume(volumeGroup));
         }
 
         private void OnDisable()
@@ -78,7 +69,7 @@ namespace BWolf.Utilities.AudioPlaying
 
             if (!waitingForChangeToStop)
             {
-                //if we are not waiting for change to stop, start waiting the slider to stop being changd
+                //if we are not waiting for change to stop, start waiting for the slider to stop being changd
                 StartCoroutine(WaitForValueChange());
             }
         }
@@ -103,6 +94,7 @@ namespace BWolf.Utilities.AudioPlaying
                 channel.RaiseEvent(config, audioCue, Vector3.zero);
             }
 
+            //save newly set group volume value to local storage
             profile.SaveGroupVolumeToFile(volumeGroup);
 
             waitingForChangeToStop = false;

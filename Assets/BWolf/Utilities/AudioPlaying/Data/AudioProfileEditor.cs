@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using UnityEditor;
 
 namespace BWolf.Utilities.AudioPlaying
 {
@@ -13,7 +17,11 @@ namespace BWolf.Utilities.AudioPlaying
 
             if (EditorGUI.EndChangeCheck())
             {
-                ((AudioProfileSO)target).Validate();
+                AudioProfileSO profile = target as AudioProfileSO;
+                if (profile.ReAssertGroupVolumes())
+                {
+                    profile.SaveGroupVolumesToFile();
+                }
             }
         }
     }

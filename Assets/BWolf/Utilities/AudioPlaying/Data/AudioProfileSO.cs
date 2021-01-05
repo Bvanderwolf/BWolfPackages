@@ -1,4 +1,8 @@
-﻿using BWolf.Utilities.FileStorage;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using BWolf.Utilities.FileStorage;
 using UnityEngine;
 using UnityEngine.Audio;
 using System;
@@ -25,16 +29,23 @@ namespace BWolf.Utilities.AudioPlaying
 #if UNITY_EDITOR
 
         /// <summary>
-        /// This is only used in the Editor, to debug volumes.
-        /// It is called when any of the variables is changed, and will directly change the value of the volume on the AudioMixer.
+        /// Re asserts the audio mixer volumes using the stored volume values in this scriptable object. Returns false when not in Play mode
         /// </summary>
-        public void Validate()
+        /// <remarks>NOTE: This is only used in the Editor, to debug volumes.
+        /// It should be called when any of the variables is changed, and will directly change the values of the volume on the AudioMixer.</remarks>
+        public bool ReAssertGroupVolumes()
         {
             if (Application.isPlaying)
             {
                 SetGroupVolume(VolumeGroup.Master, masterVolume);
                 SetGroupVolume(VolumeGroup.Music, musicVolume);
                 SetGroupVolume(VolumeGroup.SFX, sfxVolume);
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -56,6 +67,18 @@ namespace BWolf.Utilities.AudioPlaying
                 case VolumeGroup.SFX:
                     FileStorageSystem.SaveAsPlainText(path, sfxVolume);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Saves all volume group values for each volume group to the local storage
+        /// </summary>
+        public void SaveGroupVolumesToFile()
+        {
+            VolumeGroup[] volumeGroups = (VolumeGroup[])Enum.GetValues(typeof(VolumeGroup));
+            for (int i = 0; i < volumeGroups.Length; i++)
+            {
+                SaveGroupVolumeToFile(volumeGroups[i]);
             }
         }
 
