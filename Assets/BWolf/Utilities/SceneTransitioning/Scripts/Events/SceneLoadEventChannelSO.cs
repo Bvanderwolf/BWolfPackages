@@ -2,6 +2,7 @@
 //----------------------------------
 
 using UnityEngine;
+using System;
 
 namespace BWolf.Utilities.SceneTransitioning
 {
@@ -11,11 +12,20 @@ namespace BWolf.Utilities.SceneTransitioning
     [CreateAssetMenu(fileName = "LoadEventChannel", menuName = "SO Event Channels/SceneLoading")]
     public class SceneLoadEventChannelSO : ScriptableObject
     {
-        public System.Action<SceneInfoSO[], bool, bool> OnRequestRaised;
+        public Action<SceneInfoSO[], bool, bool> OnRequestRaised;
 
         public void RaiseRequest(SceneInfoSO[] scenes, bool showLoadingScreen, bool overwrite)
         {
-            OnRequestRaised?.Invoke(scenes, showLoadingScreen, overwrite);
+            if (OnRequestRaised != null)
+            {
+                OnRequestRaised(scenes, showLoadingScreen, overwrite);
+            }
+            else
+            {
+                Debug.LogWarning("A scene load was requested, but nobody picked it up. " +
+               "Check why there is no SceneLoader already loaded, " +
+               "and make sure it's listening on this Scene Load Event channel.");
+            }
         }
     }
 }
