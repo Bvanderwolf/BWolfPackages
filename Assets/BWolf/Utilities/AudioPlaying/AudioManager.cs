@@ -1,4 +1,5 @@
-﻿// Created By: Unity Open Project @ https://github.com/UnityTechnologies/open-project-1
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
 //----------------------------------
 
 using System.Collections.Generic;

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using System;
 using UnityEngine;
 
 namespace BWolf.Utilities.AudioPlaying
