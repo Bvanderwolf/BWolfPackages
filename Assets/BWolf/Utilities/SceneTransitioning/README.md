@@ -7,7 +7,7 @@ A package containing utilities for transitioning from one scene to another.
 This package is heavily influenced by the Unity's Open Project 1 Repository on github:  
 https://github.com/UnityTechnologies/open-project-1
 
-Content that is shown with little or no modifications to it, explicitly reference this project
+Content that is shown with little or no modifications to it, explicitly references this project
 
 ## Features
 
