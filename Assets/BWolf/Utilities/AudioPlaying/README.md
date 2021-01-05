@@ -12,7 +12,7 @@ Content that is shown with little or no modifications to it, explicitly referenc
 
 - Audio Data management through scriptable objects called AudioProfileSO, AudioCueSO and AudioConfigurationSO
 - AudioManagement through a SO Event System where scriptable objects are used as channels through which events can be raised and listened to without forming rigid connections
-- Pooling of AudioEmitters using Unity Open Projects PoolSO scriptable object.
+- Pooling of AudioEmitters using Unity Open Projects PoolSO and FactorySO scriptable objects.
 - Saving and Loading of Volume group values using the FileStorage package
 
 ## Dependencies
