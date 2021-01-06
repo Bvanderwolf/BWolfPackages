@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -13,6 +13,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     [CreateAssetMenu(menuName = "PlayerProgression/PlayerProps/IntegerProperty")]
     public class IntegerProperty : PlayerProperty
     {
+        [Header("Integer Settings")]
         [SerializeField]
         private int integerValue = 0;
 

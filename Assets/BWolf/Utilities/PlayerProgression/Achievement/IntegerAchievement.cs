@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -12,6 +12,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/IntegerAchievement")]
     public class IntegerAchievement : Achievement
     {
+        [Header("Integer Settings")]
         [SerializeField]
         private int startValue = 0;
 

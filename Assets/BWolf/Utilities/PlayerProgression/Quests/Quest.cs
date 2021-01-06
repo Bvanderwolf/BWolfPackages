@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.3
+// Version: 1.4
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;

@@ -1,5 +1,5 @@
 ﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
-// Version: 1.1
+// Version: 1.2
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
@@ -12,6 +12,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
     [CreateAssetMenu(menuName = "PlayerProgression/Achievements/FloatAchievement")]
     public class FloatAchievement : Achievement
     {
+        [Header("Float Settings")]
         [SerializeField]
         private float startValue = 0.0f;
 
