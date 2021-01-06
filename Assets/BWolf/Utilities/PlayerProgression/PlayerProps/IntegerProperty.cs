@@ -4,6 +4,7 @@
 
 using BWolf.Utilities.FileStorage;
 using BWolf.Utilities.PlayerProgression.Achievements;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.PlayerProps
@@ -65,16 +66,16 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Saves value to local storage</summary>
         protected override void SaveToFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(IntegerProperty)}/{name}";
-            FileStorageSystem.SaveToFile(path, integerValue);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveToFile(filePath, integerValue);
         }
 
         /// <summary>Loads value from local storage</summary>
         public override void LoadFromFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(IntegerProperty)}/{name}";
+            string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadFromFile(path, out int outValue))
+            if (FileStorageSystem.LoadFromFile(filePath, out int outValue))
             {
                 UpdateValue(outValue, false);
             }

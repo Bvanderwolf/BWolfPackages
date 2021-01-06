@@ -4,6 +4,7 @@
 
 using BWolf.Utilities.FileStorage;
 using BWolf.Utilities.PlayerProgression.Achievements;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.PlayerProps
@@ -12,6 +13,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     [CreateAssetMenu(menuName = "PlayerProgression/PlayerProps/BooleanProperty")]
     public class BooleanProperty : PlayerProperty
     {
+        [Header("Boolean Settings")]
         [SerializeField]
         private bool value = false;
 
@@ -55,16 +57,16 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         /// <summary>Saves value to local storage</summary>
         protected override void SaveToFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(BooleanProperty)}/{name}";
-            FileStorageSystem.SaveToFile(path, value);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveToFile(filePath, value);
         }
 
         /// <summary>Loads value from local storage</summary>
         public override void LoadFromFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(BooleanProperty)}/{name}";
+            string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
+            if (FileStorageSystem.LoadFromFile(filePath, out bool outValue))
             {
                 UpdateValue(outValue, false);
             }

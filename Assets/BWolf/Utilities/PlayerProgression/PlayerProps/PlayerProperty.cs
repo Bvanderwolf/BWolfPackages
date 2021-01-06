@@ -12,10 +12,22 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
     /// <summary>Base class for generic player properties</summary>
     public abstract class PlayerProperty : ScriptableObject
     {
+        [Header("Achievements")]
         [SerializeField]
         private Achievement[] achievements = null;
 
-        protected const string FOLDER_NAME = "ProgressSaves/PlayerProperties";
+        [Header("Saving/Loading")]
+        [SerializeField, Tooltip("The path relative to the root path of the app where property data will be stored. " +
+            "Use the '.' as directory seperation character")]
+        private string folderPath = "ProgressSaves.PlayerProperties";
+
+        /// <summary>
+        /// The cross platform path relative to the root path of the app where property data will be stored.
+        /// </summary>
+        public string FolderPath
+        {
+            get { return folderPath.Replace('.', System.IO.Path.DirectorySeparatorChar); }
+        }
 
         /// <summary>Returns an achievement of type T with given name attached to this property</summary>
         public T GetAchievement<T>(string name) where T : Achievement

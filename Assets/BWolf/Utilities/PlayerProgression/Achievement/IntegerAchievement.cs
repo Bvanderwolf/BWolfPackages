@@ -3,6 +3,7 @@
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Achievements
@@ -22,9 +23,9 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         public override void LoadFromFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(IntegerAchievement)}/{name}";
+            string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadFromFile(path, out int outValue))
+            if (FileStorageSystem.LoadFromFile(filePath, out int outValue))
             {
                 UpdateValue(outValue, false);
             }
@@ -42,8 +43,8 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
 
         protected override void SaveToFile()
         {
-            string path = $"{FOLDER_NAME}/{nameof(IntegerAchievement)}/{name}";
-            FileStorageSystem.SaveToFile(path, startValue);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveToFile(filePath, startValue);
         }
 
         public void UpdateValue(int newValue, bool saveToFile = true)

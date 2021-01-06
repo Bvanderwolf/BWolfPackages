@@ -14,9 +14,20 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         protected string description = string.Empty;
 
+        [Header("Saving/Loading")]
+        [SerializeField, Tooltip("The path relative to the root path of the app where the quest task data will be stored. " +
+            "Use the '.' as directory seperation character")]
+        private string folderPath = "ProgressSaves.Quests.QuestTasks";
+
         public Action Completed;
 
-        protected const string FOLDER_PATH = "ProgressSaves/Quests/QuestTasks";
+        /// <summary>
+        /// The cross platform path relative to the root path of the app where the quest task data will be stored.
+        /// </summary>
+        public string FolderPath
+        {
+            get { return folderPath.Replace('.', System.IO.Path.DirectorySeparatorChar); }
+        }
 
         /// <summary>Is this task finished?</summary>
         public bool IsDone

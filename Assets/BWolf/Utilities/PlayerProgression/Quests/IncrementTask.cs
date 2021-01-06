@@ -3,6 +3,7 @@
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
@@ -65,8 +66,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public override void LoadFromFile()
         {
-            string path = $"{FOLDER_PATH}/{nameof(IncrementTask)}/{name}";
-            if (FileStorageSystem.LoadFromFile(path, out int outValue))
+            string filePath = Path.Combine(FolderPath, name);
+            if (FileStorageSystem.LoadFromFile(filePath, out int outValue))
             {
                 count = outValue;
             }
@@ -85,8 +86,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public override void SaveToFile()
         {
-            string path = $"{FOLDER_PATH}/{nameof(IncrementTask)}/{name}";
-            FileStorageSystem.SaveToFile(path, count);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveToFile(filePath, count);
         }
     }
 }

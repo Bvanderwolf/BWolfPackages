@@ -3,6 +3,7 @@
 //----------------------------------
 
 using BWolf.Utilities.FileStorage;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
@@ -41,8 +42,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public override void LoadFromFile()
         {
-            string path = $"{FOLDER_PATH}/{nameof(DoOnceTask)}/{name}";
-            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
+            string filePath = Path.Combine(FolderPath, name);
+            if (FileStorageSystem.LoadFromFile(filePath, out bool outValue))
             {
                 isDoneOnce = outValue;
             }
@@ -61,8 +62,8 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public override void SaveToFile()
         {
-            string path = $"{FOLDER_PATH}/{nameof(DoOnceTask)}/{name}";
-            FileStorageSystem.SaveToFile(path, isDoneOnce);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveToFile(filePath, isDoneOnce);
         }
 
         /// <summary>Sets this task to done</summary>

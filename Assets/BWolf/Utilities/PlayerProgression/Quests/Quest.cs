@@ -4,6 +4,7 @@
 
 using BWolf.Utilities.FileStorage;
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.PlayerProgression.Quests
@@ -22,6 +23,11 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         [SerializeField]
         private bool isActive = false;
 
+        [Header("Saving/Loading")]
+        [SerializeField, Tooltip("The path relative to the root path of the app where quest data will be stored. " +
+            "Use the '.' as directory seperation character")]
+        private string folderPath = "ProgressSaves.Quests.ActiveQuests";
+
         [Header("References")]
         [SerializeField]
         private QuestTask[] tasks = null;
@@ -34,7 +40,13 @@ namespace BWolf.Utilities.PlayerProgression.Quests
 
         public event Action<Quest> Completed;
 
-        private const string FOLDER_PATH = "ProgressSaves/Quests/ActiveQuests";
+        /// <summary>
+        /// The cross platform path relative to the root path of the app where quest data will be stored.
+        /// </summary>
+        public string FolderPath
+        {
+            get { return folderPath.Replace('.', Path.DirectorySeparatorChar); }
+        }
 
         /// <summary>The stored description given to this quest</summary>
         public string Description
@@ -214,15 +226,16 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         /// <summary>Saves the active state of this quest to local storage</summary>
         public void SaveActiveStateToFile()
         {
-            string path = $"{FOLDER_PATH}/{name}";
-            FileStorageSystem.SaveToFile(path, isActive);
+            string crossPlatformPath = folderPath.Replace('.', Path.DirectorySeparatorChar);
+            string filePath = Path.Combine(crossPlatformPath, name);
+            FileStorageSystem.SaveToFile(filePath, isActive);
         }
 
         /// <summary>Loads the active state of this quest from local storage and assigns its value</summary>
         public void LoadActiveStateFromFile()
         {
-            string path = $"{FOLDER_PATH}/{name}";
-            if (FileStorageSystem.LoadFromFile(path, out bool outValue))
+            string filePath = Path.Combine(FolderPath, name);
+            if (FileStorageSystem.LoadFromFile(filePath, out bool outValue))
             {
                 SetActiveInternal(outValue, false);
             }

@@ -10,13 +10,25 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
     /// <summary>abstract class providing the basis for a progressable object of choosen type</summary>
     public abstract class Achievement : ScriptableObject
     {
+        [Header("Achievement Settings")]
         [SerializeField]
         private string description = string.Empty;
 
         [SerializeField, Range(0.0f, 1.0f)]
         protected float progress = 0.0f;
 
-        protected const string FOLDER_NAME = "ProgressSaves/Achievements";
+        [Header("Saving/Loading")]
+        [SerializeField, Tooltip("The path relative to the root path of the app where achievement data will be stored. " +
+            "Use the '.' as directory seperation character")]
+        private string folderPath = "ProgressSaves.Achievements";
+
+        /// <summary>
+        /// The cross platform path relative to the root path of the app where achievement data will be stored.
+        /// </summary>
+        public string FolderPath
+        {
+            get { return folderPath.Replace('.', System.IO.Path.DirectorySeparatorChar); }
+        }
 
         public Action<Achievement> Completed;
 
