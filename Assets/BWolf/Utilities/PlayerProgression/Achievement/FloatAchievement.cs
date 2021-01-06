@@ -25,7 +25,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         {
             string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadFromFile(filePath, out float outValue))
+            if (FileStorageSystem.LoadBinary(filePath, out float outValue))
             {
                 UpdateValue(outValue, false);
             }
@@ -44,7 +44,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         protected override void SaveToFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            FileStorageSystem.SaveToFile(filePath, currentValue);
+            FileStorageSystem.SaveAsBinary(filePath, currentValue);
         }
 
         public void UpdateValue(float newValue, bool saveToFile = true)

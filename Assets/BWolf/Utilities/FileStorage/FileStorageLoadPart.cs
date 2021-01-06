@@ -1,13 +1,20 @@
-﻿using System.IO;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.2
+//----------------------------------
+
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace BWolf.Utilities.FileStorage
 {
+    /// <summary>
+    /// Provides Loading functionalities to retreived saved data
+    /// </summary>
     public static partial class FileStorageSystem
     {
         /// <summary>Tries loading and outputting serialized value at given path from the root directory</summary>
-        public static bool LoadFromFile<T>(string path, out T outValue)
+        public static bool LoadBinary<T>(string path, out T outValue)
         {
             string filePath = Path.Combine(rootPath, path);
             if (!File.Exists(filePath))
@@ -26,7 +33,7 @@ namespace BWolf.Utilities.FileStorage
         }
 
         /// <summary>Loads json string at given path from root directory and converts it into T. Can also be used for loading monobehaviours and scriptableobjects</summary>
-        public static bool LoadJsonFromFile<T>(string path, out LoadResult<T> loadResult) where T : new()
+        public static bool LoadFromJSON<T>(string path, out LoadResult<T> loadResult) where T : new()
         {
             string filePath = Path.Combine(rootPath, path);
             if (!File.Exists(filePath))
@@ -63,7 +70,7 @@ namespace BWolf.Utilities.FileStorage
 
         /// <summary>Loads data of <typeparamref name="T"/> as a string from given path</summary>
         /// <typeparam name="T">The type of object to load from text</typeparam>
-        public static bool LoadFromPlainText<T>(string path, out LoadResult<string> loadResult)
+        public static bool LoadPlainText<T>(string path, out LoadResult<string> loadResult)
         {
             string filePath = Path.Combine(rootPath, path);
 

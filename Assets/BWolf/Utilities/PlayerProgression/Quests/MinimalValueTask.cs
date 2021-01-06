@@ -49,7 +49,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void LoadFromFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            if (FileStorageSystem.LoadFromFile(filePath, out float outValue))
+            if (FileStorageSystem.LoadBinary(filePath, out float outValue))
             {
                 currentValue = outValue;
             }
@@ -69,7 +69,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void SaveToFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            FileStorageSystem.SaveToFile(filePath, currentValue);
+            FileStorageSystem.SaveAsBinary(filePath, currentValue);
         }
 
         public void AddValue(float value)

@@ -228,14 +228,14 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         {
             string crossPlatformPath = folderPath.Replace('.', Path.DirectorySeparatorChar);
             string filePath = Path.Combine(crossPlatformPath, name);
-            FileStorageSystem.SaveToFile(filePath, isActive);
+            FileStorageSystem.SaveAsBinary(filePath, isActive);
         }
 
         /// <summary>Loads the active state of this quest from local storage and assigns its value</summary>
         public void LoadActiveStateFromFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            if (FileStorageSystem.LoadFromFile(filePath, out bool outValue))
+            if (FileStorageSystem.LoadBinary(filePath, out bool outValue))
             {
                 SetActiveInternal(outValue, false);
             }

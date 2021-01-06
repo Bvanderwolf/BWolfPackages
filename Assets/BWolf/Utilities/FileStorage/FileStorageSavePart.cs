@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace BWolf.Utilities.FileStorage
 {
-    /// <summary>Basic file storage system that can handle saving and loading data including monobehaviours and scriptableobjects</summary>
+    /// <summary>Provides saving and loading of data including monobehaviours and scriptableobjects</summary>
     public static partial class FileStorageSystem
     {
         private static readonly string rootPath;
@@ -22,7 +22,7 @@ namespace BWolf.Utilities.FileStorage
         }
 
         /// <summary>Saves serialized value at given path from the root directory</summary>
-        public static void SaveToFile<T>(string path, T value)
+        public static void SaveAsBinary<T>(string path, T value)
         {
             string filePath = Path.Combine(rootPath, path);
 
@@ -39,13 +39,13 @@ namespace BWolf.Utilities.FileStorage
         }
 
         /// <summary>ASynchronously Saves serialized value at given path from the root directory</summary>
-        public static async void SaveToFileASync<T>(string path, T value)
+        public static async void SaveAsBinaryASync<T>(string path, T value)
         {
-            await Task.Run(() => SaveToFile(path, value));
+            await Task.Run(() => SaveAsBinary(path, value));
         }
 
         /// <summary>Saves value as json string at given path from root directory. Can also be used for saving monobehaviours and scriptableobjects</summary>
-        public static void SaveAsJsonToFile<T>(string path, T value, SaveMode mode = SaveMode.UnSafe)
+        public static void SaveAsJSON<T>(string path, T value, SaveMode mode = SaveMode.UnSafe)
         {
             string filePath = Path.Combine(rootPath, path);
 
@@ -67,9 +67,9 @@ namespace BWolf.Utilities.FileStorage
         }
 
         /// <summary>ASynchronously Saves value as json string at given path from root directory. Can also be used for saving monobehaviours and scriptableobjects</summary>
-        public static async void SaveAsJsonToFileASync<T>(string path, T value, SaveMode mode = SaveMode.UnSafe)
+        public static async void SaveAsJSONASync<T>(string path, T value, SaveMode mode = SaveMode.UnSafe)
         {
-            await Task.Run(() => SaveAsJsonToFile(path, value, mode));
+            await Task.Run(() => SaveAsJSON(path, value, mode));
         }
 
         /// <summary>Saves the given data as plain text at given path</summary>

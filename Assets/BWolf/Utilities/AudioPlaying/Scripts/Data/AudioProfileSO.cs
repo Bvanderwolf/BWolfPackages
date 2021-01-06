@@ -99,7 +99,7 @@ namespace BWolf.Utilities.AudioPlaying
         private void LoadGroupVolumeFromFile(VolumeGroup volumeGroup)
         {
             string path = Path.Combine("Audio", "Profiles", $"{name}-{volumeGroup}.txt");
-            if (FileStorageSystem.LoadFromPlainText<float>(path, out LoadResult<string> loadResult))
+            if (FileStorageSystem.LoadPlainText<float>(path, out LoadResult<string> loadResult))
             {
                 SetGroupVolume(volumeGroup, float.Parse(loadResult.data));
             }

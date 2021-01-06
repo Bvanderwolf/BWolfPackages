@@ -22,7 +22,7 @@ namespace BWolf.Examples.FileStorage
 
         public void OnLoadButtonClick()
         {
-            if (FileStorageSystem.LoadFromPlainText<string>(FILE_PATH, out LoadResult<string> loadResult))
+            if (FileStorageSystem.LoadPlainText<string>(FILE_PATH, out LoadResult<string> loadResult))
             {
                 input.text = loadResult.data;
             }

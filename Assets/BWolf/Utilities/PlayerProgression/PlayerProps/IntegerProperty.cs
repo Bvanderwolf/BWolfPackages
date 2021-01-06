@@ -67,7 +67,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         protected override void SaveToFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            FileStorageSystem.SaveToFile(filePath, integerValue);
+            FileStorageSystem.SaveAsBinary(filePath, integerValue);
         }
 
         /// <summary>Loads value from local storage</summary>
@@ -75,7 +75,7 @@ namespace BWolf.Utilities.PlayerProgression.PlayerProps
         {
             string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadFromFile(filePath, out int outValue))
+            if (FileStorageSystem.LoadBinary(filePath, out int outValue))
             {
                 UpdateValue(outValue, false);
             }

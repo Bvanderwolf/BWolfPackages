@@ -43,7 +43,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void LoadFromFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            if (FileStorageSystem.LoadFromFile(filePath, out bool outValue))
+            if (FileStorageSystem.LoadBinary(filePath, out bool outValue))
             {
                 isDoneOnce = outValue;
             }
@@ -63,7 +63,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         public override void SaveToFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            FileStorageSystem.SaveToFile(filePath, isDoneOnce);
+            FileStorageSystem.SaveAsBinary(filePath, isDoneOnce);
         }
 
         /// <summary>Sets this task to done</summary>

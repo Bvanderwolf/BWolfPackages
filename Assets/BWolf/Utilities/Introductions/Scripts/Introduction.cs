@@ -97,7 +97,7 @@ namespace BWolf.Utilities.Introductions
         private void SaveToFile()
         {
             string path = $"{FOLDER_NAME}/{name}";
-            FileStorageSystem.SaveToFile(path, finished);
+            FileStorageSystem.SaveAsBinary(path, finished);
         }
 
         /// <summary>Loads value from local storage</summary>
@@ -105,7 +105,7 @@ namespace BWolf.Utilities.Introductions
         {
             string path = $"{FOLDER_NAME}/{name}";
 
-            if (FileStorageSystem.LoadFromFile(path, out bool finishedValue))
+            if (FileStorageSystem.LoadBinary(path, out bool finishedValue))
             {
                 SetFinished(finishedValue, false);
             }
