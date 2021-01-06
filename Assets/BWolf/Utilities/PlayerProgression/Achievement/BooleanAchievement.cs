@@ -44,7 +44,7 @@ namespace BWolf.Utilities.PlayerProgression.Achievements
         protected override void SaveToFile()
         {
             string filePath = Path.Combine(FolderPath, name);
-            FileStorageSystem.SaveToFileASync(filePath, currentValue);
+            FileStorageSystem.SaveToFile(filePath, currentValue);
         }
 
         public void UpdateValue(bool newValue, bool saveToFile = true)

@@ -4,6 +4,7 @@
 
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BWolf.Utilities.FileStorage
@@ -12,10 +13,12 @@ namespace BWolf.Utilities.FileStorage
     public static class FileStorageSystem
     {
         private static readonly string rootPath;
+        private static readonly object saveLock;
 
         static FileStorageSystem()
         {
             rootPath = Application.persistentDataPath;
+            saveLock = new object();
         }
 
         /// <summary>Saves serialized value at given path from the root directory</summary>
@@ -25,11 +28,20 @@ namespace BWolf.Utilities.FileStorage
 
             VerifyFileDirectoryPath(filePath);
 
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create(filePath);
+            lock (saveLock)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream file = File.Create(filePath);
 
-            bf.Serialize(file, value);
-            file.Close();
+                bf.Serialize(file, value);
+                file.Close();
+            }
+        }
+
+        /// <summary>ASynchronously Saves serialized value at given path from the root directory</summary>
+        public static async void SaveToFileASync<T>(string path, T value)
+        {
+            await Task.Run(() => SaveToFile(path, value));
         }
 
         /// <summary>Tries loading and outputting serialized value at given path from the root directory</summary>
@@ -67,7 +79,16 @@ namespace BWolf.Utilities.FileStorage
                 PlayerPrefs.SetString(key, hash);
             }
 
-            File.WriteAllText(filePath, json);
+            lock (saveLock)
+            {
+                File.WriteAllText(filePath, json);
+            }
+        }
+
+        /// <summary>ASynchronously Saves value as json string at given path from root directory. Can also be used for saving monobehaviours and scriptableobjects</summary>
+        public static async void SaveAsJsonToFileASync<T>(string path, T value, SaveMode mode = SaveMode.UnSafe)
+        {
+            await Task.Run(() => SaveAsJsonToFile(path, value, mode));
         }
 
         /// <summary>Loads json string at given path from root directory and converts it into T. Can also be used for loading monobehaviours and scriptableobjects</summary>
@@ -122,7 +143,16 @@ namespace BWolf.Utilities.FileStorage
                 PlayerPrefs.SetString(key, hash);
             }
 
-            File.WriteAllText(filePath, text);
+            lock (saveLock)
+            {
+                File.WriteAllText(filePath, text);
+            }
+        }
+
+        /// <summary>ASynchronously Saves the given data as plain text at given path</summary>
+        public static async void SaveAsPlainTextASync<T>(string path, T data, SaveMode mode = SaveMode.UnSafe)
+        {
+            await Task.Run(() => SaveAsPlainText(path, data, mode));
         }
 
         /// <summary>Loads data of <typeparamref name="T"/> as a string from given path</summary>
