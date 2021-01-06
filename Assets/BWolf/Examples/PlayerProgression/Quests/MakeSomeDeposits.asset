@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MakeSomeDeposits
   m_EditorClassIdentifier: 
   description: Make some deposits
-  count: 0
+  folderPath: ProgressSaves.Quests.QuestTasks
+  count: 2
   goal: 5

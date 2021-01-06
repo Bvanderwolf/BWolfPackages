@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Achieve Financial Independance
   isCompleted: 0
-  isActive: 0
+  isActive: 1
+  folderPath: ProgressSaves.Quests.ActiveQuests
   tasks:
   - {fileID: 11400000, guid: c5073c0b001c5d84391c9282f51bf2cd, type: 2}
   - {fileID: 11400000, guid: 953fe69986b708a4f9cbadb428d254be, type: 2}

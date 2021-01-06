@@ -226,8 +226,7 @@ namespace BWolf.Utilities.PlayerProgression.Quests
         /// <summary>Saves the active state of this quest to local storage</summary>
         public void SaveActiveStateToFile()
         {
-            string crossPlatformPath = folderPath.Replace('.', Path.DirectorySeparatorChar);
-            string filePath = Path.Combine(crossPlatformPath, name);
+            string filePath = Path.Combine(FolderPath, name);
             FileStorageSystem.SaveAsBinary(filePath, isActive);
         }
 

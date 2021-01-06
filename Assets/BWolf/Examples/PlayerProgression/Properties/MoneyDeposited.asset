@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   achievements:
   - {fileID: 11400000, guid: da4458f3dc818924eb37eefad0fdb877, type: 2}
-  floatValue: 0
+  folderPath: ProgressSaves.PlayerProperties
+  floatValue: 40

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: OpenBankAccount
   m_EditorClassIdentifier: 
   description: Open a bank account
-  isDoneOnce: 0
+  folderPath: ProgressSaves.Quests.QuestTasks
+  isDoneOnce: 1

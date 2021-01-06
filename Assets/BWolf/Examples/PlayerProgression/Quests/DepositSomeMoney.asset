@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DepositSomeMoney
   m_EditorClassIdentifier: 
   description: Deposit some money
-  currentValue: 0
+  folderPath: ProgressSaves.Quests.QuestTasks
+  currentValue: 40
   minimalValue: 150

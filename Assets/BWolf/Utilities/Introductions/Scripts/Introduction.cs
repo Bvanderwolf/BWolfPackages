@@ -5,6 +5,7 @@
 using BWolf.Utilities.CharacterDialogue;
 using BWolf.Utilities.FileStorage;
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace BWolf.Utilities.Introductions
@@ -21,6 +22,11 @@ namespace BWolf.Utilities.Introductions
         [SerializeField, Tooltip("The introducables used for this introduction")]
         private Introducable[] introducables = null;
 
+        [Header("Saving/Loading")]
+        [SerializeField, Tooltip("The path relative to the root path of the app where introduction data will be stored. " +
+           "Use the '.' as directory seperation character")]
+        private string folderPath = "ProgressSaves.Introductions";
+
         [Header("References")]
         [SerializeField]
         private Monologue monologue = null;
@@ -29,7 +35,13 @@ namespace BWolf.Utilities.Introductions
 
         public event Action<Introduction> OnStart;
 
-        private const string FOLDER_NAME = "ProgressSaves/Introductions";
+        /// <summary>
+        /// The cross platform path relative to the root path of the app where introduction data will be stored.
+        /// </summary>
+        public string FolderPath
+        {
+            get { return folderPath.Replace('.', Path.DirectorySeparatorChar); }
+        }
 
         public bool Finished
         {
@@ -96,16 +108,16 @@ namespace BWolf.Utilities.Introductions
         /// <summary>Saves value to local storage</summary>
         private void SaveToFile()
         {
-            string path = $"{FOLDER_NAME}/{name}";
-            FileStorageSystem.SaveAsBinary(path, finished);
+            string filePath = Path.Combine(FolderPath, name);
+            FileStorageSystem.SaveAsBinary(filePath, finished);
         }
 
         /// <summary>Loads value from local storage</summary>
         public void LoadFromFile()
         {
-            string path = $"{FOLDER_NAME}/{name}";
+            string filePath = Path.Combine(FolderPath, name);
 
-            if (FileStorageSystem.LoadBinary(path, out bool finishedValue))
+            if (FileStorageSystem.LoadBinary(filePath, out bool finishedValue))
             {
                 SetFinished(finishedValue, false);
             }
