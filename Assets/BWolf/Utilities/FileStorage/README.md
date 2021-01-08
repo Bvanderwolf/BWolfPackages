@@ -7,6 +7,7 @@ A basic utility script used for saving and loading game related files to and fro
 - Saving and Loading of basic Serializable values
 - Saving and loading of Unity's Monobehaviour and ScriptableObject class using JSONUtility
 - Saving and Loading with basic Hashing Security
+- ASynchronous Saving
 
 ## Download
 
