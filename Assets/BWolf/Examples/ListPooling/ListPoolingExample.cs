@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// Created By: Benjamin van der Wolf @ https://bvanderwolf.github.io/
+// Version: 1.0
+//----------------------------------
+
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using BWolf.Utilities.ListPooling;
