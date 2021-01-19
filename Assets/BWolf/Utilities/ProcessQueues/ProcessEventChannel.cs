@@ -17,8 +17,6 @@ namespace BWolf.Utilities.ProcessQueues
     {
         public Action<TProcessInfo> OnCallbackRaised;
 
-        private List<TProcessInfo> callbacks = new List<TProcessInfo>();
-
         public void RaiseEvent(TProcessInfo info)
         {
             OnCallbackRaised?.Invoke(info);
