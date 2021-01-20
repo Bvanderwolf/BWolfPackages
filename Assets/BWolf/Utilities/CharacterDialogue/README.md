@@ -13,7 +13,7 @@ A small package for providing text based dialogue between 2 characters or solo m
 
 ## Dependencies
 
-- SingletonBehaviours
+- ProcessQueues
 - LerpValue
 
 ## Download
