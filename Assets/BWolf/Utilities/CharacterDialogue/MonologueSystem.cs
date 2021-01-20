@@ -2,82 +2,95 @@
 // Version: 1.0
 //----------------------------------
 
-using BWolf.Behaviours.SingletonBehaviours;
-using System;
+using BWolf.Utilities.ProcessQueues;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BWolf.Utilities.CharacterDialogue
 {
     /// <summary>System for managing monologue in the game</summary>
-    public class MonologueSystem : SingletonBehaviour<MonologueSystem>
+    public class MonologueSystem : BroadcastingProcessManager<Monologue>
     {
         [Header("Settings")]
         [SerializeField]
         private float setupTime = 0.25f;
 
-        [Header("References")]
+        [Header("Scene References")]
         [SerializeField]
         private AudableCharacterDisplay display = null;
 
         [SerializeField]
         private Image backDrop = null;
 
+        [Header("Process Management")]
         [SerializeField]
-        private DialogueSystem dialogueSystem = null;
+        private MonologueProcessQueue queue = null;
 
-        public bool IsHoldingMonologue { get; private set; }
+        [Header("Channels listening to")]
+        [SerializeField]
+        private MonologueEventChannel requestChannel = null;
 
-        private bool IsHoldingDialogue
+        [SerializeField]
+        private DialogueEventChannel dialogueEndChannel = null;
+
+        [Header("Channels broadcasting on")]
+        [SerializeField]
+        private MonologueEventChannel monologueEndChannel = null;
+
+        protected override ProcessEventChannel<Monologue> EventChannel
         {
-            get { return dialogueSystem != null && dialogueSystem.IsHoldingDialogue; }
+            get { return monologueEndChannel; }
         }
 
-        public event Action OnMonologueEnd;
-
-        private Queue<CallbackMonologue> monologueQueue = new Queue<CallbackMonologue>();
-
-        protected override void Awake()
+        protected override ProcessQueue<Monologue> ProcessQueue
         {
-            base.Awake();
-
-            if (isDuplicate)
-            {
-                return;
-            }
-
-            if (dialogueSystem != null)
-            {
-                dialogueSystem.OnDialogueEnd += CheckForDeque;
-            }
+            get { return queue; }
         }
 
-        protected override void OnDestroy()
+        private void Awake()
         {
-            base.OnDestroy();
+            requestChannel.OnRequestRaised += OnMonologueRequestRaised;
+            dialogueEndChannel.OnRequestRaised += OnDialogueEnded;
+        }
 
+        private void OnDestroy()
+        {
             StopAllCoroutines();
         }
 
-        /// <summary>Starts a new dialogue if none is already in progress</summary>
-        public void StartMonologue(Monologue monologue, Action onFinish = null)
+        private void OnMonologueRequestRaised(Monologue monologue)
         {
-            if (!IsHoldingMonologue && !IsHoldingDialogue)
+            if (!Dialogue.AnyActive)
             {
-                StartCoroutine(MonologueRoutine(monologue, onFinish));
+                //if no dialogue is being played, start the monologue process
+                StartProcess(monologue);
             }
             else
             {
-                monologueQueue.Enqueue(new CallbackMonologue(monologue, onFinish));
+                //if a dialogue is already being played, the monologue needs to be queued
+                queue.Enqueue(monologue);
             }
         }
 
-        /// <summary>Returns an enumerator that waits for the dialogue to finish, resseting it when it has</summary>
-        private IEnumerator MonologueRoutine(Monologue monologue, Action onFinish = null)
+        private void OnDialogueEnded(Dialogue dialogue)
         {
-            IsHoldingMonologue = true;
+            if (!Dialogue.AnyActive)
+            {
+                //if no dialogue is being played after a monologue has ended, check if there is monologue to be played
+                CheckForDeque();
+            }
+        }
+
+        private void ResetDisplayPosition()
+        {
+            RectTransform rectTransform = (RectTransform)display.transform;
+            rectTransform.anchoredPosition = new Vector3(-rectTransform.sizeDelta.x, 0);
+        }
+
+        /// <summary>Returns an enumerator that waits for the dialogue to finish, resseting it when it has</summary>
+        protected override IEnumerator DoProcess(Monologue monologue)
+        {
             backDrop.enabled = true;
 
             monologue.SetupDisplay(display);
@@ -86,25 +99,15 @@ namespace BWolf.Utilities.CharacterDialogue
             yield return monologue.Routine();
 
             monologue.Restore();
-            onFinish?.Invoke();
 
             ResetDisplayPosition();
-            CheckForDeque();
-            OnMonologueEnd?.Invoke();
         }
 
-        private void CheckForDeque()
+        protected override void OnCheckedForDeque(Monologue oldInfo, Monologue nextInfo, bool dequeued)
         {
-            if (monologueQueue.Count != 0 && !IsHoldingDialogue)
-            {
-                CallbackMonologue dequedMonologue = monologueQueue.Dequeue();
-                StartCoroutine(MonologueRoutine(dequedMonologue.monologue, dequedMonologue.callback));
-            }
-            else
-            {
-                IsHoldingMonologue = false;
-                backDrop.enabled = false;
-            }
+            base.OnCheckedForDeque(oldInfo, nextInfo, dequeued);
+
+            backDrop.enabled = false;
         }
 
         /// <summary>Returns an enumerator that sets up by 2 characters by moving them towards the middle of the screen</summary>
@@ -121,24 +124,6 @@ namespace BWolf.Utilities.CharacterDialogue
                 Vector3 towardsMiddle = new Vector3(Mathf.Lerp(moveToMiddle.start, moveToMiddle.end, moveToMiddle.perc), 0);
                 rectTransform.anchoredPosition = towardsMiddle;
                 yield return null;
-            }
-        }
-
-        private void ResetDisplayPosition()
-        {
-            RectTransform rectTransform = (RectTransform)display.transform;
-            rectTransform.anchoredPosition = new Vector3(-rectTransform.sizeDelta.x, 0);
-        }
-
-        private readonly struct CallbackMonologue
-        {
-            public readonly Monologue monologue;
-            public readonly Action callback;
-
-            public CallbackMonologue(Monologue monologue, Action callback)
-            {
-                this.monologue = monologue;
-                this.callback = callback;
             }
         }
     }

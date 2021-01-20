@@ -45,8 +45,8 @@ namespace BWolf.Utilities.ProcessQueues
         /// <summary>
         /// Checks whether a new process can be started based on whether there is info left int he queue
         /// </summary>
-        /// <param name="info"></param>
-        private void CheckForDeque(TProcessInfo info)
+        /// <param name="finishedProcessInfo"></param>
+        private void CheckForDeque(TProcessInfo finishedProcessInfo)
         {
             bool dequeued = ProcessQueue.TryDequeue(out TProcessInfo nextProcessInfo);
             if (dequeued)
@@ -58,7 +58,19 @@ namespace BWolf.Utilities.ProcessQueues
                 isProcessing = false;
             }
 
-            OnCheckedForDeque(info, nextProcessInfo, dequeued);
+            OnCheckedForDeque(finishedProcessInfo, nextProcessInfo, dequeued);
+        }
+
+        /// <summary>
+        /// Checks the process queue if a process can be started and starts it based on the dequed information
+        /// if succesfull
+        /// </summary>
+        protected void CheckForDeque()
+        {
+            if (ProcessQueue.TryDequeue(out TProcessInfo nextProcessInfo))
+            {
+                StartCoroutine(ManageProcess(nextProcessInfo));
+            }
         }
 
         protected abstract IEnumerator DoProcess(TProcessInfo info);

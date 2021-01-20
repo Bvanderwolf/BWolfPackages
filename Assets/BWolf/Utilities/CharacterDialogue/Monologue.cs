@@ -20,10 +20,21 @@ namespace BWolf.Utilities.CharacterDialogue
 
         public Action<int> OnContinue;
 
+        /// <summary>
+        /// Indicates whether any monologue is being played right now
+        /// </summary>
+        public static bool AnyActive { get; private set; }
+
         private AudableCharacterDisplay display;
 
+        /// <summary>
+        /// prepares the monologue to be played
+        /// </summary>
+        /// <param name="display"></param>
         public void SetupDisplay(AudableCharacterDisplay display)
         {
+            AnyActive = true;
+
             this.display = display;
             this.display.sprite = character.DisplaySprite;
         }
@@ -64,6 +75,8 @@ namespace BWolf.Utilities.CharacterDialogue
         {
             display?.SetActive(false);
             display = null;
+
+            AnyActive = false;
         }
 
         private void OnDisable()

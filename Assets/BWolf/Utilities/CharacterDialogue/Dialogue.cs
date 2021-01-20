@@ -33,8 +33,20 @@ namespace BWolf.Utilities.CharacterDialogue
 
         public Action<int> OnContinue;
 
-        public void SetupDisplay(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
+        /// <summary>
+        /// Indicates whether any dialogue is being played right now
+        /// </summary>
+        public static bool AnyActive { get; private set; }
+
+        /// <summary>
+        /// prepares the dialogue to be played using given audable character displays
+        /// </summary>
+        /// <param name="leftDisplay"></param>
+        /// <param name="rightDisplay"></param>
+        public void Setup(AudableCharacterDisplay leftDisplay, AudableCharacterDisplay rightDisplay)
         {
+            AnyActive = true;
+
             this.leftDisplay = leftDisplay;
             this.rightDisplay = rightDisplay;
 
@@ -100,6 +112,8 @@ namespace BWolf.Utilities.CharacterDialogue
 
             activeDisplay?.SetActive(false);
             activeDisplay = null;
+
+            AnyActive = false;
         }
 
         private void OnDisable()

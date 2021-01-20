@@ -14,11 +14,19 @@ namespace BWolf.Utilities.ProcessQueues
     /// <typeparam name="TProcessInfo"></typeparam>
     public abstract class ProcessEventChannel<TProcessInfo> : ScriptableObject
     {
-        public Action<TProcessInfo> OnCallbackRaised;
+        public Action<TProcessInfo> OnRequestRaised;
 
         public void RaiseEvent(TProcessInfo info)
         {
-            OnCallbackRaised?.Invoke(info);
+            if (OnRequestRaised != null)
+            {
+                OnRequestRaised(info);
+            }
+            else
+            {
+                Debug.LogWarning($"A request has been raised for {typeof(TProcessInfo).Name} but the process manager" +
+                    "didnt respond. Make sure it is part of a scene");
+            }
         }
     }
 }

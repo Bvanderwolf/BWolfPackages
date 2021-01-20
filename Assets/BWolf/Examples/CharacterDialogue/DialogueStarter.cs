@@ -17,25 +17,27 @@ namespace BWolf.Examples.CharacterDialogue
         [SerializeField]
         private Monologue demoMonologue = null;
 
-        private void Awake()
-        {
-            Invoke(nameof(StartDialogue), 1.0f);
-        }
+        [Header("Channels broadcasting on")]
+        [SerializeField]
+        private DialogueEventChannel dialogueChannel = null;
+
+        [SerializeField]
+        private MonologueEventChannel monologueChannel = null;
 
         public void StartDialogue()
         {
             switch (choice)
             {
                 case DialogueChoice.DemoDialogue1:
-                    DialogueSystem.Instance.StartDialogue(demoDialogue1);
+                    dialogueChannel.RaiseEvent(demoDialogue1);
                     break;
 
                 case DialogueChoice.DemoDialogue2:
-                    DialogueSystem.Instance.StartDialogue(demoDialogue2);
+                    dialogueChannel.RaiseEvent(demoDialogue2);
                     break;
 
                 case DialogueChoice.DemoMonologue:
-                    MonologueSystem.Instance.StartMonologue(demoMonologue);
+                    monologueChannel.RaiseEvent(demoMonologue);
                     break;
             }
         }
