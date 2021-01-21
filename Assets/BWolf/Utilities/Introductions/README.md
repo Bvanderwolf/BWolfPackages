@@ -15,6 +15,7 @@ This package makes use of the following packages:
 
 - SingletonBehaviours
 - CharacterDialogue
+- ProcessQueues
 - FileStorage
 - LerpValue
 
