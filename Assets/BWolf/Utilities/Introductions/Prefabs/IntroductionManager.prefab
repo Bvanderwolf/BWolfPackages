@@ -53,6 +53,9 @@ MonoBehaviour:
   asset: {fileID: 11400000, guid: 4c1ed6eb5f976a2419f684c299acd4c1, type: 2}
   prefabIntroArrow: {fileID: 3250980964189753913, guid: 2bd920ca7bd5ee3408aab708bae501a2,
     type: 3}
+  monologueChannel: {fileID: 11400000, guid: 2b38d75741a52ca4396f3655986b3f78, type: 2}
+  monologueEndChannel: {fileID: 11400000, guid: 4f6642f7edc63a940bcd0f80f2d42989,
+    type: 2}
 --- !u!223 &6409204088876963048
 Canvas:
   m_ObjectHideFlags: 0

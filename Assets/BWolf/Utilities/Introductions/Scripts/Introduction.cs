@@ -31,9 +31,7 @@ namespace BWolf.Utilities.Introductions
         [SerializeField]
         private Monologue monologue = null;
 
-        public event Action<Introduction> OnFinish;
-
-        public event Action<Introduction> OnStart;
+        public event Action<Introduction, Monologue> OnStart;
 
         /// <summary>
         /// The cross platform path relative to the root path of the app where introduction data will be stored.
@@ -54,7 +52,6 @@ namespace BWolf.Utilities.Introductions
             if (!finished)
             {
                 OnIntroStart();
-                MonologueSystem.Instance.StartMonologue(monologue, OnIntroFinished);
             }
         }
 
@@ -78,7 +75,7 @@ namespace BWolf.Utilities.Introductions
         private void OnIntroStart()
         {
             monologue.OnContinue += OnIntroContinue;
-            OnStart?.Invoke(this);
+            OnStart(this, monologue);
         }
 
         /// <summary>Called when the intro is being continued at given index to update the stored introducables</summary>
@@ -90,8 +87,7 @@ namespace BWolf.Utilities.Introductions
             }
         }
 
-        /// <summary>Called when the intro has finished to set the introduction state to finished</summary>
-        private void OnIntroFinished()
+        public void Finish()
         {
             monologue.OnContinue -= OnIntroContinue;
 
@@ -101,8 +97,6 @@ namespace BWolf.Utilities.Introductions
             }
 
             SetFinished(true);
-
-            OnFinish?.Invoke(this);
         }
 
         /// <summary>Saves value to local storage</summary>
@@ -132,7 +126,6 @@ namespace BWolf.Utilities.Introductions
             if (!UnityEditor.EditorApplication.isPlaying)
             {
                 OnStart = null;
-                OnFinish = null;
             }
 
 #endif

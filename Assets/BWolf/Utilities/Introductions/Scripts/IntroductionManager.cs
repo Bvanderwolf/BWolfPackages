@@ -3,6 +3,7 @@
 //----------------------------------
 
 using BWolf.Behaviours.SingletonBehaviours;
+using BWolf.Utilities.CharacterDialogue;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,25 +13,36 @@ namespace BWolf.Utilities.Introductions
     /// <summary>Singleton class for managing introductions</summary>
     public class IntroductionManager : SingletonBehaviour<IntroductionManager>
     {
-        [Header("References")]
+        [Header("Project References")]
         [SerializeField]
         private IntroductionAsset asset = null;
 
         [SerializeField]
         private GameObject prefabIntroArrow = null;
 
+        [Header("Channel broadcasting on")]
+        [SerializeField]
+        private MonologueEventChannel monologueChannel = null;
+
+        [Header("Channel listening to")]
+        [SerializeField]
+        private MonologueEventChannel monologueEndChannel = null;
+
         public event Action IntroFinished;
 
         public bool IsActive { get; private set; }
 
+        private Introduction activeIntroduction;
+
         private void Start()
         {
+            monologueEndChannel.OnEventRaised += OnMonologueFinished;
+
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             string nameOfActiveScene = SceneManager.GetActiveScene().name;
             foreach (Introduction introduction in asset)
             {
-                introduction.OnFinish += OnIntroFinished;
                 introduction.OnStart += OnIntroStart;
                 introduction.LoadFromFile();
 
@@ -46,7 +58,6 @@ namespace BWolf.Utilities.Introductions
         {
             foreach (Introduction introduction in asset)
             {
-                introduction.OnFinish -= OnIntroFinished;
                 introduction.OnStart -= OnIntroStart;
             }
         }
@@ -58,23 +69,31 @@ namespace BWolf.Utilities.Introductions
         }
 
         /// <summary>Sets the active state of the introduction manager when an introduction has started</summary>
-        private void OnIntroStart(Introduction introduction)
+        private void OnIntroStart(Introduction introduction, Monologue monologue)
         {
             if (!IsActive)
             {
                 IsActive = true;
+                activeIntroduction = introduction;
+                monologueChannel.RaiseEvent(monologue);
             }
             else
             {
-                Debug.LogError("An intro has started while another was already in progress :: this is not intended behaviour!");
+                Debug.LogError("An intro tried starting while another was already in progress :: this is not intended behaviour!");
             }
         }
 
-        /// <summary>Called when a introduction has been finished to fire event and set active state</summary>
-        private void OnIntroFinished(Introduction introduction)
+        /// <summary></summary>
+        private void OnMonologueFinished(Monologue monologue)
         {
-            IsActive = false;
-            IntroFinished?.Invoke();
+            if (activeIntroduction != null)
+            {
+                IsActive = false;
+                activeIntroduction.Finish();
+                activeIntroduction = null;
+
+                IntroFinished?.Invoke();
+            }
         }
 
         /// <summary>Restores the introductions to their default state</summary>
