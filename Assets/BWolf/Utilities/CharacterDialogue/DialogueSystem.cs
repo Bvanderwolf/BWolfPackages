@@ -53,8 +53,8 @@ namespace BWolf.Utilities.CharacterDialogue
 
         private void Awake()
         {
-            requestChannel.OnRequestRaised += OnDialogueRequestRaised;
-            monologueEndChannel.OnRequestRaised += OnMonologueEnded;
+            requestChannel.OnEventRaised += OnDialogueRequestRaised;
+            monologueEndChannel.OnEventRaised += OnMonologueEnded;
         }
 
         private void OnDestroy()
