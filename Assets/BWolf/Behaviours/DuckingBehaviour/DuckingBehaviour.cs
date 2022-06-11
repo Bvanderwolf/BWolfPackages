@@ -35,8 +35,8 @@ namespace BWolf.Behaviours
         private Vector3 duckOffsetStart;
         private Vector3 startLocalPosition;
 
-        private LerpValue<Vector3> move;
-        private LerpSetting duckSetting;
+        private Lerp<Vector3> move;
+        private EasingFunction duckSetting;
         private bool canDuck;
 
         private void Start()
@@ -49,15 +49,15 @@ namespace BWolf.Behaviours
             switch (curve)
             {
                 case Curve.Default:
-                    duckSetting = LerpSettings.Default;
+                    duckSetting = EasingFunctions.noEase;
                     break;
 
                 case Curve.Sine:
-                    duckSetting = LerpSettings.Sine;
+                    duckSetting = EasingFunctions.easeOutSine;
                     break;
 
                 case Curve.Cosine:
-                    duckSetting = LerpSettings.Cosine;
+                    duckSetting = EasingFunctions.easeInSine;
                     break;
             }
 
@@ -73,7 +73,7 @@ namespace BWolf.Behaviours
             {
                 //start new lerp movement when ducking is started on stopped
                 duckOffsetStart = duckTransform.localPosition;
-                move = new LerpValue<Vector3>(duckOffsetStart, duck ? duckOffsetVector : startLocalPosition, duckTime, duckSetting);
+                move = new Lerp<Vector3>(duckOffsetStart, duck ? duckOffsetVector : startLocalPosition, duckTime, duckSetting);
                 canDuck = true;
             }
 
@@ -98,7 +98,7 @@ namespace BWolf.Behaviours
                 //if we can duck, linearly interpolate towards end position
                 if (move.Continue())
                 {
-                    duckTransform.localPosition = Vector3.Lerp(move.start, move.end, move.perc);
+                    duckTransform.localPosition = Vector3.Lerp(move.initial, move.target, move.Percentage);
                 }
 
                 if (duckTransform.localPosition == startLocalPosition)

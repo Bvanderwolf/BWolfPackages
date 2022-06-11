@@ -16,9 +16,6 @@ namespace BWolf.Behaviours
         private float strength = 1f;
 
         [SerializeField]
-        private float speed = 1f;
-
-        [SerializeField]
         private int count = 1;
 
         [SerializeField, Tooltip("update local or world position")]
@@ -46,14 +43,14 @@ namespace BWolf.Behaviours
         private IEnumerator ShakeLocal()
         {
             isShaking = true;
-            PingPongValue shake = new PingPongValue(-strength, strength, count, speed, 0.5f);
+            PingPong shake = new PingPong(-strength, strength, count, 0.5f);
             Vector3 start = transform.localPosition;
             int axisIndex = (int)axis;
 
             while (shake.Continue())
             {
                 Vector3 position = transform.localPosition;
-                position[axisIndex] = start[axisIndex] + shake.value;
+                position[axisIndex] = start[axisIndex] + shake.Value;
                 transform.localPosition = position;
                 yield return updateInFixedFrames ? waitFixed : null;
             }
@@ -65,14 +62,14 @@ namespace BWolf.Behaviours
         private IEnumerator ShakeWorld()
         {
             isShaking = true;
-            PingPongValue shake = new PingPongValue(-strength, strength, count, speed, 0.5f);
+            PingPong shake = new PingPong(-strength, strength, count, 0.5f);
             Vector3 start = transform.position;
             int axisIndex = (int)axis;
 
             while (shake.Continue())
             {
                 Vector3 position = transform.position;
-                position[axisIndex] = start[axisIndex] + shake.value;
+                position[axisIndex] = start[axisIndex] + shake.Value;
                 transform.position = position;
                 yield return updateInFixedFrames ? waitFixed : null;
             }

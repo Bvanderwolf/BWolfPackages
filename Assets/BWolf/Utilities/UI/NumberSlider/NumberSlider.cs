@@ -109,10 +109,10 @@ namespace BWolf.Utilities.UI
         {
             isEasing = true;
 
-            LerpValue<Vector3> ease = new LerpValue<Vector3>(rectTransform.anchoredPosition, position, easeTime);
+            Lerp<Vector3> ease = new Lerp<Vector3>(rectTransform.anchoredPosition, position, easeTime);
             while (ease.Continue())
             {
-                rectTransform.anchoredPosition = Vector3.Lerp(ease.start, ease.end, ease.perc);
+                rectTransform.anchoredPosition = Vector3.Lerp(ease.initial, ease.target, ease.Percentage);
                 yield return null;
             }
 

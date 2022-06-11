@@ -127,15 +127,15 @@ namespace BWolf.Utilities.CharacterDialogue
             float leftX = -leftTransform.sizeDelta.x;
             float rightX = rightTransform.sizeDelta.x;
 
-            LerpValue<float> moveLeftDisplay = new LerpValue<float>(leftX, 0, setupTime);
-            LerpValue<float> moveRightDisplay = new LerpValue<float>(rightX, 0, setupTime);
+            Lerp<float> moveLeftDisplay = new Lerp<float>(leftX, 0, setupTime);
+            Lerp<float> moveRightDisplay = new Lerp<float>(rightX, 0, setupTime);
 
             while (moveLeftDisplay.Continue() && moveRightDisplay.Continue())
             {
-                Vector3 newLeft = new Vector3(Mathf.Lerp(moveLeftDisplay.start, moveLeftDisplay.end, moveLeftDisplay.perc), 0);
+                Vector3 newLeft = new Vector3(Mathf.Lerp(moveLeftDisplay.initial, moveLeftDisplay.target, moveLeftDisplay.Percentage), 0);
                 leftTransform.anchoredPosition = newLeft;
 
-                Vector3 newRight = new Vector3(Mathf.Lerp(moveRightDisplay.start, moveRightDisplay.end, moveRightDisplay.perc), 0);
+                Vector3 newRight = new Vector3(Mathf.Lerp(moveRightDisplay.initial, moveRightDisplay.target, moveRightDisplay.Percentage), 0);
                 rightTransform.anchoredPosition = newRight;
                 yield return null;
             }

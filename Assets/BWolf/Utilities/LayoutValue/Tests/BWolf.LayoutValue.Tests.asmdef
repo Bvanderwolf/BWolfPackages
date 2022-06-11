@@ -1,0 +1,17 @@
+{
+    "name": "BWolf.LayoutValue.Tests",
+    "references": [
+        "GUID:bf55ff8b0cd262e4490d8316345b23f9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

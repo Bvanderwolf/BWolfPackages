@@ -117,11 +117,11 @@ namespace BWolf.Utilities.CharacterDialogue
 
             float x = -rectTransform.sizeDelta.x;
             const int HighResWidth = 1920;
-            LerpValue<float> moveToMiddle = new LerpValue<float>(x, (x * 0.5f) + (HighResWidth * 0.5f), setupTime);
+            Lerp<float> moveToMiddle = new Lerp<float>(x, (x * 0.5f) + (HighResWidth * 0.5f), setupTime);
 
             while (moveToMiddle.Continue())
             {
-                Vector3 towardsMiddle = new Vector3(Mathf.Lerp(moveToMiddle.start, moveToMiddle.end, moveToMiddle.perc), 0);
+                Vector3 towardsMiddle = new Vector3(Mathf.Lerp(moveToMiddle.initial, moveToMiddle.target, moveToMiddle.Percentage), 0);
                 rectTransform.anchoredPosition = towardsMiddle;
                 yield return null;
             }

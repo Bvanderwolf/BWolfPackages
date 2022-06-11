@@ -65,11 +65,11 @@ namespace BWolf.Utilities.ShapeShifting
         {
             shifting = true;
 
-            LerpValue<Shape> shift = new LerpValue<Shape>(currentShape, newShape, time);
+            Lerp<Shape> shift = new Lerp<Shape>(currentShape, newShape, time);
             Shape output = new Shape(currentShape);
             while (shift.Continue())
             {
-                Shape.Shift(shift.start, shift.end, output, shift.perc).AssignValues(transform);
+                Shape.Shift(shift.initial, shift.target, output, shift.Percentage).AssignValues(transform);
                 yield return null;
             }
 
