@@ -1,0 +1,19 @@
+{
+    "name": "BWolf.Inventory.Tests",
+    "references": [
+        "GUID:0020b463ab96bb24091c5a02c2202458"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

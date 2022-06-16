@@ -1,44 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
+using UnityEngine;
 
-public class Inventory
+public class Inventory : IEnumerable
 {
-    public struct Item : IEquatable<Item>, IFormattable
-    {
-        public readonly string name;
-
-        public int count;
-        
-        // *Add maxCount
-
-        public Item(string name, int count = 1)
-        {
-            this.name = name;
-            this.count = count;
-        }
-
-        public override bool Equals(object other)
-        {
-            if (!(other is Item item))
-                return false;
-
-            return Equals(item);
-        }
-
-        public bool Equals(Item other) => name == other.name;
-
-        public override int GetHashCode() => name.GetHashCode();
-
-        public static bool operator ==(Item lhs, Item rhs) => lhs.Equals(rhs);
-
-        public static bool operator !=(Item lhs, Item rhs) => !(lhs == rhs);
-
-        public override string ToString() => ToString(null, null);
-
-        public string ToString(string format) => ToString(format, null);
-
-        public string ToString(string format, IFormatProvider formatProvider) => name;
-    }
-
+    // *Add event for each operation. Use Enum AddListener(Enum, Action) -> backend is dictionary
     public int Capacity
     {
         get => _capacity;
@@ -52,31 +19,70 @@ public class Inventory
         }
     }
 
-    public int Size => _content.Length;
+    public int Size => _items.Length;
 
-    private int _capacity;
+    public Item this[int index] => _items[index];
+
+    protected int _capacity;
     
-    private Item[] _content;
+    protected Item[] _items;
 
     public Inventory(int capacity)
     {
         _capacity = capacity;
-        _content = new Item[capacity];
+        _items = new Item[capacity];
     }
 
-    public void Switch(string first, string second)
+    public void Switch(int firstIndex, int secondIndex)
     {
+        if (firstIndex < 0 || firstIndex >= _items.Length)
+            throw new IndexOutOfRangeException($"First index {firstIndex} is out of bounds.");
         
+        if (secondIndex < 0 || secondIndex >= _items.Length)
+            throw new IndexOutOfRangeException($"Second index {secondIndex} is out of bounds.");
+            
+        Item firstItem = _items[firstIndex];
+        
+        _items[firstIndex] = _items[secondIndex];
+        _items[secondIndex] = firstItem;
     }
-    
-    
-    public bool Add(string name, bool ignoreCapacity = false)
+
+    public bool Insert(int index, string name, int limit = 1)
     {
-        int index = Array.FindIndex(_content, item => item.name == name);
+        if (index < 0 || index >= _items.Length)
+            throw new IndexOutOfRangeException($"Insert index {index} is out of bounds.");
+
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException($"Insert item name was null or empty.");
+        
+        Item item = _items[index];
+
+        // If the index corresponds with a default entry, create a new item.
+        if (item == default)
+        {
+            _items[index] = new Item(name, limit);
+            return true;
+        }
+        
+        // If the existing entry reached its limit, the item count can't be incremented.
+        if (item.ReachedLimit)
+            return false;
+        
+        IncrementItemCountAt(index);
+        return true;
+    }
+
+    public bool Add(string name, bool ignoreCapacity) => Add(name, 1, ignoreCapacity);
+
+
+    public bool Add(string name, int limit = 1, bool ignoreCapacity = false)
+    {
+        // Find the index of an existing item with given name that has not yet reached its limit.
+        int index = Array.FindIndex(_items, item => item.name == name && item.limit == limit && !item.ReachedLimit);
         if (index == -1)
         {
             // If the item doesn't exist yet, add a new item.
-            bool couldBeAdded = AddNewItemToContent(name, ignoreCapacity);
+            bool couldBeAdded = AddNewItemToContent(name, limit, ignoreCapacity);
             return couldBeAdded;
         }
         
@@ -86,19 +92,64 @@ public class Inventory
         return true;
     }
 
-    public void Remove(string name)
+    public Item RemoveAt(int index, int? count = null)
     {
-        
+        Item item = _items[index];
+        int removeCount = count.GetValueOrDefault();
+        if(removeCount == 0 || item.count == removeCount)
+        {
+            // If the remove count is 0 or all items are to be removed, we just set the entry to a default value.
+            _items[index] = default;
+        }
+        else
+        {
+            if (removeCount < 1)
+                throw new InvalidOperationException($"Trying to remove a negative amount items at {index}.");
+
+            int itemCount = item.count;
+            if (removeCount > itemCount)
+                throw new InvalidOperationException(
+                    $"Trying to retrieve {removeCount} of item at {index} while it has {item.count}");
+                    
+            // The entry is now a new item with the reduced amount of item count.
+            _items[index] = new Item(item.name, itemCount - removeCount);
+
+            // The item returned has the amount of count removed.
+            item.count = removeCount;
+        }
+
+        return item;
     }
 
-    private bool AddNewItemToContent(string name, bool ignoreCapacity)
+    public Item[] RemoveAt(int[] indices, int? count = null)
     {
-        for (int i = 0; i < _content.Length; i++)
+        Item[] items = new Item[indices.Length];
+        
+        for (int i = 0; i < indices.Length; i++)
+            items[i] = RemoveAt(indices[i]);
+
+        return items;
+    }
+
+    public override string ToString()
+    {
+        if (_items.Length == 0)
+            return string.Empty;
+
+        return string.Join(" , ", _items);
+    }
+
+    public IEnumerator GetEnumerator() => _items.GetEnumerator();
+
+    private bool AddNewItemToContent(string name, int limit, bool ignoreCapacity)
+    {
+        // First try filling a default entry.
+        for (int i = 0; i < _items.Length; i++)
         {
-            if (_content[i] == default)
+            if (_items[i] == default)
             {
                 // Assign the new item to a default entry.
-                _content[i] = new Item(name);
+                _items[i] = new Item(name, limit);
                 return true;
             }
         }
@@ -106,8 +157,8 @@ public class Inventory
         if (ignoreCapacity)
         {
             // If there are no default entries left but we can ignore capacity, we force a resize and append the new item.
-            Resize(_content.Length);
-            _content[_content.Length - 1] = new Item(name);
+            Resize(_items.Length + 1);
+            _items[_items.Length - 1] = new Item(name, limit);
             
             return true;
         }
@@ -117,28 +168,29 @@ public class Inventory
 
     private void IncrementItemCountAt(int index)
     {
-        Item existingItem = _content[index];
+        Item existingItem = _items[index];
         existingItem.count++;
         
-        _content[index] = existingItem;
+        _items[index] = existingItem;
     }
 
     private void Resize(int newSize)
     {
-        int currentSize = _content.Length;
+        int currentSize = _items.Length;
         if (newSize == currentSize)
             return;
+        
+        if (newSize < currentSize)
+        {
+            // If the inventory is getting smaller, first make sure all items are moved to the front.
+            _items = _items.OrderBy(item => item == default).ToArray();
 
-        if (newSize > currentSize)
-        {
-            // If the new size is bigger than the current size, resize the content to be bigger.
-            Array.Resize(ref _content, newSize);
+            // If there are more inventory items than the new size can hold, resize to the amount of items in the inventory.
+            int itemsInInventory = _items.Count(item => item != default);
+            if (itemsInInventory > newSize)
+                newSize = itemsInInventory;
         }
-        else
-        {
-            // If the new size is smaller than the current size, cut the content size to the last default entry greater or equal to the current size.
-            Array.Sort(_content);
-            
-        }
+        
+        Array.Resize(ref _items, newSize);
     }
 }
