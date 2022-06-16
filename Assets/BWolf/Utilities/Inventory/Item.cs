@@ -11,10 +11,6 @@ public struct Item : IEquatable<Item>, IFormattable
 
     public int limit;
 
-    public Item(string name, int count) : this(name, 1, count)
-    {
-    }
-    
     public Item(string name, int limit = 1, int count = 1)
     {
         this.name = name;

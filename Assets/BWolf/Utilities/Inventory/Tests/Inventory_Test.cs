@@ -105,11 +105,10 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(capacity);
-      inventory.Insert(index, name, count);
-      
+      inventory.SetLimit(name, count);
+
       // Act.
-      for (int counter = 0; counter < count; counter++)
-         inventory.Insert(index, name);
+      inventory.Insert(index, name, count);
       
       // Assert.
       Assert.AreEqual(count, inventory[index].count);
@@ -156,13 +155,11 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, limit);
       inventory.Insert(0, name, limit);
 
-      for (int i = 0; i < limit - 1; i++)
-         inventory.Insert(0, name, limit);
-      
       // Act.
-      bool inserted = inventory.Insert(0, name, limit);
+      bool inserted = inventory.Insert(0, name);
       
       // Assert.
       Assert.IsFalse(inserted);
@@ -192,8 +189,7 @@ public class Inventory_Test
       Inventory inventory = new Inventory(1);
       
       // Act.
-      for (int i = 0; i < count; i++)
-         inventory.Add(name, count);
+      inventory.Add(name, count);
       
       // Assert.
       Assert.AreEqual(inventory[0].count, count);
@@ -224,10 +220,10 @@ public class Inventory_Test
       // Arrange.
       int limit = count - 1;
       Inventory inventory = new Inventory(2);
+      inventory.SetLimit(name, limit);
       
       // Act.
-      for (int i = 0; i < count; i++)
-         inventory.Add(name, limit);
+      inventory.Add(name, count);
       
       // Assert
       Assert.AreEqual(inventory[1].name, name);
@@ -319,12 +315,65 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.Add(name);
-      for (int counter = 0; counter < count - 1; counter++)
-         inventory.Add(name);
+      inventory.SetLimit(name, count);
+      inventory.Add(name, count);
 
       // Act.
       Item item = inventory.RemoveAt(removeIndex);
+      
+      // Assert.
+      Assert.AreEqual(count, item.count);
+   }
+   
+   [TestCase("item_one", 0, 10)]
+   [TestCase("item_one", 0, 5)]
+   [TestCase("item_one", 0, 1)]
+   [Test]
+   public void Test_RemoveAt_Exact_Count(string name, int removeIndex, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, count);
+      inventory.Add(name, count);
+      
+      // Act.
+      inventory.RemoveAt(removeIndex, count);
+      
+      // Act.
+      Assert.AreEqual(inventory[0], default(Item));
+   }
+
+   [TestCase("item_one", 0, 10)]
+   [TestCase("item_one", 0, 5)]
+   [TestCase("item_one", 0, 1)]
+   [Test]
+   public void Test_RemoveAt_Exact_Count_Return_Value_Name(string name, int removeIndex, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, count);
+      inventory.Add(name, count);
+      
+      // Act.
+      Item item = inventory.RemoveAt(removeIndex, count);
+      
+      // Assert.
+      Assert.AreEqual(name, item.name);
+   }
+   
+   [TestCase("item_one", 0, 10)]
+   [TestCase("item_one", 0, 5)]
+   [TestCase("item_one", 0, 1)]
+   [Test]
+   public void Test_RemoveAt_Exact_Count_Return_Value_Count(string name, int removeIndex, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, count);
+      inventory.Add(name, count);
+
+      // Act.
+      Item item = inventory.RemoveAt(removeIndex, count);
       
       // Assert.
       Assert.AreEqual(count, item.count);

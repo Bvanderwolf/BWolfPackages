@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class Inventory : IEnumerable
 {
@@ -27,10 +27,24 @@ public class Inventory : IEnumerable
     
     protected Item[] _items;
 
+    private readonly Dictionary<string, int> _limits;
+
     public Inventory(int capacity)
     {
         _capacity = capacity;
         _items = new Item[capacity];
+        _limits = new Dictionary<string, int>();
+    }
+
+    public void SetLimit(string name, int limit)
+    {
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException($"Trying to set limit of item with empty or null name.");
+
+        if (limit < 1)
+            throw new ArgumentOutOfRangeException($"Limit of item can't be smaller than 1.");
+
+        _limits[name] = limit;
     }
 
     public void Switch(int firstIndex, int secondIndex)
@@ -47,7 +61,7 @@ public class Inventory : IEnumerable
         _items[secondIndex] = firstItem;
     }
 
-    public bool Insert(int index, string name, int limit = 1)
+    public bool Insert(int index, string name, int count = 1)
     {
         if (index < 0 || index >= _items.Length)
             throw new IndexOutOfRangeException($"Insert index {index} is out of bounds.");
@@ -60,6 +74,8 @@ public class Inventory : IEnumerable
         // If the index corresponds with a default entry, create a new item.
         if (item == default)
         {
+            int limit = GetLimitLazy(name);
+            
             _items[index] = new Item(name, limit);
             return true;
         }
@@ -75,12 +91,14 @@ public class Inventory : IEnumerable
     public bool Add(string name, bool ignoreCapacity) => Add(name, 1, ignoreCapacity);
 
 
-    public bool Add(string name, int limit = 1, bool ignoreCapacity = false)
+    public bool Add(string name, int count = 1, bool ignoreCapacity = false)
     {
         // Find the index of an existing item with given name that has not yet reached its limit.
-        int index = Array.FindIndex(_items, item => item.name == name && item.limit == limit && !item.ReachedLimit);
+        int index = Array.FindIndex(_items, item => item.name == name && !item.ReachedLimit);
         if (index == -1)
         {
+            int limit = GetLimitLazy(name);
+            
             // If the item doesn't exist yet, add a new item.
             bool couldBeAdded = AddNewItemToContent(name, limit, ignoreCapacity);
             return couldBeAdded;
@@ -126,7 +144,7 @@ public class Inventory : IEnumerable
         Item[] items = new Item[indices.Length];
         
         for (int i = 0; i < indices.Length; i++)
-            items[i] = RemoveAt(indices[i]);
+            items[i] = RemoveAt(indices[i], count);
 
         return items;
     }
@@ -164,6 +182,19 @@ public class Inventory : IEnumerable
         }
         
         return false;
+    }
+
+    private int GetLimitLazy(string name)
+    {
+        if (!_limits.ContainsKey(name))
+        {
+            const int DEFAULT_ITEM_LIMIT = 1;
+            
+            _limits.Add(name, DEFAULT_ITEM_LIMIT);
+            return DEFAULT_ITEM_LIMIT;
+        }
+
+        return _limits[name];
     }
 
     private void IncrementItemCountAt(int index)
