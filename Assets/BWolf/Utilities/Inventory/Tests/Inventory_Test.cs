@@ -116,13 +116,13 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(capacity);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
 
       // Act.
       inventory.Insert(index, name, count);
       
       // Assert.
-      Assert.AreEqual(count, inventory[index].count);
+      Assert.AreEqual(count, inventory[index].stackCount);
    }
 
    [TestCase(2, 3)]
@@ -166,7 +166,7 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       inventory.Insert(0, name, limit);
 
       // Act.
@@ -198,13 +198,13 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
       
       // Act.
       inventory.Add(name, count);
       
       // Assert.
-      Assert.AreEqual(count, inventory[0].count);
+      Assert.AreEqual(count, inventory[0].stackCount);
    }
 
    [TestCase(new object[] { "item_one", "item_two", "item_three", "item_four" })]
@@ -232,7 +232,7 @@ public class Inventory_Test
       // Arrange.
       int limit = count - 1;
       Inventory inventory = new Inventory(2);
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       
       // Act.
       inventory.Add(name, count);
@@ -327,14 +327,14 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
       inventory.Add(name, count);
 
       // Act.
       Item item = inventory.RemoveAt(removeIndex);
       
       // Assert.
-      Assert.AreEqual(count, item.count);
+      Assert.AreEqual(count, item.stackCount);
    }
    
    [TestCase("item_one", 0, 10)]
@@ -345,7 +345,7 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
       inventory.Add(name, count);
       
       // Act.
@@ -363,7 +363,7 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
       inventory.Add(name, count);
       
       // Act.
@@ -381,14 +381,14 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, count);
+      inventory.SetStackLimit(name, count);
       inventory.Add(name, count);
 
       // Act.
       Item item = inventory.RemoveAt(removeIndex, count);
       
       // Assert.
-      Assert.AreEqual(count, item.count);
+      Assert.AreEqual(count, item.stackCount);
    }
 
    [TestCase("item_one", 50, 5)]
@@ -400,14 +400,14 @@ public class Inventory_Test
       // Arrange.
       int limit = count + leftOverCount;
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       inventory.Add(name, limit);
       
       // Act.
       inventory.RemoveAt(0, count);
       
       // Assert.
-      Assert.AreEqual(leftOverCount, inventory[0].count);
+      Assert.AreEqual(leftOverCount, inventory[0].stackCount);
    }
    
    [TestCase("item_one", 50, 5)]
@@ -419,14 +419,14 @@ public class Inventory_Test
       // Arrange.
       int limit = count + leftOverCount;
       Inventory inventory = new Inventory(1);
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       inventory.Add(name, limit);
       
       // Act.
       Item item = inventory.RemoveAt(0, count);
       
       // Assert.
-      Assert.AreEqual(count, item.count);
+      Assert.AreEqual(count, item.stackCount);
    }
 
    [TestCase("item_one", -1)]
@@ -521,7 +521,7 @@ public class Inventory_Test
       // Arrange.
       int limit = itemCount + leftoverCount;
       Inventory inventory = new Inventory(entryCount);
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       inventory.Add(name, limit * entryCount);
 
       // Act.
@@ -532,7 +532,7 @@ public class Inventory_Test
       Assert.AreEqual(entryCount, items.Length);
       
       for(int i = 0; i < items.Length; i++)
-         Assert.AreEqual(itemCount, items[i].count);
+         Assert.AreEqual(itemCount, items[i].stackCount);
    }
    
    [TestCase("item_one", 10)]
@@ -545,11 +545,11 @@ public class Inventory_Test
       Inventory inventory = new Inventory(1);
       
       // Act.
-      inventory.SetLimit(name, limit);
+      inventory.SetStackLimit(name, limit);
       inventory.Add(name);
       
       // Assert.
-      Assert.AreEqual(inventory[0].limit, limit);
+      Assert.AreEqual(inventory[0].stackLimit, limit);
    }
 
    [TestCase(null)]
@@ -561,7 +561,7 @@ public class Inventory_Test
       Inventory inventory = new Inventory(1);
       
       // Act.
-      TestDelegate action = () => inventory.SetLimit(name, 1);
+      TestDelegate action = () => inventory.SetStackLimit(name, 1);
       
       // Assert.
       Assert.Catch<ArgumentException>(action);
@@ -575,7 +575,7 @@ public class Inventory_Test
       Inventory inventory = new Inventory(1);
       
       // Act.
-      TestDelegate action = () => inventory.SetLimit(name, limit);
+      TestDelegate action = () => inventory.SetStackLimit(name, limit);
       
       // Assert.
       Assert.Catch<ArgumentOutOfRangeException>(action);

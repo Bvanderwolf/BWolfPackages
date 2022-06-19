@@ -1,53 +1,77 @@
 ﻿using System;
 using System.Text;
 
-public struct Item : IEquatable<Item>, IFormattable
+namespace BWolf.Gameplay
 {
-    public bool ReachedLimit => stackCount == stackLimit;
+    /// <summary>
+    /// Represents an item usable in an inventory.
+    /// </summary>
+    public struct Item : IEquatable<Item>, IFormattable
+    {
+        /// <summary>
+        /// Whether the item is fully stacked.
+        /// </summary>
+        public bool IsStacked => stackCount == stackLimit;
+
+        /// <summary>
+        /// The name of the item.
+        /// </summary>
+        public string name;
+
+        /// <summary>
+        /// The current stack count of the item.
+        /// </summary>
+        public int stackCount;
         
-    public string name;
+        /// <summary>
+        /// The stack limit of the item.
+        /// </summary>
+        public int stackLimit;
 
-    public int stackCount;
+        /// <summary>
+        /// Creates a new instance of an item.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="stackLimit">The stack count of the item.</param>
+        /// <param name="stackCount">The stack limit of the item.</param>
+        public Item(string name, int stackLimit = 1, int stackCount = 1)
+        {
+            this.name = name;
+            this.stackCount = stackCount;
+            this.stackLimit = stackLimit;
+        }
+        
+        public override bool Equals(object other)
+        {
+            if (!(other is Item item))
+                return false;
 
-    public int stackLimit;
+            return Equals(item);
+        }
 
-    public Item(string name, int stackLimit = 1, int stackCount = 1)
-    {
-        this.name = name;
-        this.stackCount = stackCount;
-        this.stackLimit = stackLimit;
-    }
+        public bool Equals(Item other) => name == other.name && stackLimit == other.stackLimit;
 
-    public override bool Equals(object other)
-    {
-        if (!(other is Item item))
-            return false;
+        public override int GetHashCode() => name.GetHashCode();
 
-        return Equals(item);
-    }
+        public static bool operator ==(Item lhs, Item rhs) => lhs.Equals(rhs);
 
-    public bool Equals(Item other) => name == other.name && stackLimit == other.stackLimit;
+        public static bool operator !=(Item lhs, Item rhs) => !(lhs == rhs);
 
-    public override int GetHashCode() => name.GetHashCode();
+        public override string ToString() => ToString(null, null);
 
-    public static bool operator ==(Item lhs, Item rhs) => lhs.Equals(rhs);
+        public string ToString(string format) => ToString(format, null);
 
-    public static bool operator !=(Item lhs, Item rhs) => !(lhs == rhs);
-
-    public override string ToString() => ToString(null, null);
-
-    public string ToString(string format) => ToString(format, null);
-
-    public string ToString(string format, IFormatProvider formatProvider)
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.Append("{ ");
-        builder.Append(name);
-        builder.Append(" , (");
-        builder.Append(stackCount);
-        builder.Append("/");
-        builder.Append(stackLimit);
-        builder.Append(") }");
-        return builder.ToString();
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("{ ");
+            builder.Append(name);
+            builder.Append(" , (");
+            builder.Append(stackCount);
+            builder.Append("/");
+            builder.Append(stackLimit);
+            builder.Append(") }");
+            return builder.ToString();
+        }
     }
 }
