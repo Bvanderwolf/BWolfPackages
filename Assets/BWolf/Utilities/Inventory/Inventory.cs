@@ -54,7 +54,7 @@ namespace BWolf.Gameplay
         /// <summary>
         /// The item limits used by this inventory.
         /// </summary>
-        private readonly Dictionary<string, int> _limits;
+        private readonly Dictionary<string, int> _stackLimits;
 
         /// <summary>
         /// Creates a new instance of this inventory with a given capacity.
@@ -67,23 +67,23 @@ namespace BWolf.Gameplay
 
             _capacity = capacity;
             _items = new Item[capacity];
-            _limits = new Dictionary<string, int>();
+            _stackLimits = new Dictionary<string, int>();
         }
 
         /// <summary>
-        /// Sets the limit for an item in the inventory.
+        /// Sets the stack limit for an item in the inventory.
         /// </summary>
-        /// <param name="name">The name of the item to set the limit for.</param>
-        /// <param name="limit">The limit used or the item.</param>
-        public void SetLimit(string name, int limit)
+        /// <param name="name">The name of the item to set the stack limit for.</param>
+        /// <param name="stackLimit">The stack limit used or the item.</param>
+        public void SetStackLimit(string name, int stackLimit)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException($"Trying to set limit of item with empty or null name.");
 
-            if (limit < 1)
+            if (stackLimit < 1)
                 throw new ArgumentOutOfRangeException($"Limit of item can't be smaller than 1.");
 
-            _limits[name] = limit;
+            _stackLimits[name] = stackLimit;
         }
 
         /// <summary>
@@ -126,14 +126,14 @@ namespace BWolf.Gameplay
             // If the index corresponds with a default entry, create a new item.
             if (item == default)
             {
-                int limit = GetLimitLazy(name);
+                int stackLimit = GetOrCreateStackLimitForItem(name);
 
-                _items[index] = new Item(name, limit, count);
+                _items[index] = new Item(name, stackLimit, count);
                 return true;
             }
 
-            // If the existing entry reached its limit, the item count can't be incremented.
-            if (item.ReachedLimit)
+            // If the existing entry reached its stack limit, the item count can't be incremented.
+            if (item.IsStacked)
                 return false;
 
             IncrementItemCount(name, index, count, ignoreCapacity);
@@ -157,14 +157,14 @@ namespace BWolf.Gameplay
         /// <returns>Whether the item was added.</returns>
         public bool Add(string name, int count = 1, bool ignoreCapacity = false)
         {
-            // Find the index of an existing item with given name that has not yet reached its limit.
-            int index = Array.FindIndex(_items, item => item.name == name && !item.ReachedLimit);
+            // Find the index of an existing item with given name that has not yet reached its stack slimit.
+            int index = Array.FindIndex(_items, item => item.name == name && !item.IsStacked);
             if (index == -1)
             {
-                int limit = GetLimitLazy(name);
+                int stackLimit = GetOrCreateStackLimitForItem(name);
 
                 // If the item doesn't exist yet, add a new item.
-                bool couldBeAdded = AddNewItemToContent(name, limit, count, ignoreCapacity);
+                bool couldBeAdded = AddNewItemToContent(name, stackLimit, count, ignoreCapacity);
                 return couldBeAdded;
             }
 
@@ -192,7 +192,7 @@ namespace BWolf.Gameplay
                 return default;
 
             int removeCount = count.GetValueOrDefault();
-            if (!count.HasValue || item.count == removeCount)
+            if (!count.HasValue || item.stackCount == removeCount)
             {
                 // If the remove count is 0 or all items are to be removed, we just set the entry to a default value.
                 _items[index] = default;
@@ -206,6 +206,12 @@ namespace BWolf.Gameplay
             return item;
         }
 
+        /// <summary>
+        /// Removes items at a given indices.
+        /// </summary>
+        /// <param name="indices">The indices to remove the items at</param>
+        /// <param name="count">The amount of items to remove.</param>
+        /// <returns>The removed items.</returns>
         public Item[] RemoveAt(int[] indices, int? count = null)
         {
             if (indices == null)
@@ -219,6 +225,10 @@ namespace BWolf.Gameplay
             return items;
         }
 
+        /// <summary>
+        /// Returns the string representation of the inventory.
+        /// </summary>
+        /// <returns>The string representation of the inventory.</returns>
         public override string ToString()
         {
             if (_items.Length == 0)
@@ -227,29 +237,47 @@ namespace BWolf.Gameplay
             return string.Join(" , ", _items);
         }
 
+        /// <summary>
+        /// Returns the enumerator of the inventory.
+        /// </summary>
+        /// <returns>The enumerator of the inventory.</returns>
         public IEnumerator GetEnumerator() => _items.GetEnumerator();
 
-
+        /// <summary>
+        /// Removes the stack count of an item.
+        /// </summary>
+        /// <param name="item">The item of which to remove the count.</param>
+        /// <param name="indexOfItem">The index of the item.</param>
+        /// <param name="removeCount">The amount to remove.</param>
+        /// <returns>The updated item.</returns>
         private Item RemoveCountOfItem(Item item, int indexOfItem, int removeCount)
         {
             if (removeCount < 1)
                 throw new InvalidOperationException($"Trying to remove a negative amount of items at {indexOfItem}.");
 
-            int itemCount = item.count;
+            int itemCount = item.stackCount;
             if (removeCount > itemCount)
                 throw new InvalidOperationException(
-                    $"Trying to retrieve {removeCount} of item at {indexOfItem} while it has {item.count}");
+                    $"Trying to retrieve {removeCount} of item at {indexOfItem} while it has {item.stackCount}");
 
             // The entry is now a new item with the reduced amount of item count.
-            _items[indexOfItem] = new Item(item.name, item.limit, itemCount - removeCount);
+            _items[indexOfItem] = new Item(item.name, item.stackLimit, itemCount - removeCount);
 
             // The item returned has the amount of count removed.
-            item.count = removeCount;
+            item.stackCount = removeCount;
 
             return item;
         }
 
-        private bool AddNewItemToContent(string name, int limit, int count, bool ignoreCapacity)
+        /// <summary>
+        /// Adds a new item to the content.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="stackLimit">The stack limit for the item.</param>
+        /// <param name="stackCount">The stack count for the item.</param>
+        /// <param name="ignoreCapacity">Whether to ignore the capacity for this operation.</param>
+        /// <returns>Whether the adding succeeded.</returns>
+        private bool AddNewItemToContent(string name, int stackLimit, int stackCount, bool ignoreCapacity)
         {
             // First try filling a default entry.
             for (int i = 0; i < _items.Length; i++)
@@ -273,63 +301,80 @@ namespace BWolf.Gameplay
 
             void AddItemAtIndex(int index)
             {
-                if (count > limit)
+                if (stackCount > stackLimit)
                 {
-                    // If the count is greater than the limit, assign the limit as count
+                    // If the count is greater than the stack limit, assign the limit as count
                     // and add a new item with the left over count.
-                    int leftOverCount = count - limit;
+                    int leftOverCount = stackCount - stackLimit;
 
-                    count = limit;
-                    _items[index] = new Item(name, limit, count);
+                    stackCount = stackLimit;
+                    _items[index] = new Item(name, stackLimit, stackCount);
 
                     Add(name, leftOverCount, ignoreCapacity);
                 }
                 else
                 {
-                    // If the count is not greater than the limit, just assign the new item with given info.
-                    _items[index] = new Item(name, limit, count);
+                    // If the count is not greater than the stack limit, just assign the new item with given info.
+                    _items[index] = new Item(name, stackLimit, stackCount);
                 }
             }
 
             return false;
         }
 
-        private int GetLimitLazy(string name)
+        /// <summary>
+        /// Returns the stack limit for an item, assigning a default
+        /// stack limit to the item if none existed yet.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <returns>The stack limit for the item.</returns>
+        private int GetOrCreateStackLimitForItem(string name)
         {
-            if (!_limits.ContainsKey(name))
+            if (!_stackLimits.ContainsKey(name))
             {
-                const int DEFAULT_ITEM_LIMIT = 1;
+                const int DEFAULT_STACK_LIMIT = 1;
 
-                _limits.Add(name, DEFAULT_ITEM_LIMIT);
-                return DEFAULT_ITEM_LIMIT;
+                _stackLimits.Add(name, DEFAULT_STACK_LIMIT);
+                return DEFAULT_STACK_LIMIT;
             }
 
-            return _limits[name];
+            return _stackLimits[name];
         }
 
+        /// <summary>
+        /// Increments the amount of an item in the inventory.
+        /// </summary>
+        /// <param name="name">The name of the existing item to increment.</param>
+        /// <param name="index">The index to of the existing item to increment.</param>
+        /// <param name="count">The amount to increment.</param>
+        /// <param name="ignoreCapacity">Whether to ignore capacity during this operation.</param>
         private void IncrementItemCount(string name, int index, int count, bool ignoreCapacity)
         {
             Item existingItem = _items[index];
-            int countToLimit = existingItem.limit - existingItem.count;
+            int countToLimit = existingItem.stackLimit - existingItem.stackCount;
             if (count > countToLimit)
             {
                 // If the count is greater than the count to limit, assign the count to limit
                 // to the existing item's count and add a new item with the left over count.
                 int leftOverCount = count - countToLimit;
 
-                existingItem.count += countToLimit;
+                existingItem.stackCount += countToLimit;
 
                 Add(name, leftOverCount, ignoreCapacity);
             }
             else
             {
                 // If the count is not greater than the count to limit, just assign count to the existing item.
-                existingItem.count += count;
+                existingItem.stackCount += count;
             }
 
             _items[index] = existingItem;
         }
 
+        /// <summary>
+        /// Resizes the inventory with a new size.
+        /// </summary>
+        /// <param name="newSize">The new size of the inventory.</param>
         private void Resize(int newSize)
         {
             int currentSize = _items.Length;

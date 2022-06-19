@@ -1,5 +1,4 @@
-﻿using System;
-using BWolf.Gameplay;
+﻿using BWolf.Gameplay;
 using UnityEngine;
 
 public class InventoryUser : MonoBehaviour

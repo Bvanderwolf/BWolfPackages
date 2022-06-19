@@ -3,19 +3,19 @@ using System.Text;
 
 public struct Item : IEquatable<Item>, IFormattable
 {
-    public bool ReachedLimit => count == limit;
+    public bool ReachedLimit => stackCount == stackLimit;
         
     public string name;
 
-    public int count;
+    public int stackCount;
 
-    public int limit;
+    public int stackLimit;
 
-    public Item(string name, int limit = 1, int count = 1)
+    public Item(string name, int stackLimit = 1, int stackCount = 1)
     {
         this.name = name;
-        this.count = count;
-        this.limit = limit;
+        this.stackCount = stackCount;
+        this.stackLimit = stackLimit;
     }
 
     public override bool Equals(object other)
@@ -26,7 +26,7 @@ public struct Item : IEquatable<Item>, IFormattable
         return Equals(item);
     }
 
-    public bool Equals(Item other) => name == other.name && limit == other.limit;
+    public bool Equals(Item other) => name == other.name && stackLimit == other.stackLimit;
 
     public override int GetHashCode() => name.GetHashCode();
 
@@ -44,9 +44,9 @@ public struct Item : IEquatable<Item>, IFormattable
         builder.Append("{ ");
         builder.Append(name);
         builder.Append(" , (");
-        builder.Append(count);
+        builder.Append(stackCount);
         builder.Append("/");
-        builder.Append(limit);
+        builder.Append(stackLimit);
         builder.Append(") }");
         return builder.ToString();
     }
