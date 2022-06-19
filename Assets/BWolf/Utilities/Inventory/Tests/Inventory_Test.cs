@@ -1,18 +1,30 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
+using BWolf.Gameplay;
 using NUnit.Framework;
-using UnityEditor.VersionControl;
-using UnityEngine;
 
 public class Inventory_Test 
 {
+   [TestCase(-1)]
+   [TestCase(0)]
+   [Test]
+   public void Test_Constructor_Invalid_Capacity(int capacity)
+   {
+      // Arrange.
+      Inventory inventory;
+      
+      // Act.
+      TestDelegate action = () => inventory = new Inventory(capacity);
+      
+      // Assert.
+      Assert.Catch<ArgumentOutOfRangeException>(action);
+   }
+   
    /// <summary>
    /// Tests whether the capacity set correctly.
    /// </summary>
    [TestCase(1000)]
    [TestCase(100)]
-   [TestCase(0)]
    [Test]
    public void Test_Constructor_Capacity(int capacity)
    {
@@ -31,7 +43,6 @@ public class Inventory_Test
    /// </summary>
    [TestCase(1000)]
    [TestCase(100)]
-   [TestCase(0)]
    [Test]
    public void Test_Constructor_Size(int capacity)
    {
@@ -187,12 +198,13 @@ public class Inventory_Test
    {
       // Arrange.
       Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, count);
       
       // Act.
       inventory.Add(name, count);
       
       // Assert.
-      Assert.AreEqual(inventory[0].count, count);
+      Assert.AreEqual(count, inventory[0].count);
    }
 
    [TestCase(new object[] { "item_one", "item_two", "item_three", "item_four" })]
@@ -226,7 +238,7 @@ public class Inventory_Test
       inventory.Add(name, count);
       
       // Assert
-      Assert.AreEqual(inventory[1].name, name);
+      Assert.AreEqual(name, inventory[1].name);
    }
 
 
@@ -377,5 +389,195 @@ public class Inventory_Test
       
       // Assert.
       Assert.AreEqual(count, item.count);
+   }
+
+   [TestCase("item_one", 50, 5)]
+   [TestCase("item_one", 5, 3)]
+   [TestCase("item_one", 2, 3)]
+   [Test]
+   public void Test_RemoveAt_Leftover_Count(string name, int count, int leftOverCount)
+   {
+      // Arrange.
+      int limit = count + leftOverCount;
+      Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, limit);
+      inventory.Add(name, limit);
+      
+      // Act.
+      inventory.RemoveAt(0, count);
+      
+      // Assert.
+      Assert.AreEqual(leftOverCount, inventory[0].count);
+   }
+   
+   [TestCase("item_one", 50, 5)]
+   [TestCase("item_one", 5, 3)]
+   [TestCase("item_one", 2, 3)]
+   [Test]
+   public void Test_RemoveAt_Leftover_Count_Return_Value(string name, int count, int leftOverCount)
+   {
+      // Arrange.
+      int limit = count + leftOverCount;
+      Inventory inventory = new Inventory(1);
+      inventory.SetLimit(name, limit);
+      inventory.Add(name, limit);
+      
+      // Act.
+      Item item = inventory.RemoveAt(0, count);
+      
+      // Assert.
+      Assert.AreEqual(count, item.count);
+   }
+
+   [TestCase("item_one", -1)]
+   [TestCase("item_one", 0)]
+   [Test]
+   public void Test_RemoveAt_Invalid_Count_To_Low(string name, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      inventory.Add(name);
+
+      // Act.
+      TestDelegate action = () => inventory.RemoveAt(0, count);
+      
+      // Assert
+      Assert.Catch<InvalidOperationException>(action);
+   }
+   
+   [TestCase("item_one", 10)]
+   [TestCase("item_one", 5)]
+   [TestCase("item_one", 2)]
+   [Test]
+   public void Test_RemoveAt_Invalid_Count_To_High(string name, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      inventory.Add(name, count - 1);
+
+      // Act.
+      TestDelegate action = () => inventory.RemoveAt(0, count);
+      
+      // Assert
+      Assert.Catch<InvalidOperationException>(action);
+   }
+   
+   [TestCase("item_one", 2)]
+   [TestCase("item_one", -1)]
+   [Test]
+   public void Test_RemoveAt_Invalid_Index(string name, int index)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+
+      // Act.
+      TestDelegate action = () => inventory.RemoveAt(index, 0);
+      
+      // Assert
+      Assert.Catch<IndexOutOfRangeException>(action);
+   }
+   
+   [TestCase("item_one", null)]
+   [Test]
+   public void Test_RemoveAt_Indices_Invalid_Array(string name, int[] indices)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      
+      // Act.
+      TestDelegate action = () => inventory.RemoveAt(indices);
+      
+      // Assert.
+      Assert.Catch<ArgumentNullException>(action);
+   }
+
+   [TestCase("item_one", 100)]
+   [TestCase("item_one", 10)]
+   [TestCase("item_one", 4)]
+   [Test]
+   public void Test_RemoveAt_Indices(string name, int count)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(count);
+      inventory.Add(name, count);
+      
+      // Act.
+      int[] indices = Enumerable.Range(0, count).ToArray();
+      Item[] items = inventory.RemoveAt(indices);
+      
+      // Assert.
+      Assert.AreEqual(count, items.Length);
+      
+      for(int i = 0; i < items.Length; i++)
+         Assert.AreEqual(name, items[i].name);
+   }
+
+   [TestCase("item_one", 100, 50, 5)]
+   [TestCase("item_one", 10, 5, 3)]
+   [TestCase("item_one", 4, 2, 3)]
+   [Test]
+   public void Test_RemoveAt_Indices_Using_Count(string name, int entryCount, int itemCount, int leftoverCount)
+   {
+      // Arrange.
+      int limit = itemCount + leftoverCount;
+      Inventory inventory = new Inventory(entryCount);
+      inventory.SetLimit(name, limit);
+      inventory.Add(name, limit * entryCount);
+
+      // Act.
+      int[] indices = Enumerable.Range(0, entryCount).ToArray();
+      Item[] items = inventory.RemoveAt(indices, itemCount);
+      
+      // Assert.
+      Assert.AreEqual(entryCount, items.Length);
+      
+      for(int i = 0; i < items.Length; i++)
+         Assert.AreEqual(itemCount, items[i].count);
+   }
+   
+   [TestCase("item_one", 10)]
+   [TestCase("item_one", 5)]
+   [TestCase("item_one", 1)]
+   [Test]
+   public void Test_SetLimit(string name, int limit)
+   {
+      // Arrange.
+      Inventory inventory = new Inventory(1);
+      
+      // Act.
+      inventory.SetLimit(name, limit);
+      inventory.Add(name);
+      
+      // Assert.
+      Assert.AreEqual(inventory[0].limit, limit);
+   }
+
+   [TestCase(null)]
+   [TestCase("")]
+   [Test]
+   public void Test_SetLimit_Invalid_Name(string name)
+   {
+      // Assert.
+      Inventory inventory = new Inventory(1);
+      
+      // Act.
+      TestDelegate action = () => inventory.SetLimit(name, 1);
+      
+      // Assert.
+      Assert.Catch<ArgumentException>(action);
+   }
+
+   [TestCase("item_one", -1)]
+   [TestCase("item_one", 0)]
+   public void Test_SetLimit_Invalid_Limit(string name, int limit)
+   {
+      // Assert.
+      Inventory inventory = new Inventory(1);
+      
+      // Act.
+      TestDelegate action = () => inventory.SetLimit(name, limit);
+      
+      // Assert.
+      Assert.Catch<ArgumentOutOfRangeException>(action);
    }
 }
