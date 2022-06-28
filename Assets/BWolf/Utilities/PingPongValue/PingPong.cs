@@ -21,7 +21,7 @@ namespace BWolf.Utilities
         /// <summary>
         /// The percentage of completion.
         /// </summary>
-        public float Percentage => _currentTime / _totalTime;
+        public float Percentage => (_currentTime - StartTime) / _totalTime;
 
         /// <summary>
         /// The remaining time to operate.
@@ -112,7 +112,7 @@ namespace BWolf.Utilities
             this.count = count;
             this.speed = speed;
 
-            _currentTime = startPercentage * MinMaxDifference;
+            OnAfterDeserialize();
         }
 
         /// <summary>
