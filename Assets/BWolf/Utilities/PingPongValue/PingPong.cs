@@ -111,6 +111,8 @@ namespace BWolf.Utilities
             this.usesFixedDelta = usesFixedDelta;
             this.count = count;
             this.speed = speed;
+            this.startPercentage = startPercentage;
+            this.usesFixedDelta = usesFixedDelta;
 
             OnAfterDeserialize();
         }
