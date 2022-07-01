@@ -65,7 +65,7 @@ namespace BWolf.Utilities.ShapeShifting
         {
             shifting = true;
 
-            Lerp<Shape> shift = new Lerp<Shape>(currentShape, newShape, time);
+            LerpOf<Shape> shift = new LerpOf<Shape>(currentShape, newShape, time);
             Shape output = new Shape(currentShape);
             while (shift.Continue())
             {

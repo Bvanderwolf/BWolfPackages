@@ -13,21 +13,21 @@ namespace BWolf.Utilities
         /// <summary>
         /// A method that does no easing.
         /// </summary>
-        public static readonly EasingFunction noEase = (c, t) => c / t;
+        public static readonly EasingFunction noEase = value => value;
 
         /// <summary>
         /// A method that returns a value eased out using sine math.
         /// </summary>
-        public static readonly EasingFunction easeOutSine = (c, t) => Mathf.Sin( c * Mathf.PI * 0.5f) / t;
+        public static readonly EasingFunction easeOutSine = value => Mathf.Sin((value * Mathf.PI) / 2);
 
         /// <summary>
         /// A method that returns a value eased in using sine math.
         /// </summary>
-        public static readonly EasingFunction easeInSine = (c, t) =>  (1f - Mathf.Cos( c * Mathf.PI * 0.5f)) / t;
+        public static readonly EasingFunction easeInSine = value => 1 - Mathf.Cos((value * Mathf.PI) / 2);
 
         /// <summary>
         /// A method that returns a value eased in and out using sine math.
         /// </summary>
-        public static readonly EasingFunction easeInOutSine = (c, t) => (-(Mathf.Cos(Mathf.PI * c) - 1) * 0.5f) / t;
+        public static readonly EasingFunction easeInOutSine = value => -(Mathf.Cos(Mathf.PI * value) - 1) / 2;
     }
 }

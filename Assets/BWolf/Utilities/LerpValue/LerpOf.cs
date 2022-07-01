@@ -3,6 +3,7 @@
 //----------------------------------
 
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BWolf.Utilities
@@ -12,7 +13,7 @@ namespace BWolf.Utilities
     /// </summary>
     /// <typeparam name="T">The type of object to do the interpolation between.</typeparam>
     [Serializable]
-    public class Lerp<T> : IContinuable
+    public class LerpOf<T> : IContinuable
     {
         /// <summary>
         /// The total time that needs to pass before the interpolation is finished.
@@ -28,8 +29,8 @@ namespace BWolf.Utilities
                         _currentTime = value * Percentage;
                         break;
                 
-                    case TimeOverride.RESET_CURRENT_TIME:
-                        _currentTime = 0.0f;
+                    case TimeOverride.RESET:
+                        Reset();
                         break;
                 }
 
@@ -46,7 +47,7 @@ namespace BWolf.Utilities
         /// <summary>
         /// The current percentage of linear interpolation.
         /// </summary>
-        public float Percentage => easingFunction(_currentTime, _totalTime);
+        public float Percentage => easingFunction(_currentTime / _totalTime);
 
         /// <summary>
         /// The remaining time to linearly interpolate.
@@ -56,31 +57,42 @@ namespace BWolf.Utilities
         /// <summary>
         /// The initial value.
         /// </summary>
+        [Header("State")]
         public T initial;
         
         /// <summary>
         /// The target value.
         /// </summary>
         public T target;
+        
+        /// <summary>
+        /// The total time that needs to pass before the interpolation is finished.
+        /// </summary>
+        [SerializeField, Min(0)]
+        private float _totalTime;
 
         /// <summary>
         /// The function used to return the current linearly interpolated value.
+        /// Think of Vector3.Lerp for Vector3's and Quaterion.Lerp for Quaternions.
         /// </summary>
         public LerpFunction<T> lerpFunction;
 
         /// <summary>
         /// The way time is overriden when the total time is modified.
         /// </summary>
+        [Header("Modification")]
+        [Tooltip("The way time is overriden when the total time is modified.")]
         public TimeOverride timeOverride;
 
         /// <summary>
-        /// The function used to ease the linear interpolation.
+        /// The function used to ease the linear interpolation. 
         /// </summary>
         public EasingFunction easingFunction;
         
         /// <summary>
         /// Whether continuing the interpolation adds fixed delta time or normal delta time.
         /// </summary>
+        [Tooltip("Whether continuing the interpolation adds fixed delta time or normal delta time.")]
         public bool usesFixedDelta;
 
         /// <summary>
@@ -89,14 +101,9 @@ namespace BWolf.Utilities
         private float _currentTime;
 
         /// <summary>
-        /// The total time that needs to pass before the interpolation is finished.
-        /// </summary>
-        private float _totalTime;
-
-        /// <summary>
         /// Creates a new lerp instance.
         /// </summary>
-        public Lerp(
+        public LerpOf(
             T initial, 
             T target, 
             float totalTime = 1.0f, 
@@ -118,7 +125,7 @@ namespace BWolf.Utilities
         /// <summary>
         /// Creates a new lerp instance using default values.
         /// </summary>
-        protected Lerp() : this(default, default)
+        protected LerpOf() : this(default, default)
         {
         }
 
@@ -136,6 +143,41 @@ namespace BWolf.Utilities
                 _currentTime = _totalTime;
 
             return true;
+        }
+
+        public void Reset() => _currentTime = 0.0f;
+
+        public static IEnumerator Await(
+            T initial,
+            T target,
+            LerpFunction<T> lerpFunction,
+            Action<T> callback,
+            float totalTime = 1.0f,
+            EasingFunction easingFunction = null,
+            bool usesFixedDelta = false)
+        {
+            return Await(initial, target, lerpFunction, null, callback, totalTime, easingFunction, usesFixedDelta);
+        }
+
+        public static IEnumerator Await(
+            T initial,
+            T target,
+            LerpFunction<T> lerpFunction,
+            YieldInstruction instruction,
+            Action<T> callback,
+            float totalTime = 1.0f,
+            EasingFunction easingFunction = null,
+            bool usesFixedDelta = false)
+        {
+
+            return new LerpOf<T>(
+                initial, 
+                target, 
+                totalTime, 
+                easingFunction, 
+                lerpFunction,
+                TimeOverride.KEEP_CURRENT_TIME, 
+                usesFixedDelta).Await(instruction, callback);
         }
     }
 }

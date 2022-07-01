@@ -11,7 +11,7 @@ namespace BWolf.Utilities
         [InspectorName("Keep percentage")]
         KEEP_CURRENT_PERCENTAGE = 1,
         
-        [InspectorName("Reset current")]
-        RESET_CURRENT_TIME = 2,
+        [InspectorName("Reset")]
+        RESET = 2,
     }
 }

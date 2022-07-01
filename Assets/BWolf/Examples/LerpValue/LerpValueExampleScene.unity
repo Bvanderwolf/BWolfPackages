@@ -328,6 +328,7 @@ MonoBehaviour:
     target: {x: 0, y: 50, z: 0}
     timeOverride: 0
     usesFixedDelta: 0
+    _totalTime: 5
 --- !u!1 &254483719
 GameObject:
   m_ObjectHideFlags: 0

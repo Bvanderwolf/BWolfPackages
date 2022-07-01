@@ -5,15 +5,15 @@ using UnityEngine;
 
 public static class LerpExtensions
 {
-    public static IEnumerator Yield<T>(this Lerp<T> value, Action<T> callback) => Yield(value, null, callback);
+    public static IEnumerator Await<T>(this LerpOf<T> value, Action<T> callback) => Await(value, null, callback);
 
-    public static IEnumerator Yield<T>(this Lerp<T> value, YieldInstruction instruction, Action<T> callback)
+    public static IEnumerator Await<T>(this LerpOf<T> lerp, YieldInstruction instruction, Action<T> callback)
     {
         do
         {
-            callback.Invoke(value.Value);
+            callback.Invoke(lerp.Value);
             yield return instruction;
                 
-        } while (value.Continue());
+        } while (lerp.Continue());
     }
 }

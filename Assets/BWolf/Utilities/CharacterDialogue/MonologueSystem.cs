@@ -117,7 +117,7 @@ namespace BWolf.Utilities.CharacterDialogue
 
             float x = -rectTransform.sizeDelta.x;
             const int HighResWidth = 1920;
-            Lerp<float> moveToMiddle = new Lerp<float>(x, (x * 0.5f) + (HighResWidth * 0.5f), setupTime);
+            LerpOf<float> moveToMiddle = new LerpOf<float>(x, (x * 0.5f) + (HighResWidth * 0.5f), setupTime);
 
             while (moveToMiddle.Continue())
             {

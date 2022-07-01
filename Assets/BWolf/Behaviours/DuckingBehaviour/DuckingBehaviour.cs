@@ -35,7 +35,7 @@ namespace BWolf.Behaviours
         private Vector3 duckOffsetStart;
         private Vector3 startLocalPosition;
 
-        private Lerp<Vector3> move;
+        private LerpOf<Vector3> move;
         private EasingFunction duckSetting;
         private bool canDuck;
 
@@ -73,7 +73,7 @@ namespace BWolf.Behaviours
             {
                 //start new lerp movement when ducking is started on stopped
                 duckOffsetStart = duckTransform.localPosition;
-                move = new Lerp<Vector3>(duckOffsetStart, duck ? duckOffsetVector : startLocalPosition, duckTime, duckSetting);
+                move = new LerpOf<Vector3>(duckOffsetStart, duck ? duckOffsetVector : startLocalPosition, duckTime, duckSetting);
                 canDuck = true;
             }
 

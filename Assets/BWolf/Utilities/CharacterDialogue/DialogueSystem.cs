@@ -127,8 +127,8 @@ namespace BWolf.Utilities.CharacterDialogue
             float leftX = -leftTransform.sizeDelta.x;
             float rightX = rightTransform.sizeDelta.x;
 
-            Lerp<float> moveLeftDisplay = new Lerp<float>(leftX, 0, setupTime);
-            Lerp<float> moveRightDisplay = new Lerp<float>(rightX, 0, setupTime);
+            LerpOf<float> moveLeftDisplay = new LerpOf<float>(leftX, 0, setupTime);
+            LerpOf<float> moveRightDisplay = new LerpOf<float>(rightX, 0, setupTime);
 
             while (moveLeftDisplay.Continue() && moveRightDisplay.Continue())
             {
