@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace BWolf.Utilities
@@ -13,30 +14,12 @@ namespace BWolf.Utilities
     /// </summary>
     /// <typeparam name="T">The type of object to do the interpolation between.</typeparam>
     [Serializable]
-    public class LerpOf<T> : IContinuable
+    public class LerpOf<T> : LerpState
     {
         /// <summary>
         /// The total time that needs to pass before the interpolation is finished.
         /// </summary>
-        public float TotalTime
-        {
-            get => _totalTime;
-            set
-            {
-                switch (timeOverride)
-                {
-                    case TimeOverride.KEEP_CURRENT_PERCENTAGE:
-                        _currentTime = value * Percentage;
-                        break;
-                
-                    case TimeOverride.RESET:
-                        Reset();
-                        break;
-                }
-
-                _totalTime = value;
-            }
-        }
+        public override float TotalTime => _totalTime;
 
         /// <summary>
         /// The linearly interpolated value based on the current state. Will return the default value
@@ -47,12 +30,12 @@ namespace BWolf.Utilities
         /// <summary>
         /// The current percentage of linear interpolation.
         /// </summary>
-        public float Percentage => easingFunction(_currentTime / _totalTime);
+        public override float Percentage => easingFunction(_currentTime / _totalTime);
 
         /// <summary>
         /// The remaining time to linearly interpolate.
         /// </summary>
-        public float RemainingTime => _totalTime - _currentTime;
+        public override float RemainingTime => _totalTime - _currentTime;
         
         /// <summary>
         /// The initial value.
@@ -133,7 +116,7 @@ namespace BWolf.Utilities
         /// Continues the linear interpolation, updating the current state.
         /// </summary>
         /// <returns>Whether the interpolation has finished.</returns>
-        public bool Continue()
+        public override bool Continue()
         {
             if (_currentTime >= _totalTime)
                 return false;
@@ -145,7 +128,64 @@ namespace BWolf.Utilities
             return true;
         }
 
-        public void Reset() => _currentTime = 0.0f;
+        public void SetTotalTime(float newTotalTime)
+        {
+            switch (timeOverride)
+            {
+                case TimeOverride.KEEP_CURRENT_PERCENTAGE:
+                    _currentTime = newTotalTime * Percentage;
+                    break;
+                
+                case TimeOverride.RESET:
+                    Reset();
+                    break;
+            }
+
+            _totalTime = newTotalTime;
+        }
+        
+        
+        public override void Reset() => _currentTime = 0.0f;
+        
+        public IEnumerator Await(Action<T> callback) => Await(null, callback);
+
+        public IEnumerator AwaitWith<T2>(LerpOf<T2> lerp, Action<T, T2> callback) => AwaitWith(lerp, null, callback);
+
+        public IEnumerator Await(YieldInstruction instruction, Action<T> callback)
+        {
+            do
+            {
+                callback.Invoke(Value);
+                yield return instruction;
+
+            } while (Continue());
+        }
+
+        public IEnumerator AwaitWith<T2>(LerpOf<T2> lerp, YieldInstruction instruction, Action<T, T2> callback)
+        {
+            do
+            {
+                callback.Invoke(Value, lerp.Value);
+                yield return instruction;
+
+            } while (Continue() && lerp.Continue());
+        }
+
+        public static IEnumerator Await(LerpOf<T>[] lerps, Action<T[]> callback) => Await(lerps, null, callback);
+
+        public static IEnumerator Await(LerpOf<T>[] lerps, YieldInstruction instruction, Action<T[]> callback)
+        {
+            T[] values = new T[lerps.Length];
+            do
+            {
+                for (int i = 0; i < values.Length; i++)
+                    values[i] = lerps[i].Value;
+
+                callback.Invoke(values);
+                yield return instruction;
+
+            } while (lerps.Select(lerp => lerp.Continue()).All(continued => continued));
+        }
 
         public static IEnumerator Await(
             T initial,

@@ -326,9 +326,10 @@ MonoBehaviour:
   moving:
     initial: {x: 0, y: 0, z: 0}
     target: {x: 0, y: 50, z: 0}
+    _totalTime: 5
     timeOverride: 0
     usesFixedDelta: 0
-    _totalTime: 5
+  _methodToUse: 1
 --- !u!1 &254483719
 GameObject:
   m_ObjectHideFlags: 0
