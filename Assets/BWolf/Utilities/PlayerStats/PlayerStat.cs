@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Bwolf.PlayerStats
+namespace BWolf.PlayerStatistics
 {
     /// <summary>
     /// An abstract representation of a player statistic.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bwolf.PlayerStats
+namespace BWolf.PlayerStatistics
 {
     /// <summary>
     /// Represents a composition of stat modifiers. This can be used to combine

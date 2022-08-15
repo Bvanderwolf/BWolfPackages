@@ -1,4 +1,4 @@
-﻿namespace Bwolf.PlayerStats
+﻿namespace BWolf.PlayerStatistics
 {
    /// <summary>
    /// Represents an interface for objects that randomize the

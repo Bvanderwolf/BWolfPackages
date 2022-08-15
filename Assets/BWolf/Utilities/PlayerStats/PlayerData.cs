@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bwolf.PlayerStats
+namespace BWolf.PlayerStatistics
 {
     /// <summary>
     /// Holds information related to a player.

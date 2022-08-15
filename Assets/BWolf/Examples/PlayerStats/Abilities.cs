@@ -1,4 +1,4 @@
-﻿using Bwolf.PlayerStats;
+﻿using BWolf.PlayerStatistics;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerStats/Abilities")]
