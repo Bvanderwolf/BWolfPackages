@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Bwolf.PlayerStats;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerStats/Points")]
 public class Points : PlayerStat
@@ -24,7 +25,6 @@ public class Points : PlayerStat
     
     private void OnEnable()
     {
-        Debug.Log("enabled");
         ResetToBaseValue();
     }
 

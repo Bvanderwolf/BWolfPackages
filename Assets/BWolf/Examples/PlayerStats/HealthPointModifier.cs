@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Bwolf.PlayerStats;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerStats/Modifiers/HP")]
 public class HealthPointModifier : StatModifier

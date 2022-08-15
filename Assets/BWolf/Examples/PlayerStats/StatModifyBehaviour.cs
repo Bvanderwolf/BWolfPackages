@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Bwolf.PlayerStats;
+using UnityEngine;
 
 public class StatModifyBehaviour : MonoBehaviour
 {
