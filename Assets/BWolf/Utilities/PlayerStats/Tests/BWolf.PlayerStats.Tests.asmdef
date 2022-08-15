@@ -1,0 +1,19 @@
+{
+    "name": "BWolf.PlayerStats.Tests",
+    "references": [
+        "GUID:e20c32e942c6c9d43894e3409c1e41f0"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
