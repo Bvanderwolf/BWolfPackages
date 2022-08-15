@@ -38,6 +38,20 @@ namespace BWolf.PlayerStatistics
             }
 
             /// <summary>
+            /// Adds a stat modifier to the composite.
+            /// </summary>
+            /// <param name="modifier">The stat modifier to add.</param>
+            /// <returns>The builder instance.</returns>
+            public Builder Add(StatModifier modifier)
+            {
+                if (modifier == null)
+                    throw new ArgumentNullException(nameof(modifier));
+                
+                _modifiers.Add(modifier);
+                return this;
+            }
+
+            /// <summary>
             /// Adds a new stat modifier to the composite.
             /// </summary>
             /// <param name="constructor">The constructor for the new stat modifier.</param>
@@ -45,6 +59,9 @@ namespace BWolf.PlayerStatistics
             /// <returns>The builder instance.</returns>
             public Builder AddNew<T>(Action<T> constructor) where T : StatModifier
             {
+                if (constructor == null)
+                    throw new ArgumentNullException(nameof(constructor));
+                
                 _modifiers.Add(New(constructor));
                 return this;
             }
@@ -57,6 +74,9 @@ namespace BWolf.PlayerStatistics
             /// <returns>The builder instance.</returns>
             public Builder AddNew(Type type, Action<StatModifier> constructor)
             {
+                if (constructor == null)
+                    throw new ArgumentNullException(nameof(constructor));
+                
                 _modifiers.Add(New(type, constructor));
                 return this;
             }
