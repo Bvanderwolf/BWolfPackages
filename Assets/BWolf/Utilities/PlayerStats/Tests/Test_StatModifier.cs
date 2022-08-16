@@ -109,7 +109,7 @@ namespace BWolf.PlayerStatistics.Tests
             modifier = StatModifier.Random(randomizer);
             
             // Assert.
-            Assert.IsTrue(modifier.IntValue >= MIN_RANDOM_RANGE && modifier.IntValue < MAX_RANDOM_RANGE);
+            Assert.IsTrue(modifier.intValue >= MIN_RANDOM_RANGE && modifier.intValue < MAX_RANDOM_RANGE);
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace BWolf.PlayerStatistics.Tests
             modifier = (TestStatModifier)StatModifier.Random(typeof(TestStatModifier), randomizer);
             
             // Assert.
-            Assert.IsTrue(modifier.IntValue >= MIN_RANDOM_RANGE && modifier.IntValue < MAX_RANDOM_RANGE);
+            Assert.IsTrue(modifier.intValue >= MIN_RANDOM_RANGE && modifier.intValue < MAX_RANDOM_RANGE);
         }
         
         [Test]

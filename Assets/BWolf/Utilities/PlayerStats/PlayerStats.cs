@@ -14,13 +14,47 @@ namespace BWolf.PlayerStatistics
         /// The array of player statistics visible in the inspector.
         /// </summary>
         [SerializeField]
-        private PlayerStat[] _array;
+        private List<PlayerStat> _list = new List<PlayerStat>();
 
+        /// <summary>
+        /// The amount of player statistics.
+        /// </summary>
+        public int Count => _list.Count;
+
+        /// <summary>
+        /// The amount of player stat modifiers.
+        /// </summary>
+        public int ModifierCount => _modifiers.Count;
+        
         /// <summary>
         /// The modifiers applied to the player statistics.
         /// </summary>
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
 
+        /// <summary>
+        /// Adds a new player statistic to current collection.
+        /// </summary>
+        /// <param name="statistic">The statistic to add.</param>
+        public void Add(PlayerStat statistic)
+        {
+            if (statistic == null)
+                throw new ArgumentNullException(nameof(statistic));
+            
+            _list.Add(statistic);
+        }
+        
+        /// <summary>
+        /// Removes a player statistic from the current collection.
+        /// </summary>
+        /// <param name="statistic">The statistic to remove.</param>
+        public void Remove(PlayerStat statistic)
+        {
+            if (statistic == null)
+                throw new ArgumentNullException(nameof(statistic));
+            
+            _list.Remove(statistic);
+        }
+        
         /// <summary>
         /// Modifies the player statistics by adding the given stat modifier.
         /// </summary>
@@ -50,11 +84,7 @@ namespace BWolf.PlayerStatistics
         /// <summary>
         /// Un modifies the player statistics by removing all modifiers.
         /// </summary>
-        public void UnModify()
-        {
-            _modifiers.Clear();
-            Refresh();
-        }
+        public void UnModify() => _modifiers.Clear();
 
         /// <summary>
         /// Returns statistics from the player statistics of type T.
@@ -65,8 +95,8 @@ namespace BWolf.PlayerStatistics
         public T[] GetMultiple<T>() where T : PlayerStat
         {
             List<T> list = new List<T>();
-            for (int i = 0; i < _array.Length; i++)
-                if (_array[i] is T statOfTypeT)
+            for (int i = 0; i < _list.Count; i++)
+                if (_list[i] is T statOfTypeT)
                     list.Add(statOfTypeT);
             return list.ToArray();
         }
@@ -79,8 +109,8 @@ namespace BWolf.PlayerStatistics
         /// <returns>The player statistic.</returns>
         public T Get<T>() where T : PlayerStat
         {
-            for (int i = 0; i < _array.Length; i++)
-                if (_array[i] is T statOfTypeT)
+            for (int i = 0; i < _list.Count; i++)
+                if (_list[i] is T statOfTypeT)
                     return statOfTypeT;
             return null;
         }
@@ -93,9 +123,9 @@ namespace BWolf.PlayerStatistics
         /// <returns>The player statistic.</returns>
         public T Get<T>(string statName) where T : PlayerStat
         {
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                PlayerStat stat = _array[i];
+                PlayerStat stat = _list[i];
                 if (stat.name == statName && stat is T statOfTypeT)
                     return statOfTypeT;
             }
@@ -110,9 +140,9 @@ namespace BWolf.PlayerStatistics
         /// <returns>The player statistic.</returns>
         public PlayerStat Get(string statName)
         {
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                PlayerStat stat = _array[i];
+                PlayerStat stat = _list[i];
                 if (stat.name == statName)
                     return stat;
             }
@@ -126,8 +156,8 @@ namespace BWolf.PlayerStatistics
         /// </summary>
         private void Refresh()
         {
-            for (int i = 0; i < _array.Length; i++)
-                _array[i].ResetToBaseValue();
+            for (int i = 0; i < _list.Count; i++)
+                _list[i].ResetToBaseValue();
 
             for (int i = 0; i < _modifiers.Count; i++)
                 _modifiers[i].Modify(this);

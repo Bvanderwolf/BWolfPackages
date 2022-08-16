@@ -1,15 +1,16 @@
-﻿using BWolf.PlayerStatistics;
-
-namespace BWolf.PlayerStatistics.Tests
+﻿namespace BWolf.PlayerStatistics.Tests
 {
     public class TestStatModifier : StatModifier
     {
         public bool BooleanValue = false;
 
-        public int IntValue = 0;
+        public int intValue = 0;
+        
         public override void Modify(PlayerStats stats)
         {
-            
+            TestPlayerStat testStatistic = stats.Get<TestPlayerStat>();
+            if (testStatistic != null)
+                testStatistic.intValue = intValue;
         }
     }
 }

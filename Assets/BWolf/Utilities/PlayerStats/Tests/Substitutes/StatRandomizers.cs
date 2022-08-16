@@ -6,7 +6,7 @@ namespace BWolf.PlayerStatistics.Tests
     {
         public void Randomize(TestStatModifier statModifier)
         {
-            statModifier.IntValue = Random.Range(
+            statModifier.intValue = Random.Range(
                 Test_StatModifier.MIN_RANDOM_RANGE, 
                 Test_StatModifier.MAX_RANDOM_RANGE);
         }
@@ -16,7 +16,7 @@ namespace BWolf.PlayerStatistics.Tests
     {
         public void Randomize(StatModifier statModifier)
         {
-            ((TestStatModifier)statModifier).IntValue = Random.Range(
+            ((TestStatModifier)statModifier).intValue = Random.Range(
                 Test_StatModifier.MIN_RANDOM_RANGE, 
                 Test_StatModifier.MAX_RANDOM_RANGE);
         }
