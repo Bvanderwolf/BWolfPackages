@@ -1,15 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using BWolf.PlayerStatistics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-/*
- * TODO:
- * Add unit tests
- * Check inventory (IInventory interface?) compatability with PlayerData
- * Check stat modification compatability with PlayerData 
- */
 namespace BWolf.PlayerStatistics.Tests
 {
     /// <summary>
@@ -17,25 +10,9 @@ namespace BWolf.PlayerStatistics.Tests
     /// </summary>
     public class Test_StatModifier
     {
-        private class Test_G_IStatRandomizer : IStatRandomizer<TestStatModifier>
-        {
-            public void Randomize(TestStatModifier statModifier)
-            {
-                statModifier.IntValue = Random.Range(MIN_RANDOM_RANGE, MAX_RANDOM_RANGE);
-            }
-        }
+        internal const int MIN_RANDOM_RANGE = 50;
 
-        private class Test_IStatRandomizer : IStatRandomizer
-        {
-            public void Randomize(StatModifier statModifier)
-            {
-                ((TestStatModifier)statModifier).IntValue = Random.Range(MIN_RANDOM_RANGE, MAX_RANDOM_RANGE);
-            }
-        }
-        
-        private const int MIN_RANDOM_RANGE = 50;
-
-        private const int MAX_RANDOM_RANGE = 100;
+        internal const int MAX_RANDOM_RANGE = 100;
         
         [Test]
         public void Test_New_Generic_No_Constructor()

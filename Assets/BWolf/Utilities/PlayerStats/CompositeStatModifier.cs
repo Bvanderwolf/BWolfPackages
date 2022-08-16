@@ -136,7 +136,7 @@ namespace BWolf.PlayerStatistics
         /// The array of modifiers, visible in the inspector.
         /// </summary>
         [SerializeField]
-        private StatModifier[] _modifiers;
+        protected StatModifier[] _modifiers;
 
         /// <summary>
         /// Modifies the player stats using all modifiers in the composition.

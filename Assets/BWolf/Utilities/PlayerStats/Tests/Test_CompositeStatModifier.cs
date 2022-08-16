@@ -1,9 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
+/*
+ * TODO:
+ * Add unit tests (composite stat modifier builder)
+ * Check inventory (IInventory interface?) compatability with PlayerData
+ * Check stat modification compatability with PlayerData 
+ */
 namespace BWolf.PlayerStatistics.Tests
 {
     /// <summary>
@@ -146,6 +150,117 @@ namespace BWolf.PlayerStatistics.Tests
             builder = CompositeStatModifier.New();
             constructor = m => ((TestStatModifier)m).BooleanValue = true;
             action = () => builder.AddNew(null, constructor);
+            
+            // Assert.
+            Assert.Catch<ArgumentNullException>(action);
+        }
+
+        [Test]
+        public void Test_New_Builder_AddRandom()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            IStatRandomizer randomizer;
+            
+            // Act.
+            randomizer = new Test_IStatRandomizer();
+            builder = CompositeStatModifier.New(randomizer);
+            builder.AddRandom<TestStatModifier>();
+            
+            // Assert.
+            Assert.NotNull(builder.Build());
+        }
+        
+        [Test]
+        public void Test_New_Builder_AddRandom_Custom_Randomizer()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            IStatRandomizer<TestStatModifier> randomizer;
+            
+            // Act.
+            randomizer = new Test_G_IStatRandomizer();
+            builder = CompositeStatModifier.New();
+            builder.AddRandom(randomizer);
+            
+            // Assert.
+            Assert.NotNull(builder.Build());
+        }
+
+        [Test]
+        public void Test_New_Builder_AddRandom_No_Randomizer()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            TestDelegate action;
+            
+            // Act.
+            builder = CompositeStatModifier.New();
+            action = () => builder.AddRandom<TestStatModifier>();
+            
+            // Assert.
+            Assert.Catch<ArgumentException>(action);
+        }
+        
+        [Test]
+        public void Test_New_Builder_AddRandom_NonGeneric()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            IStatRandomizer randomizer;
+            
+            // Act.
+            randomizer = new Test_IStatRandomizer();
+            builder = CompositeStatModifier.New(randomizer);
+            builder.AddRandom(typeof(TestStatModifier));
+            
+            // Assert.
+            Assert.NotNull(builder.Build());
+        }
+        
+        [Test]
+        public void Test_New_Builder_AddRandom_NonGeneric_Custom_Randomizer()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            IStatRandomizer randomizer;
+            
+            // Act.
+            randomizer = new Test_IStatRandomizer();
+            builder = CompositeStatModifier.New();
+            builder.AddRandom(typeof(TestStatModifier), randomizer);
+            
+            // Assert.
+            Assert.NotNull(builder.Build());
+        }
+
+        [Test]
+        public void Test_New_Builder_AddRandom_NonGeneric_No_Randomizer()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            TestDelegate action;
+            
+            // Act.
+            builder = CompositeStatModifier.New();
+            action = () => builder.AddRandom(typeof(TestStatModifier));
+            
+            // Assert.
+            Assert.Catch<ArgumentException>(action);
+        }
+        
+        [Test]
+        public void Test_New_Builder_AddRandom_NonGeneric_Null_Type()
+        {
+            // Arrange.
+            CompositeStatModifier.Builder builder;
+            IStatRandomizer randomizer;
+            TestDelegate action;
+            
+            // Act.
+            builder = CompositeStatModifier.New();
+            randomizer = new Test_IStatRandomizer();
+            action = () => builder.AddRandom(null, randomizer);
             
             // Assert.
             Assert.Catch<ArgumentNullException>(action);
