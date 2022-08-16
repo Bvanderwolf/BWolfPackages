@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BWolf.Gameplay;
+using UnityEngine;
 
 namespace BWolf.PlayerStatistics
 {
@@ -15,8 +16,13 @@ namespace BWolf.PlayerStatistics
         private PlayerStats _stats;
 
         /// <summary>
-        /// The player statistics of the player like health and/or mana points.
+        /// The statistics of the player like health and/or mana points.
         /// </summary>
         public PlayerStats Stats => _stats;
+
+        /// <summary>
+        /// The items held by the player like weapons and/or armor.
+        /// </summary>
+        public Inventory Items { get; set; } = new Inventory(1);
     }
 }

@@ -1,9 +1,11 @@
 {
-    "name": "BWolf.PlayerStats",
+    "name": "BWolf.PlayerStats.Editor",
     "references": [
-        "GUID:0020b463ab96bb24091c5a02c2202458"
+        "GUID:e20c32e942c6c9d43894e3409c1e41f0"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

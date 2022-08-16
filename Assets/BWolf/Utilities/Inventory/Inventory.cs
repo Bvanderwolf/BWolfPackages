@@ -10,8 +10,6 @@ namespace BWolf.Gameplay
     /// </summary>
     public class Inventory : IEnumerable
     {
-        // *Add event for each operation. Use Enum AddListener(Enum, Action) -> backend is dictionary
-        
         /// <summary>
         /// The capacity of this inventory, in other words, how many items can fit
         /// in this inventory.

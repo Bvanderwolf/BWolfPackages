@@ -4,7 +4,6 @@ using UnityEngine;
 
 /*
  * TODO:
- * Add unit tests (composite stat modifier builder)
  * Check inventory (IInventory interface?) compatability with PlayerData
  * Check stat modification compatability with PlayerData 
  */
