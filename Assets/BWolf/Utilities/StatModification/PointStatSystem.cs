@@ -10,13 +10,13 @@ using UnityEngine;
 namespace BWolf.Utilities.StatModification
 {
     /// <summary>the main class to be used to show specific stats e.g. hitpoints or energy and modify its state by modifying a current or a max value</summary>
-    public class StatSystem : MonoBehaviour
+    public class PointStatSystem : MonoBehaviour
     {
         [SerializeField, Min(0)]
         private int max = 1000;
 
-        private List<StatModifier> activeModifiers = new List<StatModifier>();
-        private List<StatModifier> queuedModifiers = new List<StatModifier>();
+        private List<PointStatModifier> activeModifiers = new List<PointStatModifier>();
+        private List<PointStatModifier> queuedModifiers = new List<PointStatModifier>();
 
         /// <summary>Fired once when current or max has started increasing</summary>
         public event Action OnIncreaseStart;
@@ -76,7 +76,7 @@ namespace BWolf.Utilities.StatModification
             //let each modifier modify this system and remove it if it is finished giving callbacks if the condition is right
             for (int i = activeModifiers.Count - 1; i >= 0; i--)
             {
-                StatModifier modifier = activeModifiers[i];
+                PointStatModifier modifier = activeModifiers[i];
                 modifier.Modify(this);
                 if (modifier.Finished)
                 {
@@ -100,7 +100,7 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>Lets a modifier modify the current value</summary>
-        public void ModifyCurrent(StatModifier modifier, int value)
+        public void ModifyCurrent(PointStatModifier modifier, int value)
         {
             if (activeModifiers.Contains(modifier))
             {
@@ -124,7 +124,7 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>Lets a modifier modify the max value</summary>
-        public void ModifyMax(StatModifier modifier, int value)
+        public void ModifyMax(PointStatModifier modifier, int value)
         {
             if (activeModifiers.Contains(modifier))
             {
@@ -165,7 +165,7 @@ namespace BWolf.Utilities.StatModification
         {
             for (int i = activeModifiers.Count - 1; i >= 0; i--)
             {
-                if (activeModifiers[i].name == modifierName)
+                if (activeModifiers[i].Name == modifierName)
                 {
                     RemoveActiveModifierInternal(activeModifiers[i], i);
                     if (!allOccurences) { break; }
@@ -178,7 +178,7 @@ namespace BWolf.Utilities.StatModification
         {
             for (int i = queuedModifiers.Count - 1; i >= 0; i--)
             {
-                if (queuedModifiers[i].name == modifierName)
+                if (queuedModifiers[i].Name == modifierName)
                 {
                     queuedModifiers.RemoveAt(i);
                     if (!allOccurences) { break; }
@@ -187,14 +187,14 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>Updates queued modifiers based on given finished modifier at given index</summary>
-        private void RemoveActiveModifierInternal(StatModifier modifier, int indexOfModifier)
+        private void RemoveActiveModifierInternal(PointStatModifier modifier, int indexOfModifier)
         {
-            if (queuedModifiers.Count != 0 && queuedModifiers.Any(m => m.name == modifier.name))
+            if (queuedModifiers.Count != 0 && queuedModifiers.Any(m => m.Name == modifier.Name))
             {
                 //if there are queued modifiers an one has the same name as this one, replace this one with the queued one
                 for (int j = queuedModifiers.Count - 1; j >= 0; j--)
                 {
-                    if (queuedModifiers[j].name == modifier.name)
+                    if (queuedModifiers[j].Name == modifier.Name)
                     {
                         activeModifiers[indexOfModifier] = queuedModifiers[j];
                         queuedModifiers.RemoveAt(j);
@@ -212,14 +212,14 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>Checks whether stop events should be called</summary>
-        private void CheckStopEvents(StatModifier modifier)
+        private void CheckStopEvents(PointStatModifier modifier)
         {
-            if (activeModifiers.Count(m => m.increase) == 0 && modifier.increase)
+            if (activeModifiers.Count(m => m.IncreasesValue) == 0 && modifier.IncreasesValue)
             {
                 //if there are no more regenerating over time modifiers and this one (which was removed) was, the regeneration has ended
                 OnIncreaseStop?.Invoke();
             }
-            else if (activeModifiers.Count(m => !m.increase) == 0 && !modifier.increase)
+            else if (activeModifiers.Count(m => !m.IncreasesValue) == 0 && !modifier.IncreasesValue)
             {
                 //if there are no more decrease over time modifiers and this one (which was removed) was, the decreasing has ended
                 OnDecreaseStop?.Invoke();
@@ -243,49 +243,49 @@ namespace BWolf.Utilities.StatModification
         }
 
         /// <summary>Checks if based on given modifier a start event should be fired</summary>
-        private void CheckStartEvents(StatModifier modifier)
+        private void CheckStartEvents(PointStatModifier modifier)
         {
-            if (activeModifiers.Count(m => m.increase) == 0 && modifier.increase)
+            if (activeModifiers.Count(m => m.IncreasesValue) == 0 && modifier.IncreasesValue)
             {
                 OnIncreaseStart?.Invoke();
             }
-            else if (activeModifiers.Count(m => !m.increase) == 0 && !modifier.increase)
+            else if (activeModifiers.Count(m => !m.IncreasesValue) == 0 && !modifier.IncreasesValue)
             {
                 OnDecreaseStart?.Invoke();
             }
         }
 
         /// <summary>Adds a timed modifier to the stat system based on given info. time defaults to 0</summary>
-        public TimedStatModifier AddTimedModifier(TimedModifierInfoSO info)
+        public TimedPointStatModifier AddTimedModifier(TimedModifierInfoSO info)
         {
             if (info == null)
             {
                 throw new InvalidOperationException("Timed modifier Info was null");
             }
 
-            TimedStatModifier modifier = new TimedStatModifier(info);
+            TimedPointStatModifier modifier = new TimedPointStatModifier(info);
             InsertModifierInSystem(modifier);
             return modifier;
         }
 
         /// <summary>Adds a conditional stat modifier to the system based on given info. stop conditoin defaults to null meaning it will never stop</summary>
-        public ConditionalStatModifier AddConditionalModifier(ConditionalModifierInfoSO info)
+        public ConditionalModifier AddConditionalModifier(ConditionInfo info)
         {
             if (info == null)
             {
                 throw new InvalidOperationException("Conditional modifier Info was null");
             }
 
-            ConditionalStatModifier modifier = new ConditionalStatModifier(info);
+            ConditionalModifier modifier = new ConditionalModifier(info);
             InsertModifierInSystem(modifier);
             return modifier;
         }
 
         /// <summary>Inserts given modifier into the system either as active modifier or queued based on the can stack flag</summary>
-        private void InsertModifierInSystem(StatModifier modifier)
+        private void InsertModifierInSystem(PointStatModifier modifier)
         {
             //insert at index zero to make sure when removing a modifier by name, the first instance of this modifier inside the system is being removed
-            if (!modifier.canStack && activeModifiers.Any(m => m.name == modifier.name))
+            if (!modifier.IsStackable && activeModifiers.Any(m => m.Name == modifier.Name))
             {
                 queuedModifiers.Insert(0, modifier);
             }

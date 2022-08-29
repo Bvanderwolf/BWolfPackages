@@ -8,8 +8,8 @@ namespace BWolf.Examples.StatModification
         public override void OnValueChanged(string changedValue)
         {
             int value = int.Parse(changedValue);
-            stackModifier.Value = value;
-            nonStackModifier.Value = value;
+            stackModifier.value = value;
+            nonStackModifier.value = value;
         }
 
         public void OnTimeChanged(string changedTime)

@@ -7,7 +7,7 @@ namespace BWolf.Examples.StatModification
     public class StatSystemTextDisplay : MonoBehaviour
     {
         [SerializeField]
-        private StatSystem system = null;
+        private PointStatSystem system = null;
 
         private Text textComponent;
 

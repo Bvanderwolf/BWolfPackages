@@ -2,11 +2,6 @@
 using NUnit.Framework;
 using UnityEngine;
 
-/*
- * TODO:
- * Check inventory (IInventory interface?) compatability with PlayerData
- * Check stat modification compatability with PlayerData 
- */
 namespace BWolf.PlayerStatistics.Tests
 {
     /// <summary>

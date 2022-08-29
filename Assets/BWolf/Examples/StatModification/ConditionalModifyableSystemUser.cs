@@ -18,7 +18,7 @@ namespace BWolf.Examples.StatModification
         [SerializeField]
         private InputField valueInput = null;
 
-        private ModificationEndCondition stopCondition;
+        private Func<bool> stopCondition;
         private UnityAction<string, int> onSecondPassed;
 
         [Header("Stored Values")]
@@ -52,8 +52,8 @@ namespace BWolf.Examples.StatModification
             if (!string.IsNullOrEmpty(changedValue))
             {
                 int value = int.Parse(changedValue);
-                stackModifier.Value = value;
-                nonStackModifier.Value = value;
+                stackModifier.value = value;
+                nonStackModifier.value = value;
                 storedValue = changedValue;
             }
         }
@@ -84,7 +84,7 @@ namespace BWolf.Examples.StatModification
             startStopCondition = stopConditionDropdown.captionText.text;
             startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
 
-            stackSystem.AddConditionalModifier(stackModifier as ConditionalModifierInfoSO)
+            stackSystem.AddConditionalModifier(stackModifier as ConditionInfo)
                 .ModifyUntil(stopCondition)
                 .OnSecondPassed(onSecondPassed);
         }
@@ -95,7 +95,7 @@ namespace BWolf.Examples.StatModification
             startStopCondition = stopConditionDropdown.captionText.text;
             startOnSecondsPassed = onSecondsPassedDropdown.captionText.text;
 
-            nonStackSystem.AddConditionalModifier(nonStackModifier as ConditionalModifierInfoSO)
+            nonStackSystem.AddConditionalModifier(nonStackModifier as ConditionInfo)
                 .ModifyUntil(stopCondition)
                 .OnSecondPassed(onSecondPassed);
         }

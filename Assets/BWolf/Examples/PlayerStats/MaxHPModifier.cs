@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerStats/Modifiers/HP")]
-public class HealthPointModifier : StatModifier
+public class MaxHPModifier : StatModifier
 {
     public int value;
     

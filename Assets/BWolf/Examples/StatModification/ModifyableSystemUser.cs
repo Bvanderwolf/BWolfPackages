@@ -8,20 +8,20 @@ namespace BWolf.Examples.StatModification
     {
         [Header("Stack System")]
         [SerializeField]
-        protected StatSystem stackSystem = null;
+        protected PointStatSystem stackSystem = null;
 
         [SerializeField]
-        protected ModifierInfoSO stackModifier = null;
+        protected ModificationInfo stackModifier = null;
 
         [SerializeField]
         protected Text txtStackSystemEventDisplay = null;
 
         [Header("Non Stack System")]
         [SerializeField]
-        protected StatSystem nonStackSystem = null;
+        protected PointStatSystem nonStackSystem = null;
 
         [SerializeField]
-        protected ModifierInfoSO nonStackModifier = null;
+        protected ModificationInfo nonStackModifier = null;
 
         [SerializeField]
         protected Text txtNonStackSystemEventDisplay = null;
@@ -75,16 +75,16 @@ namespace BWolf.Examples.StatModification
         {
         }
 
-        public void OnStackModifierIncreaseToggled(bool value) => stackModifier.Increase = value;
+        public void OnStackModifierIncreaseToggled(bool value) => stackModifier.increasesValue = value;
 
-        public void OnStackModifierModifyCurrentToggled(bool value) => stackModifier.ModifiesCurrent = value;
+        public void OnStackModifierModifyCurrentToggled(bool value) => stackModifier.modifiesCurrent = value;
 
-        public void OnStackModifierModifyCurrentWithMaxToggled(bool value) => stackModifier.ModifiesCurrentWithMax = value;
+        public void OnStackModifierModifyCurrentWithMaxToggled(bool value) => stackModifier.modifiesCurrentWithMax = value;
 
-        public void OnNonStackModifierIncreaseToggled(bool value) => nonStackModifier.Increase = value;
+        public void OnNonStackModifierIncreaseToggled(bool value) => nonStackModifier.increasesValue = value;
 
-        public void OnNonStackModifierModifyCurrentToggled(bool value) => nonStackModifier.ModifiesCurrent = value;
+        public void OnNonStackModifierModifyCurrentToggled(bool value) => nonStackModifier.modifiesCurrent = value;
 
-        public void OnNonStackModifierModifyCurrentWithMaxToggled(bool value) => nonStackModifier.ModifiesCurrentWithMax = value;
+        public void OnNonStackModifierModifyCurrentWithMaxToggled(bool value) => nonStackModifier.modifiesCurrentWithMax = value;
     }
 }

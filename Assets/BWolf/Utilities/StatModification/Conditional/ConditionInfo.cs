@@ -10,16 +10,14 @@ namespace BWolf.Utilities.StatModification
 {
     /// <summary>scriptable object representing information about a conditional modifier to be added into a stat system</summary>
     [CreateAssetMenu(fileName = "StatModifierInfo", menuName = "StatModification/ConditionalModifierInfo")]
-    public class ConditionalModifierInfoSO : ModifierInfoSO
+    public class ConditionInfo : ModificationInfo
     {
         [Header("Conditional Modifier Settings")]
+        [Min(0f)]
+        public float interval = 1f;
+        
         public SecondPassedEvent OnSecondsPassed;
 
-        public ModificationEndCondition StopCondition;
+        public Func<bool> StopCondition;
     }
-
-    public delegate bool ModificationEndCondition();
-
-    [Serializable]
-    public class SecondPassedEvent : UnityEvent<string, int> { }
 }

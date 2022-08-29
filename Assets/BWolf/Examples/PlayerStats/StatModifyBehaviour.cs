@@ -7,7 +7,7 @@ public class StatModifyBehaviour : MonoBehaviour
     private PlayerData _playerData;
 
     [SerializeField]
-    private HealthPointModifier _modifier;
+    private MaxHPModifier _modifier;
 
     private void Awake()
     {

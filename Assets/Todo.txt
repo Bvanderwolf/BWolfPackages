@@ -1,0 +1,6 @@
+Check stat modification compatability with PlayerData
+ - StatModification -> PointModification (Stat -> Point overal)
+ - Update Conditional modification: modify each interval instead of every frame
+ - kijken of het kan werken met Points player statistic
+ - toevoegen van meerdere template statistics (e.g. percentage statistic)
+ - toevoegen van abilities (kijken of ik hier op verder kan bouwen)

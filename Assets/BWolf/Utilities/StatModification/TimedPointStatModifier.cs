@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BWolf.Utilities.StatModification
 {
     /// <summary>A stat modifier that, over a given amount of time, increase/decreases given amount of value</summary>
-    public class TimedStatModifier : StatModifier
+    public class TimedPointStatModifier : PointStatModifier
     {
         [Min(0)]
         private float time = 0;
@@ -39,30 +39,30 @@ namespace BWolf.Utilities.StatModification
         /// <summary>
         /// Creates new instance of a timed stat modifier using the timed modifier info scriptable object
         /// </summary>
-        public TimedStatModifier(TimedModifierInfoSO info)
+        public TimedPointStatModifier(TimedModifierInfoSO info)
         {
-            name = info.name;
+            Name = info.name;
             time = info.time;
-            value = info.Value;
-            increase = info.Increase;
-            modifiesCurrent = info.ModifiesCurrent;
-            modifiesCurrentWithMax = info.ModifiesCurrentWithMax;
-            canStack = info.CanStack;
+            value = info.value;
+            IncreasesValue = info.increasesValue;
+            ModifiesCurrent = info.modifiesCurrent;
+            ModifiesCurrentWithMax = info.modifiesCurrentWithMax;
+            IsStackable = info.canStack;
         }
 
         /// <summary>Modifies system stat based on given time and time passed</summary>
-        public override void Modify(StatSystem system)
+        public override void Modify(PointStatSystem system)
         {
             if (time == 0f)
             {
                 //if time is 0 no calculations have to be done and value can just modify the system once
-                if (modifiesCurrent)
+                if (ModifiesCurrent)
                 {
-                    system.ModifyCurrent(this, increase ? value : -value);
+                    system.ModifyCurrent(this, IncreasesValue ? value : -value);
                 }
                 else
                 {
-                    system.ModifyMax(this, increase ? value : -value);
+                    system.ModifyMax(this, IncreasesValue ? value : -value);
                 }
                 return;
             }
@@ -81,16 +81,16 @@ namespace BWolf.Utilities.StatModification
                     difference -= overShot;
                 }
 
-                if (modifiesCurrent)
+                if (ModifiesCurrent)
                 {
-                    system.ModifyCurrent(this, increase ? difference : -difference);
+                    system.ModifyCurrent(this, IncreasesValue ? difference : -difference);
                 }
                 else
                 {
-                    system.ModifyMax(this, increase ? difference : -difference);
-                    if (modifiesCurrentWithMax && !system.IsFull)
+                    system.ModifyMax(this, IncreasesValue ? difference : -difference);
+                    if (ModifiesCurrentWithMax && !system.IsFull)
                     {
-                        system.ModifyCurrent(this, increase ? difference : -difference);
+                        system.ModifyCurrent(this, IncreasesValue ? difference : -difference);
                     }
                 }
             }
@@ -99,7 +99,7 @@ namespace BWolf.Utilities.StatModification
         /// <summary>Returns a string representation of this TimedStatModifier</summary>
         public override string ToString()
         {
-            return $"TimedStatModifier[name: {name}, time: {time}, valuePerSecond: {value}, increase: {increase}, modifiesCurrent: {modifiesCurrent}, modifiesCurrentWithMax: {modifiesCurrentWithMax}, canStack: {canStack}]";
+            return $"TimedStatModifier[name: {Name}, time: {time}, valuePerSecond: {value}, increase: {IncreasesValue}, modifiesCurrent: {ModifiesCurrent}, modifiesCurrentWithMax: {ModifiesCurrentWithMax}, canStack: {IsStackable}]";
         }
     }
 }
