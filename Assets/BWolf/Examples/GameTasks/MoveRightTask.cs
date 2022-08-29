@@ -10,7 +10,10 @@ public class MoveRightTask : MonoBehaviour
     private float _movementRight = 100f;
 
     [SerializeField]
-    private float _time = 5f; 
+    private float _time = 5f;
+
+    [SerializeField]
+    private bool _ignorePause = false;
 
     private GameTask task;
     
@@ -30,7 +33,7 @@ public class MoveRightTask : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && task.HasEnded)
             task.Reset();
         
-        if (Input.GetKeyDown(KeyCode.P) && task.IsActive)
+        if (Input.GetKeyDown(KeyCode.P) && task.IsActive && !_ignorePause)
             task.Pause();
         else if (Input.GetKeyDown(KeyCode.C) && task.IsPaused)
             task.Continue();

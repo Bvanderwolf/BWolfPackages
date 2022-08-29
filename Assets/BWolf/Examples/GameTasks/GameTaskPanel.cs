@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using BWolf.GameTasks;
+﻿using BWolf.GameTasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +33,6 @@ public class GameTaskPanel : MonoBehaviour
     private void UpdateText()
     {
         _anyActiveTextRenderer.text = $"Tasks Active: {GameTask.AnyActive()}";
-        _activeCountTextRenderer.text = $"Task Count: {GameTask.Count()}";
+        _activeCountTextRenderer.text = $"Task Count: {GameTask.Count(true)}";
     }
 }

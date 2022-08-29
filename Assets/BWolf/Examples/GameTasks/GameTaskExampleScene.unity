@@ -1081,6 +1081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementRight: 30
   _time: 5
+  _ignorePause: 0
 --- !u!1001 &174796958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5108,6 +5109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementRight: 30
   _time: 2
+  _ignorePause: 0
 --- !u!1001 &1087232216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6750,6 +6752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementRight: 30
   _time: 8
+  _ignorePause: 0
 --- !u!1001 &1534926501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9650,6 +9653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementRight: 25
   _time: 4
+  _ignorePause: 0
 --- !u!1001 &2045069420
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,26 +6,55 @@ using UnityEngine;
 
 namespace BWolf.GameTasks
 {
+    /// <summary>
+    /// Represents a game task to be executed as a coroutine on a mono behaviour.
+    /// </summary>
     public partial class GameTask
     {
-        private struct Aggregate
+        /// <summary>
+        /// Stores a reference to a mono behaviour with the tasks its running.
+        /// Used to store and provide static state info.
+        /// </summary>
+        private readonly struct Aggregate
         {
-            public MonoBehaviour behaviour;
+            /// <summary>
+            /// The behaviour running the game tasks.
+            /// </summary>
+            public readonly MonoBehaviour behaviour;
 
-            public GameTask[] tasks;
+            /// <summary>
+            /// The game tasks run by the behaviour.
+            /// </summary>
+            public readonly GameTask[] tasks;
 
+            /// <summary>
+            /// Creates a new aggregate with a behaviour running the game tasks
+            /// and a game task the behaviour starts with.
+            /// </summary>
+            /// <param name="behaviour">The behaviour.</param>
+            /// <param name="task">The first game task run by the behaviour.</param>
             public Aggregate(MonoBehaviour behaviour, GameTask task)
             {
                 this.behaviour = behaviour;
                 tasks = new GameTask[] { task };
             }
 
+            /// <summary>
+            /// Adds a new game task to the aggregate.
+            /// </summary>
+            /// <param name="task">The task to be stored.</param>
+            /// <returns>The aggregate.</returns>
             public Aggregate Add(GameTask task)
             {
                 tasks.Increment(task);
                 return this;
             }
 
+            /// <summary>
+            /// Removes a new game task from the aggregate.
+            /// </summary>
+            /// <param name="task">The task to be removed.</param>
+            /// <returns>The aggregate.</returns>
             public Aggregate Remove(GameTask task)
             {
                 int index = Array.FindIndex(tasks, t => t == task);
@@ -34,34 +63,76 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// The static list of aggregates holding game tasks run by mono behaviours.
+        /// </summary>
         private static readonly List<Aggregate> _aggregates = new List<Aggregate>();
 
-        public static int Count()
+        /// <summary>
+        /// An enumerable for selecting the amount of tasks from the list of aggregates.
+        /// </summary>
+        private static readonly IEnumerable<int> _lengthSelector 
+            = _aggregates.Select(agr => agr.tasks.Length);
+        
+        /// <summary>
+        /// An enumerable for selecting the amount of active tasks from the list of aggregates.
+        /// </summary>
+        private static readonly IEnumerable<int> _activeLengthSelector 
+            = _aggregates.Select(agr => agr.tasks.Count(t => t.IsActive));
+
+        /// <summary>
+        /// Returns the amount of tasks currently being run.
+        /// </summary>
+        /// <param name="includePaused">Whether to include paused tasks.</param>
+        /// <returns>The amount of tasks currently being run.</returns>
+        public static int Count(bool includePaused = false)
         {
-            int count = 0;
+            if (_aggregates.Count == 0)
+                return 0;
 
-            for (int i = 0; i < _aggregates.Count; i++)
-                count += _aggregates[i].tasks.Length;
-
-            return count;
+            IEnumerable<int> lengths = includePaused ? _lengthSelector : _activeLengthSelector;
+            return lengths.Aggregate((length, total) => total + length);
         }
 
-        public static int Count(MonoBehaviour behaviour)
+        /// <summary>
+        /// Returns the amount of tasks currently being run by a given behaviour.
+        /// </summary>
+        /// <param name="behaviour">The behaviour running the tasks.</param>
+        /// <param name="includePaused">Whether to include paused tasks.</param>
+        /// <returns>The amount of tasks being run.</returns>
+        public static int Count(MonoBehaviour behaviour, bool includePaused = false)
         {
+            Aggregate aggregate;
+
             for (int i = 0; i < _aggregates.Count; i++)
-                if (_aggregates[i].behaviour == behaviour)
-                    return _aggregates[i].tasks.Length;
+            {
+                aggregate = _aggregates[i];
+
+                if (aggregate.behaviour == behaviour)
+                    return includePaused ? aggregate.tasks.Length : aggregate.tasks.Count(t => t.IsActive);
+            }
 
             return 0;
         }
 
-        public static int Count(GameObject gameObject)
+        /// <summary>
+        /// Returns the amount of tasks currently being run by behaviours on a given game object..
+        /// </summary>
+        /// <param name="gameObject">The game object with behaviours running the tasks.</param>
+        /// <param name="includePaused">Whether to include paused tasks.</param>
+        /// <returns>The amount of tasks being run.</returns>
+        public static int Count(GameObject gameObject, bool includePaused = false)
         {
+            Aggregate aggregate;
             int count = 0;
-            
+
             for (int i = 0; i < _aggregates.Count; i++)
-                if (_aggregates[i].behaviour.gameObject == gameObject)
-                    count += _aggregates[i].tasks.Length;
+            {
+                aggregate = _aggregates[i];
+
+                if (aggregate.behaviour.gameObject == gameObject)
+                    count += includePaused ? aggregate.tasks.Length : aggregate.tasks.Count(t => t.IsActive);
+            }
 
             return count;
         }
@@ -94,6 +165,24 @@ namespace BWolf.GameTasks
             {
                 aggregate = _aggregates[i];
                 if (aggregate.behaviour.gameObject != gameObject)
+                    continue;
+                
+                for (int j = 0; j < aggregate.tasks.Length; j++)
+                    if (aggregate.tasks[j].IsActive)
+                        return true;
+            }
+
+            return false;
+        }
+        
+        public static bool AnyActive(Func<GameObject, bool> predicate)
+        {
+            Aggregate aggregate;
+            
+            for (int i = 0; i < _aggregates.Count; i++)
+            {
+                aggregate = _aggregates[i];
+                if (!predicate.Invoke(aggregate.behaviour.gameObject))
                     continue;
                 
                 for (int j = 0; j < aggregate.tasks.Length; j++)
