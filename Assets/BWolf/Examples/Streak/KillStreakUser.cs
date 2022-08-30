@@ -1,4 +1,5 @@
-﻿using BWolf.Utilities;
+﻿using System;
+using BWolf.Utilities;
 using UnityEngine;
 
 public class KillStreakUser : MonoBehaviour

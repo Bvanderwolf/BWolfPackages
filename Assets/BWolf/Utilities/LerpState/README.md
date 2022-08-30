@@ -84,6 +84,8 @@ public class LerpValueUser : MonoBehaviour
     
     private void Start()
     {   
+        // Using the static Await method you can create a routine for linear
+        // interpolation without need of a variable. 
         IEnumerator routine = LerpOf<Vector3>.Await(
             initial, 
             target, 
