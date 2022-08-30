@@ -1081,7 +1081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementRight: 30
   _time: 5
-  _ignorePause: 0
+  _ignorePause: 1
 --- !u!1001 &174796958
 PrefabInstance:
   m_ObjectHideFlags: 0

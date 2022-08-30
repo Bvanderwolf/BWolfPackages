@@ -1,3 +1,7 @@
+Afmaken Game Tasks
+ - Afmaken documentatie
+ - Toevoegen van een ReadMe met wat code snippets aan de github pagina
+
 Check stat modification compatability with PlayerData
  - StatModification -> PointModification (Stat -> Point overal)
  - Update Conditional modification: modify each interval instead of every frame

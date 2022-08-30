@@ -73,7 +73,7 @@ namespace BWolf.GameTasks
             }
             
             _behaviour.StartCoroutine(this);
-            AddActiveTask(_behaviour, this);
+            StoreStartedTask(this);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace BWolf.GameTasks
                 return true;
             
             HasEnded = true;
-            RemoveActiveTask(_behaviour, this);
+            RemoveEndedTask(this);
             Ended?.Invoke();
             return false;
         }

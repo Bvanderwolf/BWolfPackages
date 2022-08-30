@@ -137,6 +137,11 @@ namespace BWolf.GameTasks
             return count;
         }
 
+        /// <summary>
+        /// Returns whether there are any active tasks on the given mono behaviour.
+        /// </summary>
+        /// <param name="behaviour">The behaviour to check.</param>
+        /// <returns>Whether there are any active tasks on it.</returns>
         public static bool AnyActive(MonoBehaviour behaviour)
         {
             Aggregate aggregate;
@@ -157,6 +162,11 @@ namespace BWolf.GameTasks
             return false;
         }
         
+        /// <summary>
+        /// Returns whether there are any active tasks on the given game object.
+        /// </summary>
+        /// <param name="gameObject">The game object to check.</param>
+        /// <returns>Whether there are any active tasks on it.</returns>
         public static bool AnyActive(GameObject gameObject)
         {
             Aggregate aggregate;
@@ -175,6 +185,13 @@ namespace BWolf.GameTasks
             return false;
         }
         
+        /// <summary>
+        /// Returns whether there are any active tasks using a user defined
+        /// condition. Use this when you want to check for tasks running on, for example,
+        /// game objects with specific tags.
+        /// </summary>
+        /// <param name="predicate">The user defined predicate, checking a game object.</param>
+        /// <returns>Whether there are any active tasks using the predicate.</returns>
         public static bool AnyActive(Func<GameObject, bool> predicate)
         {
             Aggregate aggregate;
@@ -193,6 +210,10 @@ namespace BWolf.GameTasks
             return false;
         }
         
+        /// <summary>
+        /// Returns whether there are any active tasks running.
+        /// </summary>
+        /// <returns>Whether there are any active tasks running.</returns>
         public static bool AnyActive()
         {
             Aggregate aggregate;
@@ -208,6 +229,10 @@ namespace BWolf.GameTasks
             return false;
         }
 
+        /// <summary>
+        /// Pauses all active tasks on a given mono behaviour.
+        /// </summary>
+        /// <param name="behaviour">The behaviour to pause the tasks on.</param>
         public static void PauseAll(MonoBehaviour behaviour)
         {
             Aggregate aggregate;
@@ -225,6 +250,10 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// Pauses all active tasks on a game object.
+        /// </summary>
+        /// <param name="gameObject">The game object to pause the tasks on.</param>
         public static void PauseAll(GameObject gameObject)
         {
             Aggregate aggregate;
@@ -240,6 +269,9 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// Pauses all active tasks.
+        /// </summary>
         public static void PauseAll()
         {
             Aggregate aggregate;
@@ -252,6 +284,10 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// Continues all paused tasks on a given mono behaviour.
+        /// </summary>
+        /// <param name="behaviour">The behaviour to continue the tasks on.</param>
         public static void ContinueAll(MonoBehaviour behaviour)
         {
             Aggregate aggregate;
@@ -269,6 +305,10 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// Continues all paused tasks on a given game object.
+        /// </summary>
+        /// <param name="gameObject">The game object to continue the tasks on.</param>
         public static void ContinueAll(GameObject gameObject)
         {
             Aggregate aggregate;
@@ -284,6 +324,9 @@ namespace BWolf.GameTasks
             }
         }
         
+        /// <summary>
+        /// Continues all paused tasks.
+        /// </summary>
         public static void ContinueAll()
         {
             Aggregate aggregate;
@@ -296,6 +339,13 @@ namespace BWolf.GameTasks
             }
         }
 
+        /// <summary>
+        /// Creates a new game task, starts it and returns the reference to it.
+        /// </summary>
+        /// <param name="behaviour">The mono behaviour to run the task on.</param>
+        /// <param name="routine">The routine to run.</param>
+        /// <param name="endedCallback">The callback for when the task has ended.</param>
+        /// <returns>The reference to the started task.</returns>
         public static GameTask Run(MonoBehaviour behaviour, IEnumerator routine, Action endedCallback = null)
         {
             GameTask task = new GameTask(behaviour, routine);
@@ -306,23 +356,31 @@ namespace BWolf.GameTasks
             return task;
         }
 
-        private static void AddActiveTask(MonoBehaviour behaviour, GameTask task)
+        /// <summary>
+        /// Adds a started task to the static store to make it available for global query.
+        /// </summary>
+        /// <param name="task">The game task that has started.</param>
+        private static void StoreStartedTask(GameTask task)
         {
-            int index = _aggregates.FindIndex(agr => agr.behaviour == behaviour);
+            int index = _aggregates.FindIndex(agr => agr.behaviour == task._behaviour);
             if (index == -1)
-                _aggregates.Add(new Aggregate(behaviour, task));
+                _aggregates.Add(new Aggregate(task._behaviour, task));
             else
                 _aggregates[index] = _aggregates[index].Add(task);
         }
 
-        private static void RemoveActiveTask(MonoBehaviour behaviour, GameTask task)
+        /// <summary>
+        /// Remove a task that has ended from the static store.
+        /// </summary>
+        /// <param name="task">The task that has ended.</param>
+        private static void RemoveEndedTask(GameTask task)
         {
             Aggregate aggregate;
             
             for (int i = _aggregates.Count - 1; i >= 0; i--)
             {
                 aggregate = _aggregates[i];
-                if (aggregate.behaviour != behaviour)
+                if (aggregate.behaviour != task._behaviour)
                     continue;
 
                 if (aggregate.tasks.Length == 1 && aggregate.tasks[0] == task)
