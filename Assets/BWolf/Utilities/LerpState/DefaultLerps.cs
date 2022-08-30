@@ -10,6 +10,17 @@ namespace BWolf.Utilities
     [Serializable]
     public class Vector2Lerp : LerpOf<Vector2>
     {
+        public Vector2Lerp( 
+            Vector2 initial, 
+            Vector2 target, 
+            float totalTime = 1.0f, 
+            EasingFunction easingFunction = null,
+            TimeOverride timeOverride = TimeOverride.KEEP_CURRENT_TIME,
+            bool usesFixedDelta = false) 
+            : base(initial, target, totalTime, easingFunction, Vector2.Lerp, timeOverride, usesFixedDelta)
+        {
+        }
+        
         public Vector2Lerp() => lerpFunction = Vector2.Lerp;
     }
     
@@ -20,6 +31,17 @@ namespace BWolf.Utilities
     [Serializable]
     public class Vector3Lerp : LerpOf<Vector3>
     {
+        public Vector3Lerp( 
+            Vector3 initial, 
+            Vector3 target, 
+            float totalTime = 1.0f, 
+            EasingFunction easingFunction = null,
+            TimeOverride timeOverride = TimeOverride.KEEP_CURRENT_TIME,
+            bool usesFixedDelta = false) 
+            : base(initial, target, totalTime, easingFunction, Vector3.Lerp, timeOverride, usesFixedDelta)
+        {
+        }
+        
         public Vector3Lerp() => lerpFunction = Vector3.Lerp;
     }
     
@@ -30,6 +52,17 @@ namespace BWolf.Utilities
     [Serializable]
     public class QuaternionLerp : LerpOf<Quaternion>
     {
+        public QuaternionLerp( 
+            Quaternion initial, 
+            Quaternion target, 
+            float totalTime = 1.0f, 
+            EasingFunction easingFunction = null,
+            TimeOverride timeOverride = TimeOverride.KEEP_CURRENT_TIME,
+            bool usesFixedDelta = false) 
+            : base(initial, target, totalTime, easingFunction, Quaternion.Lerp, timeOverride, usesFixedDelta)
+        {
+        }
+        
         public QuaternionLerp() => lerpFunction = Quaternion.Lerp;
     }
 
@@ -40,6 +73,17 @@ namespace BWolf.Utilities
     [Serializable]
     public class FloatLerp : LerpOf<float>
     {
+        public FloatLerp( 
+            float initial, 
+            float target, 
+            float totalTime = 1.0f, 
+            EasingFunction easingFunction = null,
+            TimeOverride timeOverride = TimeOverride.KEEP_CURRENT_TIME,
+            bool usesFixedDelta = false)
+            : base(initial, target, totalTime, easingFunction, Mathf.Lerp, timeOverride, usesFixedDelta)
+        {
+        }
+        
         public FloatLerp() => lerpFunction = Mathf.Lerp;
     }
 }

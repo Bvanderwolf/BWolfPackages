@@ -29,7 +29,7 @@ public class LerpValueUser : MonoBehaviour
         switch (_methodToUse)
         {
             case MethodToUse.EXTENSION_METHOD:
-                IEnumerator extensionMethod = moving.Await(newPosition => transform.position = newPosition);
+                IEnumerator extensionMethod = moving.Await(SetPosition);
                 StartCoroutine(extensionMethod);
                 break;
             
@@ -38,10 +38,7 @@ public class LerpValueUser : MonoBehaviour
                 Vector3 target = moving.target;
                 float time = moving.TotalTime;
                 
-                IEnumerator staticMethod = LerpOf<Vector3>.Await(initial, target, Vector3.Lerp, newPosition =>
-                {
-                    transform.position = newPosition;
-                }, time);
+                IEnumerator staticMethod = LerpOf<Vector3>.Await(initial, target, Vector3.Lerp, SetPosition, time);
                 
                 StartCoroutine(staticMethod);
                 break;
@@ -49,6 +46,10 @@ public class LerpValueUser : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+    }
+    
+    private void SetPosition(Vector3 newPosition)
+    {
+        transform.position = newPosition;
     }
 }
