@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BWolf.Utilities
@@ -81,7 +80,7 @@ namespace BWolf.Utilities
         }
 
         /// <summary>
-        /// Continues the streak, increment the current streak number if successful.
+        /// Continues the streak, incrementing the current streak number if successful.
         /// </summary>
         /// <returns>The streak continuation result.</returns>
         public StreakContinuation Continue()
