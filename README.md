@@ -31,4 +31,7 @@ Packages created as i learn and start to understand more about unity and the csh
   - [SystemBootstrapping](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SystemBootstrapping)
   - [DraggableImage](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/UI/DraggableImage)
   - [ProcessQueues](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ProcessQueues)
+  - [Streak](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Streak)
+  - [Inventory](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Inventory)
+  - [GameTasks](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/GameTasks)
 
