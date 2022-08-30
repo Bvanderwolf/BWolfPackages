@@ -1,5 +1,4 @@
 Afmaken Game Tasks
- - Afmaken documentatie
  - Toevoegen van een ReadMe met wat code snippets aan de github pagina
 
 Check stat modification compatability with PlayerData

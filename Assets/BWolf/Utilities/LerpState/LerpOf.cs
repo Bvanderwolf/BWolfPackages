@@ -128,6 +128,11 @@ namespace BWolf.Utilities
             return true;
         }
 
+        /// <summary>
+        /// Sets the total time that needs to pass before the interpolation is finished.
+        /// Uses the timeOverride member to determine what to do with the current time.
+        /// </summary>
+        /// <param name="newTotalTime">The new total time.</param>
         public void SetTotalTime(float newTotalTime)
         {
             switch (timeOverride)
@@ -144,13 +149,34 @@ namespace BWolf.Utilities
             _totalTime = newTotalTime;
         }
         
-        
+        /// <summary>
+        /// Resets the interpolation state, setting the current time to 0.
+        /// </summary>
         public override void Reset() => _currentTime = 0.0f;
         
+        /// <summary>
+        /// Returns a routine that waits for this linear interpolation to finish.
+        /// The routine will yield null, meaning the callback will invoke each frame.
+        /// </summary>
+        /// <param name="callback">The callback with the linearly interpolated value.</param>
+        /// <returns>The routine.</returns>
         public IEnumerator Await(Action<T> callback) => Await(null, callback);
 
+        /// <summary>
+        /// Returns a routine that waits for this and another linear interpolation to finish.
+        /// The routine will yield null, meaning the callback will invoke each frame.
+        /// </summary>
+        /// <param name="lerp">The additional linear interpolation to wait for.</param>
+        /// <param name="callback">The callback with the linearly interpolated values.</param>
+        /// <returns>The routine.</returns>
         public IEnumerator AwaitWith<T2>(LerpOf<T2> lerp, Action<T, T2> callback) => AwaitWith(lerp, null, callback);
 
+        /// <summary>
+        /// Returns a routine that waits for this linear interpolation to finish.
+        /// </summary>
+        /// <param name="instruction">The yield instruction to wait for (e.g. WaitForSeconds).</param>
+        /// <param name="callback">The callback with the linearly interpolated value.</param>
+        /// <returns>The routine.</returns>
         public IEnumerator Await(YieldInstruction instruction, Action<T> callback)
         {
             do
@@ -161,6 +187,13 @@ namespace BWolf.Utilities
             } while (Continue());
         }
 
+        /// <summary>
+        /// Returns a routine that waits for this and another linear interpolation to finish.
+        /// </summary>
+        /// <param name="lerp">The additional linear interpolation to wait for.</param>
+        /// <param name="instruction">The yield instruction to wait for (e.g. WaitForSeconds).</param>
+        /// <param name="callback">The callback with the linearly interpolated values.</param>
+        /// <returns>The routine.</returns>
         public IEnumerator AwaitWith<T2>(LerpOf<T2> lerp, YieldInstruction instruction, Action<T, T2> callback)
         {
             do
@@ -171,8 +204,22 @@ namespace BWolf.Utilities
             } while (Continue() && lerp.Continue());
         }
 
+        /// <summary>
+        /// Returns a routine that waits for given linear interpolations to finish.
+        /// The routine will yield null, meaning the callback will invoke each frame.
+        /// </summary>
+        /// <param name="lerps">The linear interpolations to wait for.</param>
+        /// <param name="callback">The callback with the linearly interpolated value.</param>
+        /// <returns>The routine.</returns>
         public static IEnumerator Await(LerpOf<T>[] lerps, Action<T[]> callback) => Await(lerps, null, callback);
 
+        /// <summary>
+        /// Returns a routine that waits for given linear interpolations to finish.
+        /// </summary>
+        /// <param name="lerps">The linear interpolations to wait for.</param>
+        /// <param name="instruction">The yield instruction to wait for (e.g. WaitForSeconds).</param>
+        /// <param name="callback">The callback with the linearly interpolated value.</param>
+        /// <returns>The routine.</returns>
         public static IEnumerator Await(LerpOf<T>[] lerps, YieldInstruction instruction, Action<T[]> callback)
         {
             T[] values = new T[lerps.Length];
@@ -187,6 +234,10 @@ namespace BWolf.Utilities
             } while (lerps.Select(lerp => lerp.Continue()).All(continued => continued));
         }
 
+        /// <summary>
+        /// Returns a routine that wait for linear interpolations to finish given its arguments.
+        /// </summary>
+        /// <returns>The routine.</returns>
         public static IEnumerator Await(
             T initial,
             T target,
@@ -199,6 +250,10 @@ namespace BWolf.Utilities
             return Await(initial, target, lerpFunction, null, callback, totalTime, easingFunction, usesFixedDelta);
         }
 
+        /// <summary>
+        /// Returns a routine that wait for linear interpolations to finish given its arguments.
+        /// </summary>
+        /// <returns>The routine.</returns>
         public static IEnumerator Await(
             T initial,
             T target,
