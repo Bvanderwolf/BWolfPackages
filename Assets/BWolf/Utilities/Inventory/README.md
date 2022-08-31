@@ -4,6 +4,18 @@ Provides a simple and compact way to manage items inside an inventory.
 
 ## Features
 - An Inventory class to manage items.
+  - Management Methods
+    - Add
+    - Switch
+    - Insert
+    - RemoveAt
+  - Value retrieval
+    - Indexing
+    - Enumeration
+  - Storage features
+    - Ignoring capacity (overflowing the inventory)
+    - Setting stack limits for items
+    - Automatic filling up of leftover space when reaching stack limit.
 - A serializable Item struct.
 
 ## Usage Examples
