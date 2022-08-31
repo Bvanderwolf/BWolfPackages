@@ -65,7 +65,7 @@ public class InventoryUser
 
     public InventoryUser()
     {
-        // Create an inventory with a capacity of 1.
+        // Create an inventory with a capacity of 2.
         inventory = new Inventory(2);
         
         // Add a stick to the inventory.
