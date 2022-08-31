@@ -1,17 +1,48 @@
 # PingPongValue 
 
-a compact and simple way to store and use values for pingpong operations
+A compact and simple way to store and use values for ping pong operations 
+as provided by Unity's Mathf.PingPong method.
 
 ## Features
-- min and max values (including negative values for min)
-- ping pong count 
-- a percentage to start from in pingponging
+- A serializable PingPong class
+- Min and max values (including negative values for min)
+- Ping pong count
+- A percentage to start from in ping ponging
 
-## Examples from usage in other packages
+## Usage example
+### Creation and using awaiting it in a coroutine.
+```c#
+using System.Collections;
+using BWolf.Utilities;
+using UnityEngine;
 
-- [ShakeBehaviour](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Behaviours/DuckingBehaviour)
+public class PingPongUser : MonoBehaviour
+{
+    private PingPong _shaking;
 
-## Download
+    private void Awake()
+    {
+        _shaking = new PingPong();
+        _shaking.min = 5;
+        _shaking.max = -5;
+        _shaking.speed = 8f;
+        _shaking.startPercentage = 0.5f;
+        _shaking.count = 2;
+    }
+   
+    private void Start()
+    {
+        // Use the Await method to get a routine for the ping pong operation.
+        // Add a method to do something with the ping pong value. 
+        IEnumerator routine = _shaking.Await(SetXPosition);
+        StartCoroutine(routine);
+    }
 
-You can download the UnityPackage here: https://drive.google.com/file/d/147HLnqdN_GU9as7u9AZIYptRBLNyvtU6/view?usp=sharing
-
+    private void SetXPosition(float newXPosition)
+    {
+        Vector3 position = transform.position;
+        position.x = newXPosition;
+        transform.position = position;
+    }
+}
+```

@@ -3,6 +3,7 @@
 //----------------------------------
 
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BWolf.Utilities
@@ -145,6 +146,30 @@ namespace BWolf.Utilities
         {
             _currentTime = StartTime;
             _totalTime = ((count * 2f) * MinMaxDifference) + StartTime;
+        }
+        
+        /// <summary>
+        /// Returns a routine that waits for this ping pong to finish.
+        /// The routine will yield null, meaning the callback will invoke each frame.
+        /// </summary>
+        /// <param name="callback">The callback with the ping pong value.</param>
+        /// <returns>The routine.</returns>
+        public IEnumerator Await(Action<float> callback) => Await(null, callback);
+
+        /// <summary>
+        /// Returns a routine that waits for this ping pong to finish.
+        /// </summary>
+        /// <param name="instruction">The yield instruction to wait for (e.g. WaitForSeconds).</param>
+        /// <param name="callback">The callback with the ping pong value.</param>
+        /// <returns>The routine.</returns>
+        public IEnumerator Await(YieldInstruction instruction, Action<float> callback)
+        {
+            do
+            {
+                callback.Invoke(Value);
+                yield return instruction;
+
+            } while (Continue());
         }
     }
 }

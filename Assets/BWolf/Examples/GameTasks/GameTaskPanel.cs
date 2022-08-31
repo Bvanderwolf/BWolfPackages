@@ -1,4 +1,5 @@
-﻿using BWolf.GameTasks;
+﻿using System;
+using BWolf.GameTasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,10 @@ public class GameTaskPanel : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateText();
+
+        Func<GameObject, bool> predicate = go => go.layer == LayerMask.NameToLayer("UI");
+        if (Input.GetKeyDown(KeyCode.Return) && GameTask.AnyActive(predicate))
+            Debug.Log("There is a ui task in progress.");
     }
 
     private void UpdateText()
