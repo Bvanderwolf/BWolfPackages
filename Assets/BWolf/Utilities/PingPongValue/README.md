@@ -10,7 +10,7 @@ as provided by Unity's Mathf.PingPong method.
 - A percentage to start from in ping ponging
 
 ## Usage example
-### Creation and using awaiting it in a coroutine.
+### Creation and awaiting it in a coroutine.
 ```c#
 using System.Collections;
 using BWolf.Utilities;
