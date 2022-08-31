@@ -136,6 +136,30 @@ namespace BWolf.GameTasks
 
             return count;
         }
+        
+        /// <summary>
+        /// Returns the amount of tasks currently being run using a user defined
+        /// condition. Use this when you want to check for tasks running on, for example,
+        /// game objects with specific tags or layers.
+        /// </summary>
+        /// <param name="predicate">The user defined predicate, checking a game object.</param>
+        /// <param name="includePaused">Whether to include paused tasks.</param>
+        /// <returns>The amount of tasks being run.</returns>
+        public static int Count(Func<GameObject, bool> predicate, bool includePaused = false)
+        {
+            Aggregate aggregate;
+            int count = 0;
+
+            for (int i = 0; i < _aggregates.Count; i++)
+            {
+                aggregate = _aggregates[i];
+
+                if (predicate.Invoke(aggregate.behaviour.gameObject))
+                    count += includePaused ? aggregate.tasks.Length : aggregate.tasks.Count(t => t.IsActive);
+            }
+
+            return count;
+        }
 
         /// <summary>
         /// Returns whether there are any active tasks on the given mono behaviour.
@@ -188,7 +212,7 @@ namespace BWolf.GameTasks
         /// <summary>
         /// Returns whether there are any active tasks using a user defined
         /// condition. Use this when you want to check for tasks running on, for example,
-        /// game objects with specific tags.
+        /// game objects with specific tags or layers.
         /// </summary>
         /// <param name="predicate">The user defined predicate, checking a game object.</param>
         /// <returns>Whether there are any active tasks using the predicate.</returns>
@@ -262,6 +286,25 @@ namespace BWolf.GameTasks
             {
                 aggregate = _aggregates[i];
                 if (aggregate.behaviour.gameObject != gameObject)
+                    continue;
+                
+                for (int j = 0; j < aggregate.tasks.Length; j++)
+                    aggregate.tasks[j].Pause();
+            }
+        }
+        
+        /// <summary>
+        /// Pauses all active tasks on a game object.
+        /// </summary>
+        /// <param name="gameObject">The game object to pause the tasks on.</param>
+        public static void PauseAll(Func<GameObject, bool> predicate)
+        {
+            Aggregate aggregate;
+
+            for (int i = 0; i < _aggregates.Count; i++)
+            {
+                aggregate = _aggregates[i];
+                if (!predicate.Invoke(aggregate.behaviour.gameObject))
                     continue;
                 
                 for (int j = 0; j < aggregate.tasks.Length; j++)

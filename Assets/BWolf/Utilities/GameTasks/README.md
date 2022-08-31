@@ -14,14 +14,17 @@ api also provides additional info on the global state of game tasks in the app.
     - All
     - On MonoBehaviour
     - On GameObject
+    - Using a predicate function
   - ContinueAll
     - All
     - On MonoBehaviour
     - On GameObject
+    - Using a predicate function
   - Count
     - All
     - On MonBehaviour
     - On GameObject
+    - Using a predicate function
   - AnyActive
     - All
     - On MonoBehaviour
