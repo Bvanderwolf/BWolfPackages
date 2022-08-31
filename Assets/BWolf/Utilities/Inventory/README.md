@@ -1,6 +1,7 @@
 # Inventory
 
-Provides a simple and compact way to manage items inside an inventory.
+Provides a easy to use, compact and extendable way to manage items inside an inventory.
+State members are protected meaning extension through inheritance makes it possible to add project specific methods like Sorting.
 
 ## Features
 - An Inventory class to manage items.
