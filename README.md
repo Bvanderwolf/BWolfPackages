@@ -1,7 +1,14 @@
 # BWolf Packages
 Packages created as i learn and start to understand more about unity and the csharp programming language
 
-## Current Available Packages
+## Released packages
+  - [Streak](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Streak)
+  - [Inventory](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Inventory)
+  - [GameTasks](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/GameTasks)
+  - [LerpState](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/LerpState)
+  - [PingPongValue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PingPongValue)
+
+## Unreleased packages
 
 ### Wrappers
   - [Photon SDK Wrapper V1](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Wrappers/PhotonSDK)
@@ -16,8 +23,6 @@ Packages created as i learn and start to understand more about unity and the csh
   - [StatModification](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/StatModification)
   - [Flocking](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Flocking)
   - [Squad Formations](https://github.com/Bvanderwolf/BWolfPackages/blob/master/Assets/BWolf/Utilities/SquadFormations)
-  - [LerpValue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/LerpValue)
-  - [PingPongValue](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PingPongValue)
   - [AgentCommands](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/AgentCommands)
   - [PluggableStateMachine](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/PluggableStateMachine)
   - [ShapeShifting](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ShapeShifting)
@@ -31,7 +36,4 @@ Packages created as i learn and start to understand more about unity and the csh
   - [SystemBootstrapping](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/SystemBootstrapping)
   - [DraggableImage](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/UI/DraggableImage)
   - [ProcessQueues](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/ProcessQueues)
-  - [Streak](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Streak)
-  - [Inventory](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/Inventory)
-  - [GameTasks](https://github.com/Bvanderwolf/BWolfPackages/tree/master/Assets/BWolf/Utilities/GameTasks)
 
