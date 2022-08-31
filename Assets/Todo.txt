@@ -1,5 +1,6 @@
-Afmaken Game Tasks
- - Toevoegen van een ReadMe met wat code snippets aan de github pagina
+Afmaken ReadMe's
+ - Inventory
+ - GameTasks
 
 Check stat modification compatability with PlayerData
  - StatModification -> PointModification (Stat -> Point overal)

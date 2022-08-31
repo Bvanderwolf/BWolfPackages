@@ -6,6 +6,7 @@ namespace BWolf.Gameplay
     /// <summary>
     /// Represents an item usable in an inventory.
     /// </summary>
+    [Serializable]
     public struct Item : IEquatable<Item>, IFormattable
     {
         /// <summary>
