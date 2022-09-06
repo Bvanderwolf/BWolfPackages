@@ -1,0 +1,19 @@
+{
+    "name": "BWolf.ChangeSensitive.Tests",
+    "references": [
+        "GUID:52d1c20e17d147f429896e883e09b516"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

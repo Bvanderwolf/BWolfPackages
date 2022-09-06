@@ -294,9 +294,11 @@ namespace BWolf.GameTasks
         }
         
         /// <summary>
-        /// Pauses all active tasks on a game object.
+        /// Pauses all active tasks using a user defined condition.
+        /// Use this when you want to pause tasks running on, for example,
+        /// game objects with specific tags or layers.
         /// </summary>
-        /// <param name="gameObject">The game object to pause the tasks on.</param>
+        /// <param name="predicate">The user defined predicate, checking a game object.</param>
         public static void PauseAll(Func<GameObject, bool> predicate)
         {
             Aggregate aggregate;
@@ -360,6 +362,27 @@ namespace BWolf.GameTasks
             {
                 aggregate = _aggregates[i];
                 if (aggregate.behaviour.gameObject != gameObject)
+                    continue;
+                
+                for (int j = 0; j < aggregate.tasks.Length; j++)
+                    aggregate.tasks[j].Continue();
+            }
+        }
+        
+        /// <summary>
+        /// Continues all paused tasks using a user defined condition.
+        /// Use this when you want to continue tasks running on, for example,
+        /// game objects with specific tags or layers.
+        /// </summary>
+        /// <param name="predicate">The user defined predicate, checking a game object.</param>
+        public static void ContinueAll(Func<GameObject, bool> predicate)
+        {
+            Aggregate aggregate;
+
+            for (int i = 0; i < _aggregates.Count; i++)
+            {
+                aggregate = _aggregates[i];
+                if (!predicate.Invoke(aggregate.behaviour.gameObject))
                     continue;
                 
                 for (int j = 0; j < aggregate.tasks.Length; j++)
