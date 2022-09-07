@@ -53,6 +53,16 @@ namespace BWolf.MeshSelecting
                 OnClick(mousePosition);
         }
 
+        private void OnGUI()
+        {
+            if (!_isDragSelecting)
+                return;
+            
+            Rect dragRect = SelectionUtility.ScreenRectFromPositions(_firstMousePosition, Input.mousePosition);
+            SelectionUtility.DrawRect(dragRect, new Color(0.8f, 0.8f, 0.95f, 0.25f));
+            SelectionUtility.DrawBorder(dragRect, 2, new Color(0.8f, 0.8f, 0.95f));
+        }
+
         private void OnClick(Vector3 mousePosition)
         {
             Ray ray = (MeshSelection.camera ?? Camera.main).ScreenPointToRay(mousePosition);
@@ -78,21 +88,24 @@ namespace BWolf.MeshSelecting
 
         private void OnDragSelectEnd(Vector2 mousePosition)
         {
-            Camera camera = MeshSelection.camera ?? Camera.main;
-            Rect screenRect = ScreenRectUtility.RectFromPositions(_firstMousePosition, mousePosition);
-            Rect worldRect = ScreenRectUtility.ScreenToWorldRect(screenRect, camera);
-            Vector3 center = worldRect.center;
-            Vector3 halfExtends = new Vector3(worldRect.width * 0.5f, worldRect.height * 0.5f, 0.5f);
-            Vector3 direction = camera.transform.forward;
-            
+            Camera selectionCamera = MeshSelection.camera ?? Camera.main;
+            Vector2[] corners = SelectionUtility.CornersFromPositions(_firstMousePosition, mousePosition);
+            Ray[] rays = SelectionUtility.RaysFromCorners(corners, selectionCamera);
+            BoxCastInput input = BoxCastInput.FromRays(rays, _selectionDepth);
+
             // Clear selection if the inclusive select key is not pressed.
             if (!Input.GetKey(_inclusiveSelectKey))
                 _selection.Clear();
             
-            int hitCount = Physics.BoxCastNonAlloc(center, halfExtends, direction, _selectionHits);
+            int hitCount = Physics.BoxCastNonAlloc(input.center, input.halfExtends, input.direction, _selectionHits);
             for (int i = 0; i < hitCount; i++)
-                _selection.Add(_selectionHits[i].transform.gameObject);
-            
+            {
+                RaycastHit hit = _selectionHits[i];
+                ISelectableMesh selectableMesh = hit.transform.GetComponent<ISelectableMesh>();
+                selectableMesh?.OnSelect();
+                _selection.Add(hit.transform.gameObject);
+            }
+
             _isDragSelecting = false;
         }
 
