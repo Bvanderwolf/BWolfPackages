@@ -22,7 +22,7 @@ namespace BWolf.MeshSelecting
 
         public void OnSelect()
         {
-            _renderer.material.color = Color.blue;
+            _renderer.material.color = Color.gray;
         }
 
         public void OnDeselect()
