@@ -269,7 +269,7 @@ namespace BWolf.MeshSelecting
             => Vector2.Distance(_initialMousePosition, mousePosition) > _dragThreshold;
 
         private bool IsSelectableCollider(Collider colliderToCheck) =>
-            _meshCaster.condition != null && !_meshCaster.condition.Invoke(colliderToCheck);
+            _meshCaster.condition == null || _meshCaster.condition.Invoke(colliderToCheck);
 
         
         public static MeshSelector CreateFromSettings(SelectionSettings settings)

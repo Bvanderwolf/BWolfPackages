@@ -14,8 +14,26 @@ namespace BWolf.MeshSelecting
             get => _camera ?? Camera.main;
             set
             {
+                if (_behaviour == null)
+                    SetActive(false);
+                
                 _camera = value;
                 _behaviour.SelectionCamera = _camera;
+            }
+        }
+        
+        /// <summary>
+        /// The selection condition determining if a found collider is fit for selection.
+        /// Will select everything if not set.
+        /// </summary>
+        public static Func<Collider, bool> SelectionCondition
+        {
+            set
+            {
+                if (_behaviour == null)
+                    SetActive(false);
+
+                _behaviour.SelectionCondition = value;
             }
         }
 
@@ -34,21 +52,6 @@ namespace BWolf.MeshSelecting
         /// Whether the mesh selection is active.
         /// </summary>
         public static bool IsActive => _behaviour != null && _behaviour.enabled;
-
-        /// <summary>
-        /// The selection condition determining if a found collider is fit for selection.
-        /// Will select everything if not set.
-        /// </summary>
-        public static Func<Collider, bool> SelectionCondition
-        {
-            set
-            {
-                if (!IsActive)
-                    return;
-
-                _behaviour.SelectionCondition = value;
-            }
-        }
 
         /// <summary>
         /// The currently selected game objects.
