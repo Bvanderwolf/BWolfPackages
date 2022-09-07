@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BWolf.MeshSelecting
@@ -8,7 +9,7 @@ namespace BWolf.MeshSelecting
     /// A mono behaviour to be dispatched by the static <see cref="MeshSelection"/> class or
     /// to be added to a scene to manage selection of 3D game objects in the scene.
     /// </summary>
-    public class MeshSelector : MonoBehaviour
+    public sealed class MeshSelector : MonoBehaviour
     {
         /// <summary>
         /// Fired when an object is clicked.
@@ -16,10 +17,32 @@ namespace BWolf.MeshSelecting
         public event Action<GameObject> Clicked;
 
         /// <summary>
-        /// Fired when an object is selected as part of
-        /// a box selection.
+        /// Fired when the selection has changed after
+        /// a box selection has ended.
         /// </summary>
-        public event Action<GameObject> Selected;
+        public event Action SelectionChanged;
+
+        /// <summary>
+        /// The selection condition determining if a found collider is fit for selection.
+        /// Will select everything if not set.
+        /// </summary>
+        public Func<Collider, bool> SelectionCondition
+        {
+            set => _meshCaster.condition = value;
+        }
+
+        /// <summary>
+        /// The camera used to cast from.
+        /// </summary>
+        public Camera SelectionCamera
+        {
+            set => _meshCaster.camera = value;
+        }
+
+        /// <summary>
+        /// The currently selected game objects.
+        /// </summary>
+        public GameObject[] Selection => _currentSelection.ToArray();
 
         /// <summary>
         /// The key that, when pressed, determines whether to reset the
@@ -56,7 +79,7 @@ namespace BWolf.MeshSelecting
         /// <summary>
         /// The current selection of game objects.
         /// </summary>
-        private readonly HashSet<GameObject> _selection = new HashSet<GameObject>();
+        private readonly List<GameObject> _currentSelection = new List<GameObject>();
 
         /// <summary>
         /// The initial mouse position when left clicked on screen by the user.
@@ -71,15 +94,27 @@ namespace BWolf.MeshSelecting
         /// <summary>
         /// The box caster instance helping with generating the selection mesh.
         /// </summary>
-        private SelectionBoxCaster _boxCaster;
+        private SelectionMeshCaster _meshCaster;
 
         /// <summary>
         /// Initializes the box caster instance.
         /// </summary>
         private void Awake()
         {
-            _boxCaster = new SelectionBoxCaster(MeshSelection.camera ?? Camera.main);
-            _boxCaster.Selected += OnSelectedGameObject;
+            _meshCaster = new SelectionMeshCaster(MeshSelection.SelectionCamera);
+            _meshCaster.Selected += OnSelectionChanged;
+
+            enabled = false;
+        }
+
+        /// <summary>
+        /// Clears the selection and resets state.
+        /// </summary>
+        private void OnDisable()
+        {
+            ClearSelection();
+
+            _isDragSelecting = false;
         }
 
         /// <summary>
@@ -126,14 +161,15 @@ namespace BWolf.MeshSelecting
         /// <param name="mousePosition">The mouse position on screen.</param>
         private void OnClick(Vector3 mousePosition)
         {
-            Ray ray = (MeshSelection.camera ?? Camera.main).ScreenPointToRay(mousePosition);
-            if (!Physics.Raycast(ray, out RaycastHit hitInfo))
+            Ray ray = MeshSelection.SelectionCamera.ScreenPointToRay(mousePosition);
+            if (!Physics.Raycast(ray, out RaycastHit hitInfo) || !IsSelectableCollider(hitInfo.collider))
             {
-                _selection.Clear();
+                ClearSelection();
                 return;
             }
 
             GameObject clickedGameObject = hitInfo.transform.gameObject;
+            int selectionCount = _currentSelection.Count;
             
             // Fire event for subscribers.
             Clicked?.Invoke(clickedGameObject);
@@ -142,28 +178,71 @@ namespace BWolf.MeshSelecting
             ISelectableMesh selectableMesh = clickedGameObject.GetComponent<ISelectableMesh>();
             selectableMesh?.OnClick();
             
-            // Clear selection if the inclusive select key is not pressed.
+            // Clear the selection outside of the clicked game object if the inclusive key wasn't pressed.
             if (!Input.GetKey(_inclusiveSelectKey))
-                _selection.Clear();
-            
-            _selection.Add(clickedGameObject);
+                ClearSelection(clickedGameObject);
+
+            // If the selection does not already contain the clicked game object, add it and invoke interface implementation.
+            if (!_currentSelection.Contains(clickedGameObject))
+            {
+                selectableMesh?.OnSelect();
+                _currentSelection.Add(clickedGameObject);
+            }
+
+            // If the selection has changed after all this, invoke the corresponding event.
+            if (selectionCount != _currentSelection.Count)
+                SelectionChanged?.Invoke();
         }
 
         /// <summary>
-        /// Called when a game object has been selected by the selection box cast
+        /// Called when colliders have been selected by the selection box cast
         /// to invoke implementations of the ISelectableMesh interface 
         /// </summary>
-        /// <param name="selectedGameObject"></param>
-        private void OnSelectedGameObject(GameObject selectedGameObject)
+        /// <param name="newSelection">The new selection of colliders.</param>
+        private void OnSelectionChanged(Collider[] newSelection)
         {
-            // Fire event for subscribers.
-            Selected?.Invoke(selectedGameObject);
+            GameObject[] newlySelectedGameObjects = newSelection.Select(selected => selected.gameObject).ToArray();
+            int selectionCount = _currentSelection.Count;
             
-            // Invoke implementation method if hit object implements interface.
-            ISelectableMesh selectableMesh = selectedGameObject.GetComponent<ISelectableMesh>();
-            selectableMesh?.OnSelect();
+            // Clear the selection outside of the newly selected game objects if the inclusive key wasn't pressed.
+            if (!Input.GetKey(_inclusiveSelectKey))
+                ClearSelection(newlySelectedGameObjects);
 
-            _selection.Add(selectedGameObject);
+            // For each newly selected game object, check if it isn't already selected. If not, add it 
+            // and invoke its interface implementation.
+            for (int i = 0; i < newlySelectedGameObjects.Length; i++)
+            {
+                GameObject newlySelectedGameObject = newlySelectedGameObjects[i];
+                if (_currentSelection.Contains(newlySelectedGameObject))
+                    continue;
+                
+                newlySelectedGameObject.GetComponent<ISelectableMesh>()?.OnSelect();
+                _currentSelection.Add(newlySelectedGameObject);
+            }
+            
+            // If the selection has changed after all this, invoke the corresponding event.
+            if (selectionCount != _currentSelection.Count)
+                SelectionChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Clears the current selection selection of game objects, skipping game objects
+        /// given as exclusive.
+        /// </summary>
+        /// <param name="excludedGameObjects">Game objects to exclude.</param>
+        private void ClearSelection(params GameObject[] excludedGameObjects)
+        {
+            for (int i = _currentSelection.Count - 1; i >= 0; i--)
+            {
+                // Skip destroyed or exclusive game objects from being removed.
+                GameObject selectedGameObject = _currentSelection[i];
+                if (selectedGameObject == null || excludedGameObjects.Any(go => go == selectedGameObject))
+                    continue;
+
+                // Removed game objects have their ISelectableMesh implementation method invoked.
+                selectedGameObject.GetComponent<ISelectableMesh>()?.OnDeselect();
+                _currentSelection.RemoveAt(i);
+            }
         }
 
         /// <summary>
@@ -173,13 +252,10 @@ namespace BWolf.MeshSelecting
         /// <param name="mousePosition">The mouse position ended on.</param>
         private void OnDragSelectEnd(Vector2 mousePosition)
         {
-            // Clear selection if the inclusive select key is not pressed.
-            if (!Input.GetKey(_inclusiveSelectKey))
-                _selection.Clear();
-            
-            // Retrieve the corners of the selection box on screen to start a box cast.
+            // Retrieve the corners of the selection box on screen to start a mesh cast.
             Vector2[] corners = SelectionUtility.CornersFromPositions(_initialMousePosition, mousePosition);
-            _boxCaster.Cast(corners);
+            
+            _meshCaster.Cast(corners);
             _isDragSelecting = false;
         }
 
@@ -191,5 +267,24 @@ namespace BWolf.MeshSelecting
         /// <returns>Whether the drag threshold was crossed.</returns>
         private bool CrossesDragThreshold(Vector3 mousePosition)
             => Vector2.Distance(_initialMousePosition, mousePosition) > _dragThreshold;
+
+        private bool IsSelectableCollider(Collider colliderToCheck) =>
+            _meshCaster.condition != null && !_meshCaster.condition.Invoke(colliderToCheck);
+
+        
+        public static MeshSelector CreateFromSettings(SelectionSettings settings)
+        {
+            GameObject gameObject = new GameObject("~MeshSelector");
+            MeshSelector selector = gameObject.AddComponent<MeshSelector>();
+            selector._inclusiveSelectKey = settings.inclusiveSelectKey;
+            selector._dragThreshold = settings.dragThreshold;
+            selector._boxColor = settings.boxColor;
+            selector._boxBorderColor = settings.boxBorderColor;
+            selector._boxBorderThickness = settings.boxBorderThickness;
+            
+            DontDestroyOnLoad(gameObject);
+
+            return selector;
+        }
     }
 }

@@ -5,20 +5,25 @@ namespace BWolf.MeshSelecting
 {
     /// <summary>
     /// Can be used to cast a selection mesh from a camera into a scene
-    /// to find selected 3D game objects based on a selection box on screen.
+    /// to find selectable 3D game objects based on a selection box on screen.
     /// </summary>
-    public class SelectionBoxCaster
+    public sealed class SelectionMeshCaster
     {
         /// <summary>
-        /// Fired when a game object has been selected by the
+        /// Fired when colliders have been selected by the
         /// selection mesh cast.
         /// </summary>
-        public event Action<GameObject> Selected;
+        public event Action<Collider[]> Selected;
+        
+        /// <summary>
+        /// Can determine if a found collider is fit for selection. Will select everything if null.
+        /// </summary>
+        public Func<Collider, bool> condition;
             
         /// <summary>
         /// The camera used to cast from.
         /// </summary>
-        private readonly Camera _camera;
+        public Camera camera;
 
         /// <summary>
         /// The hit points from rays cast into the scene.
@@ -59,9 +64,10 @@ namespace BWolf.MeshSelecting
         /// cast from.
         /// </summary>
         /// <param name="camera">The camera used to cast from.</param>
-        public SelectionBoxCaster(Camera camera)
+        public SelectionMeshCaster(Camera camera)
         { 
-            _camera = camera;
+            this.camera = camera;
+            
             _hitPoints = new Vector3[4];
             _rayOrigins = new Vector3[4];
             _vertices = new Vector3[8];
@@ -94,7 +100,7 @@ namespace BWolf.MeshSelecting
         {
             for (int i = 0; i < selectionBoxCorners.Length; i++)
             {
-                Ray ray = _camera.ScreenPointToRay(selectionBoxCorners[i]);
+                Ray ray = camera.ScreenPointToRay(selectionBoxCorners[i]);
                 if (!Physics.Raycast(ray, out RaycastHit hit))
                     return false;
 
@@ -116,7 +122,7 @@ namespace BWolf.MeshSelecting
             for (int i = 4; i < _vertices.Length; i++)
                 _vertices[i] = _rayOrigins[i - 4];
 
-            SelectionMesh.Generate(_vertices, triangles, Selected);
+            SelectionMesh.Generate(_vertices, triangles, condition, Selected);
         }
     }
 }

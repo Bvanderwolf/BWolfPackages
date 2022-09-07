@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace BWolf.MeshSelecting
+﻿namespace BWolf.MeshSelecting
 {
     public interface ISelectableMesh
     {
         void OnClick();
 
         void OnSelect();
+
+        void OnDeselect();
     }
 }
