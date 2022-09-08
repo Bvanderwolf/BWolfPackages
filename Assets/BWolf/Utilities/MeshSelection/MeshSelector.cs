@@ -38,7 +38,12 @@ namespace BWolf.MeshSelecting
         {
             set => _meshCaster.camera = value;
         }
-
+        
+        /// <summary>
+        /// Whether a drag selection is currently in progress.
+        /// </summary>
+        public bool IsDragSelecting => _isDragSelecting;
+        
         /// <summary>
         /// The currently selected game objects.
         /// </summary>

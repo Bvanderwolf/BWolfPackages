@@ -2,6 +2,11 @@
 
 namespace BWolf.MeshSelecting
 {
+    /// <summary>
+    /// The settings used for mesh selection. Create an asset of this in the root of a folder
+    /// named Resources if you are not planning on adding the <see cref="MeshSelector"/>
+    /// to a custom scene. 
+    /// </summary>
     [CreateAssetMenu(fileName = nameof(SelectionSettings), menuName = "MeshSelection/Settings")]
     public class SelectionSettings : ScriptableObject
     {

@@ -4,6 +4,10 @@ using Object = UnityEngine.Object;
 
 namespace BWolf.MeshSelecting
 {
+    /// <summary>
+    /// Provides a global api for mesh selection done with the GUI.DrawTexture method.
+    /// It works with the <see cref="MeshSelector"/> behaviour.
+    /// </summary>
     public static class MeshSelection
     {
         /// <summary>
@@ -21,7 +25,12 @@ namespace BWolf.MeshSelecting
                 _behaviour.SelectionCamera = _camera;
             }
         }
-        
+
+        /// <summary>
+        /// Whether a drag selection is currently in progress.
+        /// </summary>
+        public static bool IsDragSelecting => _behaviour != null && _behaviour.IsDragSelecting;
+
         /// <summary>
         /// The selection condition determining if a found collider is fit for selection.
         /// Will select everything if not set.
