@@ -66,6 +66,11 @@ namespace BWolf.MeshSelecting
         /// The currently selected game objects.
         /// </summary>
         public static GameObject[] Selection => !IsActive ? Array.Empty<GameObject>() : _behaviour.Selection;
+        
+        /// <summary>
+        /// The amount of selected objects.
+        /// </summary>
+        public static int SelectionCount => _behaviour.SelectionCount;
 
         /// <summary>
         /// The camera used for box selection. If this value is null, Camera.main will be used.

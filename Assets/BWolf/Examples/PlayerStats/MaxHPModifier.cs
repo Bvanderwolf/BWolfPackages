@@ -8,7 +8,7 @@ public class MaxHPModifier : StatModifier
     
     public override void Modify(PlayerStats stats)
     {
-        Points health = stats.Get<Points>("Max_HP");
+        PointsStat health = stats.Get<PointsStat>("Max_HP");
         if (health != null)
         {
             health.Value += value;

@@ -48,6 +48,11 @@ namespace BWolf.MeshSelecting
         /// The currently selected game objects.
         /// </summary>
         public GameObject[] Selection => _currentSelection.ToArray();
+        
+        /// <summary>
+        /// The amount of selected objects.
+        /// </summary>
+        public int SelectionCount => _currentSelection.Count;
 
         /// <summary>
         /// The key that, when pressed, determines whether to reset the
@@ -166,16 +171,20 @@ namespace BWolf.MeshSelecting
         /// <param name="mousePosition">The mouse position on screen.</param>
         private void OnClick(Vector3 mousePosition)
         {
-            Ray ray = MeshSelection.SelectionCamera.ScreenPointToRay(mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            int previousCount = _currentSelection.Count;
+            
             if (!Physics.Raycast(ray, out RaycastHit hitInfo) || !IsSelectableCollider(hitInfo.collider))
             {
                 ClearSelection();
+                if (previousCount != _currentSelection.Count)
+                    SelectionChanged?.Invoke();
                 return;
             }
 
             GameObject clickedGameObject = hitInfo.transform.gameObject;
-            int selectionCount = _currentSelection.Count;
-            
+            GameObject previousGameObject = _currentSelection.FirstOrDefault();
+
             // Fire event for subscribers.
             Clicked?.Invoke(clickedGameObject);
             
@@ -195,7 +204,7 @@ namespace BWolf.MeshSelecting
             }
 
             // If the selection has changed after all this, invoke the corresponding event.
-            if (selectionCount != _currentSelection.Count)
+            if (previousCount != _currentSelection.Count || previousGameObject != clickedGameObject)
                 SelectionChanged?.Invoke();
         }
 

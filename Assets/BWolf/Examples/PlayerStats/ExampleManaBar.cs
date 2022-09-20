@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using BWolf.PlayerStatistics;
 using UnityEngine;
 
 public class ExampleManaBar : MonoBehaviour
 {
    [SerializeField]
-   private Points _mana;
+   private PointsStat _mana;
 
    private void Awake()
    {

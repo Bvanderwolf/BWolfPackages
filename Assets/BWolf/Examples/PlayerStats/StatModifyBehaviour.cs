@@ -15,10 +15,15 @@ public class StatModifyBehaviour : MonoBehaviour
         Debug.Log($"Checking out the {abilities.name} statistic.");
     }
 
+    private void OnEnable()
+    {
+        PointsStat points = PointsStat.FromValue(100);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        _playerData.Stats.Get<Points>("Max_HP").ValueChanged += OnHealthPointValueChange;
+        _playerData.Stats.Get<PointsStat>("Max_HP").ValueChanged += OnHealthPointValueChange;
         _playerData.Stats.Get("Max_MP").ValueChanged += OnManaValueChange;
         _playerData.Stats.Modify(_modifier);
     }
