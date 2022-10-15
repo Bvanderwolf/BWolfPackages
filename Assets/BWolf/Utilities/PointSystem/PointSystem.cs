@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BWolf.StatSystems
+namespace BWolf.MutatableSystems
 {
     /// <summary>
     /// Represents a system which holds mutable point values.
@@ -12,7 +12,7 @@ namespace BWolf.StatSystems
         /// <summary>
         /// Holds the point names with their respective base values.
         /// </summary>
-        private readonly Dictionary<string, BaseValue> _points = new Dictionary<string, BaseValue>();
+        private readonly Dictionary<string, BaseValue> _values = new Dictionary<string, BaseValue>();
 
         /// <summary>
         /// The mutators currently part of the system.
@@ -130,7 +130,7 @@ namespace BWolf.StatSystems
         /// <param name="value">The new base value.</param>
         public void SetBase(string pointName, int value)
         {
-            _points[pointName] = new BaseValue(value);
+            _values[pointName] = new BaseValue(value);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace BWolf.StatSystems
         /// <returns>The base value.</returns>
         public int GetBase(string pointName)
         {
-            if (!_points.TryGetValue(pointName, out BaseValue baseValue))
+            if (!_values.TryGetValue(pointName, out BaseValue baseValue))
                 throw new ArgumentException($"Point {pointName} has not been added yet.");
 
             return baseValue.value;
@@ -153,7 +153,7 @@ namespace BWolf.StatSystems
         /// <returns>The current value.</returns>
         public int GetValue(string pointName)
         {
-            if (!_points.TryGetValue(pointName, out BaseValue baseValue))
+            if (!_values.TryGetValue(pointName, out BaseValue baseValue))
                 throw new ArgumentException($"Point {pointName} has not been added yet.");
 
             return baseValue.current;
@@ -192,16 +192,16 @@ namespace BWolf.StatSystems
         private void Refresh()
         {
             // First reset all points to their base values.
-            string[] pointNames = _points.Keys.ToArray();
+            string[] pointNames = _values.Keys.ToArray();
             foreach (string point in pointNames)
-                _points[point] = _points[point].Reset();
+                _values[point] = _values[point].Reset();
 
             // Then calculate the total values for each point based on the current set of mutators.
-            KeyValuePair<string, int>[] mutateTotals = CalculateTotals(_mutators);
-            for (int i = 0; i < mutateTotals.Length; i++)
+            KeyValuePair<string, int>[] mutations = CalculateMutations(_mutators);
+            for (int i = 0; i < mutations.Length; i++)
             {
-                KeyValuePair<string, int> total = mutateTotals[i];
-                _points[total.Key] = _points[total.Key].Add(total.Value);
+                KeyValuePair<string, int> total = mutations[i];
+                _values[total.Key] = _values[total.Key].Add(total.Value);
             }
         }
 
@@ -210,26 +210,9 @@ namespace BWolf.StatSystems
         /// </summary>
         /// <param name="mutators">The list of point mutators to get the totals for.</param>
         /// <returns>The totals for each point.</returns>
-        private static KeyValuePair<string, int>[] CalculateTotals(List<IPointMutator> mutators)
-        {
-            Dictionary<string, int> totals = new Dictionary<string, int>();
-            
-            // Flatten the list of mutators based on the statistic names as one mutator can mutate many statistics.
-            KeyValuePair<string, int>[] flattened = mutators
-                .SelectMany(m => m.GetPointNames()
-                    .Select(n => new KeyValuePair<string, int>(n, m.GetMutatedValue())))
-                .ToArray();
-
-            // Add the value to mutate to the total for each statistic.
-            for (int i = 0; i < flattened.Length; i++)
-            {
-                KeyValuePair<string, int> mutator = flattened[i];
-                totals[mutator.Key] = totals.ContainsKey(mutator.Key) 
-                    ? totals[mutator.Key] + mutator.Value 
-                    : mutator.Value;
-            }
-
-            return totals.ToArray();
-        }
+        private static KeyValuePair<string, int>[] CalculateMutations(List<IPointMutator> mutators) => mutators
+            .SelectMany(m => m.GetPointNames()
+                .Select(n => new KeyValuePair<string, int>(n, m.GetMutatedValue())))
+            .ToArray();
     }
 }

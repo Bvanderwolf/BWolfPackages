@@ -5,7 +5,7 @@ public class SelectionToggler : MonoBehaviour
 {
     private void Awake()
     {
-        //MeshSelection.SelectionCondition = GetIsSelectableObject;
+        MeshSelection.SelectionCondition = GetIsSelectableObject;
     }
 
     private bool GetIsSelectableObject(Collider objectCollider)

@@ -1,4 +1,4 @@
-﻿namespace BWolf.StatSystems
+﻿namespace BWolf.MutatableSystems
 {
     /// <summary>
     /// To be implemented by an object that mutates a value of a <see cref="PointSystem"/>.

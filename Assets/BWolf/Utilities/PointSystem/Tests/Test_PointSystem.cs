@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace BWolf.StatSystems.Tests
+namespace BWolf.MutatableSystems.Tests
 {
     public class Test_PointSystem
     {
